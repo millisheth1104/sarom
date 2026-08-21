@@ -1,0 +1,520 @@
+/* ============================================================
+   REDESIGNED EDITORIAL SECTIONS
+   Patterns handpicked from the supplied reference layouts:
+     .edit3   — label / philosophy / pill row over three
+                staggered image cards            (In the Room)
+     .objects — heading + copy left, large image right, then a
+                4x2 grid mixing images and text  (Our Story)
+     .house   — restrained brand row             (House Brands)
+     .letter  — image-left / copy-right card on a dark ground
+                                                  (closing CTA)
+   Colour stays on the Sarom palette. Headings are two-tone via
+   --ink-1 / --ink-2 (see tokens.css for the contrast rationale).
+   ============================================================ */
+
+/* two-tone heading: second clause takes the accent ink */
+.tt em,
+.tt i {
+  font-style: italic;
+  color: var(--ink-2);
+}
+.sect--dark .tt em,
+.sect--dark .tt i,
+.letter .tt em,
+.letter .tt i {
+  color: var(--ink-2-dark);
+}
+
+/* ============================================================
+   IN THE ROOM — label / philosophy / pill, then staggered cards
+   ============================================================ */
+.edit3 {
+  background: var(--ivory);
+}
+
+.edit3__head {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: clamp(1.25rem, 3vw, 3.5rem);
+  align-items: start;
+  padding-bottom: clamp(1.75rem, 3.4vw, 3.4rem);
+}
+.edit3__label {
+  font-family: var(--font-display);
+  font-size: clamp(1.1rem, 1.7vw, 1.7rem);
+  font-weight: 300;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-1);
+  white-space: nowrap;
+}
+.edit3__phil {
+  display: grid;
+  gap: 0.5rem;
+  max-width: 52ch;
+}
+.edit3__phil span {
+  font-size: var(--fs-meta);
+  letter-spacing: var(--tr-meta);
+  text-transform: uppercase;
+  color: var(--fg-muted);
+}
+.edit3__phil p {
+  font-size: var(--fs-body);
+  line-height: 1.68;
+  color: var(--fg-muted);
+}
+.edit3__action {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.55rem 0.55rem 0.55rem 1.1rem;
+  border-radius: var(--radius-pill);
+  background: var(--ivory);
+  box-shadow: inset 0 0 0 1px rgba(20, 17, 15, 0.14);
+  font-size: var(--fs-meta);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-1);
+  white-space: nowrap;
+  transition: box-shadow 0.4s var(--ease-soft);
+}
+.edit3__action i {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--charcoal);
+  color: var(--ivory);
+  font-style: normal;
+  transition: transform 0.45s var(--ease-out-expo);
+}
+.edit3__action:hover {
+  box-shadow: inset 0 0 0 1px var(--charcoal);
+}
+.edit3__action:hover i {
+  transform: translateX(2px);
+}
+
+/* Wrapper that gets pinned; holds the scrolling row plus the floating arrows
+   so they remain reachable once the heading has left the screen. */
+.edit3__viewport {
+  position: relative;
+}
+.edit3__float {
+  display: none;
+}
+@media (min-width: 1025px) {
+  .edit3__float {
+    position: absolute;
+    right: 0;
+    bottom: clamp(1rem, 3vw, 3.25rem);
+    z-index: 4;
+    display: inline-flex;
+    gap: 0.45rem;
+  }
+}
+
+/* Slider of every collection. Native scroll-snap carries drag, wheel and
+   touch; the arrows only nudge by one card. The stagger repeats on a 3-beat
+   cycle so it survives however far the track is scrolled. */
+.edit3__row {
+  /* flex, not grid: `grid-auto-columns: minmax(0, …)` let all eleven columns
+     compress to fit instead of overflowing, so the track never scrolled.
+     `flex: 0 0` below pins each card's width and forces the overflow. */
+  display: flex;
+  --slide-gap: clamp(0.9rem, 2vw, 2rem);
+  gap: var(--slide-gap);
+  align-items: flex-start;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  /* room for the stagger drop plus the bar, so nothing is clipped */
+  padding-bottom: clamp(3.25rem, 8.5vw, 9.5rem);
+  scroll-padding-left: 0;
+}
+.edit3__row::-webkit-scrollbar {
+  display: none;
+}
+.edit3__card {
+  position: relative;
+  display: block;
+  flex: 0 0 calc((100% - 2 * var(--slide-gap)) / 3);
+  scroll-snap-align: start;
+}
+.edit3__card:nth-child(3n + 2) {
+  transform: translateY(clamp(1.5rem, 4vw, 4.5rem));
+}
+.edit3__card:nth-child(3n) {
+  transform: translateY(clamp(3rem, 8vw, 9rem));
+}
+
+/* controls sit with the pill, top-right of the section */
+.edit3__controls {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+.edit3__nav {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--ivory);
+  box-shadow: inset 0 0 0 1px rgba(20, 17, 15, 0.16);
+  color: var(--ink-1);
+  transition: background-color 0.4s var(--ease-soft), opacity 0.3s var(--ease-soft);
+}
+.edit3__nav:hover:not(:disabled) {
+  background: var(--dusty-peach);
+}
+.edit3__nav:disabled {
+  opacity: 0.32;
+  cursor: default;
+}
+.edit3__frame {
+  position: relative;
+  aspect-ratio: 4 / 4.6;
+  border-radius: clamp(16px, 1.8vw, 26px);
+  overflow: hidden;
+  background: var(--linen);
+}
+.edit3__frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 1s var(--ease-out-expo);
+}
+.edit3__card:hover .edit3__frame img {
+  transform: scale(1.035);
+}
+/* glass bar carrying name + type and a small round control */
+.edit3__bar {
+  position: absolute;
+  left: 0.6rem;
+  right: 0.6rem;
+  bottom: 0.6rem;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.6rem 0.6rem 0.6rem 0.9rem;
+  border-radius: var(--radius-pill);
+  background: rgba(245, 240, 232, 0.9);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+.edit3__bar b {
+  display: block;
+  font-family: var(--font-display);
+  font-size: clamp(0.9rem, 1.15vw, 1.15rem);
+  font-weight: 400;
+  line-height: 1.1;
+  color: var(--ink-1);
+}
+.edit3__bar span {
+  display: block;
+  font-size: 0.5rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  margin-top: 0.15rem;
+}
+.edit3__bar i {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--charcoal);
+  color: var(--ivory);
+  font-style: normal;
+}
+
+/* ============================================================
+   OUR STORY — heading + copy left, big image right, 4x2 grid
+   ============================================================ */
+.objects {
+  background: var(--ivory-deep);
+}
+.objects__top {
+  display: grid;
+  grid-template-columns: 1fr 1.06fr;
+  gap: clamp(1.5rem, 3.4vw, 3.75rem);
+  align-items: start;
+  padding-bottom: clamp(1.5rem, 3vw, 3rem);
+}
+.objects__title {
+  font-family: var(--font-display);
+  font-size: clamp(1.9rem, 3.6vw, 3.9rem);
+  font-weight: 300;
+  line-height: 1.06;
+  letter-spacing: -0.024em;
+  color: var(--ink-1);
+  margin-bottom: clamp(1.1rem, 2.2vw, 2.2rem);
+}
+.objects__copy {
+  display: grid;
+  gap: 0.95rem;
+  max-width: 46ch;
+}
+.objects__copy p {
+  font-size: var(--fs-body);
+  line-height: 1.72;
+  color: var(--fg-muted);
+}
+.objects__hero {
+  position: relative;
+  aspect-ratio: 4 / 3.1;
+  border-radius: clamp(16px, 1.8vw, 26px);
+  overflow: hidden;
+  background: var(--linen);
+}
+.objects__hero img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.objects__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: clamp(0.6rem, 1.3vw, 1.25rem);
+}
+.objects__cell {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  border-radius: clamp(12px, 1.4vw, 20px);
+  overflow: hidden;
+  background: var(--linen);
+}
+.objects__cell img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.9s var(--ease-out-expo);
+}
+.objects__cell:hover img {
+  transform: scale(1.04);
+}
+/* text tiles break the rhythm of the grid */
+.objects__cell--text {
+  display: grid;
+  align-content: center;
+  padding: clamp(0.9rem, 1.6vw, 1.5rem);
+  background: var(--ivory);
+  box-shadow: inset 0 0 0 1px rgba(20, 17, 15, 0.07);
+}
+.objects__cell--text p {
+  font-size: var(--fs-body);
+  line-height: 1.5;
+  color: var(--ink-1);
+  max-width: 18ch;
+}
+.objects__cell--accent {
+  background: var(--dusty-peach);
+  box-shadow: none;
+}
+
+/* ============================================================
+   HOUSE BRANDS — restrained row
+   ============================================================ */
+.house {
+  background: var(--ivory);
+}
+.house__row {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: clamp(0.6rem, 1.3vw, 1.25rem);
+}
+.house__cell {
+  display: grid;
+  place-items: center;
+  gap: 0.9rem;
+  min-height: clamp(120px, 12vw, 172px);
+  padding: clamp(1rem, 2vw, 1.9rem);
+  border-radius: clamp(14px, 1.6vw, 22px);
+  background: var(--ivory-deep);
+  transition: background-color 0.5s var(--ease-soft), transform 0.5s var(--ease-out-expo);
+}
+.house__cell:hover {
+  background: var(--dusty-peach);
+  transform: translateY(-4px);
+}
+.house__cell img {
+  max-height: 42px;
+  width: auto;
+  object-fit: contain;
+  filter: grayscale(1) contrast(0.92);
+  opacity: 0.6;
+  transition: filter 0.5s var(--ease-soft), opacity 0.5s var(--ease-soft);
+}
+.house__cell:hover img {
+  filter: none;
+  opacity: 1;
+}
+.house__cell span {
+  font-size: var(--fs-meta);
+  letter-spacing: var(--tr-meta);
+  text-transform: uppercase;
+  color: var(--fg-muted);
+}
+.house__cell:hover span {
+  color: var(--ink-1);
+}
+
+/* ============================================================
+   CLOSING CTA — "a letter worth keeping" card on a dark ground
+   ============================================================ */
+.letter {
+  background: var(--charcoal);
+  --fg-muted: var(--stone-light);
+}
+.letter__card {
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: clamp(1.25rem, 2.6vw, 2.75rem);
+  align-items: center;
+  padding: clamp(1rem, 2vw, 1.9rem);
+  border-radius: clamp(20px, 2.2vw, 32px);
+  background: var(--ivory);
+  max-width: 1180px;
+  margin-inline: auto;
+}
+.letter__img {
+  position: relative;
+  aspect-ratio: 4 / 3.4;
+  border-radius: clamp(14px, 1.6vw, 22px);
+  overflow: hidden;
+  background: var(--linen);
+}
+.letter__img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.letter__body {
+  display: grid;
+  gap: clamp(0.85rem, 1.6vw, 1.4rem);
+  padding-right: clamp(0.25rem, 1.4vw, 1.5rem);
+}
+.letter__title {
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 2.9vw, 3rem);
+  font-weight: 300;
+  line-height: 1.06;
+  letter-spacing: -0.022em;
+  color: var(--ink-1);
+}
+.letter__title em {
+  font-style: italic;
+  color: var(--ink-2);
+}
+.letter__body p {
+  font-size: var(--fs-body);
+  line-height: 1.7;
+  color: var(--stone);
+  max-width: 40ch;
+}
+.letter__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 0.2rem;
+}
+.letter__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.85rem 1.4rem;
+  border-radius: var(--radius-pill);
+  background: var(--charcoal);
+  color: var(--ivory);
+  font-size: var(--fs-meta);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transition: background-color 0.4s var(--ease-soft);
+}
+.letter__btn:hover {
+  background: var(--charcoal-warm);
+}
+.letter__btn--ghost {
+  background: transparent;
+  color: var(--ink-1);
+  box-shadow: inset 0 0 0 1px rgba(20, 17, 15, 0.18);
+}
+.letter__btn--ghost:hover {
+  background: var(--dusty-peach);
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 1024px) {
+  .edit3__head {
+    grid-template-columns: 1fr;
+    gap: 1.1rem;
+  }
+  .edit3__action {
+    justify-self: start;
+  }
+  .edit3__card {
+    flex-basis: calc((100% - var(--slide-gap)) / 2);
+  }
+  .edit3__row {
+    padding-bottom: clamp(2rem, 6vw, 5rem);
+  }
+
+  .objects__top {
+    grid-template-columns: 1fr;
+  }
+  .objects__grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .house__row {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .letter__card {
+    grid-template-columns: 1fr;
+  }
+  .letter__img {
+    aspect-ratio: 16 / 9;
+  }
+}
+
+@media (max-width: 680px) {
+  .edit3__card {
+    flex-basis: 74vw;
+  }
+  .edit3__row {
+    padding-bottom: 1rem;
+  }
+  /* stagger reads as misalignment at this width, so flatten it */
+  .edit3__card:nth-child(3n + 2),
+  .edit3__card:nth-child(3n) {
+    transform: none;
+  }
+
+  .objects__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .objects__cell--text p {
+    font-size: 0.8125rem;
+  }
+
+  .house__row {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .letter__actions .letter__btn {
+    flex: 1 1 auto;
+    justify-content: center;
+  }
+}

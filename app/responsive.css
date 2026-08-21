@@ -1,0 +1,230 @@
+/* ============================================================
+   SAROM — RESPONSIVE
+   Mobile is re-composed, not shrunk: complex pinning and
+   overlapping give way to stacked editorial rhythm.
+   ============================================================ */
+
+/* ---------------- ≤1280px: tighten the 12-col compositions ---------------- */
+@media (max-width: 1280px) {
+  .hero__title { grid-column: 1 / 12; }
+  .hero__aside { grid-column: 1 / 7; }
+  .hero__cta { grid-column: 9 / 13; }
+
+  .statement__title { grid-column: 1 / 12; }
+  .statement__body { grid-column: 6 / 13; }
+  .statement__meta { grid-column: 1 / 5; }
+
+
+  .story__media { grid-column: 1 / 6; }
+  .story__copy { grid-column: 6 / 13; }
+  .story__media--b { grid-column: 8 / 13; }
+  .story__copy--left { grid-column: 1 / 8; }
+
+  .edit__copy { grid-column: 1 / 6; }
+  .edit__heroimg { grid-column: 6 / 13; }
+}
+
+/* ---------------- ≤1024px: two-column editorial ---------------- */
+@media (max-width: 1024px) {
+  :root {
+    --fs-hero: clamp(2.5rem, 9.5vw, 5rem);
+    --section-y: clamp(4.5rem, 9vw, 8rem);
+  }
+
+  .nav__links { display: none; }
+  .nav__toggle { display: inline-flex; }
+  /* The desktop-scale pill crowded the hamburger at this width; e-Catalogue is
+     already the third item in the drawer, so the bar keeps just mark + toggle. */
+  .nav__actions .btn { display: none; }
+
+  .hero { justify-content: flex-end; }
+  .hero__title { grid-column: 1 / 13; }
+  .hero__aside { grid-column: 1 / 13; }
+  .hero__cta {
+    grid-column: 1 / 13;
+    justify-content: flex-start;
+  }
+  .hero__vidctl {
+    top: auto;
+    bottom: auto;
+    right: var(--gutter);
+    transform: none;
+    top: clamp(5.5rem, 12vw, 7rem);
+  }
+
+  .statement__title { grid-column: 1 / 13; }
+  .statement__body { grid-column: 1 / 13; }
+  .statement__meta {
+    grid-column: 1 / 13;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    display: grid;
+    gap: 0;
+  }
+  .statement__stat { border-top: 1px solid var(--rule); padding-inline-end: 1rem; }
+
+
+
+  .chapter__title { max-width: 14ch; }
+
+  .story__layout { display: block; }
+  .story__media,
+  .story__media--b,
+  .story__copy,
+  .story__copy--left {
+    grid-column: auto;
+  }
+  .story__media--a { margin-bottom: clamp(1.8rem, 4vw, 3rem); }
+  .story__media--b {
+    margin-top: clamp(2.5rem, 6vw, 4rem);
+    width: min(78%, 460px);
+    margin-inline-start: auto;
+  }
+  .story__copy { margin-bottom: clamp(1.5rem, 4vw, 3rem); }
+
+  /* Lede stacks: heading above, image full width below. */
+  .edit__lede { display: block; }
+  .edit__copy,
+  .edit__heroimg { grid-column: auto; }
+  .edit__heroimg {
+    margin-top: clamp(1.5rem, 4vw, 2.5rem);
+    aspect-ratio: 4 / 3;
+  }
+  /* Mosaic halves: two across instead of four. */
+  .edit__mosaic > * { grid-column: span 6 !important; }
+  .mtile--drop { margin-top: 0; }
+
+  .foot__poster { aspect-ratio: 16 / 9; }
+}
+
+/* ---------------- ≤680px: single column ---------------- */
+@media (max-width: 680px) {
+  :root {
+    --fs-hero: clamp(2.3rem, 12vw, 3.6rem);
+    --section-y: clamp(3.75rem, 13vw, 5.5rem);
+    --gutter: 1.25rem;
+  }
+
+  .hero {
+    min-height: 100svh;
+    padding-bottom: 1.6rem;
+  }
+  .hero__inner { row-gap: 1.2rem; }
+  .hero__foot {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  .hero__tags { gap: 0.5rem 1rem; font-size: 0.625rem; }
+  .hero__scroll { display: none; }
+  .hero__aside p { max-width: none; }
+
+  .shead {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: clamp(2rem, 8vw, 3rem);
+  }
+
+  .statement__meta { grid-template-columns: 1fr 1fr; }
+
+
+  .chapter__frame { aspect-ratio: 4 / 5; }
+  .chapter__overlay { padding: 1.2rem; }
+  .chapter__props { grid-template-columns: 1fr 1fr; }
+
+  /* Single column, but the text tiles stay half-width so the rhythm holds. */
+  .edit__mosaic { row-gap: clamp(1rem, 4vw, 1.6rem); }
+  .edit__mosaic > * { grid-column: span 12 !important; }
+  .edit__heroimg { aspect-ratio: 4 / 5; border-radius: 18px; }
+  .mtile--text { min-height: 0; }
+
+  .story__media--b { width: 100%; }
+  .story__band { grid-template-columns: 1fr 1fr; }
+
+  .brands__grid { grid-template-columns: 1fr 1fr; }
+
+  .cta__actions { flex-direction: column; align-items: stretch; }
+  .cta__actions .btn { justify-content: center; }
+
+  .foot__nav {
+    flex-wrap: wrap;
+    gap: 0.5rem 1.2rem;
+    justify-content: flex-start;
+  }
+  /* Keep the wordmark edge to edge rather than shrinking it politely. */
+  .foot__wordmark { font-size: 26vw; }
+  .foot__cols { grid-template-columns: 1fr 1fr; }
+  .foot__col--wide { grid-column: 1 / 3; }
+  .foot__poster { aspect-ratio: 4 / 3; border-radius: 16px 16px 0 0; }
+  .foot__meta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.7rem;
+  }
+}
+
+/* ---------------- Very wide screens ---------------- */
+@media (min-width: 1800px) {
+  :root {
+    --max-w: 1660px;
+    --gutter: 5.5rem;
+  }
+}
+
+/* ============================================================
+   THE THREE COMPOSITIONS — recomposed, not shrunk
+   Each keeps its dominant image dominant; the supporting parts
+   fall below it rather than competing for width.
+   ============================================================ */
+@media (max-width: 1024px) {
+  .comp { width: 94vw; }
+
+  /* Showroom: rail becomes a horizontal row, hero leads. */
+  .showroom__body { grid-template-columns: 1fr; }
+  .showroom__rail {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.9rem 1.4rem;
+  }
+  .showroom__railfoot { margin-top: 0; padding-top: 0; margin-left: auto; }
+  .showroom__main { grid-template-rows: auto; }
+  .showroom__lower { grid-template-columns: 1fr; }
+  .showroom__hero { aspect-ratio: 4 / 3; order: -1; }
+  .showroom__panel { min-height: clamp(260px, 46vw, 360px); }
+
+  /* Editorial: image above the copy so it still dominates. */
+  .editorial__body { grid-template-columns: 1fr; }
+  .editorial__hero { order: -1; min-height: clamp(320px, 62vw, 520px); }
+  .editorial__copy { padding: 0; }
+  .editorial__thumbs { margin-top: 0; }
+
+  /* Selector: same treatment. */
+  .selector__body { grid-template-columns: 1fr; }
+  .selector__hero { order: -1; min-height: clamp(300px, 58vw, 480px); }
+  .selector__tags { margin-top: 0; }
+}
+
+@media (max-width: 680px) {
+  .comp {
+    width: 100%;
+    border-radius: 18px;
+    padding: 0.85rem;
+  }
+  .cnav {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.7rem;
+  }
+  .showroom__strip { grid-template-columns: repeat(3, 1fr); gap: 0.45rem; }
+  .showroom__herocopy {
+    left: 0.6rem;
+    right: 0.6rem;
+    bottom: 0.6rem;
+    padding: 0.75rem 0.85rem;
+  }
+  .showroom__herocopy p { display: none; }
+  .editorial__thumbs,
+  .selector__thumbs { gap: 0.45rem; }
+  .clabel { font-size: 0.5rem; padding: 0.28rem 0.55rem; }
+}

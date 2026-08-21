@@ -1,0 +1,355 @@
+/* ============================================================
+   01 — THE COLLECTIONS EDITORIAL
+
+   One connected composition, not a card grid:
+
+     section nav
+     three previews   |   ONE dominant hero (+ 01/02/03 rail)
+     editorial heading, paragraph, stats row
+     ------------------ divider ------------------
+     index intro   |   catalogue of eleven   |   secondary image
+
+   Warm Sarom grounds only — the dark UI in the references is
+   deliberately not carried over.
+   ============================================================ */
+
+/* ---------------- section nav ---------------- */
+.coll__nav {
+  display: flex;
+  align-items: flex-start;
+  gap: clamp(1rem, 2.5vw, 3rem);
+  font-size: var(--fs-meta);
+  letter-spacing: var(--tr-meta);
+  text-transform: uppercase;
+  color: var(--fg-muted);
+}
+.coll__mark {
+  font-family: var(--font-display);
+  font-size: clamp(1.15rem, 1.6vw, 1.7rem);
+  letter-spacing: -0.01em;
+  text-transform: none;
+  color: var(--charcoal);
+  flex: 0 0 auto;
+  line-height: 1;
+}
+.coll__mark i {
+  color: var(--dusty-peach);
+  font-style: normal;
+}
+
+/* The rule runs under the links only, as in the reference. */
+.coll__navlinks {
+  display: flex;
+  gap: clamp(0.9rem, 2vw, 2.2rem);
+  flex-wrap: wrap;
+  flex: 1 1 auto;
+  padding-bottom: clamp(0.9rem, 1.6vw, 1.4rem);
+  border-bottom: 1px solid var(--rule);
+}
+.coll__navlinks a {
+  position: relative;
+  padding-bottom: 0.35rem;
+  transition: color 0.3s var(--ease-soft);
+}
+.coll__navlinks a:hover,
+.coll__navlinks a[data-active="true"] {
+  color: var(--charcoal);
+}
+.coll__navlinks a[data-active="true"]::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: var(--charcoal);
+}
+
+/* ---------------- main composition ---------------- */
+.coll__main {
+  display: grid;
+  grid-template-columns: 1fr 1.12fr;
+  gap: clamp(1.25rem, 3vw, 3.5rem);
+  align-items: start;
+  padding-top: clamp(1.25rem, 2.4vw, 2.4rem);
+}
+.coll__left {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1.25rem, 2.6vw, 2.75rem);
+}
+
+/* three previews with a flanking arrow control */
+.coll__previews {
+  display: flex;
+  align-items: flex-start;
+  gap: clamp(0.5rem, 1.1vw, 1rem);
+}
+.coll__thumbs {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(0.5rem, 1.1vw, 1rem);
+  flex: 1 1 auto;
+}
+.coll__thumb {
+  display: block;
+  padding: 0;
+  text-align: left;
+  background: none;
+}
+.coll__thumbframe {
+  position: relative;
+  aspect-ratio: 4 / 3.2;
+  border-radius: 18px;
+  overflow: hidden;
+  background: var(--linen);
+  box-shadow: inset 0 0 0 1px rgba(20, 17, 15, 0.07);
+  transition: box-shadow 0.45s var(--ease-soft), transform 0.45s var(--ease-out-expo);
+}
+.coll__thumb:hover .coll__thumbframe {
+  transform: translateY(-3px);
+}
+.coll__thumb[aria-pressed="true"] .coll__thumbframe {
+  box-shadow: 0 0 0 2px var(--dusty-peach), inset 0 0 0 1px rgba(20, 17, 15, 0.07);
+}
+.coll__thumbframe img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.9s var(--ease-out-expo);
+}
+.coll__thumb:hover .coll__thumbframe img {
+  transform: scale(1.03);
+}
+/* Label sits beneath the image rather than on top of it. */
+.coll__thumb span {
+  display: block;
+  margin-top: 0.6rem;
+  font-size: var(--fs-meta);
+  letter-spacing: 0.06em;
+  text-transform: none;
+  color: var(--fg-muted);
+  transition: color 0.35s var(--ease-soft);
+}
+.coll__thumb[aria-pressed="true"] span {
+  color: var(--charcoal);
+}
+
+.coll__arrow {
+  flex: 0 0 auto;
+  width: 42px;
+  height: 42px;
+  margin-top: clamp(1.25rem, 2.6vw, 2.75rem);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--ivory);
+  box-shadow: 0 1px 10px rgba(20, 17, 15, 0.09);
+  color: var(--charcoal);
+  transition: background-color 0.4s var(--ease-soft);
+}
+.coll__arrow:hover {
+  background: var(--dusty-peach);
+}
+
+/* editorial heading */
+.coll__title {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4.2vw, 4.6rem);
+  font-weight: 300;
+  line-height: 1.03;
+  letter-spacing: -0.026em;
+  color: var(--charcoal);
+}
+.coll__title em {
+  font-style: italic;
+}
+.coll__lede {
+  font-size: var(--fs-body);
+  line-height: 1.7;
+  color: var(--fg-muted);
+  max-width: 42ch;
+}
+
+/* Stats sit directly on the ground — never boxed. */
+.coll__stats {
+  display: grid;
+  grid-template-columns: repeat(4, auto);
+  gap: clamp(0.9rem, 2.2vw, 2.4rem);
+  justify-content: start;
+}
+.coll__stat b {
+  display: block;
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 2.4vw, 2.5rem);
+  font-weight: 300;
+  line-height: 1;
+  color: var(--charcoal);
+}
+.coll__stat span {
+  display: block;
+  margin-top: 0.45rem;
+  white-space: nowrap;
+  font-size: var(--fs-meta);
+  letter-spacing: var(--tr-meta);
+  text-transform: uppercase;
+  color: var(--fg-muted);
+}
+
+/* ---------------- the dominant hero ---------------- */
+.coll__hero {
+  position: relative;
+  aspect-ratio: 1 / 1.05;
+  border-radius: clamp(22px, 2.4vw, 34px);
+  overflow: hidden;
+  background: var(--linen);
+}
+.coll__hero img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transform: scale(1.04);
+  transition: opacity 0.8s var(--ease-out-expo), transform 1.1s var(--ease-out-expo);
+}
+.coll__hero img[data-active="true"] {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* pill labels, dot-prefixed */
+.coll__pill {
+  position: absolute;
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.5rem 0.9rem;
+  border-radius: var(--radius-pill);
+  background: rgba(245, 240, 232, 0.94);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: var(--charcoal);
+  font-size: 0.5625rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  line-height: 1;
+  white-space: nowrap;
+}
+.coll__pill::before {
+  content: "";
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--charcoal);
+}
+.coll__pill--a {
+  top: clamp(0.9rem, 1.6vw, 1.5rem);
+  right: clamp(0.9rem, 1.6vw, 1.5rem);
+}
+.coll__pill--b {
+  bottom: clamp(0.9rem, 1.6vw, 1.5rem);
+  left: clamp(0.9rem, 1.6vw, 1.5rem);
+}
+
+/* vertical 01 / 02 / 03 rail on the hero edge */
+.coll__rail {
+  position: absolute;
+  top: 50%;
+  right: clamp(0.7rem, 1.2vw, 1.1rem);
+  transform: translateY(-50%);
+  z-index: 3;
+  display: grid;
+  gap: 0.5rem;
+}
+.coll__railbtn {
+  width: 40px;
+  height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: 1px solid rgba(245, 240, 232, 0.55);
+  color: rgba(245, 240, 232, 0.85);
+  font-size: 0.625rem;
+  letter-spacing: 0.06em;
+  transition: background-color 0.4s var(--ease-soft), color 0.4s var(--ease-soft),
+    border-color 0.4s var(--ease-soft);
+}
+.coll__railbtn:hover {
+  border-color: var(--ivory);
+  color: var(--ivory);
+}
+.coll__railbtn[aria-pressed="true"] {
+  background: var(--ivory);
+  border-color: var(--ivory);
+  color: var(--charcoal);
+}
+
+/* ---------------- responsive: recomposed, not shrunk ---------------- */
+@media (max-width: 1024px) {
+  .coll__main {
+    grid-template-columns: 1fr;
+    gap: clamp(1.25rem, 3vw, 2rem);
+  }
+  /* Nav, previews, heading, paragraph, then the hero — still dominant. */
+  .coll__hero {
+    aspect-ratio: 4 / 3.4;
+    order: 2;
+  }
+  .coll__left {
+    order: 1;
+  }
+  .coll__stats {
+    order: 3;
+    grid-template-columns: repeat(4, auto);
+  }
+
+}
+
+@media (max-width: 680px) {
+  .coll__nav {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  .coll__navlinks {
+    gap: 0.6rem 1.1rem;
+    font-size: 0.625rem;
+  }
+  .coll__previews {
+    gap: 0.4rem;
+  }
+  .coll__thumbs {
+    gap: 0.4rem;
+  }
+  .coll__arrow {
+    width: 34px;
+    height: 34px;
+    margin-top: 1rem;
+  }
+  .coll__thumb span {
+    font-size: 0.5625rem;
+    margin-top: 0.4rem;
+  }
+  .coll__hero {
+    aspect-ratio: 4 / 4.4;
+  }
+  .coll__rail {
+    right: 0.5rem;
+  }
+  .coll__railbtn {
+    width: 32px;
+    height: 32px;
+    font-size: 0.5625rem;
+  }
+  /* Two-up keeps the numbers readable without shrinking them. */
+  .coll__stats {
+    grid-template-columns: 1fr 1fr;
+    gap: 1.1rem 1.5rem;
+  }
+}

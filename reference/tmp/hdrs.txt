@@ -1,0 +1,13 @@
+HTTP/1.1 200 OK
+Vary: Accept
+Cache-Control: public, max-age=0, must-revalidate
+ETag: BuvNVnhbJxbGzTZNU5chtfN-xlMg-Ao90orvtTyXJ3o
+Content-Type: image/webp
+Content-Disposition: attachment; filename="coll-hero-upholstery.webp"
+Content-Security-Policy: script-src 'none'; frame-src 'none'; sandbox;
+X-Nextjs-Cache: HIT
+Content-Length: 36982
+Date: Thu, 20 Aug 2026 11:50:46 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+

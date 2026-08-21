@@ -1,0 +1,462 @@
+/* ============================================================
+   SAROM — THE THREE ART-DIRECTED COMPOSITIONS
+
+   Each section is ONE connected composition inside a single large
+   rounded container, with a clear focal point and deliberately
+   unequal image weights. Not a row of cards.
+
+   Colour comes only from the Sarom palette: warm ivory / linen
+   grounds, charcoal type, and the brand pastels as accents. The
+   references' dark UI is deliberately not carried over.
+   ============================================================ */
+
+/* These sections are the composition and nothing else, so the generous
+   section rhythm used elsewhere left a large dead band underneath. */
+.sect--comp {
+  padding-block: clamp(2.25rem, 3.8vw, 4.75rem);
+}
+
+.comp {
+  position: relative;
+  width: min(92vw, var(--max-w));
+  margin-inline: auto;
+
+  /* Nested radius system — the source of the references premium feel.
+     A panel inset by the container padding must step its radius DOWN by
+     that same gap, or the nesting reads as unrelated boxes. Images step
+     down once more. Every level is derived, never hand-picked. */
+  --comp-pad: clamp(0.7rem, 1.35vw, 1.35rem);
+  --r-outer: clamp(24px, 2.7vw, 38px);
+  --r-panel: calc(var(--r-outer) - var(--comp-pad));
+  --r-img: calc(var(--r-panel) - var(--comp-pad) * 0.55);
+
+  border-radius: var(--r-outer);
+  padding: var(--comp-pad);
+  overflow: hidden;
+  isolation: isolate;
+}
+/* Shared image language across all three. */
+.comp figure,
+.comp .cframe {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--r-img);
+  background: var(--linen);
+  margin: 0;
+}
+.comp img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.9s var(--ease-out-expo);
+}
+.comp a:hover img,
+.comp button:hover img,
+.comp figure:hover img {
+  transform: scale(1.025);
+}
+
+/* Small editorial annotation, never dominant. */
+.clabel {
+  position: absolute;
+  left: 0.75rem;
+  bottom: 0.75rem;
+  z-index: 2;
+  padding: 0.36rem 0.72rem;
+  border-radius: var(--radius-pill);
+  background: rgba(245, 240, 232, 0.92);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: var(--charcoal);
+  font-size: 0.5625rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  line-height: 1;
+  white-space: nowrap;
+}
+.clabel--tr { left: auto; right: 0.75rem; bottom: auto; top: 0.75rem; }
+/* Top-left, used to keep pills clear of the brand marks printed into some of
+   the Brand Book photography along the lower edge. */
+.clabel--tl { bottom: auto; top: 0.75rem; }
+.clabel--br { left: auto; right: 0.75rem; }
+
+/* Compact nav shared by the compositions. */
+.cnav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: clamp(0.75rem, 2vw, 2rem);
+  padding: 0.2rem 0.35rem clamp(0.9rem, 1.6vw, 1.4rem);
+  font-size: var(--fs-meta);
+  letter-spacing: var(--tr-meta);
+  text-transform: uppercase;
+  color: var(--fg-muted);
+}
+.cnav__group {
+  display: flex;
+  gap: clamp(0.8rem, 1.8vw, 1.9rem);
+  flex-wrap: wrap;
+}
+.cnav a { transition: color 0.3s var(--ease-soft); }
+.cnav a:hover { color: var(--charcoal); }
+.cnav__mark {
+  font-family: var(--font-display);
+  font-size: clamp(0.95rem, 1.15vw, 1.2rem);
+  letter-spacing: 0.01em;
+  text-transform: none;
+  color: var(--charcoal);
+  flex: 0 0 auto;
+}
+
+/* Pill control (arrows, tags, shop link). */
+.cpill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  min-width: 38px;
+  height: 38px;
+  padding-inline: 0.9rem;
+  border: 1px solid rgba(20, 17, 15, 0.16);
+  border-radius: var(--radius-pill);
+  font-size: var(--fs-meta);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--charcoal);
+  background: transparent;
+  transition: background-color 0.4s var(--ease-soft), border-color 0.4s var(--ease-soft);
+}
+.cpill:hover { background: var(--dusty-peach); border-color: transparent; }
+.cpill--icon { padding-inline: 0; }
+
+/* ============================================================
+   SECTION 1 — MODULAR SHOWROOM
+   Narrow side rail + a three-up strip over a dominant image and
+   a secondary panel. Weights: strip small, hero large, panel mid.
+   ============================================================ */
+.showroom {
+  background: var(--ivory-deep);
+  box-shadow: inset 0 0 0 1px rgba(20, 17, 15, 0.07);
+}
+.showroom__body {
+  display: grid;
+  grid-template-columns: clamp(84px, 7.2vw, 118px) 1fr;
+  gap: clamp(0.75rem, 1.4vw, 1.4rem);
+}
+
+/* vertical rail — subtle, not a menu shouting for attention */
+.showroom__rail {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  padding: clamp(1rem, 1.8vw, 1.6rem) clamp(0.5rem, 1vw, 1rem);
+  border-radius: clamp(14px, 1.5vw, 24px);
+  background: var(--ivory);
+  font-size: var(--fs-meta);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+}
+.showroom__rail span:first-child {
+  color: var(--charcoal);
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+.showroom__rail span:first-child::before {
+  content: "";
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--dusty-peach);
+}
+.showroom__railfoot {
+  margin-top: auto;
+  padding-top: 1.5rem;
+  color: var(--charcoal);
+  line-height: 1.3;
+}
+
+.showroom__main {
+  display: grid;
+  gap: clamp(0.75rem, 1.4vw, 1.4rem);
+}
+/* three small images — the light top note of the composition */
+.showroom__strip {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(0.75rem, 1.4vw, 1.4rem);
+}
+.showroom__strip figure { aspect-ratio: 4 / 3; }
+
+/* dominant image + secondary panel, deliberately unequal */
+.showroom__lower {
+  display: grid;
+  grid-template-columns: 1.72fr 1fr;
+  gap: clamp(0.75rem, 1.4vw, 1.4rem);
+}
+.showroom__hero {
+  position: relative;
+  aspect-ratio: 16 / 11;
+}
+.showroom__herocopy {
+  position: absolute;
+  left: clamp(1rem, 1.8vw, 1.6rem);
+  right: clamp(1rem, 1.8vw, 1.6rem);
+  bottom: clamp(1rem, 1.8vw, 1.6rem);
+  z-index: 2;
+  padding: clamp(0.9rem, 1.5vw, 1.3rem) clamp(1rem, 1.7vw, 1.5rem);
+  border-radius: 16px;
+  background: rgba(245, 240, 232, 0.93);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  color: var(--charcoal);
+}
+.showroom__herocopy h3 {
+  font-family: var(--font-display);
+  font-size: clamp(1.1rem, 1.6vw, 1.6rem);
+  font-weight: 300;
+  line-height: 1.14;
+  margin-bottom: 0.3rem;
+}
+.showroom__herocopy p {
+  font-size: var(--fs-meta);
+  letter-spacing: 0.02em;
+  text-transform: none;
+  color: var(--fg-muted);
+  max-width: 40ch;
+}
+
+.showroom__panel {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: clamp(1rem, 1.7vw, 1.6rem);
+  border-radius: clamp(14px, 1.5vw, 24px);
+  background: var(--dusty-peach);
+  overflow: hidden;
+}
+.showroom__panel h3 {
+  font-family: var(--font-display);
+  font-size: clamp(1rem, 1.5vw, 1.5rem);
+  font-weight: 300;
+  line-height: 1.12;
+  color: var(--charcoal);
+  max-width: 14ch;
+}
+.showroom__panelimg {
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 0;
+  border-radius: 14px;
+  overflow: hidden;
+}
+.showroom__panelimg img { position: absolute; inset: 0; }
+
+/* ============================================================
+   SECTION 2 — EDITORIAL SHOWCASE
+   Type-led left column, one image taking ~60% of the width.
+   ============================================================ */
+.editorial {
+  background: var(--ivory);
+  box-shadow: inset 0 0 0 1px rgba(20, 17, 15, 0.07);
+}
+.editorial__body {
+  display: grid;
+  /* the image outweighs the copy — that split is the whole idea */
+  grid-template-columns: 1fr 1.5fr;
+  gap: clamp(1rem, 2.2vw, 2.4rem);
+  align-items: stretch;
+}
+.editorial__copy {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1rem, 1.8vw, 1.6rem);
+  padding: clamp(0.5rem, 1.4vw, 1.4rem) clamp(0.5rem, 1vw, 1rem)
+    clamp(0.5rem, 1vw, 1rem);
+}
+.editorial__title {
+  font-family: var(--font-display);
+  font-size: clamp(1.9rem, 3.8vw, 4.2rem);
+  font-weight: 300;
+  line-height: 1.02;
+  letter-spacing: -0.024em;
+  color: var(--charcoal);
+}
+.editorial__title em { font-style: italic; color: var(--stone); }
+.editorial__copy > p {
+  font-size: var(--fs-body);
+  line-height: 1.7;
+  color: var(--fg-muted);
+  max-width: 34ch;
+}
+
+/* thumbnail previews of the dominant image */
+.editorial__thumbs {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(0.5rem, 1vw, 0.9rem);
+  margin-top: auto;
+}
+.editorial__thumb {
+  position: relative;
+  display: block;
+  text-align: left;
+  padding: 0;
+  border-radius: 14px;
+  overflow: hidden;
+  aspect-ratio: 1 / 1;
+  box-shadow: inset 0 0 0 1px rgba(20, 17, 15, 0.08);
+  transition: transform 0.45s var(--ease-out-expo), box-shadow 0.45s var(--ease-soft);
+}
+.editorial__thumb:hover { transform: translateY(-3px); }
+.editorial__thumb[aria-pressed="true"] {
+  box-shadow: 0 0 0 2px var(--dusty-peach), inset 0 0 0 1px rgba(20, 17, 15, 0.08);
+}
+.editorial__thumb img { position: absolute; inset: 0; }
+.editorial__thumbname {
+  position: absolute;
+  left: 0.45rem;
+  bottom: 0.45rem;
+  z-index: 2;
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--radius-pill);
+  background: rgba(245, 240, 232, 0.92);
+  color: var(--charcoal);
+  font-size: 0.5rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  line-height: 1;
+}
+.editorial__controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* the dominant image */
+.editorial__hero {
+  position: relative;
+  border-radius: clamp(14px, 1.5vw, 24px);
+  overflow: hidden;
+  min-height: clamp(320px, 44vw, 620px);
+  background: var(--linen);
+}
+.editorial__hero img {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.85s var(--ease-out-expo), transform 0.9s var(--ease-out-expo);
+}
+.editorial__hero img[data-active="true"] { opacity: 1; }
+
+/* ============================================================
+   SECTION 3 — COLLECTION SELECTOR
+   Lighter and more open: thumbnails and type left, one very large
+   image right. The most "product browser" of the three.
+   ============================================================ */
+.selector {
+  background: var(--warm-ivory);
+  box-shadow: inset 0 0 0 1px rgba(20, 17, 15, 0.07);
+}
+.selector__body {
+  display: grid;
+  grid-template-columns: 1fr 1.28fr;
+  gap: clamp(1rem, 2.2vw, 2.4rem);
+  align-items: stretch;
+}
+.selector__left {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1rem, 1.8vw, 1.7rem);
+  padding: clamp(0.25rem, 1vw, 1rem);
+}
+.selector__thumbs {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(0.5rem, 1vw, 0.9rem);
+  position: relative;
+}
+.selector__thumb {
+  position: relative;
+  display: block;
+  padding: 0;
+  border-radius: 14px;
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+  background: var(--linen);
+  box-shadow: inset 0 0 0 1px rgba(20, 17, 15, 0.08);
+  transition: transform 0.45s var(--ease-out-expo), box-shadow 0.45s var(--ease-soft);
+}
+.selector__thumb:hover { transform: translateY(-3px); }
+.selector__thumb[aria-pressed="true"] {
+  box-shadow: 0 0 0 2px var(--soft-sage), inset 0 0 0 1px rgba(20, 17, 15, 0.08);
+}
+.selector__thumb img { position: absolute; inset: 0; }
+.selector__thumbname {
+  position: absolute;
+  left: 0.4rem;
+  bottom: 0.4rem;
+  z-index: 2;
+  padding: 0.24rem 0.5rem;
+  border-radius: var(--radius-pill);
+  background: rgba(245, 240, 232, 0.92);
+  color: var(--charcoal);
+  font-size: 0.5rem;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+.selector__title {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4.2vw, 4.6rem);
+  font-weight: 300;
+  line-height: 1.0;
+  letter-spacing: -0.026em;
+  color: var(--charcoal);
+}
+.selector__title em { font-style: italic; color: var(--stone); }
+.selector__left > p {
+  font-size: var(--fs-body);
+  line-height: 1.7;
+  color: var(--fg-muted);
+  max-width: 34ch;
+}
+.selector__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin-top: auto;
+}
+.selector__tag {
+  padding: 0.42rem 0.85rem;
+  border-radius: var(--radius-pill);
+  background: var(--ivory-deep);
+  font-size: var(--fs-meta);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  transition: background-color 0.4s var(--ease-soft), color 0.4s var(--ease-soft);
+}
+.selector__tag:hover {
+  background: var(--powder-blue);
+  color: var(--charcoal);
+}
+
+.selector__hero {
+  position: relative;
+  border-radius: clamp(14px, 1.5vw, 24px);
+  overflow: hidden;
+  min-height: clamp(320px, 42vw, 600px);
+  background: var(--linen);
+}
+.selector__hero img {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.85s var(--ease-out-expo);
+}
+.selector__hero img[data-active="true"] { opacity: 1; }
