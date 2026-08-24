@@ -924,38 +924,18 @@
   color: var(--ivory);
 }
 
-/* wordmark + sticker share one stacking context so the furniture floats
-   in front of the letters — LOMORA's black-ground, product-as-sticker
-   composition, not type baked into a rectangular photo. */
+/* single composite (wordmark baked in, background removed) floated as a
+   sticker on the black ground — LOMORA's product-in-front-of-type read,
+   from one client-supplied image rather than type + cutout layered. */
 .foot__poster {
   position: relative;
   flex: 0 0 auto;
   display: flex;
-  flex-direction: column;
+  align-items: center;
   justify-content: center;
   min-height: min(46svh, 460px);
   isolation: isolate;
 }
-.foot__wordmark {
-  position: relative;
-  z-index: 1;
-  display: block;
-  font-family: var(--font-display);
-  font-weight: 300;
-  font-size: clamp(3.2rem, 21vw, 19.5rem);
-  line-height: 0.86;
-  letter-spacing: -0.03em;
-  text-align: center;
-  color: var(--ivory);
-  white-space: nowrap;
-  user-select: none;
-}
-.foot__wordmark i {
-  font-style: normal;
-  color: var(--ink-2-dark);
-}
-/* the cutout floats over the wordmark's lower half, not inside a frame —
-   no background, no border-radius, no overflow clipping: it is a sticker */
 /* Centred via left:0/right:0 + margin-inline:auto, NOT transform: the
    ImageReveal wrapper is `.reveal-img`, and `.reveal-img[data-inview="true"]`
    sets its own `transform: scale(1)` once revealed. transform is a single
@@ -963,14 +943,10 @@
    here — computed style read back as "none" (scale(1) is the identity
    matrix). Left/right/margin sidesteps transform entirely. */
 .foot__sticker {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 6%;
-  z-index: 2;
-  width: min(88%, 1100px);
+  position: relative;
+  width: min(94%, 1360px);
   margin-inline: auto;
-  filter: drop-shadow(0 30px 46px rgba(0, 0, 0, 0.55));
+  filter: drop-shadow(0 34px 54px rgba(0, 0, 0, 0.6)) drop-shadow(0 6px 14px rgba(0, 0, 0, 0.45));
 }
 .foot__sticker img {
   display: block;

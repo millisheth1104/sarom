@@ -5,11 +5,9 @@ import { Reveal, ImageReveal } from "./Motion";
 /**
  * Poster footer — one screen, no second scroll.
  *
- * LOMORA-style: black ground, a real CSS wordmark (not baked into a photo),
- * and the furniture — background-removed into a transparent PNG — floating
- * in front of the letters as a "sticker." The wordmark stays real text
- * (accessible, no font-size-from-container measurement needed since it no
- * longer has to fill a photo's exact crop).
+ * LOMORA-style: black ground, one composite image (furniture overlapping in
+ * front of the SAROM wordmark, background already removed) floated as a
+ * sticker rather than type + cutout layered separately.
  */
 export default function Footer() {
   const year = 2026;
@@ -27,12 +25,8 @@ export default function Footer() {
         </nav>
 
         <div className="foot__poster">
-          <Reveal as="p" dir="up" className="foot__wordmark" aria-hidden="true">
-            sarom<i>.</i>
-          </Reveal>
           <span className="sr-only">{SITE.legalName}</span>
 
-          {/* the sticker: floats in front of the wordmark, not inside a box */}
           <ImageReveal className="foot__sticker" delay={0.1}>
             <Image
               src={FOOTER_IMAGE.src}

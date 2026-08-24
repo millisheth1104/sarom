@@ -280,16 +280,14 @@ export const FOOTER_NAV = [
 ];
 
 export const FOOTER_IMAGE = {
-  // Cut from the client-supplied photo with background removal (rembg,
-  // isnet-general-use + alpha matting) — the room/wall/floor is gone, only
-  // the five furniture pieces and their real shadows remain, on a
-  // transparent ground. This sits in FRONT of a real CSS wordmark rather
-  // than replacing it, matching the LOMORA reference: products floating in
-  // front of huge type on black, not type baked into a rectangular photo.
-  src: "/media/interiors/footer-cutout.png",
-  alt: "Sarom furniture — sofa, accent chair, dining chair, swivel chair and bouclé ottoman",
-  width: 1349,
-  height: 308,
+  // Client-supplied composite, background already removed: the five
+  // furniture pieces overlap in front of the SAROM wordmark baked into the
+  // same transparent PNG (LOMORA reference — one image, not type + sticker
+  // layered separately).
+  src: "/media/interiors/footer-composite.webp",
+  alt: "Sarom furniture — sofa, accent chair, dining chair, swivel chair and bouclé ottoman — over the Sarom wordmark",
+  width: 2080,
+  height: 756,
 };
 
 /* ============================================================
