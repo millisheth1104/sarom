@@ -23,9 +23,74 @@
    inner corner on a ground-filled block anchored flush into the
    corner — no masking, so it survives any image aspect.
    ============================================================ */
+/* ============================================================
+   THE NOTCH — how labels sit in these cards
+
+   The reference does NOT float a card on top of the photo. The
+   photo is CUT: a plate in the card own ground colour occupies
+   the corner, and where the photo meets that plate its edge
+   curves away with a concave fillet, so the two interlock as one
+   carved shape.
+
+   The fillet is a corner-anchored radial gradient. Two traps,
+   both hit before on this project:
+     - use `farthest-side`, NOT `closest-side`. Anchored at a
+       corner, closest-side resolves to radius 0 and floods the
+       tile with the end colour, giving a blocky step.
+     - stop order decides which side is rounded. The GROUND must
+       take "tile minus disc" (`transparent 99%, ground 100%`);
+       inverting it leaves a spur stabbing into the corner.
+   Keep --fillet below --notch-r, or the two arcs meet with no
+   straight edge between them and the corner reads as a lozenge.
+   ============================================================ */
+
+/* ground remains in the tile bottom-RIGHT (plate is bottom-right) */
+.studio__notch::before,
+.studio__notch::after,
+.studio__vtag::before,
+.studio__vtag::after {
+  content: "";
+  position: absolute;
+  width: var(--fillet);
+  height: var(--fillet);
+  background: radial-gradient(
+    farthest-side at top left,
+    transparent 99%,
+    var(--charcoal) 100%
+  );
+}
+/* ground remains in the tile bottom-LEFT (plate is bottom-left) */
+.studio__featurecopy::before,
+.studio__featurecopy::after {
+  content: "";
+  position: absolute;
+  width: var(--fillet);
+  height: var(--fillet);
+  background: radial-gradient(
+    farthest-side at top right,
+    transparent 99%,
+    var(--charcoal) 100%
+  );
+}
+
 .studio {
-  background: var(--ivory-deep);
-  box-shadow: inset 0 0 0 1px rgba(20, 17, 15, 0.07);
+  /* notch geometry: plate corner radius, and the fillet that blends
+     the photo edge into it. fillet MUST stay below notch-r. */
+  --notch-r: clamp(20px, 2.2vw, 32px);
+  --fillet: clamp(10px, 1.1vw, 17px);
+  /* Studio-only image radius, set ABSOLUTELY rather than derived.
+     The shared chain (--r-outer -> --r-panel -> --r-img) subtracts
+     --comp-pad twice, which collapses --r-img to ~7.9px at 1440 — far too
+     tight to read as rounded at this card size. Multiplying that up just
+     scales a bad number, so this is stated outright. Other compositions keep
+     the derived chain, so nothing else moves. */
+  --img-r: clamp(18px, 1.95vw, 30px);
+  /* Charcoal ground, matching the plates that cut into each photo. Same
+     colour on both sides of the cut means the plate has no edge of its own,
+     so the photo reads as genuinely notched rather than covered. */
+  background: var(--charcoal);
+  box-shadow: inset 0 0 0 1px rgba(245, 240, 232, 0.07);
+  color: var(--ivory);
   display: grid;
   gap: var(--comp-pad);
 }
@@ -39,7 +104,7 @@
 .studio__card {
   position: relative;
   aspect-ratio: 4 / 3.15;
-  border-radius: var(--r-img);
+  border-radius: var(--img-r);
   overflow: hidden;
   background: var(--charcoal);
   isolation: isolate;
@@ -63,26 +128,40 @@
   display: flex;
   align-items: center;
   gap: 0.4rem;
-  padding: 0.65rem 0.75rem 0.65rem 1rem;
+  padding: 0.6rem 0.7rem 0.6rem 0.85rem;
   background: var(--charcoal);
-  /* generous inner radius so the photograph reads as carved around the
-     label, not stepped. Matches the product cradle. */
-  border-radius: clamp(22px, 2.2vw, 32px) 0 0 0;
+  border-radius: var(--notch-r) 0 0 0;
+}
+/* fillet above the plate, flush to the card right edge */
+.studio__notch::before {
+  right: 0;
+  bottom: 100%;
+}
+/* fillet left of the plate, flush to the card bottom edge */
+.studio__notch::after {
+  left: calc(-1 * var(--fillet));
+  bottom: 0;
+}
+/* one capsule holding both labels, divided — as in the reference */
+.studio__capsule {
+  display: inline-flex;
+  align-items: stretch;
+  border-radius: var(--radius-pill);
+  background: rgba(245, 240, 232, 0.1);
+  overflow: hidden;
 }
 .studio__pill {
-  padding: 0.34rem 0.7rem;
-  border-radius: var(--radius-pill);
-  background: rgba(245, 240, 232, 0.12);
+  padding: 0.45rem 0.8rem;
   color: rgba(245, 240, 232, 0.95);
   font-size: 0.5625rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  line-height: 1;
+  line-height: 1.5;
   white-space: nowrap;
 }
-.studio__pill:last-child {
-  background: var(--ivory);
-  color: var(--charcoal);
+/* hairline divider between the two labels */
+.studio__pill + .studio__pill {
+  box-shadow: inset 1px 0 0 rgba(245, 240, 232, 0.22);
 }
 
 /* ---- feature + panel ---- */
@@ -94,7 +173,7 @@
 .studio__feature {
   position: relative;
   aspect-ratio: 16 / 10.2;
-  border-radius: var(--r-img);
+  border-radius: var(--img-r);
   overflow: hidden;
   background: var(--charcoal);
   isolation: isolate;
@@ -104,18 +183,32 @@
   height: 100%;
   object-fit: cover;
 }
-/* cut at bottom-left */
+/* Floating card, inset with a gap on all sides rather than flush-mounted
+   into the image's corner — matches the reference, and brings this in line
+   with the floating-pill language used everywhere else on the site
+   (.coll__pill, .product__float). A drop shadow lifts it off the photo. */
+/* plate cut into the feature image bottom-left corner */
 .studio__featurecopy {
   position: absolute;
   left: 0;
   bottom: 0;
   z-index: 2;
-  max-width: min(56%, 400px);
+  max-width: min(54%, 380px);
   padding: clamp(0.85rem, 1.4vw, 1.3rem) clamp(1rem, 1.7vw, 1.6rem)
     clamp(0.85rem, 1.4vw, 1.3rem) clamp(0.9rem, 1.5vw, 1.4rem);
   background: var(--charcoal);
   color: var(--ivory);
-  border-radius: 0 clamp(24px, 2.6vw, 38px) 0 0;
+  border-radius: 0 var(--notch-r) 0 0;
+}
+/* fillet above the plate, flush to the image left edge */
+.studio__featurecopy::before {
+  left: 0;
+  bottom: 100%;
+}
+/* fillet right of the plate, flush to the image bottom edge */
+.studio__featurecopy::after {
+  right: calc(-1 * var(--fillet));
+  bottom: 0;
 }
 .studio__featurecopy h3 {
   font-family: var(--font-display);
@@ -131,7 +224,9 @@
   line-height: 1.5;
   color: rgba(245, 240, 232, 0.72);
 }
-/* cut on the right edge, above the copy block */
+/* Standalone floating tab, inset with a gap rather than flush to the image
+   edge — fully rounded like a pill since it is narrow, not just one corner. */
+/* plate cut into the feature image right edge, at the bottom */
 .studio__vtag {
   position: absolute;
   right: 0;
@@ -140,7 +235,7 @@
   display: flex;
   align-items: center;
   gap: 0.6rem;
-  padding: 1rem 0.5rem 1rem 0.55rem;
+  padding: 1rem 0.55rem;
   background: var(--charcoal);
   color: var(--ivory);
   font-size: 0.5625rem;
@@ -148,7 +243,15 @@
   text-transform: uppercase;
   writing-mode: vertical-rl;
   line-height: 1;
-  border-radius: clamp(20px, 2vw, 28px) 0 0 0;
+  border-radius: var(--notch-r) 0 0 0;
+}
+.studio__vtag::before {
+  right: 0;
+  bottom: 100%;
+}
+.studio__vtag::after {
+  left: calc(-1 * var(--fillet));
+  bottom: 0;
 }
 .studio__vtag b {
   font-weight: 400;
@@ -159,9 +262,11 @@
   display: flex;
   flex-direction: column;
   gap: clamp(0.7rem, 1.2vw, 1.1rem);
-  padding: clamp(0.9rem, 1.5vw, 1.4rem);
-  border-radius: var(--r-img);
-  background: var(--charcoal);
+  --panel-pad: clamp(0.9rem, 1.5vw, 1.4rem);
+  padding: var(--panel-pad);
+  border-radius: var(--img-r);
+  /* one step up from the ground, or it would vanish into it */
+  background: var(--charcoal-soft);
   color: var(--ivory);
   overflow: hidden;
 }
@@ -197,11 +302,16 @@
   background: var(--ivory);
   color: var(--charcoal);
 }
+/* Evenly inset, centred crop. A previous version bled this into the panel's
+   bottom-right corner via a negative right-margin — but that margin ran the
+   element's FULL height, not just its bottom edge, so the panel's own corner
+   radius (uniform on all four corners) clipped a second, unintended notch at
+   the TOP-right too. Simpler and correct: no bleed, just a centred image. */
 .studio__panelimg {
   position: relative;
   flex: 1 1 auto;
   min-height: clamp(130px, 15vw, 210px);
-  border-radius: calc(var(--r-img) * 0.72);
+  border-radius: calc(var(--img-r) * 0.62);
   overflow: hidden;
 }
 .studio__panelimg img {
@@ -210,6 +320,7 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center;
 }
 
 /* ============================================================
@@ -489,14 +600,40 @@
    The right panel owns the shop pill, the rail and the image —
    it runs the whole height of the composition.
    ============================================================ */
+/* GEOMETRY MEASURED OFF THE REFERENCE MOCKUP, not eyeballed. Traced from
+   `reference/WhatsApp Image 2026-08-20 at 1.05.20 PM.jpeg`; the card there is
+   562x399px, so every ratio below is (measured px - card origin) / card size:
+     seam (panel left edge)  x=311  ->  39.9% of width, DEAD STRAIGHT
+     thumb-row breakout ends x=421  ->  59.3%   (19.4% past the seam)
+     breakout band           y=156..282 -> 10.3%..41.9% of height
+     cradle pad ~6.5px, radii ~12-14px  ->  x2.29 for the 1440 build scale
+   The panel edge is a straight vertical line — the ONLY thing interrupting it
+   is the thumbnail row punching across it inside an ivory cradle. */
 .belong {
   background: var(--warm-ivory);
   box-shadow: inset 0 0 0 1px rgba(20, 17, 15, 0.07);
+
+  /* shared so the cradle can compute exactly where the seam falls */
+  --col-gap: clamp(0.5rem, 1.1vw, 1.1rem);
+  --left-pad: clamp(0.35rem, 0.9vw, 0.9rem);
+  /* how far the thumb row punches PAST the seam: 19.4% of card - the pad */
+  --reach: clamp(84px, 16.3vw, 250px);
+  --cradle-pad: clamp(0.5rem, 1.05vw, 1rem);
+  /* still derived from the --r-outer/--comp-pad roots, just a shallower step
+     than --r-panel: the reference's radii are larger relative to its padding */
+  --panel-r: calc(var(--r-outer) - var(--comp-pad) * 0.55);
+  --cradle-r: calc(var(--panel-r) * 1.18);
+  /* kept BELOW --panel-r: the strip of panel edge above the cradle is only
+     ~70px, so a fillet larger than the panel's own corner radius leaves no
+     straight edge between the two arcs and the corner reads as a lozenge */
+  --fillet: calc(var(--panel-r) * 0.7);
+  --thumb-r: calc(var(--panel-r) * 0.78);
 }
 .belong__grid {
   display: grid;
-  grid-template-columns: 1fr 1.08fr;
-  gap: clamp(1rem, 2.2vw, 2.4rem);
+  /* 1 : 1.5 puts the seam at ~40% of the card, matching the reference */
+  grid-template-columns: 1fr 1.5fr;
+  gap: var(--col-gap);
   align-items: stretch;
 }
 
@@ -505,7 +642,7 @@
   display: flex;
   flex-direction: column;
   gap: clamp(0.9rem, 1.9vw, 1.8rem);
-  padding: clamp(0.35rem, 0.9vw, 0.9rem);
+  padding: var(--left-pad);
 }
 .belong__nav {
   display: flex;
@@ -534,18 +671,63 @@
   color: var(--ivory);
 }
 
+/* THE BREAKOUT. The row is wider than its own column: it spans the column,
+   crosses the gutter, and punches --reach into the dark panel. Must out-rank
+   the panel (later sibling) or the panel would paint straight over it. */
 .belong__previews {
   position: relative;
+  z-index: 3;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: clamp(0.45rem, 1vw, 0.9rem);
+  width: calc(100% + var(--left-pad) + var(--col-gap) + var(--reach));
+}
+/* The ivory cradle: what makes the row read as the LIGHT COLUMN bulging out
+   rather than three thumbnails floating on the photo. Rounded on the right
+   only — its left half is ivory-on-ivory and therefore invisible. */
+.belong__previews::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: calc(-1 * var(--cradle-pad));
+  left: calc(-1 * (var(--cradle-pad) + var(--left-pad)));
+  background: var(--warm-ivory);
+  border-radius: 0 var(--cradle-r) var(--cradle-r) 0;
+}
+/* CONCAVE FILLETS — the carved detail. Where the cradle meets the panel's
+   straight edge a square butt-join would read as pasted-on; these two
+   corner-bitten squares let the dark edge flare out to meet the cradle
+   tangentially. One element, two radial gradients, parked exactly on the seam
+   (100% - --reach is the seam, because the width above ends --reach past it). */
+.belong__previews::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  top: calc(-1 * (var(--cradle-pad) + var(--fillet)));
+  bottom: calc(-1 * (var(--cradle-pad) + var(--fillet)));
+  left: calc(100% - var(--reach));
+  width: var(--fillet);
+  /* farthest-side, NOT closest-side: the circle is centred ON a corner of the
+     tile, so closest-side resolves to radius 0 and floods the whole square
+     with the end colour — a blocky step instead of a fillet.
+     Ivory takes the tile MINUS the disc, so the dark edge keeps the disc and
+     its corner is rounded off: coming down the seam it curves right and meets
+     the cradle's top edge tangentially. Inverting these two stops instead
+     leaves a dark spur stabbing into the corner. */
+  background-image:
+    radial-gradient(circle farthest-side at top right, transparent 99%, var(--warm-ivory) 100%),
+    radial-gradient(circle farthest-side at bottom right, transparent 99%, var(--warm-ivory) 100%);
+  background-size: var(--fillet) var(--fillet);
+  background-position: left top, left bottom;
+  background-repeat: no-repeat;
 }
 .belong__thumb {
   position: relative;
   display: block;
   padding: 0;
-  aspect-ratio: 4 / 3.4;
-  border-radius: calc(var(--r-panel) * 0.55);
+  /* reference thumbs measure 109x112 — square, not 4:3.4 */
+  aspect-ratio: 1 / 1;
+  border-radius: var(--thumb-r);
   overflow: hidden;
   background: var(--linen);
   box-shadow: inset 0 0 0 1px rgba(20, 17, 15, 0.07);
@@ -555,7 +737,7 @@
   transform: translateY(-3px);
 }
 .belong__thumb[aria-pressed="true"] {
-  box-shadow: 0 0 0 2px var(--dusty-peach);
+  box-shadow: 0 0 0 2px var(--accent);
 }
 .belong__thumb img {
   position: absolute;
@@ -564,16 +746,26 @@
   height: 100%;
   object-fit: cover;
 }
+/* Scrim behind the on-image label: a text-shadow alone washed out on the
+   lighter thumbnails (curtains, bed sheets). */
+.belong__thumb::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 45%;
+  z-index: 1;
+  background: linear-gradient(to top, rgba(20, 17, 15, 0.72), rgba(20, 17, 15, 0));
+  pointer-events: none;
+}
 .belong__thumb span {
   position: absolute;
-  left: 0.55rem;
+  left: 0.6rem;
   bottom: 0.5rem;
   z-index: 2;
   color: var(--ivory);
   font-size: 0.5625rem;
   letter-spacing: 0.11em;
   text-transform: uppercase;
-  text-shadow: 0 1px 10px rgba(20, 17, 15, 0.8);
 }
 /* round arrows overlapping the row edges */
 .belong__arrow {
@@ -592,7 +784,7 @@
   transition: background-color 0.4s var(--ease-soft);
 }
 .belong__arrow:hover {
-  background: var(--dusty-peach);
+  background: var(--accent);
 }
 .belong__arrow--prev {
   left: -15px;
@@ -603,7 +795,7 @@
 
 .belong__title {
   font-family: var(--font-body);
-  font-size: clamp(2.05rem, 4.3vw, 4.5rem);
+  font-size: clamp(1.9rem, 3.6vw, 3.9rem);
   font-weight: 700;
   line-height: 1.02;
   letter-spacing: -0.03em;
@@ -636,35 +828,25 @@
   transition: background-color 0.4s var(--ease-soft), color 0.4s var(--ease-soft);
 }
 .belong__tag:hover {
-  background: var(--dusty-peach);
+  background: var(--accent);
   color: var(--charcoal);
 }
 
 /* ---- full-height right panel ---- */
-/* CONCAVE CORNER TECHNIQUE, second site.
-   Here nothing has to escape the cut, so the mask goes directly on the panel.
-   The left corners are squared first, then two corner-anchored radial cuts are
-   intersected, so the light column reads as carved OUT of the panel rather
-   than butted against it. */
+/* A PLAIN ROUNDED RECT, deliberately. Tracing the reference showed its left
+   edge sitting at x=311 for every row sampled between y=300 and y=492 — a
+   dead-straight vertical line, and the top edge equally straight at y=122.
+   An earlier pass here carved a full-height S-curve into this edge; that was
+   wrong. All the geometric interest belongs to the thumb-row breakout above,
+   which is what actually interrupts this edge. */
 .belong__panel {
   position: relative;
-  --cc: clamp(16px, 1.8vw, 26px);
-  border-radius: 0 var(--r-panel) var(--r-panel) 0;
+  z-index: 1;
+  border-radius: var(--panel-r);
   overflow: hidden;
   background: var(--charcoal-warm);
-  min-height: clamp(340px, 44vw, 620px);
-  -webkit-mask-image:
-    radial-gradient(var(--cc) at left top, transparent 99%, #000 100%),
-    radial-gradient(var(--cc) at left bottom, transparent 99%, #000 100%);
-  mask-image:
-    radial-gradient(var(--cc) at left top, transparent 99%, #000 100%),
-    radial-gradient(var(--cc) at left bottom, transparent 99%, #000 100%);
-  -webkit-mask-composite: source-in;
-  mask-composite: intersect;
-  -webkit-mask-size: 100% 100%;
-  mask-size: 100% 100%;
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
+  /* sized against viewport HEIGHT so the whole composition fits one screen */
+  min-height: clamp(300px, 62svh, 660px);
 }
 .belong__panel img {
   position: absolute;
@@ -680,12 +862,45 @@
   opacity: 1;
   transform: scale(1);
 }
-/* shop pill lives INSIDE the panel, at its top-right */
-.belong__shop {
+/* SHOP PILL — carved into the panel's top-right corner, not floated on it.
+   Reference (orig px): pill x 538..643, y 122..148; panel edges x=643, y=120.5.
+   So the pill is FLUSH to both edges and the ivory channel wraps only its left
+   and bottom, ~6px wide. The pill's own radius supplies the panel's corner.
+   The WRAPPER is the channel; its ::after fillets the two points where that
+   channel runs out onto the panel's top and right edges. */
+.belong__shopwrap {
   position: absolute;
-  top: clamp(0.7rem, 1.3vw, 1.3rem);
-  right: clamp(0.7rem, 1.3vw, 1.3rem);
+  top: 0;
+  right: 0;
   z-index: 4;
+  /* channel on the LEFT and BOTTOM only, exactly as measured: the pill stays
+     flush with the panel's top and right edges and supplies the corner. A
+     rounded RECT, so its left side is a straight vertical that meets the
+     panel's top edge cleanly — a pill-radius ring recedes near its ends and
+     leaves dark slivers in the channel. */
+  padding: 0 0 var(--cradle-pad) var(--cradle-pad);
+  background: var(--warm-ivory);
+  border-radius: 0 0 0 var(--cradle-r);
+}
+/* Both junctions are the same case as the thumb cradle's: a convex corner of
+   the dark panel, so both tiles bite the disc from their bottom-left — one
+   where the channel meets the panel's top edge, one where it meets the right. */
+.belong__shopwrap::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: calc(-1 * var(--fillet));
+  bottom: calc(-1 * var(--fillet));
+  background-image:
+    radial-gradient(circle farthest-side at bottom left, transparent 99%, var(--warm-ivory) 100%),
+    radial-gradient(circle farthest-side at bottom left, transparent 99%, var(--warm-ivory) 100%);
+  background-size: var(--fillet) var(--fillet);
+  background-position: left top, right bottom;
+  background-repeat: no-repeat;
+}
+.belong__shop {
+  position: relative;
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
@@ -702,10 +917,12 @@
   background: var(--charcoal-soft);
 }
 /* rail pinned to the panel LEFT edge */
+/* reference puts the rail just inside the panel edge, starting immediately
+   below the thumb-row cradle (which bottoms out at ~42% of the card) */
 .belong__rail {
   position: absolute;
   left: clamp(0.6rem, 1.1vw, 1.1rem);
-  top: 34%;
+  top: 48%;
   z-index: 4;
   display: grid;
   gap: 0.5rem;
@@ -798,13 +1015,18 @@
   .belong__grid {
     grid-template-columns: 1fr;
   }
+  /* single column: there is no seam left to punch through, so the row goes
+     back inside its column and the cradle + fillets switch off entirely */
+  .belong__previews {
+    width: 100%;
+  }
+  .belong__previews::before,
+  .belong__previews::after {
+    display: none;
+  }
   .belong__panel {
     order: -1;
     min-height: clamp(320px, 62vw, 500px);
-    /* single column now: restore the full radius and drop the scoop */
-    border-radius: var(--r-panel);
-    -webkit-mask-image: none;
-    mask-image: none;
   }
   .belong__title {
     margin-top: 0;

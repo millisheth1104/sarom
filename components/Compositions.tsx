@@ -49,8 +49,10 @@ export function Showroom() {
                 unoptimized
               />
               <span className="studio__notch">
-                <span className="studio__pill">{c.family}</span>
-                <span className="studio__pill">{c.name}</span>
+                <span className="studio__capsule">
+                  <span className="studio__pill">{c.family}</span>
+                  <span className="studio__pill">{c.name}</span>
+                </span>
               </span>
             </Reveal>
           ))}

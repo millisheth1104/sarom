@@ -66,10 +66,18 @@ export function initReveals(root: HTMLElement | Document = document): (() => voi
 
   targets.forEach((el) => {
     const once = el.dataset.revealOnce !== "false";
+    const start = el.dataset.revealStart || "top 86%";
     triggers.push(
       ScrollTrigger.create({
         trigger: el,
-        start: el.dataset.revealStart || "top 86%",
+        // clamp(): for an element within ~1 viewport of the true page
+        // bottom, "top 86%" resolves to an absolute scroll position past
+        // the page's actual max scroll — mathematically unreachable, so
+        // the reveal never fires no matter how far the user scrolls.
+        // clamp() pins the trigger to the nearest reachable position
+        // instead. Confirmed on .foot__meta: computed start 10863 vs a
+        // 10732 max scroll — 131px past what a user could ever reach.
+        start: `clamp(${start})`,
         once,
         onEnter: () => el.setAttribute("data-inview", "true"),
       })

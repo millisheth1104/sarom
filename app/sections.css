@@ -111,7 +111,7 @@
   content: "";
   width: clamp(30px, 5vw, 72px);
   height: 1px;
-  background: var(--dusty-peach);
+  background: var(--accent);
 }
 .hero__title {
   grid-column: 1 / 10;
@@ -179,7 +179,7 @@
   content: "";
   position: absolute;
   inset: 0;
-  background: var(--dusty-peach);
+  background: var(--accent);
   animation: scroll-hint 2.3s var(--ease-in-out) infinite;
 }
 @keyframes scroll-hint {
@@ -490,7 +490,7 @@
 .fabric__bar i {
   position: absolute;
   inset: 0;
-  background: var(--dusty-peach);
+  background: var(--accent);
   transform: scaleX(var(--fp, 0));
   transform-origin: left;
 }
@@ -563,7 +563,7 @@
   transition: background-color 0.5s var(--ease-soft);
 }
 .chapter__prop:hover {
-  background: var(--dusty-peach);
+  background: var(--accent);
 }
 .chapter__prop img {
   width: 26px;
@@ -697,7 +697,7 @@
   min-height: clamp(180px, 20vw, 280px);
   padding: clamp(1.1rem, 1.9vw, 1.7rem);
   border-radius: 20px;
-  background: var(--dusty-peach);
+  background: var(--accent);
 }
 .mtile--text p {
   font-family: var(--font-display);
@@ -852,7 +852,7 @@
    CLOSING CTA
    ============================================================ */
 .cta {
-  background: var(--dusty-peach);
+  background: var(--accent);
   color: var(--charcoal);
   text-align: center;
   overflow: hidden;
@@ -878,9 +878,12 @@
 }
 
 /* ============================================================
-   FOOTER — editorial poster
-   Small nav, then the wordmark at full width, then a cinematic
-   image pulled up so it reads as one composition with the type.
+   FOOTER — one-screen editorial poster
+
+   Sized against viewport height, not content, so it never costs a
+   second scroll. The image is layered OVER the wordmark and pulled
+   up, so the letters disappear behind it — the depth cue the
+   reference gets from products standing in front of the type.
    ============================================================ */
 .foot {
   position: relative;
@@ -888,20 +891,31 @@
   color: var(--ivory);
   --fg-muted: var(--stone-light);
   --rule: rgba(245, 240, 232, 0.14);
-  padding-top: clamp(3rem, 6vw, 6rem);
   overflow: hidden;
 }
+.foot__stage {
+  display: flex;
+  flex-direction: column;
+  /* fits one screen; min-height keeps it honest on very short viewports */
+  /* Height comes from the content, not a min-height: any slack was being
+     distributed into the gaps and read as a void under the nav. The stack
+     lands ~810px, comfortably inside one screen. */
+  padding-block: clamp(1rem, 2vw, 2rem) clamp(0.9rem, 1.6vw, 1.5rem);
+  gap: clamp(0.4rem, 0.9vw, 0.9rem);
+}
 
+/* hairline nav, evenly spread */
 .foot__nav {
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  gap: clamp(1rem, 3vw, 3rem);
-  padding-bottom: clamp(1.5rem, 3vw, 2.75rem);
+  gap: clamp(0.75rem, 2vw, 2rem);
+  flex: 0 0 auto;
+  padding-bottom: clamp(0.7rem, 1.4vw, 1.3rem);
+  border-bottom: 1px solid var(--rule);
   font-size: var(--fs-meta);
   letter-spacing: var(--tr-meta);
   text-transform: uppercase;
-  color: rgba(245, 240, 232, 0.62);
+  color: rgba(245, 240, 232, 0.6);
 }
 .foot__nav a {
   transition: color 0.35s var(--ease-soft);
@@ -910,108 +924,83 @@
   color: var(--ivory);
 }
 
-/* The dominant element on the page's final screen. */
-/* Column styles were dropped when the footer became a poster; without them
-   the links render inline and read as one run-on string. */
-.foot__col {
-  display: grid;
-  gap: 0.55rem;
-  align-content: start;
+/* wordmark + sticker share one stacking context so the furniture floats
+   in front of the letters — LOMORA's black-ground, product-as-sticker
+   composition, not type baked into a rectangular photo. */
+.foot__poster {
+  position: relative;
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: min(46svh, 460px);
+  isolation: isolate;
 }
-.foot__col h4 {
-  font-size: var(--fs-meta);
-  font-weight: 400;
-  letter-spacing: var(--tr-meta);
-  text-transform: uppercase;
-  color: var(--fg-muted);
-  margin-bottom: 0.25rem;
-}
-.foot__col a,
-.foot__col p {
+.foot__wordmark {
+  position: relative;
+  z-index: 1;
   display: block;
-  font-size: var(--fs-body);
-  line-height: 1.55;
-  color: rgba(245, 240, 232, 0.82);
-  transition: color 0.35s var(--ease-soft);
-}
-.foot__col a:hover {
-  color: var(--ink-2-dark);
-}
-
-/* three info columns above the wordmark */
-.foot__cols {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1.4fr;
-  gap: clamp(1.25rem, 3vw, 3.5rem);
-  padding-block: clamp(1.25rem, 2.4vw, 2.4rem) clamp(1.5rem, 3vw, 3rem);
-  border-top: 1px solid var(--rule);
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(3.2rem, 21vw, 19.5rem);
+  line-height: 0.86;
+  letter-spacing: -0.03em;
+  text-align: center;
+  color: var(--ivory);
+  white-space: nowrap;
+  user-select: none;
 }
 .foot__wordmark i {
   font-style: normal;
   color: var(--ink-2-dark);
 }
-
-.foot__wordmark {
-  display: block;
-  font-family: var(--font-display);
-  font-weight: 300;
-  /* Sized so the wordmark spans the shell almost edge to edge. */
-  font-size: clamp(3.5rem, 24vw, 23rem);
-  /* 0.78 clipped the glyph bottoms behind the poster below — the em box was
-     shorter than the letterforms. 0.92 lets the full wordmark read. */
-  line-height: 0.92;
-  letter-spacing: -0.028em;
-  text-align: center;
-  color: var(--ivory);
-  white-space: nowrap;
-  user-select: none;
-  margin-bottom: clamp(0.6rem, 1.4vw, 1.6rem);
-}
-
-.foot__poster {
-  position: relative;
-  aspect-ratio: 21 / 8;
-  overflow: hidden;
-  border-radius: 22px 22px 0 0;
-  background: var(--charcoal-warm);
-}
-.foot__poster img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-.foot__poster::after {
-  content: "";
+/* the cutout floats over the wordmark's lower half, not inside a frame —
+   no background, no border-radius, no overflow clipping: it is a sticker */
+/* Centred via left:0/right:0 + margin-inline:auto, NOT transform: the
+   ImageReveal wrapper is `.reveal-img`, and `.reveal-img[data-inview="true"]`
+   sets its own `transform: scale(1)` once revealed. transform is a single
+   shorthand, so that silently replaced a translateX(-50%) centering trick
+   here — computed style read back as "none" (scale(1) is the identity
+   matrix). Left/right/margin sidesteps transform entirely. */
+.foot__sticker {
   position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    to top,
-    rgba(20, 17, 15, 0.55) 0%,
-    rgba(20, 17, 15, 0) 55%
-  );
-  pointer-events: none;
+  left: 0;
+  right: 0;
+  bottom: 6%;
+  z-index: 2;
+  width: min(88%, 1100px);
+  margin-inline: auto;
+  filter: drop-shadow(0 30px 46px rgba(0, 0, 0, 0.55));
+}
+.foot__sticker img {
+  display: block;
+  width: 100%;
+  height: auto;
 }
 
-/* minimal supporting information, kept deliberately quiet */
+/* one line, replacing the three columns that made this two screens tall */
 .foot__meta {
+  flex: 0 0 auto;
   display: flex;
   flex-wrap: wrap;
   align-items: baseline;
   justify-content: space-between;
-  gap: 1rem clamp(1.5rem, 4vw, 4rem);
-  padding: clamp(1.5rem, 3vw, 2.5rem) 0 clamp(1.4rem, 2.4vw, 2rem);
+  gap: 0.5rem clamp(1rem, 3vw, 3rem);
+  padding-top: clamp(0.8rem, 1.5vw, 1.4rem);
   border-top: 1px solid var(--rule);
-  margin-top: clamp(1.5rem, 3vw, 2.5rem);
   font-size: var(--fs-meta);
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--fg-muted);
 }
-.foot__meta a:hover {
-  color: var(--dusty-peach);
-}
 .foot__metagroup {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.6rem clamp(1rem, 2vw, 2rem);
+  gap: 0.5rem clamp(0.8rem, 1.8vw, 1.8rem);
+}
+.foot__meta a {
+  transition: color 0.35s var(--ease-soft);
+}
+.foot__meta a:hover {
+  color: var(--ink-2-dark);
 }

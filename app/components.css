@@ -38,7 +38,7 @@
   display: block;
   height: 100%;
   width: 100%;
-  background: var(--dusty-peach);
+  background: var(--accent);
   transform: scaleX(var(--progress, 0));
   transform-origin: left;
   transition: transform 0.4s var(--ease-soft);
@@ -282,7 +282,7 @@
   border-color: var(--charcoal);
 }
 .btn--solid::before {
-  background: var(--dusty-peach);
+  background: var(--accent);
 }
 .btn--solid:hover,
 .btn--solid:focus-visible {

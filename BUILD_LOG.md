@@ -233,6 +233,64 @@ NOT pinned - section scrolls away normally, snap still active, track still swipe
 
 ---
 
+## Sixth pass — 01-Collections rebuilt off measured reference geometry
+
+Scope was **only** the 01-Collections (`.statement` / `.belong`) section; Product, Studio and
+everything else were deliberately left untouched (verified by grepping the diff).
+
+**The mistake worth recording.** A first attempt read the mockup by eye, concluded its panel
+edge was an organic full-height curve, and carved one with an SVG mask. Tracing the actual
+pixels killed that: the panel's left edge sits at x=311 for *every* row sampled between
+y=300 and y=492, and its top edge at y=122 — a plain straight-edged rectangle. The curve was
+removed. All the geometric interest is in the thumbnail row, which is the only thing that
+interrupts that edge.
+
+Geometry traced from `reference/WhatsApp Image 2026-08-20 at 1.05.20 PM.jpeg` (card
+562x399px), then applied as ratios:
+
+| | Reference | Built |
+|---|---|---|
+| Seam (panel left edge) | 39.9% of width | 40.7% |
+| Thumb-row breakout ends | 59.3% | 59.3% |
+| Breakout band top | 10.3% of height | ~9.0% |
+| Thumb aspect | 1:1 (109x112px) | 1.000 |
+
+What changed:
+- Left column narrowed to `1fr 1.5fr` so the seam lands at ~40%.
+- `.belong__previews` is now **wider than its own column** — it spans the column, crosses the
+  gutter and punches `--reach` into the dark panel, backed by an ivory cradle (`::before`) so
+  it reads as the light column bulging out rather than thumbnails floating on the photo.
+- `::after` draws the two **concave fillets** where the cradle rejoins the panel's straight
+  edge, parked exactly on the seam via `calc(100% - var(--reach))`.
+- Thumbs squared to 1:1; rail moved to 48% to clear the cradle.
+- Shop pill moved flush into the panel's top-right corner with an ivory channel around its
+  left and bottom, plus the same two fillets — the client asked for "that cut" there too.
+
+Four CSS traps hit and documented inline (also in `memory.md`):
+1. `circle closest-side at <corner>` resolves to **radius 0** — the centre sits on two sides —
+   so the tile floods with the end colour and renders a blocky step. Needs `farthest-side`.
+2. Stop order decides which side of the arc gets rounded. Ivory must take *tile minus disc*
+   so the DARK corner is the one rounded off; inverting it leaves a dark spur in the corner.
+3. A negative-`z-index` pseudo-element still paints **above its own parent's background**, so
+   a `::before` channel covered the pill instead of ringing it.
+4. A `box-shadow` ring follows the element's *own* radius, so ringing a pill produced a
+   pill-shaped channel that curved away near its ends and left dark slivers against the
+   straight panel edges — the client circled all three in red. Fixed by wrapping the pill:
+   `.belong__shopwrap` is the channel (padding on the two inset sides only, radius on the one
+   exposed corner), giving the rounded *rect* the reference actually has. `--fillet` was also
+   dropped below `--panel-r`, since the ~70px strip of panel edge above the cradle left no
+   straight run between the two arcs and read as a floating lozenge.
+
+Also: a decorative `clip-path` cannot be used on anything carrying `.reveal-img` —
+`ImageReveal` animates `clip-path` and wins on specificity once the reveal completes.
+
+Verified with `reference/shoot.mjs` (real Chrome) plus `getBoundingClientRect` ratio
+measurement; the in-app Browser pane was not compositing this session. Composition still
+fits one viewport; mobile stacks with cradle and fillets switched off, no horizontal scroll.
+`tsc --noEmit` clean.
+
+---
+
 ## Outstanding for the client
 
 1. **Drop Albra `.woff2` files into `public/fonts/`** — six exact filenames listed in README.

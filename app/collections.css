@@ -110,7 +110,7 @@
   transform: translateY(-3px);
 }
 .coll__thumb[aria-pressed="true"] .coll__thumbframe {
-  box-shadow: 0 0 0 2px var(--dusty-peach), inset 0 0 0 1px rgba(20, 17, 15, 0.07);
+  box-shadow: 0 0 0 2px var(--accent), inset 0 0 0 1px rgba(20, 17, 15, 0.07);
 }
 .coll__thumbframe img {
   position: absolute;
@@ -152,7 +152,7 @@
   transition: background-color 0.4s var(--ease-soft);
 }
 .coll__arrow:hover {
-  background: var(--dusty-peach);
+  background: var(--accent);
 }
 
 /* editorial heading */

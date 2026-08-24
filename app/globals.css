@@ -182,7 +182,15 @@ html[data-js] [data-reveal][data-inview="true"] {
 
 /* Line-by-line display reveal (line stagger) */
 .lines { display: block; }
-.lines__line { display: block; overflow: hidden; }
+.lines__line {
+  display: block;
+  overflow: hidden;
+  /* descender room: line-height on display type is < 1, so an italic g or y
+     sits below the line box and the reveal mask would shear it off. The
+     negative margin cancels the added height so line spacing is unchanged. */
+  padding-bottom: 0.16em;
+  margin-bottom: -0.16em;
+}
 .lines__inner {
   display: block;
   transition: transform 1s var(--ease-out-expo);
@@ -190,7 +198,9 @@ html[data-js] [data-reveal][data-inview="true"] {
   transform-origin: left bottom;
 }
 html[data-js] [data-lines] .lines__inner {
-  transform: translate3d(0, 108%, 0) rotate(1.6deg);
+  /* 125%, not 108%: the mask gained 0.16em of descender room above, and the
+     translate is a % of the inner's own height, so it has to clear both. */
+  transform: translate3d(0, 125%, 0) rotate(1.6deg);
 }
 html[data-js] [data-lines][data-inview="true"] .lines__inner {
   transform: translate3d(0, 0, 0) rotate(0deg);

@@ -98,9 +98,11 @@
 }
 
 /* Wrapper that gets pinned; holds the scrolling row plus the floating arrows
-   so they remain reachable once the heading has left the screen. */
+   so they remain reachable once the heading has left the screen. Full width —
+   it sits outside .shell, so the carousel is not capped at --max-w. */
 .edit3__viewport {
   position: relative;
+  width: 100%;
 }
 .edit3__float {
   display: none;
@@ -108,7 +110,7 @@
 @media (min-width: 1025px) {
   .edit3__float {
     position: absolute;
-    right: 0;
+    right: var(--gutter);
     bottom: clamp(1rem, 3vw, 3.25rem);
     z-index: 4;
     display: inline-flex;
@@ -133,7 +135,9 @@
   -webkit-overflow-scrolling: touch;
   /* room for the stagger drop plus the bar, so nothing is clipped */
   padding-bottom: clamp(3.25rem, 8.5vw, 9.5rem);
-  scroll-padding-left: 0;
+  /* aligns the first card with the heading, then runs to the far edge */
+  padding-inline: var(--gutter);
+  scroll-padding-left: var(--gutter);
 }
 .edit3__row::-webkit-scrollbar {
   display: none;
@@ -141,7 +145,9 @@
 .edit3__card {
   position: relative;
   display: block;
-  flex: 0 0 calc((100% - 2 * var(--slide-gap)) / 3);
+  /* viewport-relative: the row is full width now, so a percentage of the
+     container would grow unbounded on very wide screens */
+  flex: 0 0 clamp(260px, 29vw, 470px);
   scroll-snap-align: start;
 }
 .edit3__card:nth-child(3n + 2) {
@@ -169,7 +175,7 @@
   transition: background-color 0.4s var(--ease-soft), opacity 0.3s var(--ease-soft);
 }
 .edit3__nav:hover:not(:disabled) {
-  background: var(--dusty-peach);
+  background: var(--accent);
 }
 .edit3__nav:disabled {
   opacity: 0.32;
@@ -317,7 +323,7 @@
   max-width: 18ch;
 }
 .objects__cell--accent {
-  background: var(--dusty-peach);
+  background: var(--accent);
   box-shadow: none;
 }
 
@@ -343,7 +349,7 @@
   transition: background-color 0.5s var(--ease-soft), transform 0.5s var(--ease-out-expo);
 }
 .house__cell:hover {
-  background: var(--dusty-peach);
+  background: var(--accent);
   transform: translateY(-4px);
 }
 .house__cell img {
@@ -449,7 +455,7 @@
   box-shadow: inset 0 0 0 1px rgba(20, 17, 15, 0.18);
 }
 .letter__btn--ghost:hover {
-  background: var(--dusty-peach);
+  background: var(--accent);
 }
 
 /* ============================================================
@@ -464,7 +470,7 @@
     justify-self: start;
   }
   .edit3__card {
-    flex-basis: calc((100% - var(--slide-gap)) / 2);
+    flex-basis: 44vw;
   }
   .edit3__row {
     padding-bottom: clamp(2rem, 6vw, 5rem);
@@ -492,6 +498,9 @@
 @media (max-width: 680px) {
   .edit3__card {
     flex-basis: 74vw;
+  }
+  .edit3__row {
+    scroll-padding-left: var(--gutter);
   }
   .edit3__row {
     padding-bottom: 1rem;

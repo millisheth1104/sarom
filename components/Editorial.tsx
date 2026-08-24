@@ -154,7 +154,11 @@ export function InTheRoom() {
           </Reveal>
         </div>
 
-        <div className="edit3__viewport" ref={viewportRef}>
+      </div>
+
+      {/* Full-bleed: the track lives outside .shell so it uses the whole
+          viewport width, while the head above stays aligned to the grid. */}
+      <div className="edit3__viewport" ref={viewportRef}>
           <div className="edit3__row" ref={trackRef}>
           {IN_THE_ROOM.cards.map((c, i) => (
             <a
@@ -209,7 +213,6 @@ export function InTheRoom() {
               →
             </button>
           </div>
-        </div>
       </div>
     </section>
   );

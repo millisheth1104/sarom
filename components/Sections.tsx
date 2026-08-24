@@ -18,143 +18,140 @@ import { Reveal, LineReveal, ImageReveal, Arrow } from "./Motion";
    secondary image independently.
    ============================================================ */
 export function Statement() {
-  const [slide, setSlide] = useState(0);
-  const [preview, setPreview] = useState(0);
+  const [active, setActive] = useState(0);
   const slides = STATEMENT.slides;
-  const stepSlide = (d: number) =>
-    setSlide((i) => (i + d + slides.length) % slides.length);
-
-  const current = slides[slide];
+  const step = (d: number) =>
+    setActive((i) => (i + d + slides.length) % slides.length);
 
   return (
     <section className="sect sect--comp sect--ivory statement" data-nav-tone="light">
       <div className="shell">
-        <Reveal as="p" dir="fade" className="shead__index" style={{ marginBottom: "clamp(1rem,1.8vw,1.8rem)" }}>
+        <Reveal as="p" dir="fade" className="shead__index" style={{ marginBottom: "clamp(0.9rem,1.6vw,1.6rem)" }}>
           {STATEMENT.index}
         </Reveal>
+      </div>
 
-        {/* ---- section nav ---- */}
-        <Reveal className="coll__nav" dir="fade">
-          <span className="coll__mark">
-            sarom<i>.</i>
-          </span>
-          <span className="coll__navlinks">
-            {STATEMENT.nav.map((l) => (
-              <a key={l.label} href={l.href} data-active={l.active ? "true" : undefined}>
-                {l.label}
-              </a>
-            ))}
-          </span>
-          <a className="cpill" href={STATEMENT.action.href} data-cursor="Open">
-            {STATEMENT.action.label}
-            <Arrow className="" />
-          </a>
-        </Reveal>
+      <Reveal className="comp comp--wide belong" dir="scale" start="top 90%">
+        <div className="belong__grid">
+          {/* ---- light left column ---- */}
+          <div className="belong__left">
+            <nav className="belong__nav" aria-label="Collections">
+              {STATEMENT.nav.map((l) => (
+                <a key={l.label} href={l.href} data-active={l.active ? "true" : undefined}>
+                  {l.label}
+                </a>
+              ))}
+            </nav>
 
-        {/* ---- main composition ---- */}
-        <div className="coll__main">
-          <div className="coll__left">
-            {/* three interactive previews */}
-            <Reveal className="coll__previews" dir="up" delay={0.06}>
+            {/* thumbnails: labels sit ON the image, arrows overlap the row */}
+            <div className="belong__previews">
               <button
-                className="coll__arrow"
+                className="belong__arrow belong__arrow--prev"
                 type="button"
-                onClick={() => stepSlide(-1)}
+                onClick={() => step(-1)}
                 aria-label="Previous collection"
               >
-                ←
+                ‹
               </button>
-              <span className="coll__thumbs">
-                {slides.map((s, i) => (
-                  <button
-                    className="coll__thumb"
-                    key={s.num}
-                    type="button"
-                    aria-pressed={i === slide}
-                    onClick={() => setSlide(i)}
-                  >
-                    <span className="coll__thumbframe">
-                      <Image
-                        src={s.thumb}
-                        alt={`${s.name} collection preview`}
-                        width={620}
-                        height={496}
-                        sizes="(max-width: 680px) 30vw, 13vw"
-            unoptimized
-          />
-                    </span>
-                    <span>{s.name}</span>
-                  </button>
-                ))}
-              </span>
+              {slides.map((s, i) => (
+                <button
+                  className="belong__thumb"
+                  key={s.num}
+                  type="button"
+                  aria-pressed={i === active}
+                  aria-label={`Show ${s.name}`}
+                  onClick={() => setActive(i)}
+                >
+                  <Image
+                    src={s.thumb}
+                    alt={`${s.name} collection preview`}
+                    width={620}
+                    height={527}
+                    sizes="14vw"
+                    unoptimized
+                  />
+                  <span>{s.name}</span>
+                </button>
+              ))}
               <button
-                className="coll__arrow"
+                className="belong__arrow belong__arrow--next"
                 type="button"
-                onClick={() => stepSlide(1)}
+                onClick={() => step(1)}
                 aria-label="Next collection"
               >
-                →
+                ›
               </button>
+            </div>
+
+            <Reveal as="h2" dir="left" className="belong__title" delay={0.06}>
+              {STATEMENT.titleLines.map((l) => (
+                <span key={l} style={{ display: "block" }}>
+                  {l}
+                </span>
+              ))}
+              <em style={{ display: "block" }}>{STATEMENT.titleEm}</em>
             </Reveal>
 
-            <LineReveal
-              as="h2"
-              className="coll__title"
-              step={0.1}
-              lines={[...STATEMENT.titleLines, <em key="em">{STATEMENT.titleEm}</em>]}
-            />
-
-            <Reveal as="p" dir="left" className="coll__lede" delay={0.12}>
+            <Reveal as="p" dir="left" delay={0.12}>
               {STATEMENT.body}
             </Reveal>
 
-            <div className="coll__stats" data-reveal-stagger="0.07">
-              {STATEMENT.stats.map((s) => (
-                <Reveal className="coll__stat" dir="up" key={s.label}>
-                  <b>{s.value}</b>
-                  <span>{s.label}</span>
-                </Reveal>
+            <Reveal className="belong__tags" dir="left" delay={0.18}>
+              {STATEMENT.tags.map((t) => (
+                <a className="belong__tag" key={t} href="/ecatalogue.php">
+                  {t}
+                </a>
               ))}
-            </div>
+            </Reveal>
           </div>
 
-          {/* ---- the dominant hero ---- */}
-          <ImageReveal className="coll__hero" delay={0.1}>
+          {/* ---- full-height tinted panel: shop pill, rail, dominant image ---- */}
+          <ImageReveal className="belong__panel" delay={0.1}>
             {slides.map((s, i) => (
               <Image
                 key={s.num}
                 src={s.hero}
                 alt={s.heroAlt}
-                width={1240}
-                height={1302}
-                sizes="(max-width: 1024px) 100vw, 52vw"
-                data-active={i === slide}
-                priority={i === 0}
+                width={1030}
+                height={1081}
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                data-active={i === active}
                 data-cursor="View"
-            unoptimized
-          />
+                unoptimized
+              />
             ))}
-            <span className="coll__pill coll__pill--a">{current.labels[0]}</span>
-            <span className="coll__pill coll__pill--b">{current.labels[1]}</span>
 
-            <span className="coll__rail">
+            {/* the wrapper IS the ivory channel carved around the pill — see
+                .belong__shopwrap. A ring on the pill itself can't work: it
+                would follow the pill's own radius and curve away from the
+                panel edges. */}
+            <span className="belong__shopwrap">
+              <a className="belong__shop" href={STATEMENT.action.href} data-cursor="Open">
+                {STATEMENT.action.label}
+                <Arrow className="" />
+              </a>
+            </span>
+
+            <span className="belong__rail">
               {slides.map((s, i) => (
                 <button
-                  className="coll__railbtn"
+                  className="belong__railbtn"
                   key={s.num}
                   type="button"
-                  aria-pressed={i === slide}
+                  aria-pressed={i === active}
                   aria-label={`Show ${s.name}`}
-                  onClick={() => setSlide(i)}
+                  onClick={() => setActive(i)}
                 >
                   {s.num}
                 </button>
               ))}
             </span>
+
+            <span className="belong__float belong__float--a">{slides[active].labels[0]}</span>
+            <span className="belong__float belong__float--b">{slides[active].labels[1]}</span>
           </ImageReveal>
         </div>
-
-      </div>
+      </Reveal>
     </section>
   );
 }

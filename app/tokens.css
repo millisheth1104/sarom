@@ -4,51 +4,67 @@
    tones. Brand pastels appear as accents only, never as ground.
    ============================================================ */
 
+/* ------------------------------------------------------------------
+   ALBRA — trial files are present in ./Albra Serif Font/ but their licence
+   forbids converting them, installing them on a server, and publishing
+   anything made with them. So they are NOT bundled or served. Each face
+   lists local() first: if the trial fonts are installed on the viewer's
+   machine the real typeface renders for evaluation, with nothing shipped.
+   Drop the licensed .woff2 files into /public/fonts to go live.
+   ------------------------------------------------------------------ */
 @font-face {
   font-family: "Albra";
-  src: url("/fonts/Albra-Regular.woff2") format("woff2");
+  src: local("Albra Regular"), local("AlbraTRIAL-Regular"), local("Albra"),
+       url("/fonts/Albra-Regular.woff2") format("woff2");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: "Albra";
-  src: url("/fonts/Albra-Medium.woff2") format("woff2");
+  src: local("Albra Medium"), local("AlbraTRIAL-Medium"),
+       url("/fonts/Albra-Medium.woff2") format("woff2");
   font-weight: 500;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: "Albra";
-  src: url("/fonts/Albra-Light.woff2") format("woff2");
+  src: local("Albra Light"), local("AlbraTRIAL-Light"),
+       url("/fonts/Albra-Light.woff2") format("woff2");
   font-weight: 300;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: "Albra Grotesk";
-  src: url("/fonts/AlbraGrotesk-Regular.woff2") format("woff2");
+  src: local("Albra Grotesk Regular"), local("AlbraGroteskTRIAL-Regular"),
+       local("Albra Grotesk"),
+       url("/fonts/AlbraGrotesk-Regular.woff2") format("woff2");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: "Albra Grotesk";
-  src: url("/fonts/AlbraGrotesk-Medium.woff2") format("woff2");
+  src: local("Albra Grotesk Medium"), local("AlbraGroteskTRIAL-Medium"),
+       url("/fonts/AlbraGrotesk-Medium.woff2") format("woff2");
   font-weight: 500;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: "Albra Grotesk";
-  src: url("/fonts/AlbraGrotesk-Bold.woff2") format("woff2");
+  src: local("Albra Grotesk Bold"), local("AlbraGroteskTRIAL-Bold"),
+       url("/fonts/AlbraGrotesk-Bold.woff2") format("woff2");
   font-weight: 700;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: "Albra Grotesk";
-  src: url("/fonts/AlbraGrotesk-Light.woff2") format("woff2");
+  src: local("Albra Grotesk Light"), local("AlbraGroteskTRIAL-Light"),
+       url("/fonts/AlbraGrotesk-Light.woff2") format("woff2");
   font-weight: 300;
   font-style: normal;
   font-display: swap;
@@ -78,6 +94,21 @@
   --stone-mid:       #8A8078;
   --stone-light:     #B5ADA4;
 
+  /* ---- Accent roles ----
+     The brand pastels are rotated section by section rather than leaning on
+     Dusty Peach everywhere. Each section sets --accent once; hovers, active
+     rings and accent surfaces all read from it, so re-theming a section is a
+     one-line change. All five are light, so they only ever carry FILL —
+     never text on a light ground (see --ink-2 below for why). */
+  --accent-peach:    var(--dusty-peach);
+  --accent-powder:   var(--powder-blue);
+  --accent-sage:     var(--soft-sage);
+  --accent-lavender: var(--muted-lavender);
+  --accent-sky:      var(--light-blue);
+
+  /* default, overridden per section */
+  --accent: var(--accent-peach);
+
   /* ---- Two-tone heading inks ----
      Headings carry two colours. The second tone must still pass contrast, so
      it is palette-derived rather than a raw pastel: on light grounds the
@@ -102,7 +133,7 @@
   --font-display: "Albra", "Cormorant Garamond", "Didot", "Times New Roman", serif;
   --font-body:    "Albra Grotesk", "Neue Haas Grotesk", "Helvetica Neue", Inter, system-ui, sans-serif;
 
-  --fs-hero:    clamp(2.25rem, 5.4vw, 6.25rem);
+  --fs-hero:    clamp(2rem, 4.7vw, 5.5rem);
   --fs-display: clamp(2.25rem, 5.6vw, 6rem);
   --fs-h2:      clamp(1.75rem, 3.6vw, 3.75rem);
   --fs-h3:      clamp(1.25rem, 1.9vw, 1.875rem);
@@ -155,3 +186,18 @@
   --fg-muted: var(--stone-light);
   --rule: rgba(245, 240, 232, 0.16);
 }
+
+
+/* ============================================================
+   PER-SECTION ACCENT ROTATION
+   Warm ivory / linen grounds stay constant; only the accent moves,
+   so the page cycles the palette without ever going pastel overall.
+   ============================================================ */
+.statement { --accent: var(--accent-powder); }   /* Collections  */
+.studio    { --accent: var(--accent-sky); }      /* Showroom     */
+.product   { --accent: var(--accent-peach); }    /* The Edit     */
+.edit3     { --accent: var(--accent-sage); }     /* In the Room  */
+.objects   { --accent: var(--accent-lavender); } /* Our Story    */
+.house     { --accent: var(--accent-powder); }   /* House Brands */
+.letter    { --accent: var(--accent-peach); }    /* Closing CTA  */
+.foot      { --accent: var(--accent-lavender); }

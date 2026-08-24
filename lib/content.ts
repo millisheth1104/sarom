@@ -86,11 +86,13 @@ export const STATEMENT = {
   body:
     "Our collections are drawn from Indian craft traditions and finished to bring warmth, character and a sense of permanence into every space.",
 
-  stats: [
-    { value: "06", label: "Fabric Families" },
-    { value: "05", label: "House Brands" },
-    { value: "11", label: "Season Collections" },
-    { value: "08", label: "Performance Finishes" },
+  // The reference carries tag pills here rather than a stats row.
+  tags: [
+    "#Upholstery",
+    "#Curtains",
+    "#BedSheets",
+    "#IndianCraft",
+    "#TimelessDesign",
   ],
 
   /** Previews and the 01/02/03 rail drive the same active index. */
@@ -278,12 +280,16 @@ export const FOOTER_NAV = [
 ];
 
 export const FOOTER_IMAGE = {
-  // Purpose-built poster asset: the wide band pre-cropped, denoised and
-  // graded down so it sits into the charcoal instead of reading as grain.
-  src: "/media/interiors/footer-poster.webp",
-  alt: "Sarom drapery falling in a warm, dimly lit interior",
-  width: 2200,
-  height: 838,
+  // Cut from the client-supplied photo with background removal (rembg,
+  // isnet-general-use + alpha matting) — the room/wall/floor is gone, only
+  // the five furniture pieces and their real shadows remain, on a
+  // transparent ground. This sits in FRONT of a real CSS wordmark rather
+  // than replacing it, matching the LOMORA reference: products floating in
+  // front of huge type on black, not type baked into a rectangular photo.
+  src: "/media/interiors/footer-cutout.png",
+  alt: "Sarom furniture — sofa, accent chair, dining chair, swivel chair and bouclé ottoman",
+  width: 1349,
+  height: 308,
 };
 
 /* ============================================================
