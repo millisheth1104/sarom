@@ -432,7 +432,9 @@ export function Brands({ index }: { index?: string } = {}) {
               dir="up"
               key={b.name}
               href={b.href}
-              data-cursor="Open"
+              /* No data-cursor here: the custom cursor is a labelled disc, and
+                 over a 30px mark it covers the very thing being hovered. The
+                 default pointer keeps the logo readable. */
               aria-label={`${b.name} by Sarom`}
             >
               {/* Two states stacked so they cross-fade in place: a neutral

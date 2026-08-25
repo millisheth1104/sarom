@@ -537,9 +537,9 @@
      the aspect, capped for the wide lockups — the marks run from 0.58 to 6.24
      in aspect, so Smart Plus would otherwise be four times SJ's width.
      object-fit keeps it letterboxed rather than squashed when the cap binds. */
-  height: clamp(20px, 2.1vw, 30px);
+  height: clamp(26px, 2.7vw, 38px);
   width: auto;
-  max-width: min(150px, 30vw);
+  max-width: min(180px, 34vw);
   object-fit: contain;
   transition: opacity 0.45s var(--ease-soft);
 }
