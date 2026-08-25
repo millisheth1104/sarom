@@ -7,7 +7,7 @@ import { PRODUCT } from "@/lib/replicas";
 import { SHOWROOM_SLIDES, BRAND_STARTS } from "@/lib/catalogues";
 import { Reveal, ImageReveal, Arrow } from "./Motion";
 import { useCatalogueTabs } from "./useCatalogueTabs";
-import { gsap, prefersReducedMotion } from "@/lib/motion";
+import { useTileWipe } from "./useTileWipe";
 
 /** Small diagonal arrow used in badges and round buttons. */
 function Diag() {
@@ -39,30 +39,6 @@ export function Showroom({ index }: { index?: string } = {}) {
     slide.tiles[4],
   ] as const;
 
-  /* Per-tile wipe direction, matching the reference slider: it does not fade
-     the grid, it opens each tile along ONE axis from a different edge, so the
-     five tiles read as separate panels rather than one moving block.
-     Measured off the reference mid-transition frame — full-height/part-width
-     tiles are left-anchored, full-width/part-height ones top- or
-     bottom-anchored. Order is [card, card, card, feature, panel].
-
-     Units are percentages throughout and every string carries `round`, so
-     GSAP sees the same structure at both ends and can interpolate number by
-     number — and the tile keeps its corner radius through the wipe instead
-     of snapping square. */
-  const CLOSED = [
-    [0, 100, 0, 0], // wipe in from the left
-    [100, 0, 0, 0], // grow up from the bottom
-    [0, 100, 0, 0],
-    [0, 100, 0, 0],
-    [0, 0, 100, 0], // drop down from the top
-  ];
-  /** inset() string for a tile, preserving its own corner radius. */
-  const clip = (el: HTMLElement, sides: number[]) =>
-    `inset(${sides.map((s) => `${s}%`).join(" ")} round ${
-      getComputedStyle(el).borderTopLeftRadius || "0px"
-    })`;
-
   /** The five catalogue tiles, in reading order, for the staggered swap. */
   const tiles = () =>
     [
@@ -71,70 +47,17 @@ export function Showroom({ index }: { index?: string } = {}) {
       lowerRef.current?.querySelector<HTMLElement>(".studio__panel"),
     ].filter(Boolean) as HTMLElement[];
 
+  /* The wipe itself now lives in useTileWipe — Collections and The Edit run
+     the same one, so the easing and stagger are defined once. */
+  const wipe = useTileWipe(tiles);
+
   /* Both the arrows and the brand tabs run THIS. The tabs used to call
      setActive directly, so jumping to a brand swapped the grid with no
      animation at all while the arrows wiped — the same control doing two
      different things depending on which one you pressed. */
   const transitionTo = (next: number, dir: number) => {
     if (next === active) return;
-
-    const els = tiles();
-    if (!els.length || prefersReducedMotion()) {
-      setActive(next);
-      return;
-    }
-
-    // Every tile is also a scroll-reveal target, so it carries a CSS
-    // transition on opacity/transform (and clip-path on the feature). Left on,
-    // that transition would interpolate GSAP's per-frame writes and the swap
-    // would drag. Suspend it for the duration, restore it after.
-    els.forEach((el) => {
-      el.style.transition = "none";
-    });
-    // Queried fresh rather than reusing `els`, so the cleanup still lands on
-    // whatever nodes the re-render left in place.
-    const restore = () =>
-      tiles().forEach((el) => {
-        el.style.transition = "";
-        // GSAP writes the individual translate/rotate/scale properties, not
-        // the transform shorthand; clear them or they shadow the reveal CSS.
-        // clip-path must go too, or the tile keeps the inline open state
-        // instead of falling back to the reveal system's own rule.
-        ["opacity", "transform", "translate", "rotate", "scale", "clip-path"].forEach((p) =>
-          el.style.removeProperty(p)
-        );
-      });
-
-    // Reverse the wipe order on Previous so the motion reads as coming from
-    // the direction the reader asked for.
-    const closedFor = (list: HTMLElement[]) => (_i: number, t: HTMLElement) =>
-      clip(t, CLOSED[list.indexOf(t)] ?? CLOSED[0]);
-    const openFor = (_i: number, t: HTMLElement) => clip(t, [0, 0, 0, 0]);
-    const seq = (list: HTMLElement[]) => (dir > 0 ? list : [...list].reverse());
-
-    gsap.to(seq(els), {
-      clipPath: closedFor(els),
-      duration: 0.2,
-      ease: "power2.in",
-      stagger: 0.045,
-      onComplete: () => {
-        setActive(next);
-        requestAnimationFrame(() => {
-          const fresh = tiles();
-          gsap.fromTo(
-            seq(fresh),
-            { clipPath: closedFor(fresh) },
-            {
-              clipPath: openFor,
-              duration: 0.55,
-              ease: "power3.out",
-              stagger: 0.07,
-              onComplete: restore,
-            }
-          );
-        });
-      },
-    });
+    wipe(() => setActive(next), dir);
   };
 
   const go = (dir: number) =>
@@ -340,7 +263,16 @@ export function Showroom({ index }: { index?: string } = {}) {
    floating labels and a tag cluster.
    ============================================================ */
 export function EditorialShowcase({ index }: { index?: string } = {}) {
-  const cat = useCatalogueTabs(3);
+  const bodyRef = useRef<HTMLDivElement>(null);
+  /* The three thumbnails plus the dominant image, in reading order — the same
+     shape the Showroom wipes, so the section reads as part of the same slider
+     rather than a different control that happens to sit nearby. */
+  const tiles = () =>
+    [
+      ...Array.from(bodyRef.current?.querySelectorAll<HTMLElement>(".product__thumb") ?? []),
+      bodyRef.current?.querySelector<HTMLElement>(".product__hero"),
+    ].filter(Boolean) as HTMLElement[];
+  const cat = useCatalogueTabs(3, tiles);
 
   return (
     <section className="sect sect--comp sect--linen" data-nav-tone="light">
@@ -359,7 +291,7 @@ export function EditorialShowcase({ index }: { index?: string } = {}) {
       </div>
 
       <Reveal className="comp product" dir="scale" start="top 88%">
-        <div className="product__body">
+        <div className="product__body" ref={bodyRef}>
           <div className="product__copy">
             {/* Category tabs, backed by real catalogue data. */}
             <nav className="product__nav" aria-label="Categories">

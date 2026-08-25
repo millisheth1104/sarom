@@ -1,5 +1,7 @@
 "use client";
 
+import { useRef } from "react";
+
 import Image from "next/image";
 
 import {
@@ -18,7 +20,16 @@ import { useCatalogueTabs } from "./useCatalogueTabs";
    secondary image independently.
    ============================================================ */
 export function Statement({ index }: { index?: string } = {}) {
-  const cat = useCatalogueTabs(3);
+  const gridRef = useRef<HTMLDivElement>(null);
+  /* Three thumbnails plus the dominant panel, in reading order — the same
+     shape the Showroom wipes, so changing category here reads as the same
+     slider rather than a separate control. */
+  const tiles = () =>
+    [
+      ...Array.from(gridRef.current?.querySelectorAll<HTMLElement>(".belong__thumb") ?? []),
+      gridRef.current?.querySelector<HTMLElement>(".belong__panel"),
+    ].filter(Boolean) as HTMLElement[];
+  const cat = useCatalogueTabs(3, tiles);
 
   return (
     <section className="sect sect--comp sect--ivory statement" data-nav-tone="light">
@@ -29,7 +40,7 @@ export function Statement({ index }: { index?: string } = {}) {
       </div>
 
       <Reveal className="comp comp--wide belong" dir="scale" start="top 90%">
-        <div className="belong__grid">
+        <div className="belong__grid" ref={gridRef}>
           {/* ---- light left column ---- */}
           <div className="belong__left">
             {/* Category tabs, backed by real catalogue data. */}
