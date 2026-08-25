@@ -143,6 +143,48 @@ the small sizes stand. Velur at 349x466 is the softest cover in the set.
 **Verified:** 209/209 cover paths resolve; final contact sheet shows product
 photography in all 16 replaced slots.
 
+---
+
+## 2026-08-25 — the Showroom wipe now runs in all three sliders
+
+**Asked for:** the same Slider Revolution transition when changing carousels in
+the other sections, matching 03 Showroom.
+
+**Was:** only Showroom wiped. Collections and The Edit swapped their content
+outright — the same kind of control behaving differently depending on which
+section it sat in.
+
+**Now:** the wipe lives in `components/useTileWipe.ts` and all three call it.
+Showroom was refactored onto it too rather than leaving a second copy, so the
+easing, stagger and inline-style cleanup are defined once instead of in three
+places that would drift apart.
+
+Wired through `useCatalogueTabs`, so both tabbed sections get it from the pills
+**and** the paging arrows. Tabs wipe toward where the target sits (the rule the
+brand tabs already used), so All -> Bedsheets reads as forward.
+
+`sel` deliberately does not wipe — it moves on hover, and wiping the grid every
+time the pointer crossed a thumbnail would make the section unusable. Hover
+keeps the existing cross-fade.
+
+**Sharp edge:** tiles are re-queried *after* the commit rather than reused. The
+thumbnails are keyed by catalogue id, so React replaces those nodes on a
+change; cleanup aimed at the old references would leave the new ones holding an
+inline clip-path and a suspended transition, freezing their scroll reveals.
+
+**Verified on production**, sampling clip-path per frame across each transition:
+
+| | homepage | /preview/collections | /preview/edit |
+|---|---|---|---|
+| Showroom arrow | 63 | 95 | 95 |
+| Collections tab | 61 | 95 | — |
+| Collections arrow | 91 | 89 | — |
+| The Edit tab | 73 | — | 96 |
+
+(partial frames; any value above 0 means the clip interpolated rather than
+snapped). Locally also confirmed hover produces 0 partial frames, and no inline
+style residue remains on any tile once the transitions settle.
+
 **Still open:** Avant Garde `.woff2` files; real bedsheet catalogues (Beds &
 More is a stand-in); 5 catalogues on sarom.info have no PDF (Regalia, Cloud,
 Willow, Auralia, Abruzzi); whether to password-protect the deployment; which
