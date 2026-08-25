@@ -495,12 +495,25 @@ export const LETTER = {
  * desaturating it. A CSS grayscale() of a white logo is still white, so no
  * amount of filtering would have made Smart Plus appear.
  */
+/* One brand pastel each, straight from the Sarom palette — the five houses
+   happen to match the five brand tints exactly. Used as the hover ground
+   behind each mark. */
 export const BRANDS = [
-  { name: "SJ", href: "/brand-sj.php", slug: "sj" },
-  { name: "Oofy", href: "/brand-oofy.php", slug: "oofy" },
-  { name: "Matlin", href: "/brand-matlin.php", slug: "matlin" },
-  { name: "Smart Plus", href: "/brand-smart-plus.php", slug: "smart-plus" },
-  { name: "Beds & More", href: "/brand-beds-and-more.php", slug: "beds-and-more" },
+  { name: "SJ", href: "/brand-sj.php", slug: "sj", tint: "var(--dusty-peach)" },
+  { name: "Oofy", href: "/brand-oofy.php", slug: "oofy", tint: "var(--powder-blue)" },
+  { name: "Matlin", href: "/brand-matlin.php", slug: "matlin", tint: "var(--soft-sage)" },
+  {
+    name: "Smart Plus",
+    href: "/brand-smart-plus.php",
+    slug: "smart-plus",
+    tint: "var(--muted-lavender)",
+  },
+  {
+    name: "Beds & More",
+    href: "/brand-beds-and-more.php",
+    slug: "beds-and-more",
+    tint: "var(--light-blue)",
+  },
 ].map((b) => ({
   ...b,
   logoGrey: `/media/brands/grey/${b.slug}.webp`,

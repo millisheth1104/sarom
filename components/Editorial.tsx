@@ -442,6 +442,7 @@ export function Brands({ index }: { index?: string } = {}) {
                  over a 30px mark it covers the very thing being hovered. The
                  default pointer keeps the logo readable. */
               aria-label={`${b.name} by Sarom`}
+              style={{ "--tint": b.tint } as React.CSSProperties}
             >
               {/* Two states stacked so they cross-fade in place: a neutral
                   grey mark at rest, the real logo on hover. Both are trimmed

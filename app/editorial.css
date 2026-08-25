@@ -516,27 +516,39 @@
 }
 /* One row, wrapping. Each cell is sized by its mark rather than boxed, so
    the logos read as a set of marks and not a rank of tiles. */
+/* Spread across the full width rather than clustered mid-row. space-between
+   pushes the outer two to the edges; the gap is the floor for when the row
+   wraps, where space-between would otherwise strand a lone mark. */
 .house__row {
   margin-top: clamp(2.5rem, 6vw, 5.5rem);
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  justify-content: center;
-  gap: clamp(1.6rem, 4.5vw, 4rem) clamp(2rem, 5.5vw, 5rem);
+  justify-content: space-between;
+  gap: clamp(1.4rem, 3vw, 2.4rem);
 }
+/* The hover ground. Each brand carries its own pastel in --tint (set from
+   BRANDS), so the plate that appears belongs to that house rather than being
+   one shared colour. Padding gives the plate something to be. */
 .house__cell {
   position: relative;
   display: grid;
   place-items: center;
+  padding: clamp(0.9rem, 1.9vw, 1.6rem) clamp(1.1rem, 2.4vw, 2.1rem);
+  border-radius: clamp(12px, 1.4vw, 18px);
+  background: transparent;
   /* The cell takes its size from the marks, which carry the definite height
      themselves — see .house__logo. Setting the height here and asking the
      image for 100% of it does NOT work: a percentage height on a grid item
      resolves against the grid area, that area is auto-sized by its content,
      and the content is the image. The percentage is dropped and the image
-     falls back to its intrinsic 200px, overflowing a 46px cell. */
-  transition: transform 0.5s var(--ease-out-expo);
+     falls back to its intrinsic 200px, overflowing the cell. */
+  transition: background-color 0.45s var(--ease-soft),
+    transform 0.5s var(--ease-out-expo);
 }
-.house__cell:hover {
+.house__cell:hover,
+.house__cell:focus-visible {
+  background: var(--tint, var(--accent));
   transform: translateY(-3px);
 }
 .house__logo {
