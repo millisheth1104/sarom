@@ -93,7 +93,6 @@
   .edit__mosaic > * { grid-column: span 6 !important; }
   .mtile--drop { margin-top: 0; }
 
-  .foot__poster { min-height: min(40svh, 380px); }
 }
 
 /* ---------------- ≤680px: single column ---------------- */
@@ -132,7 +131,9 @@
 
   /* Three-across only works with room to spare. On a phone the active film
      takes most of the width and the neighbours just peek at the edges. */
-  .films__track { --slide-w: 74vw; }
+  /* Width derives from height now (9:16), so overriding --slide-w would be
+     ignored. Cap the height instead, and let the reel keep its ratio. */
+  .films__track { --slide-h: min(62svh, 78vw); }
   .films__bar { flex-wrap: wrap; gap: 0.9rem; }
   .films__controls { margin-left: auto; }
   /* The hint would sit on a sliver of slide at this width. */
@@ -161,7 +162,6 @@
     gap: 0.5rem 1.2rem;
     justify-content: flex-start;
   }
-  .foot__poster { min-height: min(42svh, 400px); }
   .foot__meta {
     flex-direction: column;
     align-items: flex-start;
@@ -245,7 +245,6 @@
     justify-content: flex-start;
     gap: 0.5rem 1.1rem;
   }
-  .foot__poster { min-height: min(36svh, 320px); }
   .foot__sticker { width: min(100%, 480px); }
   .foot__meta {
     flex-direction: column;

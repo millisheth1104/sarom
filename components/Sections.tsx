@@ -1,13 +1,13 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
 
 import {
   STATEMENT,
   SECTION_INDEX,
 } from "@/lib/content";
 import { Reveal, LineReveal, ImageReveal, Arrow } from "./Motion";
+import { useCatalogueTabs } from "./useCatalogueTabs";
 
 /* ============================================================
    01 — THE COLLECTIONS EDITORIAL
@@ -17,17 +17,14 @@ import { Reveal, LineReveal, ImageReveal, Arrow } from "./Motion";
    whichever control was used. Hovering the catalogue drives the
    secondary image independently.
    ============================================================ */
-export function Statement() {
-  const [active, setActive] = useState(0);
-  const slides = STATEMENT.slides;
-  const step = (d: number) =>
-    setActive((i) => (i + d + slides.length) % slides.length);
+export function Statement({ index }: { index?: string } = {}) {
+  const cat = useCatalogueTabs(3);
 
   return (
     <section className="sect sect--comp sect--ivory statement" data-nav-tone="light">
       <div className="shell">
         <Reveal as="p" dir="fade" className="shead__index" style={{ marginBottom: "clamp(0.9rem,1.6vw,1.6rem)" }}>
-          {STATEMENT.index}
+          {index ?? STATEMENT.index}
         </Reveal>
       </div>
 
@@ -35,49 +32,55 @@ export function Statement() {
         <div className="belong__grid">
           {/* ---- light left column ---- */}
           <div className="belong__left">
-            <nav className="belong__nav" aria-label="Collections">
-              {STATEMENT.nav.map((l) => (
-                <a key={l.label} href={l.href} data-active={l.active ? "true" : undefined}>
-                  {l.label}
-                </a>
+            {/* Category tabs, backed by real catalogue data. */}
+            <nav className="belong__nav" aria-label="Categories">
+              {cat.tabs.map((t) => (
+                <button
+                  key={t.id}
+                  type="button"
+                  onClick={() => cat.setTab(t.id)}
+                  data-active={cat.tab === t.id ? "true" : undefined}
+                >
+                  {t.label}
+                </button>
               ))}
             </nav>
 
-            {/* thumbnails: labels sit ON the image, arrows overlap the row */}
+            {/* thumbnails: labels sit ON the image, arrows page the category */}
             <div className="belong__previews">
               <button
                 className="belong__arrow belong__arrow--prev"
                 type="button"
-                onClick={() => step(-1)}
-                aria-label="Previous collection"
+                onClick={() => cat.step(-1)}
+                aria-label="Previous collections"
               >
                 ‹
               </button>
-              {slides.map((s, i) => (
+              {cat.pageItems.map((c, i) => (
                 <button
                   className="belong__thumb"
-                  key={s.num}
+                  key={c.id}
                   type="button"
-                  aria-pressed={i === active}
-                  aria-label={`Show ${s.name}`}
-                  onClick={() => setActive(i)}
+                  aria-pressed={i === cat.sel}
+                  aria-label={`Show ${c.title}`}
+                  onClick={() => cat.setSel(i)}
                 >
                   <Image
-                    src={s.thumb}
-                    alt={`${s.name} collection preview`}
+                    src={c.cover ?? ""}
+                    alt={`${c.title}, ${c.type.toLowerCase()} by ${c.brand}`}
                     width={620}
                     height={527}
                     sizes="14vw"
                     unoptimized
                   />
-                  <span>{s.name}</span>
+                  <span>{c.title}</span>
                 </button>
               ))}
               <button
                 className="belong__arrow belong__arrow--next"
                 type="button"
-                onClick={() => step(1)}
-                aria-label="Next collection"
+                onClick={() => cat.step(1)}
+                aria-label="More collections"
               >
                 ›
               </button>
@@ -107,15 +110,17 @@ export function Statement() {
 
           {/* ---- full-height tinted panel: shop pill, rail, dominant image ---- */}
           <ImageReveal className="belong__panel" delay={0.1}>
-            {slides.map((s, i) => (
+            {/* Every catalogue on the page is stacked so the swap cross-fades
+                via the existing [data-active] rule rather than remounting. */}
+            {cat.pageItems.map((c, i) => (
               <Image
-                key={s.num}
-                src={s.hero}
-                alt={s.heroAlt}
+                key={c.id}
+                src={c.cover ?? ""}
+                alt={`${c.title}, ${c.type.toLowerCase()} by ${c.brand}`}
                 width={1030}
                 height={1081}
                 sizes="(max-width: 1024px) 100vw, 50vw"
-                data-active={i === active}
+                data-active={i === cat.sel}
                 data-cursor="View"
                 unoptimized
               />
@@ -126,29 +131,39 @@ export function Statement() {
                 would follow the pill's own radius and curve away from the
                 panel edges. */}
             <span className="belong__shopwrap">
-              <a className="belong__shop" href={STATEMENT.action.href} data-cursor="Open">
+              <a
+                className="belong__shop"
+                href={cat.active?.pdf ?? undefined}
+                target="_blank"
+                rel="noopener"
+                data-cursor="Open"
+              >
                 {STATEMENT.action.label}
                 <Arrow className="" />
               </a>
             </span>
 
             <span className="belong__rail">
-              {slides.map((s, i) => (
+              {cat.pageItems.map((c, i) => (
                 <button
                   className="belong__railbtn"
-                  key={s.num}
+                  key={c.id}
                   type="button"
-                  aria-pressed={i === active}
-                  aria-label={`Show ${s.name}`}
-                  onClick={() => setActive(i)}
+                  aria-pressed={i === cat.sel}
+                  aria-label={`Show ${c.title}`}
+                  onClick={() => cat.setSel(i)}
                 >
-                  {s.num}
+                  {String(cat.page * 3 + i + 1).padStart(2, "0")}
                 </button>
               ))}
             </span>
 
-            <span className="belong__float belong__float--a">{slides[active].labels[0]}</span>
-            <span className="belong__float belong__float--b">{slides[active].labels[1]}</span>
+            {cat.active ? (
+              <>
+                <span className="belong__float belong__float--a">{cat.active.type}</span>
+                <span className="belong__float belong__float--b">{cat.active.brand}</span>
+              </>
+            ) : null}
           </ImageReveal>
         </div>
       </Reveal>

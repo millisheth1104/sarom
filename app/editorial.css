@@ -140,11 +140,16 @@
    Slides are positioned individually by their own --d offset rather than laid
    out in a row, so the set can wrap endlessly. The track itself only carries
    the live drag offset, with no transition, so it tracks the finger exactly. */
+/* PORTRAIT, because the films are reels. Their cover frames are 9:16, so a
+   landscape box would crop away most of every one. Sized from HEIGHT here —
+   deriving width from a vw slide-width instead would make the cards absurdly
+   tall (31vw at 16/9 is over half the viewport). */
 .films__track {
-  --slide-w: min(31vw, 520px);
+  --slide-h: clamp(300px, 58svh, 620px);
+  --slide-w: calc(var(--slide-h) * 9 / 16);
   --slide-gap: clamp(0.6rem, 2.4vw, 2rem);
   position: relative;
-  height: calc(var(--slide-w) * 9 / 16);
+  height: var(--slide-h);
   /* --drag is the live pointer offset; it is 0 except mid-gesture. */
   transform: translateX(var(--drag, 0px));
   will-change: transform;
@@ -163,7 +168,6 @@
   transition: none;
 }
 /* The browser's own image/video drag would otherwise hijack the gesture. */
-.films__slide video,
 .films__slide img {
   -webkit-user-drag: none;
   user-select: none;
@@ -178,9 +182,13 @@
   left: 50%;
   width: var(--slide-w);
   margin-left: calc(var(--slide-w) / -2);
-  /* one whole slide-plus-gap per step away from centre */
-  translate: calc(var(--d) * (var(--slide-w) + var(--slide-gap)));
-  aspect-ratio: 16 / 9;
+  /* Distance from the track's CONTINUOUS position. --pos is a float written
+     straight to the track by the scroll handler, so the reels move exactly as
+     far as the page did rather than stepping between fixed places. */
+  translate: calc((var(--i) - var(--pos, 0)) * (var(--slide-w) + var(--slide-gap)));
+  /* 9:16 — reel format. The height comes from the track, so this only has to
+     agree with it; the cover frames then fill without being cropped. */
+  aspect-ratio: 9 / 16;
   background: #000;
   opacity: 0.4;
   filter: saturate(0.45) brightness(0.75);
@@ -188,8 +196,19 @@
   /* Entrance start-state. transform is free for this — positioning uses the
      separate `translate` property, so the two compose rather than overwrite. */
   transform: translateY(52px);
-  transition: translate 0.85s var(--ease-out-expo), opacity 0.85s var(--ease-soft),
-    filter 0.85s var(--ease-soft), padding 0.6s var(--ease-out-expo);
+  /* The GLIDE. Deliberately not --ease-out-expo: that curve puts nearly all
+     the movement in the first fifth of the duration, so the track lurched and
+     then crawled. An ease-in-out spreads the distance evenly, which is what
+     actually reads as gliding. 1s of travel inside a 2s hold leaves the reel
+     a moment at rest without ever feeling static. */
+  transition: translate 0.7s var(--ease-glide), opacity 0.7s var(--ease-glide),
+    filter 0.7s var(--ease-glide), padding 0.6s var(--ease-glide);
+}
+/* Under the pin the scroll position IS the animation. Easing it as well makes
+   the track lag behind the wheel, which reads as sludge rather than glide. */
+.films__track[data-scrub] .films__slide {
+  transition: opacity 0.7s var(--ease-glide), filter 0.7s var(--ease-glide),
+    padding 0.6s var(--ease-glide);
 }
 /* The entrance is an ANIMATION, not a transition: a transition-delay here
    would also delay `translate`, so every step of the carousel would lag by
@@ -211,10 +230,6 @@
   .films__slide { transform: none; }
   .films__stage[data-inview="true"] .films__slide { animation: none; }
 }
-/* Wrapping from one end of the track to the other: snap, do not travel. */
-.films__slide[data-jump] {
-  transition: none;
-}
 .films__slide[data-state="active"] {
   opacity: 1;
   filter: none;
@@ -226,7 +241,7 @@
    intrinsic dimensions, so `inset` + `width:auto` lets it overflow its box
    rather than stretching to it. box-sizing:border-box means the padding eats
    into the slide's 16:9 box, which is exactly the effect wanted. */
-.films__slide video {
+.films__slide img {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -264,6 +279,35 @@
 .films__slide[data-state="active"] .films__marks {
   opacity: 1;
 }
+/* Play cue on the active film. The tiles are thumbnails that open Instagram,
+   so this signals "there is a video behind this" without implying it will
+   start playing in place. */
+.films__play {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: clamp(46px, 4.4vw, 66px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: rgba(20, 17, 15, 0.42);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  box-shadow: inset 0 0 0 1px rgba(245, 240, 232, 0.65);
+  color: var(--ivory);
+  font-size: clamp(0.8rem, 1vw, 1rem);
+  padding-left: 0.15em; /* optical centring of the triangle */
+  pointer-events: none;
+  transition: background-color 0.4s var(--ease-soft), scale 0.4s var(--ease-out-expo);
+}
+.films__slide:hover .films__play {
+  background: rgba(20, 17, 15, 0.6);
+  scale: 1.06;
+}
+
 /* Drag hint on the upcoming film. Rides above the dimming so it stays
    readable on a slide that is otherwise pushed back. */
 .films__hint {
@@ -301,7 +345,8 @@
   gap: 0.5rem;
 }
 /* Square markers, as in the reference. The active one stretches into a short
-   bar and doubles as the autoplay countdown. */
+   bar. It used to carry an autoplay countdown; the carousel is scroll-driven
+   now, so there is no timer left to count down. */
 .films__dot {
   position: relative;
   width: 9px;
@@ -320,25 +365,11 @@
   width: 38px;
   box-shadow: inset 0 0 0 1px var(--ivory);
 }
-/* Countdown fill. Runs only while autoplay is actually running; when the
-   pointer is over the carousel it holds where it is rather than resetting. */
-.films__fill {
-  position: absolute;
-  inset: 0 auto 0 0;
-  width: 0;
+.films__dot[aria-current="true"] {
   background: var(--ivory);
 }
-.films__fill[data-running] {
-  animation: films-fill var(--dur) linear forwards;
-}
-@keyframes films-fill {
-  to { width: 100%; }
-}
-/* With motion reduced there is no autoplay to count down, so the marker just
-   reads as a solid active state. */
 @media (prefers-reduced-motion: reduce) {
-  .films__dot[aria-current="true"] { width: 9px; background: var(--ivory); }
-  .films__fill { display: none; }
+  .films__dot[aria-current="true"] { width: 9px; }
 }
 .films__controls {
   display: inline-flex;
@@ -461,50 +492,130 @@
 }
 
 /* ============================================================
-   HOUSE BRANDS — restrained row
+   HOUSE BRANDS — five brands, one house standard
+
+   Five identical tiles read as a partner strip, not a chapter of
+   this page. Every other section here is image-led and asymmetric,
+   so this one is too: each brand gets its own photography, drawn
+   from that brand's real catalogues, and SJ — 134 catalogues to
+   Oofy's 9 — takes the dominant slot.
+
+   The marks themselves are rebuilt from each logo's alpha channel
+   into one ivory silhouette (reference/make-brand-marks.py). The
+   supplied files are pure white, near-black and tan, so no single
+   ground could ever show all five.
    ============================================================ */
 .house {
   background: var(--ivory);
 }
 .house__row {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: clamp(0.6rem, 1.3vw, 1.25rem);
+  grid-template-columns: repeat(12, 1fr);
+  grid-auto-rows: clamp(150px, 17vw, 240px);
+  gap: clamp(0.5rem, 1.1vw, 1rem);
 }
+/* SJ leads: full height down the left, twice the weight of the rest. */
+.house__cell:nth-child(1) { grid-column: span 6; grid-row: span 2; }
+.house__cell:nth-child(2) { grid-column: span 3; }
+.house__cell:nth-child(3) { grid-column: span 3; }
+.house__cell:nth-child(4) { grid-column: span 3; }
+.house__cell:nth-child(5) { grid-column: span 3; }
+
 .house__cell {
-  display: grid;
-  place-items: center;
-  gap: 0.9rem;
-  min-height: clamp(120px, 12vw, 172px);
-  padding: clamp(1rem, 2vw, 1.9rem);
+  position: relative;
+  display: block;
+  overflow: hidden;
   border-radius: clamp(14px, 1.6vw, 22px);
-  background: var(--ivory-deep);
-  transition: background-color 0.5s var(--ease-soft), transform 0.5s var(--ease-out-expo);
+  background: var(--charcoal);
+  isolation: isolate;
+  transition: transform 0.6s var(--ease-out-expo), box-shadow 0.6s var(--ease-soft);
 }
 .house__cell:hover {
-  background: var(--accent);
-  transform: translateY(-4px);
+  transform: translateY(-5px);
+  box-shadow: 0 20px 44px rgba(20, 17, 15, 0.26);
 }
-.house__cell img {
-  max-height: 42px;
+.house__photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* Held back so the mark stays the subject — the photograph is a ground,
+     not the message. */
+  opacity: 0.42;
+  filter: grayscale(0.35);
+  transition: transform 0.9s var(--ease-out-expo), opacity 0.6s var(--ease-soft),
+    filter 0.6s var(--ease-soft);
+}
+.house__cell:hover .house__photo {
+  transform: scale(1.05);
+  opacity: 0.58;
+  filter: grayscale(0);
+}
+/* Scrim: darkest at the foot, where the name sits. */
+.house__cell::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(20, 17, 15, 0.92) 0%,
+    rgba(20, 17, 15, 0.5) 42%,
+    rgba(20, 17, 15, 0.34) 100%
+  );
+  pointer-events: none;
+}
+/* The mark sits optically centred in the upper field, clear of the name. */
+.house__mark {
+  position: absolute;
+  inset: 0 0 auto 0;
+  top: 0;
+  height: 68%;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  padding: clamp(1rem, 2vw, 2rem);
+}
+.house__mark img {
+  height: clamp(26px, 2.7vw, 42px);
+  max-width: 74%;
   width: auto;
   object-fit: contain;
-  filter: grayscale(1) contrast(0.92);
-  opacity: 0.6;
-  transition: filter 0.5s var(--ease-soft), opacity 0.5s var(--ease-soft);
+  transition: transform 0.6s var(--ease-out-expo);
 }
-.house__cell:hover img {
-  filter: none;
-  opacity: 1;
+/* The dominant tile carries a larger mark, in proportion to its slot. */
+.house__cell:nth-child(1) .house__mark img {
+  height: clamp(34px, 3.6vw, 58px);
 }
-.house__cell span {
+.house__cell:hover .house__mark img {
+  transform: scale(1.05);
+}
+.house__meta {
+  position: absolute;
+  left: clamp(0.9rem, 1.6vw, 1.5rem);
+  right: clamp(0.9rem, 1.6vw, 1.5rem);
+  bottom: clamp(0.85rem, 1.5vw, 1.4rem);
+  z-index: 2;
+  display: grid;
+  gap: 0.25rem;
+}
+.house__meta b {
   font-size: var(--fs-meta);
+  font-weight: 400;
   letter-spacing: var(--tr-meta);
   text-transform: uppercase;
-  color: var(--fg-muted);
+  color: var(--ivory);
 }
-.house__cell:hover span {
-  color: var(--ink-1);
+.house__meta i {
+  font-style: normal;
+  font-size: 0.5625rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(245, 240, 232, 0.5);
+  transition: color 0.5s var(--ease-soft);
+}
+.house__cell:hover .house__meta i {
+  color: var(--accent);
 }
 
 /* ============================================================
@@ -606,8 +717,15 @@
     grid-template-columns: repeat(3, 1fr);
   }
 
-  .house__row {
-    grid-template-columns: repeat(3, 1fr);
+  /* The 6/3/3 composition needs desktop width. Below it SJ keeps the lead as
+     a full-width band and the other four pair up — the 12-col grid stays, only
+     the spans change, or the nth-child rules above would fight it. */
+  .house__cell:nth-child(1) {
+    grid-column: span 12;
+    grid-row: span 1;
+  }
+  .house__cell:nth-child(n + 2) {
+    grid-column: span 6;
   }
 
   .letter__card {
@@ -629,7 +747,7 @@
   }
 
   .house__row {
-    grid-template-columns: repeat(2, 1fr);
+    grid-auto-rows: clamp(128px, 34vw, 190px);
   }
 
   .letter__actions .letter__btn {

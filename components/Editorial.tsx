@@ -5,56 +5,139 @@ import { useEffect, useRef, useState } from "react";
 import {
   SECTION_INDEX,
   FILMS,
+  INSTAGRAM_URL,
   OUR_STORY,
   BRANDS,
   LETTER,
 } from "@/lib/content";
 import { Reveal, LineReveal, ImageReveal, Arrow } from "./Motion";
+import { BRAND_HERO } from "@/lib/catalogues";
 import { gsap, ScrollTrigger, registerGsap, prefersReducedMotion } from "@/lib/motion";
 
 /* ============================================================
    04 — THE EDIT (film carousel)
-   Centre-stage slider on a charcoal ground: the active film sits
-   framed by corner crop-marks, its neighbours dimmed and bleeding
-   off both edges. Only the active film plays — muted and looping,
-   because browsers refuse unmuted autoplay; sound is opt-in via
-   the control in the bar.
+
+   Centre-stage slider on a charcoal ground: the active reel sits
+   framed by corner crop-marks, its neighbours dimmed either side.
+
+   These are THUMBNAILS, not players — the reels live on Instagram
+   and each tile opens its post. That removes the whole muted-autoplay
+   problem, and the bandwidth of decoding video nobody asked for.
+
+   SCROLL-DRIVEN. The section pins and the track follows the scroll
+   CONTINUOUSLY — position is a float, not a step, so the films glide
+   under the wheel at 1:1 instead of clicking between fixed places.
+   That was the whole complaint with the timed version: on a clock it
+   either lurches or waits, and neither matches what the hand is doing.
+
+   The reels are rendered CYCLES times over, and the scroll only ever
+   travels across the middle copy. The copies either side exist purely
+   to stand in the neighbour slots, so the first and last reel have a
+   film beside them instead of empty ground — and because the position
+   never leaves the middle band, nothing has to wrap or jump to do it.
    ============================================================ */
-/** How long each film holds before the carousel advances itself. Long enough
- *  to actually watch a shot land — six seconds cut the films off mid-moment.
- *  The countdown in the active marker is driven off this same number. */
-const AUTOPLAY_MS = 12000;
+/** Scroll distance each reel holds while the section is pinned. */
+const FILM_SCROLL = 0.7; // × viewport height
+
+/** Reels repeated along the track, so the ends are never bare. */
+const CYCLES = 3;
 
 export function Films() {
-  const [active, setActive] = useState(0);
-  const [sound, setSound] = useState(false);
-  /* Auto-advance is suspended while the pointer is over the carousel, while a
-     drag is in progress, and whenever the section is off-screen — advancing a
-     slider nobody is looking at just burns battery. Hover and drag are tracked
-     separately so releasing a drag with the mouse still over the carousel
-     keeps it paused. */
-  const [hover, setHover] = useState(false);
+  const base = FILMS.items;
+  const items = Array.from({ length: CYCLES }, () => base).flat();
+  /* Scroll drives the position across the MIDDLE copy only: [n, 2n-1]. */
+  const FIRST = base.length;
+
+  /* The ROUNDED position, for the crop-marks, counter and dots. The smooth
+     position lives in a CSS variable instead — see the pin effect. Keeping
+     them apart is deliberate: re-rendering React on every scroll frame to
+     move a track is exactly how a carousel starts to feel heavy. */
+  const [active, setActive] = useState(FIRST);
   const [dragging, setDragging] = useState(false);
-  const [onScreen, setOnScreen] = useState(false);
   const [drag, setDrag] = useState(0);
+  const [scrubbing, setScrubbing] = useState(false);
 
   const rootRef = useRef<HTMLElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
-  const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
-  const items = FILMS.items;
+  /* Set while a drag is being released, so the click it generates does not
+     open Instagram. Cleared on the next frame, after the click has fired. */
+  const draggedRef = useRef(false);
+  /* While pinned, the scroll position IS the carousel position, so the
+     controls have to move the window rather than set state — otherwise the
+     next scroll frame would snap it straight back. */
+  const pinnedRef = useRef(false);
+  const stepPxRef = useRef(0);
 
-  const go = (dir: number) =>
-    setActive((i) => (i + dir + items.length) % items.length);
+  /** Write the continuous track position without re-rendering. */
+  const setPos = (p: number) =>
+    trackRef.current?.style.setProperty("--pos", String(p));
 
-  const autoplaying = onScreen && !hover && !dragging && !prefersReducedMotion();
+  const go = (dir: number) => {
+    if (pinnedRef.current && stepPxRef.current) {
+      window.scrollBy({ top: dir * stepPxRef.current, behavior: "smooth" });
+      return;
+    }
+    setActive((i) => {
+      // Off the pin, stay inside the middle copy so the neighbours hold.
+      const n = Math.min(FIRST + base.length - 1, Math.max(FIRST, i + dir));
+      setPos(n);
+      return n;
+    });
+  };
 
-  /* Auto-advance. Keyed on `active` too, so any manual move (arrow, dot, drag)
-     restarts the countdown rather than firing mid-way through the new film. */
+  /* Pin the section and drive the track from scroll. Desktop only — pinning
+     on a phone traps the scroll, which is why the old collection carousel
+     guarded this behind a matchMedia too. */
   useEffect(() => {
-    if (!autoplaying) return;
-    const t = window.setTimeout(() => go(1), AUTOPLAY_MS);
-    return () => window.clearTimeout(t);
-  }, [active, autoplaying]);
+    if (prefersReducedMotion()) return;
+    registerGsap();
+    const root = rootRef.current;
+    if (!root) return;
+
+    const ctx = gsap.context(() => {
+      const mm = gsap.matchMedia();
+      mm.add("(min-width: 1025px)", () => {
+        const step = () => window.innerHeight * FILM_SCROLL;
+        const st = ScrollTrigger.create({
+          trigger: root,
+          start: "top top",
+          end: () => `+=${(base.length - 1) * step()}`,
+          pin: true,
+          anticipatePin: 1,
+          scrub: true,
+          invalidateOnRefresh: true,
+          onRefresh: () => {
+            stepPxRef.current = step();
+          },
+          onToggle: (self) => {
+            pinnedRef.current = self.isActive;
+            setScrubbing(self.isActive);
+          },
+          onUpdate: (self) => {
+            // Continuous, and offset into the middle copy so slide FIRST-1
+            // sits in the "previous" slot even on the very first reel.
+            const p = FIRST + self.progress * (base.length - 1);
+            setPos(p);
+            const i = Math.round(p);
+            setActive((prev) => (prev === i ? prev : i));
+          },
+        });
+        stepPxRef.current = step();
+        return () => {
+          pinnedRef.current = false;
+          setScrubbing(false);
+          st.kill();
+        };
+      });
+    }, root);
+
+    return () => ctx.revert();
+  }, [base.length]);
+
+  /* Off the pin (phones, reduced motion) the position follows the index. */
+  useEffect(() => {
+    if (!scrubbing) setPos(active);
+  }, [active, scrubbing]);
 
   /* ---- drag / swipe ----
      Pointer events cover mouse, touch and pen in one path. The gesture is
@@ -98,77 +181,22 @@ export function Films() {
     const dx = e.clientX - g.x;
     gesture.current = { x: 0, y: 0, locked: false, active: false };
 
-    // Past a quarter of a slide, commit to the next film; otherwise spring
+    // Past a quarter of a slide, commit to the next reel; otherwise spring
     // back to the one we started on.
     const slide = trackRef.current?.querySelector<HTMLElement>(".films__slide");
     const threshold = (slide?.offsetWidth ?? 400) * 0.25;
     if (Math.abs(dx) > threshold) go(dx < 0 ? 1 : -1);
 
+    // The slides are links, so releasing a drag fires a click on one. Flag it
+    // for that click, then clear once the event has passed.
+    draggedRef.current = true;
+    requestAnimationFrame(() => {
+      draggedRef.current = false;
+    });
+
     setDrag(0);
     setDragging(false);
   };
-
-  /* Exactly one film is ever decoding: the others are paused and rewound.
-     Six simultaneous video elements is the difference between a smooth
-     section and a stuttering one on a mid-range laptop. */
-  useEffect(() => {
-    videoRefs.current.forEach((v, i) => {
-      if (!v) return;
-      if (i === active) {
-        v.muted = !sound;
-        // play() rejects if the browser blocks it (no gesture yet, or the
-        // file is missing) — the poster stays up, which is the right
-        // fallback, so the rejection is swallowed rather than thrown.
-        v.play().catch(() => {});
-      } else {
-        v.pause();
-        v.currentTime = 0;
-      }
-    });
-  }, [active, sound]);
-
-  /* Stop playback entirely once the section leaves the screen. Without this
-     the film keeps decoding for the whole rest of the page. */
-  useEffect(() => {
-    const root = rootRef.current;
-    if (!root || typeof IntersectionObserver === "undefined") return;
-
-    const io = new IntersectionObserver(
-      ([entry]) => {
-        setOnScreen(entry.isIntersecting);
-        const v = videoRefs.current[active];
-        if (!v) return;
-        if (entry.isIntersecting) v.play().catch(() => {});
-        else v.pause();
-      },
-      { threshold: 0.25 }
-    );
-    io.observe(root);
-    return () => io.disconnect();
-  }, [active]);
-
-  /* SHORTEST-PATH offset of each film from the active one, wrapped into
-     [-n/2, n/2). This is what makes the carousel endless without cloning a
-     single <video>: the six real elements are repositioned around the active
-     one, so there is always a film to the left and right and film 6 → film 1
-     is a one-step move rather than a rewind across the whole track. */
-  const offsets = items.map((_, i) => {
-    const n = items.length;
-    return ((i - active + Math.floor(n / 2) + n) % n) - Math.floor(n / 2);
-  });
-
-  /* A film that wraps from one end of the track to the other must not animate
-     across it — it would fly through the middle of the frame. Both ends of a
-     wrap are off-screen, so the jump is invisible if the transition is simply
-     dropped for that one frame. */
-  const prevOffsets = useRef<number[]>([]);
-  const jumped = offsets.map((d, i) => {
-    const p = prevOffsets.current[i];
-    return p === undefined || Math.abs(d - p) > 1;
-  });
-  useEffect(() => {
-    prevOffsets.current = offsets;
-  });
 
   const stateOf = (d: number) => {
     if (d === 0) return "active";
@@ -195,8 +223,6 @@ export function Films() {
 
       {/* Full-bleed: the track sits outside .shell so the neighbouring films
           can bleed past both edges of the viewport. */}
-      {/* Hover-to-pause is for mice only: on a touch screen pointerenter fires
-          on tap and never leaves, which would strand autoplay off for good. */}
       {/* data-reveal hands the stage to the page-wide reveal engine, which
           flips data-inview on scroll; the films then rise into place in a
           stagger keyed off their position (see .films__slide in editorial.css). */}
@@ -204,13 +230,12 @@ export function Films() {
         className="films__stage"
         data-reveal="fade"
         data-reveal-start="top 82%"
-        onPointerEnter={(e) => e.pointerType === "mouse" && setHover(true)}
-        onPointerLeave={(e) => e.pointerType === "mouse" && setHover(false)}
       >
         <div
           className="films__track"
           ref={trackRef}
           data-dragging={dragging || undefined}
+          data-scrub={scrubbing || undefined}
           onPointerDown={onPointerDown}
           onPointerMove={onPointerMove}
           onPointerUp={endDrag}
@@ -218,40 +243,49 @@ export function Films() {
           style={{ "--drag": `${drag}px` } as React.CSSProperties}
         >
           {items.map((f, i) => (
-            <div
+            <a
               className="films__slide"
-              key={f.src}
-              data-state={stateOf(offsets[i])}
-              data-jump={jumped[i] || undefined}
-              style={{ "--d": offsets[i] } as React.CSSProperties}
+              key={`${i}-${f.source}`}
+              href={f.source}
+              target="_blank"
+              rel="noopener noreferrer"
+              data-state={stateOf(i - active)}
+              data-cursor="Watch"
+              aria-label={`${f.alt} — watch on Instagram`}
+              style={{ "--i": i } as React.CSSProperties}
+              // A click that ends a drag is not a click on the film; without
+              // this, swiping the track would open Instagram.
+              onClick={(e) => {
+                if (draggedRef.current) e.preventDefault();
+              }}
             >
-              <video
-                ref={(el) => {
-                  videoRefs.current[i] = el;
-                }}
-                poster={f.poster}
-                muted
-                loop
-                playsInline
-                // Only the active film is worth fetching up front; the rest
-                // load their poster and nothing else until they come round.
-                preload={i === active ? "auto" : "none"}
-                aria-label={f.alt}
-              >
-                <source src={f.src} type="video/mp4" />
-              </video>
+              <Image
+                src={f.poster}
+                alt={f.alt}
+                width={1280}
+                height={720}
+                sizes="(max-width: 680px) 74vw, 31vw"
+                unoptimized
+              />
               {/* Corner crop-marks, drawn as eight background gradients so the
                   frame needs no extra markup. Only shown on the active film. */}
               <span className="films__marks" aria-hidden="true" />
+              {/* The films play on Instagram, so the active one carries a play
+                  cue rather than pretending it will start in place. */}
+              {stateOf(i - active) === "active" ? (
+                <span className="films__play" aria-hidden="true">
+                  ▶
+                </span>
+              ) : null}
               {/* Drag affordance, sitting on the upcoming film as in the
                   reference — it tells you the track is draggable without
                   adding a control. */}
-              {stateOf(offsets[i]) === "next" ? (
+              {stateOf(i - active) === "next" ? (
                 <span className="films__hint" aria-hidden="true">
                   [ Drag ]
                 </span>
               ) : null}
-            </div>
+            </a>
           ))}
         </div>
       </div>
@@ -259,43 +293,34 @@ export function Films() {
       <div className="shell">
         <Reveal className="films__bar" dir="up">
           <span className="films__count">
-            {String(active + 1).padStart(2, "0")} / {String(items.length).padStart(2, "0")}
+            {String((active % base.length) + 1).padStart(2, "0")} /{" "}
+            {String(base.length).padStart(2, "0")}
           </span>
 
           <span className="films__dots">
-            {items.map((f, i) => (
+            {base.map((f, i) => (
               <button
                 className="films__dot"
                 type="button"
                 key={f.src}
-                onClick={() => setActive(i)}
+                onClick={() => go(i - (active % base.length))}
                 aria-label={`Film ${i + 1}`}
-                aria-current={i === active}
-              >
-                {/* The active marker doubles as the autoplay countdown. Keyed
-                    on `active` so React remounts it and the CSS animation
-                    restarts from zero on every change of film. */}
-                {i === active ? (
-                  <span
-                    className="films__fill"
-                    key={active}
-                    data-running={autoplaying || undefined}
-                    style={{ "--dur": `${AUTOPLAY_MS}ms` } as React.CSSProperties}
-                  />
-                ) : null}
-              </button>
+                aria-current={i === active % base.length}
+              />
             ))}
           </span>
 
           <span className="films__controls">
-            <button
+            {/* Points at where the films actually live, since the tiles are
+                thumbnails rather than players. */}
+            <a
               className="films__sound"
-              type="button"
-              onClick={() => setSound((s) => !s)}
-              aria-pressed={sound}
+              href={INSTAGRAM_URL}
+              target="_blank"
+              rel="noopener noreferrer"
             >
-              Sound {sound ? "on" : "off"}
-            </button>
+              Watch on Instagram
+            </a>
             <button className="sctl__nav" type="button" onClick={() => go(-1)} aria-label="Previous film">
               ←
             </button>
@@ -315,12 +340,12 @@ export function Films() {
    image, then a 4x2 grid where two cells carry text instead of
    photography to break the rhythm.
    ============================================================ */
-export function Story() {
+export function Story({ index }: { index?: string } = {}) {
   return (
     <section className="sect sect--comp objects" data-nav-tone="light">
       <div className="shell">
         <Reveal as="p" dir="fade" className="shead__index" style={{ marginBottom: "clamp(1rem,1.8vw,1.8rem)" }}>
-          {SECTION_INDEX.story}
+          {index ?? SECTION_INDEX.story}
         </Reveal>
 
         <div className="objects__top">
@@ -382,13 +407,13 @@ export function Story() {
 /* ============================================================
    06 — HOUSE BRANDS
    ============================================================ */
-export function Brands() {
+export function Brands({ index }: { index?: string } = {}) {
   return (
     <section className="sect sect--comp house" data-nav-tone="light">
       <div className="shell">
         <div className="shead">
           <Reveal as="p" dir="fade" className="shead__index">
-            {SECTION_INDEX.brands}
+            {index ?? SECTION_INDEX.brands}
           </Reveal>
           <LineReveal
             as="h2"
@@ -398,21 +423,46 @@ export function Brands() {
           />
         </div>
 
+        {/* Image-led and asymmetric, like the rest of the page. Five equal
+            tiles read as a partner strip; giving each brand its own
+            photography — and SJ, with 134 catalogues, the dominant slot —
+            makes it a composition instead. */}
         <div className="house__row" data-reveal-stagger="0.06">
-          {BRANDS.map((b) => (
-            <Reveal
-              as="a"
-              className="house__cell"
-              dir="scale"
-              key={b.name}
-              href={b.href}
-              data-cursor="Open"
-            >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={b.logo} alt={`${b.name} by Sarom`} loading="lazy" />
-              <span>{b.name}</span>
-            </Reveal>
-          ))}
+          {BRANDS.map((b) => {
+            const hero = BRAND_HERO[b.name];
+            return (
+              <Reveal
+                as="a"
+                className="house__cell"
+                dir="scale"
+                key={b.name}
+                href={b.href}
+                data-cursor="Open"
+                aria-label={`${b.name} — ${hero?.count ?? 0} catalogues`}
+              >
+                {hero?.cover ? (
+                  <Image
+                    className="house__photo"
+                    src={hero.cover}
+                    alt=""
+                    aria-hidden="true"
+                    width={900}
+                    height={1200}
+                    sizes="(max-width: 680px) 100vw, 34vw"
+                    unoptimized
+                  />
+                ) : null}
+                <span className="house__mark">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={b.logo} alt={`${b.name} by Sarom`} loading="lazy" />
+                </span>
+                <span className="house__meta">
+                  <b>{b.name}</b>
+                  {hero ? <i>{hero.count} catalogues</i> : null}
+                </span>
+              </Reveal>
+            );
+          })}
         </div>
       </div>
     </section>

@@ -2123,538 +2123,153 @@ export const CATALOGUES: Catalogue[] = [
 export const byBrand = (brand: string) => CATALOGUES.filter((c) => c.brand === brand);
 
 /**
- * Every catalogue, chunked five-to-a-slide, grouped by brand. Paging the
- * slider walks the whole set rather than a hand-picked few.
- * `page`/`pages` are the position within that brand.
+ * One slide per brand — five in total, each showing five catalogues sampled
+ * across that brand's collections. Walking the whole catalogue is the job of
+ * the category-tabbed Collections section, not this showcase.
  */
 export const SHOWROOM_SLIDES = [
   {
     "brand": "SJ",
-    "page": 1,
-    "pages": 27,
     "tiles": [
       39,
-      1,
-      2,
-      3,
-      40
-    ]
-  },
-  {
-    "brand": "SJ",
-    "page": 2,
-    "pages": 27,
-    "tiles": [
-      4,
-      5,
-      6,
-      41,
-      42
-    ]
-  },
-  {
-    "brand": "SJ",
-    "page": 3,
-    "pages": 27,
-    "tiles": [
-      7,
-      43,
-      8,
-      9,
-      10
-    ]
-  },
-  {
-    "brand": "SJ",
-    "page": 4,
-    "pages": 27,
-    "tiles": [
-      44,
-      45,
-      11,
-      12,
-      13
-    ]
-  },
-  {
-    "brand": "SJ",
-    "page": 5,
-    "pages": 27,
-    "tiles": [
-      14,
-      15,
-      16,
-      17,
-      18
-    ]
-  },
-  {
-    "brand": "SJ",
-    "page": 6,
-    "pages": 27,
-    "tiles": [
-      19,
       48,
-      20,
-      21,
-      22
-    ]
-  },
-  {
-    "brand": "SJ",
-    "page": 7,
-    "pages": 27,
-    "tiles": [
-      47,
-      23,
-      24,
-      25,
-      26
-    ]
-  },
-  {
-    "brand": "SJ",
-    "page": 8,
-    "pages": 27,
-    "tiles": [
-      49,
-      27,
-      28,
-      29,
-      31
-    ]
-  },
-  {
-    "brand": "SJ",
-    "page": 9,
-    "pages": 27,
-    "tiles": [
-      32,
-      33,
-      50,
-      34,
-      35
-    ]
-  },
-  {
-    "brand": "SJ",
-    "page": 10,
-    "pages": 27,
-    "tiles": [
-      36,
-      37,
-      38,
-      51,
-      60
-    ]
-  },
-  {
-    "brand": "SJ",
-    "page": 11,
-    "pages": 27,
-    "tiles": [
-      222,
-      61,
-      62,
       52,
-      120
-    ]
-  },
-  {
-    "brand": "SJ",
-    "page": 12,
-    "pages": 27,
-    "tiles": [
-      208,
-      63,
-      209,
-      65,
-      66
-    ]
-  },
-  {
-    "brand": "SJ",
-    "page": 13,
-    "pages": 27,
-    "tiles": [
-      53,
-      205,
-      67,
-      54,
-      201
-    ]
-  },
-  {
-    "brand": "SJ",
-    "page": 14,
-    "pages": 27,
-    "tiles": [
-      68,
-      69,
-      70,
-      72,
-      55
-    ]
-  },
-  {
-    "brand": "SJ",
-    "page": 15,
-    "pages": 27,
-    "tiles": [
-      73,
-      56,
-      74,
-      75,
-      220
-    ]
-  },
-  {
-    "brand": "SJ",
-    "page": 16,
-    "pages": 27,
-    "tiles": [
-      221,
-      76,
-      77,
-      78,
-      79
-    ]
-  },
-  {
-    "brand": "SJ",
-    "page": 17,
-    "pages": 27,
-    "tiles": [
       81,
-      82,
-      223,
-      83,
-      224
-    ]
-  },
-  {
-    "brand": "SJ",
-    "page": 18,
-    "pages": 27,
-    "tiles": [
-      84,
-      85,
-      86,
-      202,
-      206
-    ]
-  },
-  {
-    "brand": "SJ",
-    "page": 19,
-    "pages": 27,
-    "tiles": [
-      87,
-      88,
-      57,
-      89,
-      90
-    ]
-  },
-  {
-    "brand": "SJ",
-    "page": 20,
-    "pages": 27,
-    "tiles": [
-      91,
-      218,
-      219,
-      92,
-      93
-    ]
-  },
-  {
-    "brand": "SJ",
-    "page": 21,
-    "pages": 27,
-    "tiles": [
-      94,
-      95,
-      96,
-      97,
-      98
-    ]
-  },
-  {
-    "brand": "SJ",
-    "page": 22,
-    "pages": 27,
-    "tiles": [
-      99,
-      100,
-      101,
-      102,
-      207
-    ]
-  },
-  {
-    "brand": "SJ",
-    "page": 23,
-    "pages": 27,
-    "tiles": [
-      103,
-      58,
-      59,
-      104,
-      105
-    ]
-  },
-  {
-    "brand": "SJ",
-    "page": 24,
-    "pages": 27,
-    "tiles": [
-      106,
-      107,
-      108,
-      109,
-      110
-    ]
-  },
-  {
-    "brand": "SJ",
-    "page": 25,
-    "pages": 27,
-    "tiles": [
-      111,
-      112,
-      113,
-      114,
-      121
-    ]
-  },
-  {
-    "brand": "SJ",
-    "page": 26,
-    "pages": 27,
-    "tiles": [
-      115,
-      116,
-      117,
-      225,
-      118
-    ]
-  },
-  {
-    "brand": "SJ",
-    "page": 27,
-    "pages": 27,
-    "tiles": [
-      119,
-      210,
-      122,
-      123,
-      40
+      101
     ]
   },
   {
     "brand": "Oofy",
-    "page": 1,
-    "pages": 2,
     "tiles": [
       151,
       167,
-      153,
       154,
-      211
-    ]
-  },
-  {
-    "brand": "Oofy",
-    "page": 2,
-    "pages": 2,
-    "tiles": [
       155,
-      152,
-      166,
-      150,
-      211
+      166
     ]
   },
   {
     "brand": "Matlin",
-    "page": 1,
-    "pages": 5,
     "tiles": [
       135,
-      124,
-      125,
-      126,
-      127
-    ]
-  },
-  {
-    "brand": "Matlin",
-    "page": 2,
-    "pages": 5,
-    "tiles": [
-      129,
-      130,
-      131,
-      132,
-      133
-    ]
-  },
-  {
-    "brand": "Matlin",
-    "page": 3,
-    "pages": 5,
-    "tiles": [
-      144,
-      145,
-      146,
+      127,
+      133,
       147,
-      142
-    ]
-  },
-  {
-    "brand": "Matlin",
-    "page": 4,
-    "pages": 5,
-    "tiles": [
-      143,
-      128,
-      136,
-      141,
-      137
-    ]
-  },
-  {
-    "brand": "Matlin",
-    "page": 5,
-    "pages": 5,
-    "tiles": [
-      138,
-      139,
-      140,
-      126,
-      127
+      141
     ]
   },
   {
     "brand": "Smart Plus",
-    "page": 1,
-    "pages": 5,
     "tiles": [
       168,
-      169,
-      214,
-      213,
-      170
-    ]
-  },
-  {
-    "brand": "Smart Plus",
-    "page": 2,
-    "pages": 5,
-    "tiles": [
-      171,
-      216,
-      172,
+      170,
       173,
-      212
-    ]
-  },
-  {
-    "brand": "Smart Plus",
-    "page": 3,
-    "pages": 5,
-    "tiles": [
-      174,
-      175,
       176,
-      217,
-      177
-    ]
-  },
-  {
-    "brand": "Smart Plus",
-    "page": 4,
-    "pages": 5,
-    "tiles": [
-      178,
-      179,
-      180,
-      182,
-      181
-    ]
-  },
-  {
-    "brand": "Smart Plus",
-    "page": 5,
-    "pages": 5,
-    "tiles": [
-      215,
-      169,
-      214,
-      213,
-      170
+      179
     ]
   },
   {
     "brand": "Beds & More",
-    "page": 1,
-    "pages": 4,
     "tiles": [
       184,
-      185,
-      186,
       187,
-      188
-    ]
-  },
-  {
-    "brand": "Beds & More",
-    "page": 2,
-    "pages": 4,
-    "tiles": [
-      189,
       190,
-      191,
-      192,
-      193
-    ]
-  },
-  {
-    "brand": "Beds & More",
-    "page": 3,
-    "pages": 4,
-    "tiles": [
       194,
-      195,
-      196,
-      197,
-      198
-    ]
-  },
-  {
-    "brand": "Beds & More",
-    "page": 4,
-    "pages": 4,
-    "tiles": [
-      199,
-      200,
-      186,
-      187,
-      188
+      197
     ]
   }
 ].map((s) => ({
   brand: s.brand,
-  page: s.page,
-  pages: s.pages,
   tiles: s.tiles
     .map((id) => CATALOGUES.find((c) => c.id === id))
     .filter((c): c is Catalogue => Boolean(c)),
 }));
+
+/**
+ * One representative photograph per brand, for the House Brands section.
+ * Picked by file weight, which tracks photographic richness — a flat or
+ * washed-out cover compresses far smaller than a real interior shot.
+ */
+export const BRAND_HERO: Record<string, { cover: string; count: number }> = {
+  "SJ": {
+    "cover": "/catalogues/_covers/sj/curtains/amalfi.webp",
+    "count": 134
+  },
+  "Oofy": {
+    "cover": "/catalogues/_covers/oofy/curtains/costa.webp",
+    "count": 9
+  },
+  "Matlin": {
+    "cover": "/catalogues/_covers/matlin/upholstery-curtain/celina.webp",
+    "count": 23
+  },
+  "Smart Plus": {
+    "cover": "/catalogues/_covers/smart-plus/upholstery/perth.webp",
+    "count": 21
+  },
+  "Beds & More": {
+    "cover": "/catalogues/_covers/beds-and-more/upholstery/jardin.webp",
+    "count": 17
+  }
+};
 
 /** First slide index for each brand, so the bar can jump straight there. */
 export const BRAND_STARTS = BRAND_ORDER.map((brand) => ({
   brand,
   index: SHOWROOM_SLIDES.findIndex((s) => s.brand === brand),
 }));
+
+/**
+ * Category tabs for the homepage sections.
+ *
+ * NOTE ON "BEDSHEETS": the catalogue has no bedsheets collection — the three
+ * collections are Curtains, Upholstery and Upholstery/Curtain. "Beds & More"
+ * is a BRAND whose catalogues are themselves filed as curtains and
+ * upholstery. Per the client's instruction the Bedsheets tab shows that
+ * brand's range, so the label is a brand stand-in rather than a true
+ * collection. Swap the predicate here if real bedsheet catalogues arrive.
+ *
+ * Upholstery/Curtain counts under BOTH Curtains and Upholstery, because that
+ * is exactly what the collection name says it is.
+ */
+export const CATEGORY_TABS = [
+  { id: "all", label: "All" },
+  { id: "curtains", label: "Curtains" },
+  { id: "upholstery", label: "Upholstery" },
+  { id: "bedsheets", label: "Bedsheets" },
+] as const;
+
+export type CategoryId = (typeof CATEGORY_TABS)[number]["id"];
+
+const MATCH: Record<Exclude<CategoryId, "all">, (c: Catalogue) => boolean> = {
+  curtains: (c) => c.collection === "Curtains" || c.collection === "Upholstery/Curtain",
+  upholstery: (c) => c.collection === "Upholstery" || c.collection === "Upholstery/Curtain",
+  bedsheets: (c) => c.brand === "Beds & More",
+};
+
+/**
+ * Order for the All tab: one catalogue per category, round-robin, so each
+ * page of three shows a curtain, an upholstery and a bedsheet rather than
+ * three consecutive SJ curtains.
+ *
+ * Built from ids because the buckets used to build it are PRIMARY buckets —
+ * each catalogue sits in exactly one, so All never repeats a catalogue. That
+ * differs from the tab filters above, where Upholstery/Curtain deliberately
+ * matches both Curtains and Upholstery.
+ */
+export const ALL_ROTATION: number[] = [39,60,184,1,222,185,135,61,186,2,62,187,3,52,188,124,120,189,125,208,190,40,63,191,4,168,192,5,167,193,126,209,194,6,65,195,41,66,196,127,169,197,42,53,198,7,205,199,142,214,200,43,67,150,54,8,201,9,68,10,69,44,70,45,213,11,72,12,55,143,73,128,56,129,170,13,74,136,75,14,220,151,221,15,76,16,77,17,153,18,78,19,79,48,81,130,82,20,223,21,83,22,144,47,154,23,224,24,84,131,145,25,171,122,85,141,216,137,86,26,202,138,206,49,87,27,88,139,57,140,146,28,89,29,90,31,91,32,218,33,219,50,172,132,173,133,92,34,212,35,93,36,174,37,94,38,95,123,96,51,97,175,98,176,99,217,177,100,178,101,102,207,103,58,59,104,211,105,106,179,180,107,108,109,110,182,181,111,112,113,114,155,152,147,121,166,115,116,117,225,118,215,119,210];
+
+/** Catalogues in a category that can actually be opened and pictured. */
+export const byCategory = (id: CategoryId): Catalogue[] => {
+  const usable = CATALOGUES.filter((c) => c.pdf && c.cover);
+  if (id === "all") {
+    return ALL_ROTATION.map((n) => usable.find((c) => c.id === n)).filter(
+      (c): c is Catalogue => Boolean(c)
+    );
+  }
+  return usable.filter((c) => MATCH[id](c));
+};
+
+export const CATEGORY_COUNTS = Object.fromEntries(
+  CATEGORY_TABS.map((t) => [t.id, byCategory(t.id).length])
+) as Record<CategoryId, number>;

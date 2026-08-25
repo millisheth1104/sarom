@@ -35,6 +35,15 @@ const SECTION_ORDER = [
   ["brands", "House Brands"],
 ] as const;
 
+/**
+ * Build a section eyebrow like "01 — Collections".
+ *
+ * The preview routes drop one of the two duplicate compositions, which
+ * renumbers everything after it — so the labels cannot be a fixed map there.
+ */
+export const sectionLabel = (n: number, label: string) =>
+  `${String(n).padStart(2, "0")} — ${label}`;
+
 export const SECTION_INDEX = Object.fromEntries(
   SECTION_ORDER.map(([key, label], i) => [
     key,
@@ -286,8 +295,8 @@ export const FOOTER_IMAGE = {
   // layered separately).
   src: "/media/interiors/footer-composite.webp",
   alt: "Sarom furniture — sofa, accent chair, dining chair, swivel chair and bouclé ottoman — over the Sarom wordmark",
-  width: 2080,
-  height: 756,
+  width: 1659,
+  height: 597,
 };
 
 /* ============================================================
@@ -393,13 +402,35 @@ export const FILMS = {
   kicker: "Our Philosophy",
   body:
     "Every piece is finished to balance atmosphere, material and form — bringing quiet order to the rhythm of everyday living.",
+  /* Four reels. The tiles are thumbnails that open the post, so `src` is
+     unused for playback and kept only as an identifier. The posters are each
+     reel's own cover frame, taken from the post's public og:image and stored
+     locally — the Instagram CDN URLs are signed and expire, so hotlinking
+     them would break silently.
+
+     These frames are 9:16, because reels are: the carousel is sized portrait
+     to match rather than cropping a vertical film into a landscape box. */
   items: [
-    { src: "/media/films/film-1.mp4", poster: "/media/product/showroom-hero.webp" },
-    { src: "/media/films/film-2.mp4", poster: "/media/product/coll-hero-upholstery.webp" },
-    { src: "/media/films/film-3.mp4", poster: "/media/product/editorial-hero.webp" },
-    { src: "/media/films/film-4.mp4", poster: "/media/product/coll-hero-curtains.webp" },
-    { src: "/media/films/film-5.mp4", poster: "/media/product/selector-hero.webp" },
-    { src: "/media/films/film-6.mp4", poster: "/media/product/coll-hero-bedding.webp" },
+    {
+      src: "/media/films/film-1.mp4",
+      poster: "/media/films/film-1.jpg",
+      source: "https://www.instagram.com/p/DZ2RLXEyj3X/",
+    },
+    {
+      src: "/media/films/film-2.mp4",
+      poster: "/media/films/film-2.jpg",
+      source: "https://www.instagram.com/p/DcOMsgEIdnw/",
+    },
+    {
+      src: "/media/films/film-3.mp4",
+      poster: "/media/films/film-3.jpg",
+      source: "https://www.instagram.com/p/DaWx3vIIeU9/",
+    },
+    {
+      src: "/media/films/film-4.mp4",
+      poster: "/media/films/film-4.jpg",
+      source: "https://www.instagram.com/p/Da7y4blBrTb/",
+    },
   ].map((f, i) => ({ ...f, alt: `Sarom film ${i + 1}` })),
 };
 
@@ -441,12 +472,26 @@ export const LETTER = {
 };
 
 /** House brands — as listed in the live site navigation. */
+/**
+ * The five house brands.
+ *
+ * `logo` points at the NORMALISED marks, not the originals. The supplied
+ * files are pure white (Smart Plus), near-black (SJ) and tan (Matlin), so no
+ * single background could show all five — and they carried very different
+ * amounts of empty canvas, which is why SJ rendered tiny beside the rest.
+ * The marks are rebuilt from each file's alpha channel into one ivory
+ * silhouette: see reference/make-brand-marks.py to regenerate.
+ */
 export const BRANDS = [
-  { name: "SJ", href: "/brand-sj.php", logo: "/media/brands/sj.webp" },
-  { name: "Oofy", href: "/brand-oofy.php", logo: "/media/brands/oofy.webp" },
-  { name: "Matlin", href: "/brand-matlin.php", logo: "/media/brands/matlin.webp" },
-  { name: "Smart Plus", href: "/brand-smart-plus.php", logo: "/media/brands/smartplus.png" },
-  { name: "Beds & More", href: "/brand-beds-and-more.php", logo: "/media/brands/bedsandmore.webp" },
+  { name: "SJ", href: "/brand-sj.php", logo: "/media/brands/mono/sj.webp" },
+  { name: "Oofy", href: "/brand-oofy.php", logo: "/media/brands/mono/oofy.webp" },
+  { name: "Matlin", href: "/brand-matlin.php", logo: "/media/brands/mono/matlin.webp" },
+  { name: "Smart Plus", href: "/brand-smart-plus.php", logo: "/media/brands/mono/smart-plus.webp" },
+  {
+    name: "Beds & More",
+    href: "/brand-beds-and-more.php",
+    logo: "/media/brands/mono/beds-and-more.webp",
+  },
 ];
 
 export const STORY = {
@@ -475,13 +520,22 @@ export const CTA = {
   body: "Browse the full catalogue, or find the nearest store and feel the fabrics in person.",
 };
 
+/* Sarom's real accounts, taken from the live site's own footer. These were
+   generic platform home pages (instagram.com, facebook.com …), which sent
+   anyone clicking them nowhere near the brand. */
 export const SOCIAL = [
-  { label: "Instagram", href: "https://www.instagram.com/" },
-  { label: "Facebook", href: "https://www.facebook.com/" },
-  { label: "YouTube", href: "https://www.youtube.com/" },
-  { label: "Pinterest", href: "https://www.pinterest.com/" },
-  { label: "LinkedIn", href: "https://www.linkedin.com/" },
+  { label: "Instagram", href: "https://www.instagram.com/saromfab/" },
+  { label: "Facebook", href: "https://www.facebook.com/saromfab/" },
+  { label: "YouTube", href: "https://www.youtube.com/@SaromFab" },
+  { label: "Pinterest", href: "https://in.pinterest.com/saromfab_/" },
+  {
+    label: "LinkedIn",
+    href: "https://www.linkedin.com/company/sarom-fab-private-limited/",
+  },
 ];
+
+/** The films section links out to the reels' home. */
+export const INSTAGRAM_URL = SOCIAL[0].href;
 
 export const FOOTER_LINKS = {
   explore: [

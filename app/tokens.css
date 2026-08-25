@@ -146,6 +146,10 @@
 
   /* ---- Motion tokens ---- */
   --ease-out-expo: cubic-bezier(0.22, 1, 0.36, 1);
+  /* Even-paced in-out, for anything that should GLIDE rather than arrive.
+     The expo curve above is the opposite: it spends most of its distance in
+     the first fifth, which lurches on a carousel. */
+  --ease-glide:    cubic-bezier(0.65, 0, 0.35, 1);
   --ease-in-out:   cubic-bezier(0.65, 0, 0.35, 1);
   --ease-soft:     cubic-bezier(0.33, 1, 0.68, 1);
 

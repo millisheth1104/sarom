@@ -6,6 +6,7 @@ import { SECTION_INDEX } from "@/lib/content";
 import { PRODUCT } from "@/lib/replicas";
 import { SHOWROOM_SLIDES, BRAND_STARTS } from "@/lib/catalogues";
 import { Reveal, ImageReveal, Arrow } from "./Motion";
+import { useCatalogueTabs } from "./useCatalogueTabs";
 import { gsap, prefersReducedMotion } from "@/lib/motion";
 
 /** Small diagonal arrow used in badges and round buttons. */
@@ -24,7 +25,7 @@ function Diag() {
    whole grid into the next brand's five catalogue tiles instead of
    showing a single fixed set.
    ============================================================ */
-export function Showroom() {
+export function Showroom({ index }: { index?: string } = {}) {
   const [active, setActive] = useState(0);
   const cardsRef = useRef<HTMLDivElement>(null);
   const lowerRef = useRef<HTMLDivElement>(null);
@@ -138,7 +139,7 @@ export function Showroom() {
       <div className="shell">
         <div className="shead">
           <Reveal as="p" dir="fade" className="shead__index">
-            {SECTION_INDEX.showroom}
+            {index ?? SECTION_INDEX.showroom}
           </Reveal>
           <Reveal as="h2" dir="left" className="t-h3 tt">
             A showroom <em>you can scroll.</em>
@@ -146,15 +147,12 @@ export function Showroom() {
         </div>
 
         <Reveal className="showroom__bar" dir="up" delay={0.06}>
-          {/* Page within the current brand, not position in the whole run —
-              "04 / 27" of SJ reads better than "04 / 43" of everything. */}
+          {/* Position among the five brands. */}
           <span className="showroom__count">
-            {String(slide.page).padStart(2, "0")} / {String(slide.pages).padStart(2, "0")}
+            {String(active + 1).padStart(2, "0")} / {String(slides.length).padStart(2, "0")}
           </span>
 
-          {/* SJ alone is 27 slides, so stepping is not a realistic way to
-              reach the other brands. These jump straight to a brand's first
-              page. */}
+          {/* Jump straight to a brand rather than stepping. */}
           <span className="showroom__brands">
             {BRAND_STARTS.map((b) => (
               <button
@@ -170,10 +168,10 @@ export function Showroom() {
           </span>
 
           <span className="showroom__controls">
-            <button className="sctl__nav" type="button" onClick={() => go(-1)} aria-label="Previous catalogues">
+            <button className="sctl__nav" type="button" onClick={() => go(-1)} aria-label="Previous brand catalogues">
               ←
             </button>
-            <button className="sctl__nav" type="button" onClick={() => go(1)} aria-label="More catalogues">
+            <button className="sctl__nav" type="button" onClick={() => go(1)} aria-label="More brand catalogues">
               →
             </button>
           </span>
@@ -331,17 +329,15 @@ export function Showroom() {
    paragraph) beside a dominant image carrying a CTA pill, two
    floating labels and a tag cluster.
    ============================================================ */
-export function EditorialShowcase() {
-  const [active, setActive] = useState(0);
-  const items = PRODUCT.thumbs;
-  const step = (d: number) => setActive((i) => (i + d + items.length) % items.length);
+export function EditorialShowcase({ index }: { index?: string } = {}) {
+  const cat = useCatalogueTabs(3);
 
   return (
     <section className="sect sect--comp sect--linen" data-nav-tone="light">
       <div className="shell">
         <div className="shead">
           <Reveal as="p" dir="fade" className="shead__index">
-            {SECTION_INDEX.editorial}
+            {index ?? SECTION_INDEX.editorial}
           </Reveal>
           <Reveal dir="right">
             <a className="tlink" href="/ecatalogue.php" data-cursor="View">
@@ -355,11 +351,17 @@ export function EditorialShowcase() {
       <Reveal className="comp product" dir="scale" start="top 88%">
         <div className="product__body">
           <div className="product__copy">
-            <nav className="product__nav" aria-label="Fabrics">
-              {PRODUCT.nav.map((l) => (
-                <a key={l.label} href={l.href} data-active={l.active ? "true" : undefined}>
-                  {l.label}
-                </a>
+            {/* Category tabs, backed by real catalogue data. */}
+            <nav className="product__nav" aria-label="Categories">
+              {cat.tabs.map((t) => (
+                <button
+                  key={t.id}
+                  type="button"
+                  onClick={() => cat.setTab(t.id)}
+                  data-active={cat.tab === t.id ? "true" : undefined}
+                >
+                  {t.label}
+                </button>
               ))}
             </nav>
 
@@ -373,18 +375,23 @@ export function EditorialShowcase() {
 
             {/* thumbnails: this row breaks out to the right, over the hero */}
             <div className="product__thumbs">
-              {items.map((t, i) => (
+              {cat.pageItems.map((c, i) => (
                 <button
                   className="product__thumb"
-                  key={t.src}
+                  key={c.id}
                   type="button"
-                  aria-pressed={i === active}
-                  aria-label={`Show ${t.name}`}
-                  onClick={() => setActive(i)}
+                  aria-pressed={i === cat.sel}
+                  aria-label={`Show ${c.title}`}
+                  onClick={() => cat.setSel(i)}
                 >
-                  <Image src={t.src} alt={t.alt} width={560} height={560} sizes="12vw"
-            unoptimized
-          />
+                  <Image
+                    src={c.cover ?? ""}
+                    alt={`${c.title}, ${c.type.toLowerCase()} by ${c.brand}`}
+                    width={560}
+                    height={560}
+                    sizes="12vw"
+                    unoptimized
+                  />
                   <span className="product__badge">
                     <Diag />
                   </span>
@@ -396,16 +403,16 @@ export function EditorialShowcase() {
               <button
                 className="product__ctl"
                 type="button"
-                onClick={() => step(-1)}
-                aria-label="Previous fabric"
+                onClick={() => cat.step(-1)}
+                aria-label="Previous fabrics"
               >
                 ←
               </button>
               <button
                 className="product__ctl"
                 type="button"
-                onClick={() => step(1)}
-                aria-label="Next fabric"
+                onClick={() => cat.step(1)}
+                aria-label="More fabrics"
               >
                 →
               </button>
@@ -416,29 +423,41 @@ export function EditorialShowcase() {
 
           {/* dominant image */}
           <ImageReveal className="product__hero" delay={0.1}>
-            {items.map((t, i) => (
+            {/* Stacked so the swap cross-fades via the existing [data-active]
+                rule rather than remounting the image. */}
+            {cat.pageItems.map((c, i) => (
               <Image
-                key={t.hero}
-                src={t.hero}
-                alt={t.heroAlt}
+                key={c.id}
+                src={c.cover ?? ""}
+                alt={`${c.title}, ${c.type.toLowerCase()} by ${c.brand}`}
                 width={1240}
                 height={1302}
                 sizes="(max-width: 1024px) 100vw, 56vw"
-                data-active={i === active}
+                data-active={i === cat.sel}
                 data-cursor="View"
-            unoptimized
-          />
+                unoptimized
+              />
             ))}
 
-            <a className="product__cta" href={PRODUCT.action.href} data-cursor="Open">
+            <a
+              className="product__cta"
+              href={cat.active?.pdf ?? undefined}
+              target="_blank"
+              rel="noopener"
+              data-cursor="Open"
+            >
               {PRODUCT.action.label}
               <span>
                 <Diag />
               </span>
             </a>
 
-            <span className="product__float product__float--a">{PRODUCT.floating[0]}</span>
-            <span className="product__float product__float--b">{PRODUCT.floating[1]}</span>
+            {cat.active ? (
+              <>
+                <span className="product__float product__float--a">{cat.active.title}</span>
+                <span className="product__float product__float--b">{cat.active.type}</span>
+              </>
+            ) : null}
 
             <span className="product__tags">
               {[PRODUCT.tags.slice(0, 3), PRODUCT.tags.slice(3)].map((row, i) => (

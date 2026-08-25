@@ -933,7 +933,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: min(46svh, 460px);
+  /* No min-height. The artwork now carries no dead margin of its own, so the
+     poster should be exactly as tall as it is — a floor here only reappears
+     as a black band whenever the image is narrower than the floor is tall,
+     which is what it was doing at every width below desktop. */
   isolation: isolate;
 }
 /* Centred via left:0/right:0 + margin-inline:auto, NOT transform: the
