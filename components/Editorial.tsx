@@ -420,7 +420,13 @@ export function Brands({ index }: { index?: string } = {}) {
             as="h2"
             className="t-h3 tt"
             step={0.09}
-            lines={["Five brands,", <em key="em">one house standard.</em>]}
+            /* One masked line, not two: LineReveal gives each entry its own
+               line box, so passing them separately is what split the heading. */
+            lines={[
+              <>
+                Five brands, <em>one house standard.</em>
+              </>,
+            ]}
           />
         </div>
 

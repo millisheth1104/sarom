@@ -504,6 +504,12 @@
    states are trimmed to identical bounds so they cross-fade in place
    without the slightest shift.
    ============================================================ */
+/* The heading is one line, so let it claim the width it needs rather than
+   wrapping back under the eyebrow. */
+.house .shead .lines__inner {
+  white-space: nowrap;
+}
+
 .house {
   background: var(--ivory);
   padding-block: var(--section-y) clamp(2.5rem, 5vw, 4.5rem);
