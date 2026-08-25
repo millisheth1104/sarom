@@ -1313,7 +1313,7 @@ export const CATALOGUES: Catalogue[] = [
     "collection": "Upholstery",
     "type": "Digital Print",
     "typeRaw": "Digital Print",
-    "cover": "/catalogues/_covers/sj/upholstery/alfredo.png",
+    "cover": "/catalogues/_covers/sj/upholstery/alfredo.webp",
     "pdf": "https://sarom.info/catalogpdf/ALFREDO.pdf",
     "pdfLocal": "/catalogues/sj/upholstery/alfredo.pdf"
   },
@@ -1324,7 +1324,7 @@ export const CATALOGUES: Catalogue[] = [
     "collection": "Upholstery",
     "type": "Digital Print",
     "typeRaw": "Digital Print",
-    "cover": "/catalogues/_covers/sj/upholstery/universe.png",
+    "cover": "/catalogues/_covers/sj/upholstery/universe.webp",
     "pdf": "https://sarom.info/catalogpdf/UNIVERSE.pdf",
     "pdfLocal": "/catalogues/sj/upholstery/universe.pdf"
   },
@@ -2105,7 +2105,7 @@ export const CATALOGUES: Catalogue[] = [
     "collection": "Upholstery",
     "type": "Sweden Velvet",
     "typeRaw": "Sweden Velvet",
-    "cover": "/catalogues/_covers/sj/upholstery/angel.png",
+    "cover": "/catalogues/_covers/sj/upholstery/angel.webp",
     "pdf": "https://sarom.info/catalogpdf/ANGEL.pdf",
     "pdfLocal": "/catalogues/sj/upholstery/angel.pdf"
   },
@@ -2116,7 +2116,7 @@ export const CATALOGUES: Catalogue[] = [
     "collection": "Upholstery",
     "type": "Velvet",
     "typeRaw": "Velvet",
-    "cover": "/catalogues/_covers/sj/upholstery/halden-volume-2.png",
+    "cover": "/catalogues/_covers/sj/upholstery/halden-volume-2.webp",
     "pdf": "https://sarom.info/catalogpdf/HALDEN VOLUME 2.pdf",
     "pdfLocal": "/catalogues/sj/upholstery/halden-volume-2.pdf"
   },
@@ -2127,7 +2127,7 @@ export const CATALOGUES: Catalogue[] = [
     "collection": "Upholstery",
     "type": "Digital Print",
     "typeRaw": "Digital Print",
-    "cover": "/catalogues/_covers/sj/upholstery/nakshi.png",
+    "cover": "/catalogues/_covers/sj/upholstery/nakshi.webp",
     "pdf": "https://sarom.info/catalogpdf/NAKSHI.pdf",
     "pdfLocal": "/catalogues/sj/upholstery/nakshi.pdf"
   },
@@ -2138,7 +2138,7 @@ export const CATALOGUES: Catalogue[] = [
     "collection": "Upholstery",
     "type": "Plain Velvet",
     "typeRaw": "Plain Velvet",
-    "cover": "/catalogues/_covers/sj/upholstery/alfy.png",
+    "cover": "/catalogues/_covers/sj/upholstery/alfy.webp",
     "pdf": "https://sarom.info/catalogpdf/ALFY.pdf",
     "pdfLocal": "/catalogues/sj/upholstery/alfy.pdf"
   },
@@ -2149,7 +2149,7 @@ export const CATALOGUES: Catalogue[] = [
     "collection": "Upholstery",
     "type": "Sweden Velvet",
     "typeRaw": "Sweden Velvet",
-    "cover": "/catalogues/_covers/sj/upholstery/alytus.png",
+    "cover": "/catalogues/_covers/sj/upholstery/alytus.webp",
     "pdf": "https://sarom.info/catalogpdf/ALYTUS.pdf",
     "pdfLocal": "/catalogues/sj/upholstery/alytus.pdf"
   },
@@ -2160,7 +2160,7 @@ export const CATALOGUES: Catalogue[] = [
     "collection": "Upholstery",
     "type": "Fancy Trendy Furry",
     "typeRaw": "Fancy Trendy Furry",
-    "cover": "/catalogues/_covers/sj/upholstery/zurich.png",
+    "cover": "/catalogues/_covers/sj/upholstery/zurich.webp",
     "pdf": "https://sarom.info/catalogpdf/ZURICH.pdf",
     "pdfLocal": "/catalogues/sj/upholstery/zurich.pdf"
   },
@@ -2171,7 +2171,7 @@ export const CATALOGUES: Catalogue[] = [
     "collection": "Upholstery",
     "type": "Woven",
     "typeRaw": "Woven",
-    "cover": "/catalogues/_covers/oofy/upholstery/pebbles.png",
+    "cover": "/catalogues/_covers/oofy/upholstery/pebbles.webp",
     "pdf": "https://sarom.info/catalogpdf/PEBBLES.pdf",
     "pdfLocal": "/catalogues/oofy/upholstery/pebbles.pdf"
   },
@@ -2182,7 +2182,7 @@ export const CATALOGUES: Catalogue[] = [
     "collection": "Upholstery",
     "type": "Woven",
     "typeRaw": "Woven",
-    "cover": "/catalogues/_covers/smart-plus/upholstery/leisure.png",
+    "cover": "/catalogues/_covers/smart-plus/upholstery/leisure.webp",
     "pdf": "https://sarom.info/catalogpdf/LEISURE.pdf",
     "pdfLocal": "/catalogues/smart-plus/upholstery/leisure.pdf"
   },
@@ -2193,7 +2193,7 @@ export const CATALOGUES: Catalogue[] = [
     "collection": "Upholstery",
     "type": "Woven",
     "typeRaw": "Woven",
-    "cover": "/catalogues/_covers/smart-plus/upholstery/aston.png",
+    "cover": "/catalogues/_covers/smart-plus/upholstery/aston.webp",
     "pdf": "https://sarom.info/catalogpdf/ASTON.pdf",
     "pdfLocal": "/catalogues/smart-plus/upholstery/aston.pdf"
   },
@@ -2215,7 +2215,7 @@ export const CATALOGUES: Catalogue[] = [
     "collection": "Upholstery",
     "type": "Woven",
     "typeRaw": "Woven",
-    "cover": "/catalogues/_covers/smart-plus/upholstery/wooly.png",
+    "cover": "/catalogues/_covers/smart-plus/upholstery/wooly.webp",
     "pdf": "https://sarom.info/catalogpdf/WOOLY.pdf",
     "pdfLocal": "/catalogues/smart-plus/upholstery/wooly.pdf"
   },
@@ -2226,7 +2226,7 @@ export const CATALOGUES: Catalogue[] = [
     "collection": "Upholstery",
     "type": "Woven",
     "typeRaw": "Woven",
-    "cover": "/catalogues/_covers/smart-plus/upholstery/giza.png",
+    "cover": "/catalogues/_covers/smart-plus/upholstery/giza.webp",
     "pdf": "https://sarom.info/catalogpdf/GIZA.pdf",
     "pdfLocal": "/catalogues/smart-plus/upholstery/giza.pdf"
   },
@@ -2237,7 +2237,7 @@ export const CATALOGUES: Catalogue[] = [
     "collection": "Upholstery",
     "type": "Woven",
     "typeRaw": "Woven",
-    "cover": "/catalogues/_covers/smart-plus/upholstery/melody.png",
+    "cover": "/catalogues/_covers/smart-plus/upholstery/melody.webp",
     "pdf": "https://sarom.info/catalogpdf/MELODY.pdf",
     "pdfLocal": "/catalogues/smart-plus/upholstery/melody.pdf"
   },
@@ -2248,7 +2248,7 @@ export const CATALOGUES: Catalogue[] = [
     "collection": "Upholstery",
     "type": "Woven",
     "typeRaw": "Woven",
-    "cover": "/catalogues/_covers/sj/upholstery/jodhpur-vol-1.png",
+    "cover": "/catalogues/_covers/sj/upholstery/jodhpur-vol-1.webp",
     "pdf": "https://sarom.info/catalogpdf/JODHPUR VOLUME 1.pdf",
     "pdfLocal": "/catalogues/sj/upholstery/jodhpur-vol-1.pdf"
   },
@@ -2259,7 +2259,7 @@ export const CATALOGUES: Catalogue[] = [
     "collection": "Upholstery",
     "type": "Woven",
     "typeRaw": "Woven",
-    "cover": "/catalogues/_covers/sj/upholstery/jodhpur-vol-2.png",
+    "cover": "/catalogues/_covers/sj/upholstery/jodhpur-vol-2.webp",
     "pdf": "https://sarom.info/catalogpdf/JODHPUR VOLUME 2.pdf",
     "pdfLocal": "/catalogues/sj/upholstery/jodhpur-vol-2.pdf"
   },
@@ -2270,7 +2270,7 @@ export const CATALOGUES: Catalogue[] = [
     "collection": "Upholstery",
     "type": "Woven",
     "typeRaw": "Woven",
-    "cover": "/catalogues/_covers/sj/upholstery/bikaner-vol-1.png",
+    "cover": "/catalogues/_covers/sj/upholstery/bikaner-vol-1.webp",
     "pdf": "https://sarom.info/catalogpdf/BIKANER VOLUME 1.pdf",
     "pdfLocal": "/catalogues/sj/upholstery/bikaner-vol-1.pdf"
   },
@@ -2281,7 +2281,7 @@ export const CATALOGUES: Catalogue[] = [
     "collection": "Upholstery",
     "type": "Woven",
     "typeRaw": "Woven",
-    "cover": "/catalogues/_covers/sj/upholstery/bikaner-vol-2.png",
+    "cover": "/catalogues/_covers/sj/upholstery/bikaner-vol-2.webp",
     "pdf": "https://sarom.info/catalogpdf/BIKANER VOLUME 2.pdf",
     "pdfLocal": "/catalogues/sj/upholstery/bikaner-vol-2.pdf"
   },
@@ -2292,7 +2292,7 @@ export const CATALOGUES: Catalogue[] = [
     "collection": "Upholstery",
     "type": "Woven",
     "typeRaw": "Woven",
-    "cover": "/catalogues/_covers/sj/upholstery/addis.png",
+    "cover": "/catalogues/_covers/sj/upholstery/addis.webp",
     "pdf": "https://sarom.info/catalogpdf/sjcurtains/sj/ADDIS.pdf",
     "pdfLocal": "/catalogues/sj/upholstery/addis.pdf"
   },
@@ -2303,7 +2303,7 @@ export const CATALOGUES: Catalogue[] = [
     "collection": "Upholstery",
     "type": "Woven",
     "typeRaw": "Woven",
-    "cover": "/catalogues/_covers/sj/upholstery/charcoal.png",
+    "cover": "/catalogues/_covers/sj/upholstery/charcoal.webp",
     "pdf": "https://sarom.info/catalogpdf/sjcurtains/sj/CHARCOAL.pdf",
     "pdfLocal": "/catalogues/sj/upholstery/charcoal.pdf"
   },
@@ -2314,7 +2314,7 @@ export const CATALOGUES: Catalogue[] = [
     "collection": "Upholstery",
     "type": "Woven",
     "typeRaw": "Woven",
-    "cover": "/catalogues/_covers/sj/upholstery/ducati.png",
+    "cover": "/catalogues/_covers/sj/upholstery/ducati.webp",
     "pdf": "https://sarom.info/catalogpdf/sjcurtains/sj/DUCATI.pdf",
     "pdfLocal": "/catalogues/sj/upholstery/ducati.pdf"
   },
@@ -2325,7 +2325,7 @@ export const CATALOGUES: Catalogue[] = [
     "collection": "Upholstery",
     "type": "Woven",
     "typeRaw": "Woven",
-    "cover": "/catalogues/_covers/sj/upholstery/wilford.png",
+    "cover": "/catalogues/_covers/sj/upholstery/wilford.webp",
     "pdf": "https://sarom.info/catalogpdf/sjcurtains/sj/WILFORD.pdf",
     "pdfLocal": "/catalogues/sj/upholstery/wilford.pdf"
   }

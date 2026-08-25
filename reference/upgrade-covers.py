@@ -60,9 +60,18 @@ def best_image(pdf_path, tmp):
     return best
 
 
+def rel_from_public(abs_path):
+    """/…/public/catalogues/x.webp -> /catalogues/x.webp"""
+    rel = os.path.relpath(abs_path, os.path.join(ROOT, "public"))
+    return "/" + rel.replace(os.sep, "/")
+
+
 def main():
     manifest = json.load(open(MANIFEST, encoding="utf-8"))
-    covers = {c["id"]: c["cover"] for c in json.load(open(COVERS, encoding="utf-8"))["covers"]}
+    covers_doc = json.load(open(COVERS, encoding="utf-8"))
+    covers = {c["id"]: c["cover"] for c in covers_doc["covers"]}
+    # id -> new path, for every cover whose extension this run changes
+    repointed = {}
 
     upgraded = skipped = failed = 0
     sizes = []
@@ -101,6 +110,11 @@ def main():
             os.replace(out + ".tmp", out)
             if out != cover and os.path.exists(cover):
                 os.remove(cover)
+                # The .png this record points at no longer exists. Record the
+                # new path — writing the file without repointing the manifest
+                # is what left 22 catalogues referencing a deleted cover and
+                # rendering as broken images on the live site.
+                repointed[rec["id"]] = rel_from_public(out)
             upgraded += 1
             sizes.append(im.width)
         finally:
