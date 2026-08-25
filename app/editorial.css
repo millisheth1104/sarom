@@ -506,10 +506,12 @@
    ============================================================ */
 .house {
   background: var(--ivory);
+  padding-block: var(--section-y) clamp(2.5rem, 5vw, 4.5rem);
 }
 /* One row, wrapping. Each cell is sized by its mark rather than boxed, so
    the logos read as a set of marks and not a rank of tiles. */
 .house__row {
+  margin-top: clamp(2.5rem, 6vw, 5.5rem);
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -537,9 +539,9 @@
      the aspect, capped for the wide lockups — the marks run from 0.58 to 6.24
      in aspect, so Smart Plus would otherwise be four times SJ's width.
      object-fit keeps it letterboxed rather than squashed when the cap binds. */
-  height: clamp(26px, 2.7vw, 38px);
+  height: clamp(32px, 3.4vw, 48px);
   width: auto;
-  max-width: min(180px, 34vw);
+  max-width: min(220px, 40vw);
   object-fit: contain;
   transition: opacity 0.45s var(--ease-soft);
 }
