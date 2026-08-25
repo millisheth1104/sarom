@@ -11,7 +11,6 @@ import {
   LETTER,
 } from "@/lib/content";
 import { Reveal, LineReveal, ImageReveal, Arrow } from "./Motion";
-import { BRAND_HERO } from "@/lib/catalogues";
 import { gsap, ScrollTrigger, registerGsap, prefersReducedMotion } from "@/lib/motion";
 
 /* ============================================================
@@ -409,8 +408,10 @@ export function Story({ index }: { index?: string } = {}) {
    ============================================================ */
 export function Brands({ index }: { index?: string } = {}) {
   return (
-    <section className="sect sect--comp house" data-nav-tone="light">
+    <section className="sect house" data-nav-tone="light">
       <div className="shell">
+        {/* The section heading is unchanged: index left, two-tone line right,
+            exactly as it was before the logo treatment was reworked. */}
         <div className="shead">
           <Reveal as="p" dir="fade" className="shead__index">
             {index ?? SECTION_INDEX.brands}
@@ -423,46 +424,26 @@ export function Brands({ index }: { index?: string } = {}) {
           />
         </div>
 
-        {/* Image-led and asymmetric, like the rest of the page. Five equal
-            tiles read as a partner strip; giving each brand its own
-            photography — and SJ, with 134 catalogues, the dominant slot —
-            makes it a composition instead. */}
         <div className="house__row" data-reveal-stagger="0.06">
-          {BRANDS.map((b) => {
-            const hero = BRAND_HERO[b.name];
-            return (
-              <Reveal
-                as="a"
-                className="house__cell"
-                dir="scale"
-                key={b.name}
-                href={b.href}
-                data-cursor="Open"
-                aria-label={`${b.name} — ${hero?.count ?? 0} catalogues`}
-              >
-                {hero?.cover ? (
-                  <Image
-                    className="house__photo"
-                    src={hero.cover}
-                    alt=""
-                    aria-hidden="true"
-                    width={900}
-                    height={1200}
-                    sizes="(max-width: 680px) 100vw, 34vw"
-                    unoptimized
-                  />
-                ) : null}
-                <span className="house__mark">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={b.logo} alt={`${b.name} by Sarom`} loading="lazy" />
-                </span>
-                <span className="house__meta">
-                  <b>{b.name}</b>
-                  {hero ? <i>{hero.count} catalogues</i> : null}
-                </span>
-              </Reveal>
-            );
-          })}
+          {BRANDS.map((b) => (
+            <Reveal
+              as="a"
+              className="house__cell"
+              dir="up"
+              key={b.name}
+              href={b.href}
+              data-cursor="Open"
+              aria-label={`${b.name} by Sarom`}
+            >
+              {/* Two states stacked so they cross-fade in place: a neutral
+                  grey mark at rest, the real logo on hover. Both are trimmed
+                  to identical bounds, so nothing shifts between them. */}
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img className="house__logo house__logo--grey" src={b.logoGrey} alt="" aria-hidden="true" loading="lazy" />
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img className="house__logo house__logo--colour" src={b.logoColour} alt={`${b.name} by Sarom`} loading="lazy" />
+            </Reveal>
+          ))}
         </div>
       </div>
     </section>

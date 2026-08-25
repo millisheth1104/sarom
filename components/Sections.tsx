@@ -57,13 +57,22 @@ export function Statement({ index }: { index?: string } = {}) {
                 ‹
               </button>
               {cat.pageItems.map((c, i) => (
-                <button
+                /* A link, not a button. These read as catalogues, so clicking
+                   one has to OPEN it — previously they only changed which
+                   image was showing and nothing opened, which looked broken.
+                   Selection moves to hover/focus so the dominant image still
+                   follows the pointer. */
+                <a
                   className="belong__thumb"
                   key={c.id}
-                  type="button"
-                  aria-pressed={i === cat.sel}
-                  aria-label={`Show ${c.title}`}
-                  onClick={() => cat.setSel(i)}
+                  href={c.pdf ?? undefined}
+                  target="_blank"
+                  rel="noopener"
+                  data-cursor="Open"
+                  aria-current={i === cat.sel}
+                  aria-label={`Open the ${c.title} catalogue (PDF)`}
+                  onMouseEnter={() => cat.setSel(i)}
+                  onFocus={() => cat.setSel(i)}
                 >
                   <Image
                     src={c.cover ?? ""}
@@ -74,7 +83,7 @@ export function Statement({ index }: { index?: string } = {}) {
                     unoptimized
                   />
                   <span>{c.title}</span>
-                </button>
+                </a>
               ))}
               <button
                 className="belong__arrow belong__arrow--next"

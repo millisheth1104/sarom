@@ -13,3 +13,10 @@ Albra Serif Font/
 # Scoped to *.pdf, NOT the whole folder: the cover images live alongside them
 # and are only ~6MB, and the showroom renders blank without them.
 public/catalogues/**/*.pdf
+
+.vercel
+
+# Env files. Nothing uses them today, but `vercel` offers to write .env.local
+# during setup and this repo is public — a committed key is a leaked key.
+.env
+.env*.local

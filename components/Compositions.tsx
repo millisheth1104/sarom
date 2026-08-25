@@ -376,13 +376,19 @@ export function EditorialShowcase({ index }: { index?: string } = {}) {
             {/* thumbnails: this row breaks out to the right, over the hero */}
             <div className="product__thumbs">
               {cat.pageItems.map((c, i) => (
-                <button
+                /* A link, not a button — see the matching note in Sections.tsx.
+                   Clicking a catalogue must open it. */
+                <a
                   className="product__thumb"
                   key={c.id}
-                  type="button"
-                  aria-pressed={i === cat.sel}
-                  aria-label={`Show ${c.title}`}
-                  onClick={() => cat.setSel(i)}
+                  href={c.pdf ?? undefined}
+                  target="_blank"
+                  rel="noopener"
+                  data-cursor="Open"
+                  aria-current={i === cat.sel}
+                  aria-label={`Open the ${c.title} catalogue (PDF)`}
+                  onMouseEnter={() => cat.setSel(i)}
+                  onFocus={() => cat.setSel(i)}
                 >
                   <Image
                     src={c.cover ?? ""}
@@ -395,7 +401,7 @@ export function EditorialShowcase({ index }: { index?: string } = {}) {
                   <span className="product__badge">
                     <Diag />
                   </span>
-                </button>
+                </a>
               ))}
             </div>
 

@@ -482,17 +482,30 @@ export const LETTER = {
  * The marks are rebuilt from each file's alpha channel into one ivory
  * silhouette: see reference/make-brand-marks.py to regenerate.
  */
+/**
+ * The five house brands, each with two states: a neutral grey mark at rest
+ * and the real logo on hover.
+ *
+ * The logo files originally in this project were the wrong variants — Smart
+ * Plus was a pure-WHITE version made for dark grounds, which is why it kept
+ * vanishing. The real one is lime green (#B8D654). Both states are built from
+ * the correct files by reference/make-brand-pair.py.
+ *
+ * The rest state is drawn from each logo's ALPHA channel rather than by
+ * desaturating it. A CSS grayscale() of a white logo is still white, so no
+ * amount of filtering would have made Smart Plus appear.
+ */
 export const BRANDS = [
-  { name: "SJ", href: "/brand-sj.php", logo: "/media/brands/mono/sj.webp" },
-  { name: "Oofy", href: "/brand-oofy.php", logo: "/media/brands/mono/oofy.webp" },
-  { name: "Matlin", href: "/brand-matlin.php", logo: "/media/brands/mono/matlin.webp" },
-  { name: "Smart Plus", href: "/brand-smart-plus.php", logo: "/media/brands/mono/smart-plus.webp" },
-  {
-    name: "Beds & More",
-    href: "/brand-beds-and-more.php",
-    logo: "/media/brands/mono/beds-and-more.webp",
-  },
-];
+  { name: "SJ", href: "/brand-sj.php", slug: "sj" },
+  { name: "Oofy", href: "/brand-oofy.php", slug: "oofy" },
+  { name: "Matlin", href: "/brand-matlin.php", slug: "matlin" },
+  { name: "Smart Plus", href: "/brand-smart-plus.php", slug: "smart-plus" },
+  { name: "Beds & More", href: "/brand-beds-and-more.php", slug: "beds-and-more" },
+].map((b) => ({
+  ...b,
+  logoGrey: `/media/brands/grey/${b.slug}.webp`,
+  logoColour: `/media/brands/colour/${b.slug}.webp`,
+}));
 
 export const STORY = {
   index: SECTION_INDEX.story,

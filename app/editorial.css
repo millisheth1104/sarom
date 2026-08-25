@@ -492,131 +492,78 @@
 }
 
 /* ============================================================
-   HOUSE BRANDS — five brands, one house standard
+   HOUSE BRANDS — five marks, grey at rest, real colour on hover
 
-   Five identical tiles read as a partner strip, not a chapter of
-   this page. Every other section here is image-led and asymmetric,
-   so this one is too: each brand gets its own photography, drawn
-   from that brand's real catalogues, and SJ — 134 catalogues to
-   Oofy's 9 — takes the dominant slot.
+   The logo files this project started with were the wrong variants:
+   Smart Plus was a pure-WHITE version made for dark grounds, which
+   is why it kept disappearing on ivory. The real mark is lime green.
 
-   The marks themselves are rebuilt from each logo's alpha channel
-   into one ivory silhouette (reference/make-brand-marks.py). The
-   supplied files are pure white, near-black and tan, so no single
-   ground could ever show all five.
+   The rest state is built from each logo's ALPHA channel rather than
+   by desaturating the artwork — a CSS grayscale() of a white logo is
+   still white, so filtering could never have rescued Smart Plus. Both
+   states are trimmed to identical bounds so they cross-fade in place
+   without the slightest shift.
    ============================================================ */
 .house {
   background: var(--ivory);
 }
+/* One row, wrapping. Each cell is sized by its mark rather than boxed, so
+   the logos read as a set of marks and not a rank of tiles. */
 .house__row {
-  display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  grid-auto-rows: clamp(150px, 17vw, 240px);
-  gap: clamp(0.5rem, 1.1vw, 1rem);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(1.6rem, 4.5vw, 4rem) clamp(2rem, 5.5vw, 5rem);
 }
-/* SJ leads: full height down the left, twice the weight of the rest. */
-.house__cell:nth-child(1) { grid-column: span 6; grid-row: span 2; }
-.house__cell:nth-child(2) { grid-column: span 3; }
-.house__cell:nth-child(3) { grid-column: span 3; }
-.house__cell:nth-child(4) { grid-column: span 3; }
-.house__cell:nth-child(5) { grid-column: span 3; }
-
 .house__cell {
   position: relative;
-  display: block;
-  overflow: hidden;
-  border-radius: clamp(14px, 1.6vw, 22px);
-  background: var(--charcoal);
-  isolation: isolate;
-  transition: transform 0.6s var(--ease-out-expo), box-shadow 0.6s var(--ease-soft);
-}
-.house__cell:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 20px 44px rgba(20, 17, 15, 0.26);
-}
-.house__photo {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  /* Held back so the mark stays the subject — the photograph is a ground,
-     not the message. */
-  opacity: 0.42;
-  filter: grayscale(0.35);
-  transition: transform 0.9s var(--ease-out-expo), opacity 0.6s var(--ease-soft),
-    filter 0.6s var(--ease-soft);
-}
-.house__cell:hover .house__photo {
-  transform: scale(1.05);
-  opacity: 0.58;
-  filter: grayscale(0);
-}
-/* Scrim: darkest at the foot, where the name sits. */
-.house__cell::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    to top,
-    rgba(20, 17, 15, 0.92) 0%,
-    rgba(20, 17, 15, 0.5) 42%,
-    rgba(20, 17, 15, 0.34) 100%
-  );
-  pointer-events: none;
-}
-/* The mark sits optically centred in the upper field, clear of the name. */
-.house__mark {
-  position: absolute;
-  inset: 0 0 auto 0;
-  top: 0;
-  height: 68%;
-  z-index: 2;
   display: grid;
   place-items: center;
-  padding: clamp(1rem, 2vw, 2rem);
+  /* The cell takes its size from the marks, which carry the definite height
+     themselves — see .house__logo. Setting the height here and asking the
+     image for 100% of it does NOT work: a percentage height on a grid item
+     resolves against the grid area, that area is auto-sized by its content,
+     and the content is the image. The percentage is dropped and the image
+     falls back to its intrinsic 200px, overflowing a 46px cell. */
+  transition: transform 0.5s var(--ease-out-expo);
 }
-.house__mark img {
-  height: clamp(26px, 2.7vw, 42px);
-  max-width: 74%;
+.house__cell:hover {
+  transform: translateY(-3px);
+}
+.house__logo {
+  grid-area: 1 / 1;
+  /* Definite height, so all five sit on one optical baseline. Width follows
+     the aspect, capped for the wide lockups — the marks run from 0.58 to 6.24
+     in aspect, so Smart Plus would otherwise be four times SJ's width.
+     object-fit keeps it letterboxed rather than squashed when the cap binds. */
+  height: clamp(20px, 2.1vw, 30px);
   width: auto;
+  max-width: min(150px, 30vw);
   object-fit: contain;
-  transition: transform 0.6s var(--ease-out-expo);
+  transition: opacity 0.45s var(--ease-soft);
 }
-/* The dominant tile carries a larger mark, in proportion to its slot. */
-.house__cell:nth-child(1) .house__mark img {
-  height: clamp(34px, 3.6vw, 58px);
+/* Rest: the neutral mark, held back. Hover: the real logo, full strength. */
+.house__logo--grey {
+  opacity: 0.6;
 }
-.house__cell:hover .house__mark img {
-  transform: scale(1.05);
+.house__logo--colour {
+  opacity: 0;
 }
-.house__meta {
-  position: absolute;
-  left: clamp(0.9rem, 1.6vw, 1.5rem);
-  right: clamp(0.9rem, 1.6vw, 1.5rem);
-  bottom: clamp(0.85rem, 1.5vw, 1.4rem);
-  z-index: 2;
-  display: grid;
-  gap: 0.25rem;
+.house__cell:hover .house__logo--grey {
+  opacity: 0;
 }
-.house__meta b {
-  font-size: var(--fs-meta);
-  font-weight: 400;
-  letter-spacing: var(--tr-meta);
-  text-transform: uppercase;
-  color: var(--ivory);
+.house__cell:hover .house__logo--colour {
+  opacity: 1;
 }
-.house__meta i {
-  font-style: normal;
-  font-size: 0.5625rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: rgba(245, 240, 232, 0.5);
-  transition: color 0.5s var(--ease-soft);
+/* Keyboard users get the same reveal as the mouse. */
+.house__cell:focus-visible .house__logo--grey {
+  opacity: 0;
 }
-.house__cell:hover .house__meta i {
-  color: var(--accent);
+.house__cell:focus-visible .house__logo--colour {
+  opacity: 1;
 }
+
 
 /* ============================================================
    CLOSING CTA — "a letter worth keeping" card on a dark ground
@@ -717,17 +664,6 @@
     grid-template-columns: repeat(3, 1fr);
   }
 
-  /* The 6/3/3 composition needs desktop width. Below it SJ keeps the lead as
-     a full-width band and the other four pair up — the 12-col grid stays, only
-     the spans change, or the nth-child rules above would fight it. */
-  .house__cell:nth-child(1) {
-    grid-column: span 12;
-    grid-row: span 1;
-  }
-  .house__cell:nth-child(n + 2) {
-    grid-column: span 6;
-  }
-
   .letter__card {
     grid-template-columns: 1fr;
   }
@@ -746,8 +682,9 @@
     font-size: 0.8125rem;
   }
 
+  /* Tighter gaps so five marks still read as one row on a phone. */
   .house__row {
-    grid-auto-rows: clamp(128px, 34vw, 190px);
+    gap: 1.4rem 2rem;
   }
 
   .letter__actions .letter__btn {

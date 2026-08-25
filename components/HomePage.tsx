@@ -10,10 +10,10 @@ import { MARQUEE_WORDS, PROPERTIES, SITE, sectionLabel } from "@/lib/content";
 /**
  * Which of the two category-tabbed compositions the page shows.
  *
- * The Collections composition (01) and The Edit composition (03) now do the
- * same job — both are a pill nav over a thumbnail row and one dominant image,
- * both driven by the same catalogue data — so running both is a duplication.
- * The preview routes render one each so the two can be compared before one is
+ * The Collections composition (01) and The Edit composition now do the same
+ * job — both are a pill nav over a thumbnail row and one dominant image, both
+ * driven by the same catalogue data — so running both is a duplication. The
+ * preview routes render one each so the two can be compared before one is
  * dropped; "both" is the current homepage, unchanged until that call is made.
  */
 export type HomeVariant = "both" | "collections" | "edit";
@@ -22,28 +22,23 @@ export function HomePage({ variant = "both" }: { variant?: HomeVariant }) {
   const showCollections = variant === "both" || variant === "collections";
   const showEdit = variant === "both" || variant === "edit";
 
-  /* Numbering is computed, not looked up. Each preview drops one of the two
-     compositions, which shifts every eyebrow after it — and in the `edit`
-     variant The Edit composition takes the Collections slot outright: first
-     on the page and labelled "01 — Collections", since it is standing in for
-     that section rather than sitting alongside it.
-     `both` keeps the original five-section numbering untouched. */
-  const label =
-    variant === "both"
-      ? {
-          collections: undefined, // falls back to the component's own default
-          showroom: undefined,
-          edit: undefined,
-          story: undefined,
-          brands: undefined,
-        }
-      : {
-          collections: sectionLabel(1, "Collections"),
-          showroom: sectionLabel(2, "Showroom"),
-          edit: sectionLabel(1, "Collections"),
-          story: sectionLabel(3, "Our Story"),
-          brands: sectionLabel(4, "House Brands"),
-        };
+  /* Section eyebrows are NUMBERED BY POSITION, not by a fixed map. The brands
+     lead the page now, and each preview drops one of the two compositions —
+     between them, any hard-coded numbering drifts out of order immediately. */
+  const order: string[] = ["House Brands"];
+  if (showCollections) order.push("Collections");
+  order.push("Showroom");
+  if (showEdit && variant !== "edit") order.push("The Edit");
+  order.push("Our Story");
+
+  const label = (name: string) => {
+    const i = order.indexOf(name);
+    return i === -1 ? undefined : sectionLabel(i + 1, name);
+  };
+
+  /* In the `edit` variant The Edit composition stands in for Collections
+     outright, so it takes that name rather than its own. */
+  const editLabel = variant === "edit" ? label("Collections") : label("The Edit");
 
   return (
     <MotionProvider>
@@ -58,13 +53,14 @@ export function HomePage({ variant = "both" }: { variant?: HomeVariant }) {
           <Marquee items={MARQUEE_WORDS} duration={52} />
         </div>
 
-        {/* In the `edit` variant The Edit composition IS the collections
-            section, so it leads the page. Everywhere else it keeps its own
-            slot after the showroom. */}
-        {variant === "edit" ? <EditorialShowcase index={label.edit} /> : null}
-        {showCollections ? <Statement index={label.collections} /> : null}
-        <Showroom index={label.showroom} />
-        {showEdit && variant !== "edit" ? <EditorialShowcase index={label.edit} /> : null}
+        {/* The five house brands lead the page: they are the first thing the
+            client wants a visitor to meet after the hero. */}
+        <Brands index={label("House Brands")} />
+
+        {variant === "edit" ? <EditorialShowcase index={editLabel} /> : null}
+        {showCollections ? <Statement index={label("Collections")} /> : null}
+        <Showroom index={label("Showroom")} />
+        {showEdit && variant !== "edit" ? <EditorialShowcase index={editLabel} /> : null}
         <Films />
 
         <div data-nav-tone="light">
@@ -76,8 +72,7 @@ export function HomePage({ variant = "both" }: { variant?: HomeVariant }) {
           />
         </div>
 
-        <Story index={label.story} />
-        <Brands index={label.brands} />
+        <Story index={label("Our Story")} />
         <ClosingCta />
       </main>
 
