@@ -1,0 +1,842 @@
+{
+  "covers": [
+    {
+      "id": 2,
+      "cover": "/catalogues/_covers/sj/curtains/adonis.webp"
+    },
+    {
+      "id": 4,
+      "cover": "/catalogues/_covers/sj/curtains/alton.webp"
+    },
+    {
+      "id": 8,
+      "cover": "/catalogues/_covers/sj/curtains/calico.webp"
+    },
+    {
+      "id": 5,
+      "cover": "/catalogues/_covers/sj/curtains/amalfi.webp"
+    },
+    {
+      "id": 6,
+      "cover": "/catalogues/_covers/sj/curtains/ambience.webp"
+    },
+    {
+      "id": 1,
+      "cover": "/catalogues/_covers/sj/curtains/abaca.webp"
+    },
+    {
+      "id": 9,
+      "cover": "/catalogues/_covers/sj/curtains/calix.webp"
+    },
+    {
+      "id": 10,
+      "cover": "/catalogues/_covers/sj/curtains/canary.webp"
+    },
+    {
+      "id": 3,
+      "cover": "/catalogues/_covers/sj/curtains/akira.webp"
+    },
+    {
+      "id": 7,
+      "cover": "/catalogues/_covers/sj/curtains/antheia.webp"
+    },
+    {
+      "id": 11,
+      "cover": "/catalogues/_covers/sj/curtains/casabella.webp"
+    },
+    {
+      "id": 12,
+      "cover": "/catalogues/_covers/sj/curtains/caspiana.webp"
+    },
+    {
+      "id": 13,
+      "cover": "/catalogues/_covers/sj/curtains/chezani.webp"
+    },
+    {
+      "id": 14,
+      "cover": "/catalogues/_covers/sj/curtains/cosimia.webp"
+    },
+    {
+      "id": 15,
+      "cover": "/catalogues/_covers/sj/curtains/crystal.webp"
+    },
+    {
+      "id": 16,
+      "cover": "/catalogues/_covers/sj/curtains/cyprus.webp"
+    },
+    {
+      "id": 19,
+      "cover": "/catalogues/_covers/sj/curtains/eliz.webp"
+    },
+    {
+      "id": 18,
+      "cover": "/catalogues/_covers/sj/curtains/elite.webp"
+    },
+    {
+      "id": 17,
+      "cover": "/catalogues/_covers/sj/curtains/dior.webp"
+    },
+    {
+      "id": 20,
+      "cover": "/catalogues/_covers/sj/curtains/hawaii.webp"
+    },
+    {
+      "id": 21,
+      "cover": "/catalogues/_covers/sj/curtains/hector.webp"
+    },
+    {
+      "id": 22,
+      "cover": "/catalogues/_covers/sj/curtains/imperia.webp"
+    },
+    {
+      "id": 23,
+      "cover": "/catalogues/_covers/sj/curtains/jiya-revival.webp"
+    },
+    {
+      "id": 24,
+      "cover": "/catalogues/_covers/sj/curtains/linea.webp"
+    },
+    {
+      "id": 26,
+      "cover": "/catalogues/_covers/sj/curtains/monaco.webp"
+    },
+    {
+      "id": 27,
+      "cover": "/catalogues/_covers/sj/curtains/novy.webp"
+    },
+    {
+      "id": 29,
+      "cover": "/catalogues/_covers/sj/curtains/pristine.webp"
+    },
+    {
+      "id": 28,
+      "cover": "/catalogues/_covers/sj/curtains/otto.webp"
+    },
+    {
+      "id": 30,
+      "cover": "/catalogues/_covers/sj/curtains/regalia.webp"
+    },
+    {
+      "id": 31,
+      "cover": "/catalogues/_covers/sj/curtains/regency.webp"
+    },
+    {
+      "id": 33,
+      "cover": "/catalogues/_covers/sj/curtains/romania.webp"
+    },
+    {
+      "id": 32,
+      "cover": "/catalogues/_covers/sj/curtains/rolex.webp"
+    },
+    {
+      "id": 34,
+      "cover": "/catalogues/_covers/sj/curtains/sheen.webp"
+    },
+    {
+      "id": 35,
+      "cover": "/catalogues/_covers/sj/curtains/silica.webp"
+    },
+    {
+      "id": 36,
+      "cover": "/catalogues/_covers/sj/curtains/silket.webp"
+    },
+    {
+      "id": 25,
+      "cover": "/catalogues/_covers/sj/curtains/liona.webp"
+    },
+    {
+      "id": 37,
+      "cover": "/catalogues/_covers/sj/curtains/solace.webp"
+    },
+    {
+      "id": 38,
+      "cover": "/catalogues/_covers/sj/curtains/solitaire.webp"
+    },
+    {
+      "id": 40,
+      "cover": "/catalogues/_covers/sj/curtains/alma.webp"
+    },
+    {
+      "id": 41,
+      "cover": "/catalogues/_covers/sj/curtains/amesbury.webp"
+    },
+    {
+      "id": 39,
+      "cover": "/catalogues/_covers/sj/curtains/aaron.webp"
+    },
+    {
+      "id": 43,
+      "cover": "/catalogues/_covers/sj/curtains/aubrey.webp"
+    },
+    {
+      "id": 45,
+      "cover": "/catalogues/_covers/sj/curtains/capri.webp"
+    },
+    {
+      "id": 46,
+      "cover": "/catalogues/_covers/sj/curtains/cloud.webp"
+    },
+    {
+      "id": 42,
+      "cover": "/catalogues/_covers/sj/curtains/andora.webp"
+    },
+    {
+      "id": 48,
+      "cover": "/catalogues/_covers/sj/curtains/eva.webp"
+    },
+    {
+      "id": 47,
+      "cover": "/catalogues/_covers/sj/curtains/infinty.webp"
+    },
+    {
+      "id": 49,
+      "cover": "/catalogues/_covers/sj/curtains/neoma.webp"
+    },
+    {
+      "id": 50,
+      "cover": "/catalogues/_covers/sj/curtains/royal.webp"
+    },
+    {
+      "id": 51,
+      "cover": "/catalogues/_covers/sj/curtains/willshire.webp"
+    },
+    {
+      "id": 52,
+      "cover": "/catalogues/_covers/sj/upholstery/albert.webp"
+    },
+    {
+      "id": 53,
+      "cover": "/catalogues/_covers/sj/upholstery/amy.webp"
+    },
+    {
+      "id": 55,
+      "cover": "/catalogues/_covers/sj/upholstery/august.webp"
+    },
+    {
+      "id": 54,
+      "cover": "/catalogues/_covers/sj/upholstery/aria.webp"
+    },
+    {
+      "id": 56,
+      "cover": "/catalogues/_covers/sj/upholstery/azzurra.webp"
+    },
+    {
+      "id": 57,
+      "cover": "/catalogues/_covers/sj/upholstery/ibiza.webp"
+    },
+    {
+      "id": 44,
+      "cover": "/catalogues/_covers/sj/curtains/canberra.webp"
+    },
+    {
+      "id": 59,
+      "cover": "/catalogues/_covers/sj/upholstery/palomino.webp"
+    },
+    {
+      "id": 58,
+      "cover": "/catalogues/_covers/sj/upholstery/novel.webp"
+    },
+    {
+      "id": 60,
+      "cover": "/catalogues/_covers/sj/upholstery/aboone.webp"
+    },
+    {
+      "id": 61,
+      "cover": "/catalogues/_covers/sj/upholstery/adriana.webp"
+    },
+    {
+      "id": 63,
+      "cover": "/catalogues/_covers/sj/upholstery/alpha.webp"
+    },
+    {
+      "id": 62,
+      "cover": "/catalogues/_covers/sj/upholstery/albany.webp"
+    },
+    {
+      "id": 65,
+      "cover": "/catalogues/_covers/sj/upholstery/amazon.webp"
+    },
+    {
+      "id": 66,
+      "cover": "/catalogues/_covers/sj/upholstery/amber.webp"
+    },
+    {
+      "id": 68,
+      "cover": "/catalogues/_covers/sj/upholstery/asaba.webp"
+    },
+    {
+      "id": 69,
+      "cover": "/catalogues/_covers/sj/upholstery/asmara.webp"
+    },
+    {
+      "id": 67,
+      "cover": "/catalogues/_covers/sj/upholstery/apache.webp"
+    },
+    {
+      "id": 70,
+      "cover": "/catalogues/_covers/sj/upholstery/aspen.webp"
+    },
+    {
+      "id": 72,
+      "cover": "/catalogues/_covers/sj/upholstery/astor.webp"
+    },
+    {
+      "id": 73,
+      "cover": "/catalogues/_covers/sj/upholstery/avita-persian.webp"
+    },
+    {
+      "id": 74,
+      "cover": "/catalogues/_covers/sj/upholstery/bentley.webp"
+    },
+    {
+      "id": 75,
+      "cover": "/catalogues/_covers/sj/upholstery/berry-cambry.webp"
+    },
+    {
+      "id": 76,
+      "cover": "/catalogues/_covers/sj/upholstery/breeze.webp"
+    },
+    {
+      "id": 77,
+      "cover": "/catalogues/_covers/sj/upholstery/brisbane-new.webp"
+    },
+    {
+      "id": 78,
+      "cover": "/catalogues/_covers/sj/upholstery/cairo.webp"
+    },
+    {
+      "id": 79,
+      "cover": "/catalogues/_covers/sj/upholstery/calibri.webp"
+    },
+    {
+      "id": 81,
+      "cover": "/catalogues/_covers/sj/upholstery/carolina.webp"
+    },
+    {
+      "id": 82,
+      "cover": "/catalogues/_covers/sj/upholstery/casper-cherry.webp"
+    },
+    {
+      "id": 84,
+      "cover": "/catalogues/_covers/sj/upholstery/elantra.webp"
+    },
+    {
+      "id": 83,
+      "cover": "/catalogues/_covers/sj/upholstery/choper.webp"
+    },
+    {
+      "id": 85,
+      "cover": "/catalogues/_covers/sj/upholstery/florous.webp"
+    },
+    {
+      "id": 86,
+      "cover": "/catalogues/_covers/sj/upholstery/glaze.webp"
+    },
+    {
+      "id": 87,
+      "cover": "/catalogues/_covers/sj/upholstery/hera.webp"
+    },
+    {
+      "id": 88,
+      "cover": "/catalogues/_covers/sj/upholstery/heritage.webp"
+    },
+    {
+      "id": 89,
+      "cover": "/catalogues/_covers/sj/upholstery/jaguar.webp"
+    },
+    {
+      "id": 90,
+      "cover": "/catalogues/_covers/sj/upholstery/jaipur-volume-1.webp"
+    },
+    {
+      "id": 91,
+      "cover": "/catalogues/_covers/sj/upholstery/jaipur-volume-2.webp"
+    },
+    {
+      "id": 93,
+      "cover": "/catalogues/_covers/sj/upholstery/lenka.webp"
+    },
+    {
+      "id": 92,
+      "cover": "/catalogues/_covers/sj/upholstery/kilim.webp"
+    },
+    {
+      "id": 95,
+      "cover": "/catalogues/_covers/sj/upholstery/linus.webp"
+    },
+    {
+      "id": 94,
+      "cover": "/catalogues/_covers/sj/upholstery/libra.webp"
+    },
+    {
+      "id": 96,
+      "cover": "/catalogues/_covers/sj/upholstery/lisa.webp"
+    },
+    {
+      "id": 97,
+      "cover": "/catalogues/_covers/sj/upholstery/lisabel.webp"
+    },
+    {
+      "id": 98,
+      "cover": "/catalogues/_covers/sj/upholstery/marble.webp"
+    },
+    {
+      "id": 99,
+      "cover": "/catalogues/_covers/sj/upholstery/melisa.webp"
+    },
+    {
+      "id": 101,
+      "cover": "/catalogues/_covers/sj/upholstery/milano.webp"
+    },
+    {
+      "id": 100,
+      "cover": "/catalogues/_covers/sj/upholstery/merasa.webp"
+    },
+    {
+      "id": 102,
+      "cover": "/catalogues/_covers/sj/upholstery/mustan.webp"
+    },
+    {
+      "id": 103,
+      "cover": "/catalogues/_covers/sj/upholstery/new-molfino.webp"
+    },
+    {
+      "id": 104,
+      "cover": "/catalogues/_covers/sj/upholstery/paramount.webp"
+    },
+    {
+      "id": 107,
+      "cover": "/catalogues/_covers/sj/upholstery/piano.webp"
+    },
+    {
+      "id": 105,
+      "cover": "/catalogues/_covers/sj/upholstery/penza.webp"
+    },
+    {
+      "id": 106,
+      "cover": "/catalogues/_covers/sj/upholstery/persian.webp"
+    },
+    {
+      "id": 108,
+      "cover": "/catalogues/_covers/sj/upholstery/pixel-ibiza.webp"
+    },
+    {
+      "id": 109,
+      "cover": "/catalogues/_covers/sj/upholstery/riviera.webp"
+    },
+    {
+      "id": 110,
+      "cover": "/catalogues/_covers/sj/upholstery/savannah.webp"
+    },
+    {
+      "id": 111,
+      "cover": "/catalogues/_covers/sj/upholstery/soho.webp"
+    },
+    {
+      "id": 112,
+      "cover": "/catalogues/_covers/sj/upholstery/sugar.webp"
+    },
+    {
+      "id": 113,
+      "cover": "/catalogues/_covers/sj/upholstery/sumba.webp"
+    },
+    {
+      "id": 114,
+      "cover": "/catalogues/_covers/sj/upholstery/taras.webp"
+    },
+    {
+      "id": 115,
+      "cover": "/catalogues/_covers/sj/upholstery/victoria-vermount.webp"
+    },
+    {
+      "id": 116,
+      "cover": "/catalogues/_covers/sj/upholstery/vigo.webp"
+    },
+    {
+      "id": 117,
+      "cover": "/catalogues/_covers/sj/upholstery/vivian-checks.webp"
+    },
+    {
+      "id": 118,
+      "cover": "/catalogues/_covers/sj/upholstery/winchester.webp"
+    },
+    {
+      "id": 119,
+      "cover": "/catalogues/_covers/sj/upholstery/zenith.webp"
+    },
+    {
+      "id": 120,
+      "cover": "/catalogues/_covers/sj/upholstery/alfredo.png"
+    },
+    {
+      "id": 121,
+      "cover": "/catalogues/_covers/sj/upholstery/universe.png"
+    },
+    {
+      "id": 122,
+      "cover": "/catalogues/_covers/sj/upholstery-curtain/luxor-n.webp"
+    },
+    {
+      "id": 123,
+      "cover": "/catalogues/_covers/sj/upholstery-curtain/velveto-plush.webp"
+    },
+    {
+      "id": 124,
+      "cover": "/catalogues/_covers/matlin/curtains/alesia.webp"
+    },
+    {
+      "id": 125,
+      "cover": "/catalogues/_covers/matlin/curtains/alex.webp"
+    },
+    {
+      "id": 126,
+      "cover": "/catalogues/_covers/matlin/curtains/amanda.webp"
+    },
+    {
+      "id": 127,
+      "cover": "/catalogues/_covers/matlin/curtains/amour.webp"
+    },
+    {
+      "id": 129,
+      "cover": "/catalogues/_covers/matlin/curtains/chantily.webp"
+    },
+    {
+      "id": 130,
+      "cover": "/catalogues/_covers/matlin/curtains/fiona.webp"
+    },
+    {
+      "id": 132,
+      "cover": "/catalogues/_covers/matlin/curtains/samara.webp"
+    },
+    {
+      "id": 131,
+      "cover": "/catalogues/_covers/matlin/curtains/linea.webp"
+    },
+    {
+      "id": 133,
+      "cover": "/catalogues/_covers/matlin/curtains/savour.webp"
+    },
+    {
+      "id": 135,
+      "cover": "/catalogues/_covers/matlin/curtains/abellone.webp"
+    },
+    {
+      "id": 136,
+      "cover": "/catalogues/_covers/matlin/upholstery-curtain/cinthia.webp"
+    },
+    {
+      "id": 137,
+      "cover": "/catalogues/_covers/matlin/upholstery-curtain/mayfair.webp"
+    },
+    {
+      "id": 138,
+      "cover": "/catalogues/_covers/matlin/upholstery-curtain/myra.webp"
+    },
+    {
+      "id": 134,
+      "cover": "/catalogues/_covers/matlin/upholstery-curtain/willow.webp"
+    },
+    {
+      "id": 139,
+      "cover": "/catalogues/_covers/matlin/upholstery-curtain/onella.webp"
+    },
+    {
+      "id": 140,
+      "cover": "/catalogues/_covers/matlin/upholstery-curtain/orea.webp"
+    },
+    {
+      "id": 142,
+      "cover": "/catalogues/_covers/matlin/upholstery-curtain/atmosphere.webp"
+    },
+    {
+      "id": 141,
+      "cover": "/catalogues/_covers/matlin/upholstery-curtain/mamboo.webp"
+    },
+    {
+      "id": 144,
+      "cover": "/catalogues/_covers/matlin/upholstery/delilah.webp"
+    },
+    {
+      "id": 145,
+      "cover": "/catalogues/_covers/matlin/upholstery/felix.webp"
+    },
+    {
+      "id": 143,
+      "cover": "/catalogues/_covers/matlin/upholstery-curtain/cassia.webp"
+    },
+    {
+      "id": 146,
+      "cover": "/catalogues/_covers/matlin/upholstery/isabella.webp"
+    },
+    {
+      "id": 147,
+      "cover": "/catalogues/_covers/matlin/upholstery/udaipur.webp"
+    },
+    {
+      "id": 148,
+      "cover": "/catalogues/_covers/oofy/upholstery-curtain/abruzzi.webp"
+    },
+    {
+      "id": 151,
+      "cover": "/catalogues/_covers/oofy/curtains/costa.webp"
+    },
+    {
+      "id": 150,
+      "cover": "/catalogues/_covers/oofy/upholstery-curtain/avezzano-bolzano.webp"
+    },
+    {
+      "id": 149,
+      "cover": "/catalogues/_covers/oofy/curtains/auralia.webp"
+    },
+    {
+      "id": 152,
+      "cover": "/catalogues/_covers/oofy/upholstery/tivoli.webp"
+    },
+    {
+      "id": 153,
+      "cover": "/catalogues/_covers/oofy/upholstery/bryan.webp"
+    },
+    {
+      "id": 154,
+      "cover": "/catalogues/_covers/oofy/upholstery/doralia.webp"
+    },
+    {
+      "id": 155,
+      "cover": "/catalogues/_covers/oofy/upholstery/tiffany-brittany.webp"
+    },
+    {
+      "id": 166,
+      "cover": "/catalogues/_covers/oofy/upholstery/velur.webp"
+    },
+    {
+      "id": 168,
+      "cover": "/catalogues/_covers/smart-plus/upholstery/altima.webp"
+    },
+    {
+      "id": 128,
+      "cover": "/catalogues/_covers/matlin/upholstery-curtain/celina.webp"
+    },
+    {
+      "id": 167,
+      "cover": "/catalogues/_covers/oofy/upholstery/aluva.webp"
+    },
+    {
+      "id": 169,
+      "cover": "/catalogues/_covers/smart-plus/upholstery/ambiant.webp"
+    },
+    {
+      "id": 170,
+      "cover": "/catalogues/_covers/smart-plus/upholstery/bailey.webp"
+    },
+    {
+      "id": 171,
+      "cover": "/catalogues/_covers/smart-plus/upholstery/ferrari.webp"
+    },
+    {
+      "id": 172,
+      "cover": "/catalogues/_covers/smart-plus/upholstery/keiba.webp"
+    },
+    {
+      "id": 174,
+      "cover": "/catalogues/_covers/smart-plus/upholstery/levi.webp"
+    },
+    {
+      "id": 176,
+      "cover": "/catalogues/_covers/smart-plus/upholstery/marwin.webp"
+    },
+    {
+      "id": 177,
+      "cover": "/catalogues/_covers/smart-plus/upholstery/meraki.webp"
+    },
+    {
+      "id": 175,
+      "cover": "/catalogues/_covers/smart-plus/upholstery/luke.webp"
+    },
+    {
+      "id": 173,
+      "cover": "/catalogues/_covers/smart-plus/upholstery/kenzi.webp"
+    },
+    {
+      "id": 178,
+      "cover": "/catalogues/_covers/smart-plus/upholstery/merry.webp"
+    },
+    {
+      "id": 179,
+      "cover": "/catalogues/_covers/smart-plus/upholstery/perth.webp"
+    },
+    {
+      "id": 180,
+      "cover": "/catalogues/_covers/smart-plus/upholstery/phantom.webp"
+    },
+    {
+      "id": 181,
+      "cover": "/catalogues/_covers/smart-plus/upholstery/soffice.webp"
+    },
+    {
+      "id": 184,
+      "cover": "/catalogues/_covers/beds-and-more/curtains/amos.webp"
+    },
+    {
+      "id": 182,
+      "cover": "/catalogues/_covers/smart-plus/upholstery/sierra.webp"
+    },
+    {
+      "id": 186,
+      "cover": "/catalogues/_covers/beds-and-more/curtains/cable.webp"
+    },
+    {
+      "id": 185,
+      "cover": "/catalogues/_covers/beds-and-more/curtains/bali-stripes.webp"
+    },
+    {
+      "id": 187,
+      "cover": "/catalogues/_covers/beds-and-more/curtains/diffusion.webp"
+    },
+    {
+      "id": 189,
+      "cover": "/catalogues/_covers/beds-and-more/upholstery/florent.webp"
+    },
+    {
+      "id": 188,
+      "cover": "/catalogues/_covers/beds-and-more/curtains/eva.webp"
+    },
+    {
+      "id": 192,
+      "cover": "/catalogues/_covers/beds-and-more/upholstery/jardin.webp"
+    },
+    {
+      "id": 191,
+      "cover": "/catalogues/_covers/beds-and-more/upholstery/iconique.webp"
+    },
+    {
+      "id": 190,
+      "cover": "/catalogues/_covers/beds-and-more/upholstery/harmonie.webp"
+    },
+    {
+      "id": 193,
+      "cover": "/catalogues/_covers/beds-and-more/upholstery/jasper.webp"
+    },
+    {
+      "id": 194,
+      "cover": "/catalogues/_covers/beds-and-more/upholstery/linnean.webp"
+    },
+    {
+      "id": 195,
+      "cover": "/catalogues/_covers/beds-and-more/upholstery/mouvement.webp"
+    },
+    {
+      "id": 196,
+      "cover": "/catalogues/_covers/beds-and-more/upholstery/nelson.webp"
+    },
+    {
+      "id": 197,
+      "cover": "/catalogues/_covers/beds-and-more/upholstery/opulence.webp"
+    },
+    {
+      "id": 199,
+      "cover": "/catalogues/_covers/beds-and-more/upholstery/reflect.webp"
+    },
+    {
+      "id": 198,
+      "cover": "/catalogues/_covers/beds-and-more/upholstery/oscar.webp"
+    },
+    {
+      "id": 200,
+      "cover": "/catalogues/_covers/beds-and-more/upholstery/refuge.webp"
+    },
+    {
+      "id": 201,
+      "cover": "/catalogues/_covers/sj/upholstery/aruba.webp"
+    },
+    {
+      "id": 202,
+      "cover": "/catalogues/_covers/sj/upholstery/halden.webp"
+    },
+    {
+      "id": 208,
+      "cover": "/catalogues/_covers/sj/upholstery/alfy.png"
+    },
+    {
+      "id": 209,
+      "cover": "/catalogues/_covers/sj/upholstery/alytus.png"
+    },
+    {
+      "id": 210,
+      "cover": "/catalogues/_covers/sj/upholstery/zurich.png"
+    },
+    {
+      "id": 205,
+      "cover": "/catalogues/_covers/sj/upholstery/angel.png"
+    },
+    {
+      "id": 212,
+      "cover": "/catalogues/_covers/smart-plus/upholstery/leisure.png"
+    },
+    {
+      "id": 206,
+      "cover": "/catalogues/_covers/sj/upholstery/halden-volume-2.png"
+    },
+    {
+      "id": 214,
+      "cover": "/catalogues/_covers/smart-plus/upholstery/antalya.png"
+    },
+    {
+      "id": 217,
+      "cover": "/catalogues/_covers/smart-plus/upholstery/melody.png"
+    },
+    {
+      "id": 207,
+      "cover": "/catalogues/_covers/sj/upholstery/nakshi.png"
+    },
+    {
+      "id": 215,
+      "cover": "/catalogues/_covers/smart-plus/upholstery/wooly.png"
+    },
+    {
+      "id": 216,
+      "cover": "/catalogues/_covers/smart-plus/upholstery/giza.png"
+    },
+    {
+      "id": 219,
+      "cover": "/catalogues/_covers/sj/upholstery/jodhpur-vol-2.png"
+    },
+    {
+      "id": 218,
+      "cover": "/catalogues/_covers/sj/upholstery/jodhpur-vol-1.png"
+    },
+    {
+      "id": 221,
+      "cover": "/catalogues/_covers/sj/upholstery/bikaner-vol-2.png"
+    },
+    {
+      "id": 211,
+      "cover": "/catalogues/_covers/oofy/upholstery/pebbles.png"
+    },
+    {
+      "id": 213,
+      "cover": "/catalogues/_covers/smart-plus/upholstery/aston.png"
+    },
+    {
+      "id": 223,
+      "cover": "/catalogues/_covers/sj/upholstery/charcoal.png"
+    },
+    {
+      "id": 220,
+      "cover": "/catalogues/_covers/sj/upholstery/bikaner-vol-1.png"
+    },
+    {
+      "id": 225,
+      "cover": "/catalogues/_covers/sj/upholstery/wilford.png"
+    },
+    {
+      "id": 224,
+      "cover": "/catalogues/_covers/sj/upholstery/ducati.png"
+    },
+    {
+      "id": 222,
+      "cover": "/catalogues/_covers/sj/upholstery/addis.png"
+    }
+  ],
+  "failed": [],
+  "noImg": []
+}

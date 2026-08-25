@@ -1,0 +1,1883 @@
+[
+  {
+    "id": 1,
+    "title": "Abaca",
+    "image": "assets/img/ecatalog/sj/ABACA.webp",
+    "type": "Texture Curtain",
+    "brand": "SJ",
+    "collection": "Curtains",
+    "url": "catalogpdf/sjcurtains/sj/Abaca.pdf"
+  },
+  {
+    "id": 2,
+    "title": "Adonis",
+    "image": "assets/img/ecatalog/sj/Adonis.webp",
+    "type": "Plain Sheers",
+    "brand": "SJ",
+    "collection": "Curtains",
+    "url": "catalogpdf/sjcurtains/sj/ADONIS.pdf"
+  },
+  {
+    "id": 3,
+    "title": "Akira",
+    "image": "assets/img/ecatalog/sj/Akira.webp",
+    "type": "Texture Curtain",
+    "brand": "SJ",
+    "collection": "Curtains",
+    "url": "catalogpdf/sjcurtains/sj/Akira.pdf"
+  },
+  {
+    "id": 4,
+    "title": "Alton",
+    "image": "assets/img/ecatalog/sj/Alton.webp",
+    "type": "Texture Curtain",
+    "brand": "SJ",
+    "collection": "Curtains",
+    "url": "catalogpdf/sjcurtains/sj/ALTON.pdf"
+  },
+  {
+    "id": 5,
+    "title": "Amalfi",
+    "image": "assets/img/ecatalog/sj/AMALFI.webp",
+    "type": "Jacquard Curtain",
+    "brand": "SJ",
+    "collection": "Curtains",
+    "url": "catalogpdf/sjcurtains/sj/AMALFI.pdf"
+  },
+  {
+    "id": 6,
+    "title": "Ambience",
+    "image": "assets/img/ecatalog/sj/ambience.webp",
+    "type": "Texture Curtain",
+    "brand": "SJ",
+    "collection": "Curtains",
+    "url": "catalogpdf/sjcurtains/sj/AMBIENCE.pdf"
+  },
+  {
+    "id": 7,
+    "title": "Antheia",
+    "image": "assets/img/ecatalog/sj/ANTHEIA.webp",
+    "type": "Embroidered Sheer",
+    "brand": "SJ",
+    "collection": "Curtains",
+    "url": "catalogpdf/sjcurtains/sj/ANTHEIA.pdf"
+  },
+  {
+    "id": 8,
+    "title": "Calico",
+    "image": "assets/img/ecatalog/sj/CALICO.webp",
+    "type": "Plain Curtain",
+    "brand": "SJ",
+    "collection": "Curtains",
+    "url": "catalogpdf/sjcurtains/sj/Calico.pdf"
+  },
+  {
+    "id": 9,
+    "title": "Calix",
+    "image": "assets/img/ecatalog/sj/Calix.webp",
+    "type": "Texture Curtain",
+    "brand": "SJ",
+    "collection": "Curtains",
+    "url": "catalogpdf/sjcurtains/sj/Calix.pdf"
+  },
+  {
+    "id": 10,
+    "title": "Canary",
+    "image": "assets/img/ecatalog/sj/CANARY.webp",
+    "type": "Jacquard Curtain",
+    "brand": "SJ",
+    "collection": "Curtains",
+    "url": "catalogpdf/sjcurtains/sj/canary.pdf"
+  },
+  {
+    "id": 11,
+    "title": "Casabella",
+    "image": "assets/img/ecatalog/sj/CASABELLA.webp",
+    "type": "Texture Curtain",
+    "brand": "SJ",
+    "collection": "Curtains",
+    "url": "catalogpdf/sjcurtains/sj/CASABELLA.pdf"
+  },
+  {
+    "id": 12,
+    "title": "Caspiana",
+    "image": "assets/img/ecatalog/sj/CASPIANA.webp",
+    "type": "Texture Curtain",
+    "brand": "SJ",
+    "collection": "Curtains",
+    "url": "catalogpdf/sjcurtains/sj/CASPIANA.pdf"
+  },
+  {
+    "id": 13,
+    "title": "Chezani",
+    "image": "assets/img/ecatalog/sj/CHEZANI.webp",
+    "type": "Texture Curtain",
+    "brand": "SJ",
+    "collection": "Curtains",
+    "url": "catalogpdf/sjcurtains/sj/Chezani.pdf"
+  },
+  {
+    "id": 14,
+    "title": "Cosimia",
+    "image": "assets/img/ecatalog/sj/COSIMIA.webp",
+    "type": "Printed Curtain",
+    "brand": "SJ",
+    "collection": "Curtains",
+    "url": "catalogpdf/sjcurtains/sj/COSIMIA.pdf"
+  },
+  {
+    "id": 15,
+    "title": "Crystal",
+    "image": "assets/img/ecatalog/sj/CRYSTAL.webp",
+    "type": "Jacquard Curtain",
+    "brand": "SJ",
+    "collection": "Curtains",
+    "url": "catalogpdf/sjcurtains/sj/CRYSTAL.pdf"
+  },
+  {
+    "id": 16,
+    "title": "Cyprus",
+    "image": "assets/img/ecatalog/sj/cyprus.webp",
+    "type": "Texture Curtain",
+    "brand": "SJ",
+    "collection": "Curtains",
+    "url": "catalogpdf/sjcurtains/sj/cyprus.pdf"
+  },
+  {
+    "id": 17,
+    "title": "Dior",
+    "image": "assets/img/ecatalog/sj/DIOR.webp",
+    "type": "Texture Curtain",
+    "brand": "SJ",
+    "collection": "Curtains",
+    "url": "catalogpdf/sjcurtains/sj/Dior.pdf"
+  },
+  {
+    "id": 18,
+    "title": "Elite",
+    "image": "assets/img/ecatalog/sj/Elite.webp",
+    "type": "Jacquard Curtain",
+    "brand": "SJ",
+    "collection": "Curtains",
+    "url": "catalogpdf/sjcurtains/sj/Elite.pdf"
+  },
+  {
+    "id": 19,
+    "title": "Eliz",
+    "image": "assets/img/ecatalog/sj/Eliz.webp",
+    "type": "Texture Curtain",
+    "brand": "SJ",
+    "collection": "Curtains",
+    "url": "catalogpdf/sjcurtains/sj/Elize.pdf"
+  },
+  {
+    "id": 20,
+    "title": "Hawaii",
+    "image": "assets/img/ecatalog/sj/HAWAII.webp",
+    "type": "Embroidered Sheer",
+    "brand": "SJ",
+    "collection": "Curtains",
+    "url": "catalogpdf/sjcurtains/sj/Hawall.pdf"
+  },
+  {
+    "id": 21,
+    "title": "Hector",
+    "image": "assets/img/ecatalog/sj/HECTOR.webp",
+    "type": "Jacquard Curtain",
+    "brand": "SJ",
+    "collection": "Curtains",
+    "url": "catalogpdf/sjcurtains/sj/Hector.pdf"
+  },
+  {
+    "id": 22,
+    "title": "Imperia",
+    "image": "assets/img/ecatalog/sj/IMPERIA.webp",
+    "type": "Jacquard Curtain",
+    "brand": "SJ",
+    "collection": "Curtains",
+    "url": "catalogpdf/sjcurtains/sj/Imperia.pdf"
+  },
+  {
+    "id": 23,
+    "title": "Jiya Revival",
+    "image": "assets/img/ecatalog/sj/JIY-REVIVAL.webp",
+    "type": "Jacquard Curtain",
+    "brand": "SJ",
+    "collection": "Curtains",
+    "url": "catalogpdf/sjcurtains/sj/JIYA REVIVAL.pdf"
+  },
+  {
+    "id": 24,
+    "title": "Linea",
+    "image": "assets/img/ecatalog/sj/Linea.webp",
+    "type": "Jacquard Curtain",
+    "brand": "SJ",
+    "collection": "Curtains",
+    "url": "catalogpdf/sjcurtains/sj/LINEN LOOK.pdf"
+  },
+  {
+    "id": 25,
+    "title": "Liona",
+    "image": "assets/img/ecatalog/sj/LIONA.webp",
+    "type": "Embroidered Sheer",
+    "brand": "SJ",
+    "collection": "Curtains",
+    "url": "catalogpdf/sjcurtains/sj/LIONA.pdf"
+  },
+  {
+    "id": 26,
+    "title": "Monaco",
+    "image": "assets/img/ecatalog/sj/MONACO.webp",
+    "type": "Embroidered Sheer",
+    "brand": "SJ",
+    "collection": "Curtains",
+    "url": "catalogpdf/sjcurtains/sj/MONACO.pdf"
+  },
+  {
+    "id": 27,
+    "title": "Novy",
+    "image": "assets/img/ecatalog/sj/NOVY.webp",
+    "type": "Jacquard Curtain",
+    "brand": "SJ",
+    "collection": "Curtains",
+    "url": "catalogpdf/sjcurtains/sj/Novy.pdf"
+  },
+  {
+    "id": 28,
+    "title": "Otto",
+    "image": "assets/img/ecatalog/sj/OTTO.webp",
+    "type": "Texture Curtain",
+    "brand": "SJ",
+    "collection": "Curtains",
+    "url": "catalogpdf/sjcurtains/sj/Otto.pdf"
+  },
+  {
+    "id": 29,
+    "title": "Pristine",
+    "image": "assets/img/ecatalog/sj/PRISTINE.webp",
+    "type": "Jacquard Curtain",
+    "brand": "SJ",
+    "collection": "Curtains",
+    "url": "catalogpdf/sjcurtains/sj/Pristine.pdf"
+  },
+  {
+    "id": 30,
+    "title": "Regalia",
+    "image": "assets/img/ecatalog/sj/REGALIA.webp",
+    "type": "Texture Curtain",
+    "brand": "SJ",
+    "collection": "Curtains",
+    "url": "#"
+  },
+  {
+    "id": 31,
+    "title": "Regency",
+    "image": "assets/img/ecatalog/sj/REGENCY.webp",
+    "type": "Texture Curtain",
+    "brand": "SJ",
+    "collection": "Curtains",
+    "url": "catalogpdf/sjcurtains/sj/REGENCY.pdf"
+  },
+  {
+    "id": 32,
+    "title": "Rolex",
+    "image": "assets/img/ecatalog/sj/ROLEX.webp",
+    "type": "Jacquard Curtain",
+    "brand": "SJ",
+    "collection": "Curtains",
+    "url": "catalogpdf/sjcurtains/sj/ROLEX.pdf"
+  },
+  {
+    "id": 33,
+    "title": "Romania",
+    "image": "assets/img/ecatalog/sj/ROMANIA.webp",
+    "type": "Texture Curtain",
+    "brand": "SJ",
+    "collection": "Curtains",
+    "url": "catalogpdf/sjcurtains/sj/ROMANIA.pdf"
+  },
+  {
+    "id": 34,
+    "title": "Sheen",
+    "image": "assets/img/ecatalog/sj/Sheen.webp",
+    "type": "Plain Curtain",
+    "brand": "SJ",
+    "collection": "Curtains",
+    "url": "catalogpdf/sjcurtains/sj/SHEEN.pdf"
+  },
+  {
+    "id": 35,
+    "title": "Silica",
+    "image": "assets/img/ecatalog/sj/SILICA.webp",
+    "type": "Plain Curtain",
+    "brand": "SJ",
+    "collection": "Curtains",
+    "url": "catalogpdf/sjcurtains/sj/SILICA.pdf"
+  },
+  {
+    "id": 36,
+    "title": "Silket",
+    "image": "assets/img/ecatalog/sj/SILKET.webp",
+    "type": "Texture Curtain",
+    "brand": "SJ",
+    "collection": "Curtains",
+    "url": "catalogpdf/sjcurtains/sj/Silket.pdf"
+  },
+  {
+    "id": 37,
+    "title": "Solace",
+    "image": "assets/img/ecatalog/sj/SOLACE.webp",
+    "type": "Plain Sheers",
+    "brand": "SJ",
+    "collection": "Curtains",
+    "url": "catalogpdf/sjcurtains/sj/SOLACE.pdf"
+  },
+  {
+    "id": 38,
+    "title": "Solitaire",
+    "image": "assets/img/ecatalog/sj/SOLITAIRE.webp",
+    "type": "Texture Curtain",
+    "brand": "SJ",
+    "collection": "Curtains",
+    "url": "catalogpdf/sjcurtains/sj/SOLITAIRE.pdf"
+  },
+  {
+    "id": 39,
+    "title": "Aaron",
+    "image": "assets/img/ecatalog/sj/aaron.webp",
+    "type": "Plain Curtain",
+    "brand": "SJ",
+    "collection": "Curtains",
+    "url": "catalogpdf/sjcurtains/sj/Aaron.pdf"
+  },
+  {
+    "id": 40,
+    "title": "Alma",
+    "image": "assets/img/ecatalog/sj/alma.webp",
+    "type": "Plain Sheers",
+    "brand": "SJ",
+    "collection": "Curtains",
+    "url": "catalogpdf/sjcurtains/sj/ALMA.pdf"
+  },
+  {
+    "id": 41,
+    "title": "Amesbury",
+    "image": "assets/img/ecatalog/sj/amesbury.webp",
+    "type": "Texture Curtain",
+    "brand": "SJ",
+    "collection": "Curtains",
+    "url": "catalogpdf/sjcurtains/sj/AMESBURRY.pdf"
+  },
+  {
+    "id": 42,
+    "title": "Andora",
+    "image": "assets/img/ecatalog/sj/andora.webp",
+    "type": "Texture Curtain",
+    "brand": "SJ",
+    "collection": "Curtains",
+    "url": "catalogpdf/sjcurtains/sj/Andora_CTC.pdf"
+  },
+  {
+    "id": 43,
+    "title": "Aubrey",
+    "image": "assets/img/ecatalog/sj/aubrey.webp",
+    "type": "Texture Curtain",
+    "brand": "SJ",
+    "collection": "Curtains",
+    "url": "catalogpdf/sjcurtains/sj/AUBREY.pdf"
+  },
+  {
+    "id": 44,
+    "title": "Canberra",
+    "image": "assets/img/ecatalog/sj/canberra.webp",
+    "type": "Texture Curtain",
+    "brand": "SJ",
+    "collection": "Curtains",
+    "url": "catalogpdf/sjcurtains/sj/Canberra.pdf"
+  },
+  {
+    "id": 45,
+    "title": "Capri",
+    "image": "assets/img/ecatalog/sj/capri.webp",
+    "type": "Capri",
+    "brand": "SJ",
+    "collection": "Curtains",
+    "url": "catalogpdf/sjcurtains/sj/CAPRI.pdf"
+  },
+  {
+    "id": 46,
+    "title": "Cloud",
+    "image": "assets/img/ecatalog/sj/Cloud.webp",
+    "type": "Texture Curtain",
+    "brand": "SJ",
+    "collection": "Curtains",
+    "url": "#"
+  },
+  {
+    "id": 47,
+    "title": "Infinty",
+    "image": "assets/img/ecatalog/sj/infinty.webp",
+    "type": "Infinty",
+    "brand": "SJ",
+    "collection": "Curtains",
+    "url": "catalogpdf/sjcurtains/sj/Infinity.pdf"
+  },
+  {
+    "id": 48,
+    "title": "Eva",
+    "image": "assets/img/ecatalog/sj/eva.webp",
+    "type": "Embroidered Sheer",
+    "brand": "SJ",
+    "collection": "Curtains",
+    "url": "catalogpdf/sjcurtains/sj/Eva.pdf"
+  },
+  {
+    "id": 49,
+    "title": "Neoma",
+    "image": "assets/img/ecatalog/sj/neoma.webp",
+    "type": "Texture Curtain",
+    "brand": "SJ",
+    "collection": "Curtains",
+    "url": "catalogpdf/sjcurtains/sj/NEOMA.pdf"
+  },
+  {
+    "id": 50,
+    "title": "Royal",
+    "image": "assets/img/ecatalog/sj/ROYAL.webp",
+    "type": "Plain Curtain",
+    "brand": "SJ",
+    "collection": "Curtains",
+    "url": "catalogpdf/sjcurtains/sj/Royal.pdf"
+  },
+  {
+    "id": 51,
+    "title": "Willshire",
+    "image": "assets/img/ecatalog/sj/willshire.webp",
+    "type": "Jacquard Curtain",
+    "brand": "SJ",
+    "collection": "Curtains",
+    "url": "catalogpdf/sjcurtains/sj/WILLSHIRE.pdf"
+  },
+  {
+    "id": 52,
+    "title": "Albert",
+    "image": "assets/img/ecatalog/u-sj/Albert.webp",
+    "type": "Woven",
+    "brand": "SJ",
+    "collection": "Upholstery",
+    "url": "catalogpdf/ALBERT.pdf"
+  },
+  {
+    "id": 53,
+    "title": "Amy",
+    "image": "assets/img/ecatalog/u-sj/Amy.webp",
+    "type": "Velvet",
+    "brand": "SJ",
+    "collection": "Upholstery",
+    "url": "catalogpdf/AMY.pdf"
+  },
+  {
+    "id": 54,
+    "title": "Aria",
+    "image": "assets/img/ecatalog/u-sj/Aria.webp",
+    "type": "Woven",
+    "brand": "SJ",
+    "collection": "Upholstery",
+    "url": "catalogpdf/ARIA.pdf"
+  },
+  {
+    "id": 55,
+    "title": "August",
+    "image": "assets/img/ecatalog/u-sj/August.webp",
+    "type": "Suede",
+    "brand": "SJ",
+    "collection": "Upholstery",
+    "url": "catalogpdf/AUGUST.pdf"
+  },
+  {
+    "id": 56,
+    "title": "Azzurra",
+    "image": "assets/img/ecatalog/u-sj/Azzurra.webp",
+    "type": "Azzurra",
+    "brand": "SJ",
+    "collection": "Upholstery",
+    "url": "catalogpdf/AZZURRA.pdf"
+  },
+  {
+    "id": 57,
+    "title": "Ibiza",
+    "image": "assets/img/ecatalog/u-sj/IBIZA.webp",
+    "type": "Velvet",
+    "brand": "SJ",
+    "collection": "Upholstery",
+    "url": "catalogpdf/IBIZA.pdf"
+  },
+  {
+    "id": 58,
+    "title": "Novel",
+    "image": "assets/img/ecatalog/u-sj/Novel.webp",
+    "type": "Suede",
+    "brand": "SJ",
+    "collection": "Upholstery",
+    "url": "catalogpdf/NOVEL.pdf"
+  },
+  {
+    "id": 59,
+    "title": "Palomino",
+    "image": "assets/img/ecatalog/u-sj/Palomino.webp",
+    "type": "Digital Print",
+    "brand": "SJ",
+    "collection": "Upholstery",
+    "url": "catalogpdf/PALOMINO.pdf"
+  },
+  {
+    "id": 60,
+    "title": "Aboone",
+    "image": "assets/img/ecatalog/u-sj/ABOONE.webp",
+    "type": "Artificial Leather",
+    "brand": "SJ",
+    "collection": "Upholstery",
+    "url": "catalogpdf/ABOONE.pdf"
+  },
+  {
+    "id": 61,
+    "title": "Adriana",
+    "image": "assets/img/ecatalog/u-sj/ADRIANA.webp",
+    "type": "Velvet",
+    "brand": "SJ",
+    "collection": "Upholstery",
+    "url": "catalogpdf/ADRIANA.pdf"
+  },
+  {
+    "id": 62,
+    "title": "Albany",
+    "image": "assets/img/ecatalog/u-sj/ALBANY.webp",
+    "type": "Suede",
+    "brand": "SJ",
+    "collection": "Upholstery",
+    "url": "catalogpdf/ALBANY.pdf"
+  },
+  {
+    "id": 63,
+    "title": "Alpha",
+    "image": "assets/img/ecatalog/u-sj/ALPHA.webp",
+    "type": "Suede",
+    "brand": "SJ",
+    "collection": "Upholstery",
+    "url": "catalogpdf/ALPHA.pdf"
+  },
+  {
+    "id": 65,
+    "title": "Amazon",
+    "image": "assets/img/ecatalog/u-sj/AMAZON.webp",
+    "type": "Velvet",
+    "brand": "SJ",
+    "collection": "Upholstery",
+    "url": "catalogpdf/AMAZON.pdf"
+  },
+  {
+    "id": 66,
+    "title": "Amber",
+    "image": "assets/img/ecatalog/u-sj/AMBER.webp",
+    "type": "Velvet",
+    "brand": "SJ",
+    "collection": "Upholstery",
+    "url": "catalogpdf/AMBER.pdf"
+  },
+  {
+    "id": 67,
+    "title": "Apache",
+    "image": "assets/img/ecatalog/u-sj/APACHE.webp",
+    "type": "Artificial Leather",
+    "brand": "SJ",
+    "collection": "Upholstery",
+    "url": "catalogpdf/APACHE.pdf"
+  },
+  {
+    "id": 68,
+    "title": "Asaba",
+    "image": "assets/img/ecatalog/u-sj/ASABA.webp",
+    "type": "Plain Texture",
+    "brand": "SJ",
+    "collection": "Upholstery",
+    "url": "catalogpdf/ASABA.pdf"
+  },
+  {
+    "id": 69,
+    "title": "Asmara",
+    "image": "assets/img/ecatalog/u-sj/ASMARA.webp",
+    "type": "Suede",
+    "brand": "SJ",
+    "collection": "Upholstery",
+    "url": "catalogpdf/ASMARA.pdf"
+  },
+  {
+    "id": 70,
+    "title": "Aspen",
+    "image": "assets/img/ecatalog/u-sj/ASPEN.webp",
+    "type": "Velvet",
+    "brand": "SJ",
+    "collection": "Upholstery",
+    "url": "catalogpdf/ASPEN.pdf"
+  },
+  {
+    "id": 72,
+    "title": "Astor",
+    "image": "assets/img/ecatalog/u-sj/ASTOR.webp",
+    "type": "Artificial Leather",
+    "brand": "SJ",
+    "collection": "Upholstery",
+    "url": "catalogpdf/ASTOR.pdf"
+  },
+  {
+    "id": 73,
+    "title": "Avita/Persian",
+    "image": "assets/img/ecatalog/u-sj/Avita-PERSIAN.webp",
+    "type": "Digital Print",
+    "brand": "SJ",
+    "collection": "Upholstery",
+    "url": "catalogpdf/AVITA.pdf"
+  },
+  {
+    "id": 74,
+    "title": "Bentley",
+    "image": "assets/img/ecatalog/u-sj/BENTLEY.webp",
+    "type": "Artificial Leather",
+    "brand": "SJ",
+    "collection": "Upholstery",
+    "url": "catalogpdf/BENTLEY.pdf"
+  },
+  {
+    "id": 75,
+    "title": "Berry/Cambry",
+    "image": "assets/img/ecatalog/u-sj/BERRY-CAMBRY.webp",
+    "type": "Digital Print",
+    "brand": "SJ",
+    "collection": "Upholstery",
+    "url": "catalogpdf/BERRY.pdf"
+  },
+  {
+    "id": 76,
+    "title": "Breeze",
+    "image": "assets/img/ecatalog/u-sj/BREEZE.webp",
+    "type": "Velvet",
+    "brand": "SJ",
+    "collection": "Upholstery",
+    "url": "catalogpdf/BREEZE.pdf"
+  },
+  {
+    "id": 77,
+    "title": "Brisbane New",
+    "image": "assets/img/ecatalog/u-sj/BRISBANE-NEW.webp",
+    "type": "Woven",
+    "brand": "SJ",
+    "collection": "Upholstery",
+    "url": "catalogpdf/BRISBANE.pdf"
+  },
+  {
+    "id": 78,
+    "title": "Cairo",
+    "image": "assets/img/ecatalog/u-sj/CAIRO.webp",
+    "type": "Velvet",
+    "brand": "SJ",
+    "collection": "Upholstery",
+    "url": "catalogpdf/CAIRO.pdf"
+  },
+  {
+    "id": 79,
+    "title": "Calibri",
+    "image": "assets/img/ecatalog/u-sj/CALIBRI.webp",
+    "type": "Digital Print",
+    "brand": "SJ",
+    "collection": "Upholstery",
+    "url": "catalogpdf/CALIBRI.pdf"
+  },
+  {
+    "id": 81,
+    "title": "Carolina",
+    "image": "assets/img/ecatalog/u-sj/CAROLINA.webp",
+    "type": "Velvet",
+    "brand": "SJ",
+    "collection": "Upholstery",
+    "url": "catalogpdf/CAROLINA.pdf"
+  },
+  {
+    "id": 82,
+    "title": "Casper/Cherry",
+    "image": "assets/img/ecatalog/u-sj/CASPER-CHERRY.webp",
+    "type": "Artificial Leather",
+    "brand": "SJ",
+    "collection": "Upholstery",
+    "url": "catalogpdf/CHERRY.pdf"
+  },
+  {
+    "id": 83,
+    "title": "Choper",
+    "image": "assets/img/ecatalog/u-sj/CHOPER.webp",
+    "type": "Velvet",
+    "brand": "SJ",
+    "collection": "Upholstery",
+    "url": "catalogpdf/CHOPER.pdf"
+  },
+  {
+    "id": 84,
+    "title": "Elantra",
+    "image": "assets/img/ecatalog/u-sj/ELANTRA.webp",
+    "type": "Artificial Leather",
+    "brand": "SJ",
+    "collection": "Upholstery",
+    "url": "catalogpdf/ELANTRA.pdf"
+  },
+  {
+    "id": 85,
+    "title": "Florous",
+    "image": "assets/img/ecatalog/u-sj/FLOROUS.webp",
+    "type": "Digital Print",
+    "brand": "SJ",
+    "collection": "Upholstery",
+    "url": "catalogpdf/FLOROUS.pdf"
+  },
+  {
+    "id": 86,
+    "title": "Glaze",
+    "image": "assets/img/ecatalog/u-sj/GLAZE.webp",
+    "type": "Velvet",
+    "brand": "SJ",
+    "collection": "Upholstery",
+    "url": "catalogpdf/GLAZE.pdf"
+  },
+  {
+    "id": 87,
+    "title": "Hera",
+    "image": "assets/img/ecatalog/u-sj/HERA.webp",
+    "type": "Velvet",
+    "brand": "SJ",
+    "collection": "Upholstery",
+    "url": "catalogpdf/HERA.pdf"
+  },
+  {
+    "id": 88,
+    "title": "Heritage",
+    "image": "assets/img/ecatalog/u-sj/HERITAGE.webp",
+    "type": "Velvet",
+    "brand": "SJ",
+    "collection": "Upholstery",
+    "url": "catalogpdf/HERITAGE.pdf"
+  },
+  {
+    "id": 89,
+    "title": "Jaguar",
+    "image": "assets/img/ecatalog/u-sj/JAGUAR.webp",
+    "type": "Velvet",
+    "brand": "SJ",
+    "collection": "Upholstery",
+    "url": "catalogpdf/JAGUAR.pdf"
+  },
+  {
+    "id": 90,
+    "title": "Jaipur Volume 1",
+    "image": "assets/img/ecatalog/u-sj/JAIPUR-vol-1.webp",
+    "type": "Digital Print Velvet",
+    "brand": "SJ",
+    "collection": "Upholstery",
+    "url": "catalogpdf/JAIPUR VOLUME 1.pdf"
+  },
+  {
+    "id": 91,
+    "title": "Jaipur Volume 2",
+    "image": "assets/img/ecatalog/u-sj/JAIPUR-vol-2.webp",
+    "type": "Digital Print Velvet",
+    "brand": "SJ",
+    "collection": "Upholstery",
+    "url": "catalogpdf/JAIPUR VOLUME 2.pdf"
+  },
+  {
+    "id": 92,
+    "title": "Kilim",
+    "image": "assets/img/ecatalog/u-sj/KILIM.webp",
+    "type": "Digital Print Velvet",
+    "brand": "SJ",
+    "collection": "Upholstery",
+    "url": "catalogpdf/KILIM.pdf"
+  },
+  {
+    "id": 93,
+    "title": "Lenka",
+    "image": "assets/img/ecatalog/u-sj/LENKA.webp",
+    "type": "Plain Texture",
+    "brand": "SJ",
+    "collection": "Upholstery",
+    "url": "catalogpdf/LENKA.pdf"
+  },
+  {
+    "id": 94,
+    "title": "Libra",
+    "image": "assets/img/ecatalog/u-sj/LIBRA.webp",
+    "type": "Knitted",
+    "brand": "SJ",
+    "collection": "Upholstery",
+    "url": "catalogpdf/LIBRA.pdf"
+  },
+  {
+    "id": 95,
+    "title": "Linus",
+    "image": "assets/img/ecatalog/u-sj/LINUS.webp",
+    "type": "Velvet",
+    "brand": "SJ",
+    "collection": "Upholstery",
+    "url": "catalogpdf/LINUS.pdf"
+  },
+  {
+    "id": 96,
+    "title": "Lisa",
+    "image": "assets/img/ecatalog/u-sj/Lisa.webp",
+    "type": "Velvet",
+    "brand": "SJ",
+    "collection": "Upholstery",
+    "url": "catalogpdf/LISA.pdf"
+  },
+  {
+    "id": 97,
+    "title": "Lisabel",
+    "image": "assets/img/ecatalog/u-sj/LISABEL.webp",
+    "type": "Velvet",
+    "brand": "SJ",
+    "collection": "Upholstery",
+    "url": "catalogpdf/LISABEL.pdf"
+  },
+  {
+    "id": 98,
+    "title": "Marble",
+    "image": "assets/img/ecatalog/u-sj/MARBLE.webp",
+    "type": "Velvet",
+    "brand": "SJ",
+    "collection": "Upholstery",
+    "url": "catalogpdf/MARBLE.pdf"
+  },
+  {
+    "id": 99,
+    "title": "Melisa",
+    "image": "assets/img/ecatalog/u-sj/MELISA.webp",
+    "type": "Velvet",
+    "brand": "SJ",
+    "collection": "Upholstery",
+    "url": "catalogpdf/MELISA.pdf"
+  },
+  {
+    "id": 100,
+    "title": "Merasa",
+    "image": "assets/img/ecatalog/u-sj/MERASA.webp",
+    "type": "Velvet",
+    "brand": "SJ",
+    "collection": "Upholstery",
+    "url": "catalogpdf/MERASA.pdf"
+  },
+  {
+    "id": 101,
+    "title": "Milano",
+    "image": "assets/img/ecatalog/u-sj/MILANO.webp",
+    "type": "Digital Print",
+    "brand": "SJ",
+    "collection": "Upholstery",
+    "url": "catalogpdf/MILANO.pdf"
+  },
+  {
+    "id": 102,
+    "title": "Mustan",
+    "image": "assets/img/ecatalog/u-sj/MUSTAN.webp",
+    "type": "Velvet",
+    "brand": "SJ",
+    "collection": "Upholstery",
+    "url": "catalogpdf/MUSTAN.pdf"
+  },
+  {
+    "id": 103,
+    "title": "New Molfino",
+    "image": "assets/img/ecatalog/u-sj/NEW-MOLFINO.webp",
+    "type": "Velvet",
+    "brand": "SJ",
+    "collection": "Upholstery",
+    "url": "catalogpdf/NEW MOLFINO.pdf"
+  },
+  {
+    "id": 104,
+    "title": "Paramount",
+    "image": "assets/img/ecatalog/u-sj/PARAMOUNT.webp",
+    "type": "Suede",
+    "brand": "SJ",
+    "collection": "Upholstery",
+    "url": "catalogpdf/PARAMOUNT.pdf"
+  },
+  {
+    "id": 105,
+    "title": "Penza",
+    "image": "assets/img/ecatalog/u-sj/PENZA.webp",
+    "type": "Suede",
+    "brand": "SJ",
+    "collection": "Upholstery",
+    "url": "catalogpdf/PENZA.pdf"
+  },
+  {
+    "id": 106,
+    "title": "Persian",
+    "image": "assets/img/ecatalog/u-sj/PERSIAN.webp",
+    "type": "Digital Print Velvet",
+    "brand": "SJ",
+    "collection": "Upholstery",
+    "url": "catalogpdf/PENZA.pdf"
+  },
+  {
+    "id": 107,
+    "title": "Piano",
+    "image": "assets/img/ecatalog/u-sj/PIANO.webp",
+    "type": "Digital Print",
+    "brand": "SJ",
+    "collection": "Upholstery",
+    "url": "catalogpdf/PIANO.pdf"
+  },
+  {
+    "id": 108,
+    "title": "Pixel/Ibiza",
+    "image": "assets/img/ecatalog/u-sj/PIXEL-IBIZA.webp",
+    "type": "Velvet",
+    "brand": "SJ",
+    "collection": "Upholstery",
+    "url": "catalogpdf/IBIZA.pdf"
+  },
+  {
+    "id": 109,
+    "title": "Riviera",
+    "image": "assets/img/ecatalog/u-sj/Riviera.webp",
+    "type": "Velvet",
+    "brand": "SJ",
+    "collection": "Upholstery",
+    "url": "catalogpdf/RIVIERA.pdf"
+  },
+  {
+    "id": 110,
+    "title": "Savannah",
+    "image": "assets/img/ecatalog/u-sj/SAVANNAH.webp",
+    "type": "Velvet",
+    "brand": "SJ",
+    "collection": "Upholstery",
+    "url": "catalogpdf/SAVANNAH (American Velvet).pdf"
+  },
+  {
+    "id": 111,
+    "title": "Soho",
+    "image": "assets/img/ecatalog/u-sj/SOHO.webp",
+    "type": "Embossed Texture",
+    "brand": "SJ",
+    "collection": "Upholstery",
+    "url": "catalogpdf/SOHO.pdf"
+  },
+  {
+    "id": 112,
+    "title": "Sugar",
+    "image": "assets/img/ecatalog/u-sj/Sugar.webp",
+    "type": "Velvet",
+    "brand": "SJ",
+    "collection": "Upholstery",
+    "url": "catalogpdf/SUGAR.pdf"
+  },
+  {
+    "id": 113,
+    "title": "Sumba",
+    "image": "assets/img/ecatalog/u-sj/SUMBA.webp",
+    "type": "Digital Print Velvet",
+    "brand": "SJ",
+    "collection": "Upholstery",
+    "url": "catalogpdf/SUMBA.pdf"
+  },
+  {
+    "id": 114,
+    "title": "Taras",
+    "image": "assets/img/ecatalog/u-sj/TARAS.webp",
+    "type": "Digital Print Velvet",
+    "brand": "SJ",
+    "collection": "Upholstery",
+    "url": "catalogpdf/TARAS.pdf"
+  },
+  {
+    "id": 115,
+    "title": "Victoria/Vermount",
+    "image": "assets/img/ecatalog/u-sj/VICTORIA-VERMOUNT.webp",
+    "type": "Digital Print",
+    "brand": "SJ",
+    "collection": "Upholstery",
+    "url": "catalogpdf/VERMOUNT.pdf"
+  },
+  {
+    "id": 116,
+    "title": "Vigo",
+    "image": "assets/img/ecatalog/u-sj/VIGO.webp",
+    "type": "Digital Print",
+    "brand": "SJ",
+    "collection": "Upholstery",
+    "url": "catalogpdf/VIGO.pdf"
+  },
+  {
+    "id": 117,
+    "title": "Vivian Checks",
+    "image": "assets/img/ecatalog/u-sj/VIVIAN-CHECKS.webp",
+    "type": "Digital Print",
+    "brand": "SJ",
+    "collection": "Upholstery",
+    "url": "catalogpdf/VIVIAN CHECKS.pdf"
+  },
+  {
+    "id": 118,
+    "title": "Winchester",
+    "image": "assets/img/ecatalog/u-sj/WINCHESTER.webp",
+    "type": "Velvet",
+    "brand": "SJ",
+    "collection": "Upholstery",
+    "url": "catalogpdf/WINCHESTER.pdf"
+  },
+  {
+    "id": 119,
+    "title": "Zenith",
+    "image": "assets/img/ecatalog/u-sj/ZENITH.webp",
+    "type": "Digital Print",
+    "brand": "SJ",
+    "collection": "Upholstery",
+    "url": "catalogpdf/ZENITH.pdf"
+  },
+  {
+    "id": 120,
+    "title": "Alfredo",
+    "image": "assets/img/ecatalog/u-sj/Alfredo.png",
+    "type": "Digital Print",
+    "brand": "SJ",
+    "collection": "Upholstery",
+    "url": "catalogpdf/ALFREDO.pdf"
+  },
+  {
+    "id": 121,
+    "title": "Universe",
+    "image": "assets/img/ecatalog/u-sj/Universe.png",
+    "type": "Digital Print",
+    "brand": "SJ",
+    "collection": "Upholstery",
+    "url": "catalogpdf/UNIVERSE.pdf"
+  },
+  {
+    "id": 122,
+    "title": "Luxor-N",
+    "image": "assets/img/ecatalog/sj/LUXOR.webp",
+    "type": "Velvet",
+    "brand": "SJ",
+    "collection": "Upholstery/Curtain",
+    "url": "catalogpdf/LUXOR.pdf"
+  },
+  {
+    "id": 123,
+    "title": "Velveto/Plush",
+    "image": "assets/img/ecatalog/sj/VELVETO.webp",
+    "type": "Velvet",
+    "brand": "SJ",
+    "collection": "Upholstery/Curtain",
+    "url": "catalogpdf/VELVETO.pdf"
+  },
+  {
+    "id": 124,
+    "title": "Alesia",
+    "image": "assets/img/ecatalog/matlin/Alesia.webp",
+    "type": "Plain",
+    "brand": "Matlin",
+    "collection": "Curtains",
+    "url": "catalogpdf/sjcurtains/matlin/Alesia.pdf"
+  },
+  {
+    "id": 125,
+    "title": "Alex",
+    "image": "assets/img/ecatalog/matlin/ALEX.webp",
+    "type": "Plain Sheer",
+    "brand": "Matlin",
+    "collection": "Curtains",
+    "url": "catalogpdf/sjcurtains/matlin/Alex.pdf"
+  },
+  {
+    "id": 126,
+    "title": "Amanda",
+    "image": "assets/img/ecatalog/matlin/AMANDA.webp",
+    "type": "Wider Width Sheer",
+    "brand": "Matlin",
+    "collection": "Curtains",
+    "url": "catalogpdf/sjcurtains/matlin/AMANDA.pdf"
+  },
+  {
+    "id": 127,
+    "title": "Amour",
+    "image": "assets/img/ecatalog/matlin/AMOUR.webp",
+    "type": "Plain",
+    "brand": "Matlin",
+    "collection": "Curtains",
+    "url": "catalogpdf/sjcurtains/matlin/AMOUR.pdf"
+  },
+  {
+    "id": 128,
+    "title": "Celina",
+    "image": "assets/img/ecatalog/matlin/CELINA.webp",
+    "type": "Plain",
+    "brand": "Matlin",
+    "collection": "Upholstery/Curtain",
+    "url": "catalogpdf/sjcurtains/matlin/Celina.pdf"
+  },
+  {
+    "id": 129,
+    "title": "Chantily",
+    "image": "assets/img/ecatalog/matlin/CHANTILY.webp",
+    "type": "Wider Width Texture Curtain",
+    "brand": "Matlin",
+    "collection": "Curtains",
+    "url": "catalogpdf/sjcurtains/matlin/chantily.pdf"
+  },
+  {
+    "id": 130,
+    "title": "Fiona",
+    "image": "assets/img/ecatalog/matlin/FIONA.webp",
+    "type": "Embroidery Sheer",
+    "brand": "Matlin",
+    "collection": "Curtains",
+    "url": "catalogpdf/sjcurtains/matlin/fiona.pdf"
+  },
+  {
+    "id": 131,
+    "title": "Linea",
+    "image": "assets/img/ecatalog/matlin/Linea.webp",
+    "type": "Texture",
+    "brand": "Matlin",
+    "collection": "Curtains",
+    "url": "catalogpdf/sjcurtains/matlin/LINEA.pdf"
+  },
+  {
+    "id": 132,
+    "title": "Samara",
+    "image": "assets/img/ecatalog/matlin/SAMARA.webp",
+    "type": "Embroidery",
+    "brand": "Matlin",
+    "collection": "Curtains",
+    "url": "catalogpdf/sjcurtains/matlin/Samara.pdf"
+  },
+  {
+    "id": 133,
+    "title": "Savour",
+    "image": "assets/img/ecatalog/matlin/Savour.webp",
+    "type": "Woven",
+    "brand": "Matlin",
+    "collection": "Curtains",
+    "url": "catalogpdf/sjcurtains/matlin/Savor.pdf"
+  },
+  {
+    "id": 134,
+    "title": "Willow",
+    "image": "assets/img/ecatalog/matlin/WILLOW.webp",
+    "type": "Velevt / Digital Print",
+    "brand": "Matlin",
+    "collection": "Upholstery/Curtain",
+    "url": "#"
+  },
+  {
+    "id": 135,
+    "title": "Abellone",
+    "image": "assets/img/ecatalog/matlin/ABELLONE-Upholstery-Curtain.webp",
+    "type": "Digital Print",
+    "brand": "Matlin",
+    "collection": "Curtains",
+    "url": "catalogpdf/sjcurtains/matlin/ABELLONE.pdf"
+  },
+  {
+    "id": 136,
+    "title": "Cinthia",
+    "image": "assets/img/ecatalog/matlin/CINTHIA-Upholstery-Curtain.webp",
+    "type": "Digital Print",
+    "brand": "Matlin",
+    "collection": "Upholstery/Curtain",
+    "url": "catalogpdf/sjcurtains/matlin/CINTHIA.pdf"
+  },
+  {
+    "id": 137,
+    "title": "Mayfair",
+    "image": "assets/img/ecatalog/matlin/MAYFAIR-Upholstery- Curtain.webp",
+    "type": "Digital Print",
+    "brand": "Matlin",
+    "collection": "Upholstery/Curtain",
+    "url": "catalogpdf/sjcurtains/matlin/MAYFAIR.pdf"
+  },
+  {
+    "id": 138,
+    "title": "Myra",
+    "image": "assets/img/ecatalog/matlin/MYRA-Upholstery-Curtain.webp",
+    "type": "Digital Print",
+    "brand": "Matlin",
+    "collection": "Upholstery/Curtain",
+    "url": "catalogpdf/sjcurtains/matlin/Myra.pdf"
+  },
+  {
+    "id": 139,
+    "title": "Onella",
+    "image": "assets/img/ecatalog/matlin/ONELLA-Upholstery-Curtain.webp",
+    "type": "Digital Print",
+    "brand": "Matlin",
+    "collection": "Upholstery/Curtain",
+    "url": "catalogpdf/sjcurtains/matlin/ONELLA.pdf"
+  },
+  {
+    "id": 140,
+    "title": "Orea",
+    "image": "assets/img/ecatalog/matlin/OREA-Upholstery-Curtain.webp",
+    "type": "Woven",
+    "brand": "Matlin",
+    "collection": "Upholstery/Curtain",
+    "url": "catalogpdf/sjcurtains/matlin/OREA.pdf"
+  },
+  {
+    "id": 141,
+    "title": "Mamboo",
+    "image": "assets/img/ecatalog/matlin/MAMBOO.webp",
+    "type": "Digital Print",
+    "brand": "Matlin",
+    "collection": "Upholstery/Curtain",
+    "url": "catalogpdf/sjcurtains/matlin/MAMBOO.pdf"
+  },
+  {
+    "id": 142,
+    "title": "Atmosphere",
+    "image": "assets/img/ecatalog/matlin/ATMOSPHERE.webp",
+    "type": "Boucle Texture",
+    "brand": "Matlin",
+    "collection": "Upholstery/Curtain",
+    "url": "catalogpdf/ATMOSPHERE1.pdf"
+  },
+  {
+    "id": 143,
+    "title": "Cassia",
+    "image": "assets/img/ecatalog/matlin/CASSIA-Upholstery-Curtain.webp",
+    "type": "Plain",
+    "brand": "Matlin",
+    "collection": "Upholstery/Curtain",
+    "url": "catalogpdf/sjcurtains/matlin/CASSIA.pdf"
+  },
+  {
+    "id": 144,
+    "title": "Delilah",
+    "image": "assets/img/ecatalog/matlin/DELILAH.webp",
+    "type": "Woven",
+    "brand": "Matlin",
+    "collection": "Upholstery",
+    "url": "catalogpdf/DELILAH.pdf"
+  },
+  {
+    "id": 145,
+    "title": "Felix",
+    "image": "assets/img/ecatalog/matlin/FELIX.webp",
+    "type": "Woven Texture",
+    "brand": "Matlin",
+    "collection": "Upholstery",
+    "url": "catalogpdf/DELILAH.pdf"
+  },
+  {
+    "id": 146,
+    "title": "Isabella",
+    "image": "assets/img/ecatalog/matlin/ISABELLA.webp",
+    "type": "Digital Print",
+    "brand": "Matlin",
+    "collection": "Upholstery",
+    "url": "catalogpdf/ISABELLA.pdf"
+  },
+  {
+    "id": 147,
+    "title": "Udaipur",
+    "image": "assets/img/ecatalog/matlin/UDAIPUR.webp",
+    "type": "Digital Print Velvet",
+    "brand": "Matlin",
+    "collection": "Upholstery",
+    "url": "catalogpdf/UDAIPUR.pdf"
+  },
+  {
+    "id": 148,
+    "title": "Abruzzi",
+    "image": "assets/img/ecatalog/oofy/ABRUZZI.webp",
+    "type": "Foil Print",
+    "brand": "Oofy",
+    "collection": "Upholstery/Curtain",
+    "url": "#"
+  },
+  {
+    "id": 149,
+    "title": "Auralia",
+    "image": "assets/img/ecatalog/oofy/AURALIA.webp",
+    "type": "Wider Width Curtain",
+    "brand": "Oofy",
+    "collection": "Curtains",
+    "url": "#"
+  },
+  {
+    "id": 150,
+    "title": "Avezzano/Bolzano",
+    "image": "assets/img/ecatalog/oofy/AVEZZANO.webp",
+    "type": "Foil Velvet",
+    "brand": "Oofy",
+    "collection": "Upholstery/Curtain",
+    "url": "catalogpdf/AVEZZANO.pdf"
+  },
+  {
+    "id": 151,
+    "title": "Costa",
+    "image": "assets/img/ecatalog/oofy/Costa.webp",
+    "type": "Wider Width Curtain",
+    "brand": "Oofy",
+    "collection": "Curtains",
+    "url": "catalogpdf/sjcurtains/oofy/Costa.pdf"
+  },
+  {
+    "id": 152,
+    "title": "Tivoli",
+    "image": "assets/img/ecatalog/oofy/Tivoli.webp",
+    "type": "Foil Velvet",
+    "brand": "Oofy",
+    "collection": "Upholstery",
+    "url": "catalogpdf/sjcurtains/oofy/Tivoli.pdf"
+  },
+  {
+    "id": 153,
+    "title": "Bryan",
+    "image": "assets/img/ecatalog/oofy/BRYAN.webp",
+    "type": "Suede",
+    "brand": "Oofy",
+    "collection": "Upholstery",
+    "url": "catalogpdf/BRYAN.pdf"
+  },
+  {
+    "id": 154,
+    "title": "Doralia",
+    "image": "assets/img/ecatalog/oofy/DORALIA.webp",
+    "type": "Quilted Velvet",
+    "brand": "Oofy",
+    "collection": "Upholstery",
+    "url": "catalogpdf/DORALIA.pdf"
+  },
+  {
+    "id": 155,
+    "title": "Tiffany/Brittany",
+    "image": "assets/img/ecatalog/oofy/TIFFANY-BRITTANY.webp",
+    "type": "Quilted Velvet",
+    "brand": "Oofy",
+    "collection": "Upholstery",
+    "url": "catalogpdf/TIFFANY.pdf"
+  },
+  {
+    "id": 166,
+    "title": "Velur",
+    "image": "assets/img/ecatalog/oofy/VELUR.webp",
+    "type": "Woven",
+    "brand": "Oofy",
+    "collection": "Upholstery",
+    "url": "catalogpdf/VELUR.pdf"
+  },
+  {
+    "id": 167,
+    "title": "Aluva",
+    "image": "assets/img/ecatalog/oofy/ALUVA.webp",
+    "type": "Woven",
+    "brand": "Oofy",
+    "collection": "Upholstery",
+    "url": "catalogpdf/ALUVA.pdf"
+  },
+  {
+    "id": 168,
+    "title": "Altima",
+    "image": "assets/img/ecatalog/smartplus/Altima.webp",
+    "type": "Artificial Leather",
+    "brand": "Smart Plus",
+    "collection": "Upholstery",
+    "url": "catalogpdf/ALTIMA.pdf"
+  },
+  {
+    "id": 169,
+    "title": "Ambiant",
+    "image": "assets/img/ecatalog/smartplus/Ambiant.webp",
+    "type": "Woven",
+    "brand": "Smart Plus",
+    "collection": "Upholstery",
+    "url": "catalogpdf/AMBIANT.pdf"
+  },
+  {
+    "id": 170,
+    "title": "Bailey",
+    "image": "assets/img/ecatalog/smartplus/bailey.webp",
+    "type": "Chenille",
+    "brand": "Smart Plus",
+    "collection": "Upholstery",
+    "url": "catalogpdf/BAILEY.pdf"
+  },
+  {
+    "id": 171,
+    "title": "Ferrari",
+    "image": "assets/img/ecatalog/smartplus/Ferrari.webp",
+    "type": "Suede Leather",
+    "brand": "Smart Plus",
+    "collection": "Upholstery",
+    "url": "catalogpdf/FERRARI.pdf"
+  },
+  {
+    "id": 172,
+    "title": "Keiba",
+    "image": "assets/img/ecatalog/smartplus/kieba.webp",
+    "type": "Knitted",
+    "brand": "Smart Plus",
+    "collection": "Upholstery",
+    "url": "catalogpdf/KEIBA.pdf"
+  },
+  {
+    "id": 173,
+    "title": "Kenzi",
+    "image": "assets/img/ecatalog/smartplus/Kenzi.webp",
+    "type": "Chenille",
+    "brand": "Smart Plus",
+    "collection": "Upholstery",
+    "url": "catalogpdf/KENZI.pdf"
+  },
+  {
+    "id": 174,
+    "title": "Levi",
+    "image": "assets/img/ecatalog/smartplus/Levi.webp",
+    "type": "Velvet",
+    "brand": "Smart Plus",
+    "collection": "Upholstery",
+    "url": "catalogpdf/LEVI.pdf"
+  },
+  {
+    "id": 175,
+    "title": "Luke",
+    "image": "assets/img/ecatalog/smartplus/Luke.webp",
+    "type": "Woven",
+    "brand": "Smart Plus",
+    "collection": "Upholstery",
+    "url": "catalogpdf/LUKE.pdf"
+  },
+  {
+    "id": 176,
+    "title": "Marwin",
+    "image": "assets/img/ecatalog/smartplus/MARWIN.webp",
+    "type": "Woven",
+    "brand": "Smart Plus",
+    "collection": "Upholstery",
+    "url": "catalogpdf/MARWIN.pdf"
+  },
+  {
+    "id": 177,
+    "title": "Meraki",
+    "image": "assets/img/ecatalog/smartplus/MERAKI.webp",
+    "type": "Chenille",
+    "brand": "Smart Plus",
+    "collection": "Upholstery",
+    "url": "catalogpdf/MERAKI.pdf"
+  },
+  {
+    "id": 178,
+    "title": "Merry",
+    "image": "assets/img/ecatalog/smartplus/MERRY.webp",
+    "type": "Artificial Leather",
+    "brand": "Smart Plus",
+    "collection": "Upholstery",
+    "url": "catalogpdf/MERRY.pdf"
+  },
+  {
+    "id": 179,
+    "title": "Perth",
+    "image": "assets/img/ecatalog/smartplus/PERTH.webp",
+    "type": "Woven",
+    "brand": "Smart Plus",
+    "collection": "Upholstery",
+    "url": "catalogpdf/PERTH.pdf"
+  },
+  {
+    "id": 180,
+    "title": "Phantom",
+    "image": "assets/img/ecatalog/smartplus/Phantom.webp",
+    "type": "Artificial Leather",
+    "brand": "Smart Plus",
+    "collection": "Upholstery",
+    "url": "catalogpdf/PHANTOM.pdf"
+  },
+  {
+    "id": 181,
+    "title": "Soffice",
+    "image": "assets/img/ecatalog/smartplus/SOFFICE.webp",
+    "type": "Velvet",
+    "brand": "Smart Plus",
+    "collection": "Upholstery",
+    "url": "catalogpdf/SOFFICE.pdf"
+  },
+  {
+    "id": 182,
+    "title": "Sierra",
+    "image": "assets/img/ecatalog/smartplus/tara&atara.webp",
+    "type": "Suede",
+    "brand": "Smart Plus",
+    "collection": "Upholstery",
+    "url": "catalogpdf/SIERRA.pdf"
+  },
+  {
+    "id": 184,
+    "title": "Amos",
+    "image": "assets/img/ecatalog/bedsandmore/Amos-(Beds-&-More).webp",
+    "type": "Main Curtain",
+    "brand": "Beds & More",
+    "collection": "Curtains",
+    "url": "catalogpdf/bedsandmore/Amos Collection.pdf"
+  },
+  {
+    "id": 185,
+    "title": "Bali Stripes",
+    "image": "assets/img/ecatalog/bedsandmore/Bali-stripes-(Beds-&-More).webp",
+    "type": "Black Out",
+    "brand": "Beds & More",
+    "collection": "Curtains",
+    "url": "catalogpdf/bedsandmore/Bali Stripes Collection.pdf"
+  },
+  {
+    "id": 186,
+    "title": "Cable",
+    "image": "assets/img/ecatalog/bedsandmore/Cable-(Beds-&-More).webp",
+    "type": "Sheer",
+    "brand": "Beds & More",
+    "collection": "Curtains",
+    "url": "catalogpdf/bedsandmore/Cable-Collection.pdf"
+  },
+  {
+    "id": 187,
+    "title": "Diffusion",
+    "image": "assets/img/ecatalog/bedsandmore/Diffusion-(Beds-&-More).webp",
+    "type": "Linen/Sheer",
+    "brand": "Beds & More",
+    "collection": "Curtains",
+    "url": "catalogpdf/bedsandmore/Diffusion Collection.pdf"
+  },
+  {
+    "id": 188,
+    "title": "Eva",
+    "image": "assets/img/ecatalog/bedsandmore/Eva-(Beds-&-More).webp",
+    "type": "Fabric",
+    "brand": "Beds & More",
+    "collection": "Curtains",
+    "url": "catalogpdf/bedsandmore/Eva Collection.pdf"
+  },
+  {
+    "id": 189,
+    "title": "Florent",
+    "image": "assets/img/ecatalog/bedsandmore/Florent-(Beds-&-More).webp",
+    "type": "Artifiacial Leather",
+    "brand": "Beds & More",
+    "collection": "Upholstery",
+    "url": "catalogpdf/bedsandmore/Florent Collection.pdf"
+  },
+  {
+    "id": 190,
+    "title": "Harmonie",
+    "image": "assets/img/ecatalog/bedsandmore/Harmonie-(Beds-&-More).webp",
+    "type": "Digital Print",
+    "brand": "Beds & More",
+    "collection": "Upholstery",
+    "url": "catalogpdf/bedsandmore/Harmone Collection.pdf"
+  },
+  {
+    "id": 191,
+    "title": "Iconique",
+    "image": "assets/img/ecatalog/bedsandmore/Iconique-(Beds-&-More).webp",
+    "type": "Digital Print",
+    "brand": "Beds & More",
+    "collection": "Upholstery",
+    "url": "catalogpdf/bedsandmore/Iconique-Collection.pdf"
+  },
+  {
+    "id": 192,
+    "title": "Jardin",
+    "image": "assets/img/ecatalog/bedsandmore/Jardin-(Beds-&-More).webp",
+    "type": "Digital Print",
+    "brand": "Beds & More",
+    "collection": "Upholstery",
+    "url": "catalogpdf/bedsandmore/Jardin Collection.pdf"
+  },
+  {
+    "id": 193,
+    "title": "Jasper",
+    "image": "assets/img/ecatalog/bedsandmore/Jasper-(Beds-&-More).webp",
+    "type": "Digital Print",
+    "brand": "Beds & More",
+    "collection": "Upholstery",
+    "url": "catalogpdf/bedsandmore/Jasper Collection.pdf"
+  },
+  {
+    "id": 194,
+    "title": "Linnean",
+    "image": "assets/img/ecatalog/bedsandmore/LInnean (Beds-&-More).webp",
+    "type": "Digital Print",
+    "brand": "Beds & More",
+    "collection": "Upholstery",
+    "url": "catalogpdf/bedsandmore/Linnean Collection.pdf"
+  },
+  {
+    "id": 195,
+    "title": "Mouvement",
+    "image": "assets/img/ecatalog/bedsandmore/Mouvement-(Beds-&-More).webp",
+    "type": "Digital Print",
+    "brand": "Beds & More",
+    "collection": "Upholstery",
+    "url": "catalogpdf/bedsandmore/Mouvement Collection.pdf"
+  },
+  {
+    "id": 196,
+    "title": "Nelson",
+    "image": "assets/img/ecatalog/bedsandmore/Nelson-(Beds-&-More).webp",
+    "type": "Digital Print",
+    "brand": "Beds & More",
+    "collection": "Upholstery",
+    "url": "catalogpdf/bedsandmore/180TC_Beds & More catalouge_CTC_compressed.pdf"
+  },
+  {
+    "id": 197,
+    "title": "Opulence",
+    "image": "assets/img/ecatalog/bedsandmore/Opulence-(Beds-&-More).webp",
+    "type": "Digital Print",
+    "brand": "Beds & More",
+    "collection": "Upholstery",
+    "url": "catalogpdf/bedsandmore/Openlence Collection.pdf"
+  },
+  {
+    "id": 198,
+    "title": "Oscar",
+    "image": "assets/img/ecatalog/bedsandmore/Oscar-(Beds-&-More).webp",
+    "type": "Digital Print",
+    "brand": "Beds & More",
+    "collection": "Upholstery",
+    "url": "catalogpdf/bedsandmore/oscar.pdf"
+  },
+  {
+    "id": 199,
+    "title": "Reflect",
+    "image": "assets/img/ecatalog/bedsandmore/Reflect-(Beds-&-More).webp",
+    "type": "Digital Print",
+    "brand": "Beds & More",
+    "collection": "Upholstery",
+    "url": "catalogpdf/bedsandmore/Reflect Collection.pdf"
+  },
+  {
+    "id": 200,
+    "title": "Refuge",
+    "image": "assets/img/ecatalog/bedsandmore/Refuge-(Beds-&-More).webp",
+    "type": "Digital Print",
+    "brand": "Beds & More",
+    "collection": "Upholstery",
+    "url": "catalogpdf/bedsandmore/Refuge-Collection.pdf"
+  },
+  {
+    "id": 201,
+    "title": "Aruba",
+    "image": "assets/img/ecatalog/sj/Aruba.webp",
+    "type": "Digital Print",
+    "brand": "SJ",
+    "collection": "Upholstery",
+    "url": "catalogpdf/ARUBA.pdf"
+  },
+  {
+    "id": 202,
+    "title": "Halden",
+    "image": "assets/img/ecatalog/sj/Halden.webp",
+    "type": "Digital Print Velvet",
+    "brand": "SJ",
+    "collection": "Upholstery",
+    "url": "catalogpdf/HALDEN VOLUME 1.pdf"
+  },
+  {
+    "id": 205,
+    "title": "Angel",
+    "image": "assets/img/ecatalog/u-sj/angel.png",
+    "type": "Sweden Velvet",
+    "brand": "SJ",
+    "collection": "Upholstery",
+    "url": "catalogpdf/ANGEL.pdf"
+  },
+  {
+    "id": 206,
+    "title": "Halden Volume 2",
+    "image": "assets/img/ecatalog/u-sj/halden.png",
+    "type": "Velvet",
+    "brand": "SJ",
+    "collection": "Upholstery",
+    "url": "catalogpdf/HALDEN VOLUME 2.pdf"
+  },
+  {
+    "id": 207,
+    "title": "Nakshi",
+    "image": "assets/img/ecatalog/u-sj/nakshi.png",
+    "type": "Digital Print",
+    "brand": "SJ",
+    "collection": "Upholstery",
+    "url": "catalogpdf/NAKSHI.pdf"
+  },
+  {
+    "id": 208,
+    "title": "Alfy",
+    "image": "assets/img/ecatalog/u-sj/alfy.png",
+    "type": "Plain Velvet",
+    "brand": "SJ",
+    "collection": "Upholstery",
+    "url": "catalogpdf/ALFY.pdf"
+  },
+  {
+    "id": 209,
+    "title": "Alytus",
+    "image": "assets/img/ecatalog/u-sj/alytus.png",
+    "type": "Sweden Velvet",
+    "brand": "SJ",
+    "collection": "Upholstery",
+    "url": "catalogpdf/ALYTUS.pdf"
+  },
+  {
+    "id": 210,
+    "title": "Zurich",
+    "image": "assets/img/ecatalog/u-sj/zurich.png",
+    "type": "Fancy Trendy Furry",
+    "brand": "SJ",
+    "collection": "Upholstery",
+    "url": "catalogpdf/ZURICH.pdf"
+  },
+  {
+    "id": 211,
+    "title": "Pebbles",
+    "image": "assets/img/ecatalog/oofy/pebbles.png",
+    "type": "Woven",
+    "brand": "Oofy",
+    "collection": "Upholstery",
+    "url": "catalogpdf/PEBBLES.pdf"
+  },
+  {
+    "id": 212,
+    "title": "Leisure",
+    "image": "assets/img/ecatalog/smartplus/leisure.png",
+    "type": "Woven",
+    "brand": "Smart Plus",
+    "collection": "Upholstery",
+    "url": "catalogpdf/LEISURE.pdf"
+  },
+  {
+    "id": 213,
+    "title": "Aston",
+    "image": "assets/img/ecatalog/smartplus/aston.png",
+    "type": "Woven",
+    "brand": "Smart Plus",
+    "collection": "Upholstery",
+    "url": "catalogpdf/ASTON.pdf"
+  },
+  {
+    "id": 214,
+    "title": "Antalya",
+    "image": "assets/img/ecatalog/smartplus/antalya.png",
+    "type": "Woven",
+    "brand": "Smart Plus",
+    "collection": "Upholstery",
+    "url": "catalogpdf/ANTALYA.pdf"
+  },
+  {
+    "id": 215,
+    "title": "Wooly",
+    "image": "assets/img/ecatalog/smartplus/wooly.png",
+    "type": "Woven",
+    "brand": "Smart Plus",
+    "collection": "Upholstery",
+    "url": "catalogpdf/WOOLY.pdf"
+  },
+  {
+    "id": 216,
+    "title": "Giza",
+    "image": "assets/img/ecatalog/smartplus/giza.png",
+    "type": "Woven",
+    "brand": "Smart Plus",
+    "collection": "Upholstery",
+    "url": "catalogpdf/GIZA.pdf"
+  },
+  {
+    "id": 217,
+    "title": "Melody",
+    "image": "assets/img/ecatalog/smartplus/melody.png",
+    "type": "Woven",
+    "brand": "Smart Plus",
+    "collection": "Upholstery",
+    "url": "catalogpdf/MELODY.pdf"
+  },
+  {
+    "id": 218,
+    "title": "JODHPUR VOL 1",
+    "image": "assets/img/ecatalog/sj/jodhpur 1_.png",
+    "type": "Woven",
+    "brand": "SJ",
+    "collection": "Upholstery",
+    "url": "catalogpdf/JODHPUR VOLUME 1.pdf"
+  },
+  {
+    "id": 219,
+    "title": "JODHPUR VOL 2",
+    "image": "assets/img/ecatalog/sj/jodhpur 2_.png",
+    "type": "Woven",
+    "brand": "SJ",
+    "collection": "Upholstery",
+    "url": "catalogpdf/JODHPUR VOLUME 2.pdf"
+  },
+  {
+    "id": 220,
+    "title": "BIKANER VOL 1",
+    "image": "assets/img/ecatalog/sj/bikaner 1.png",
+    "type": "Woven",
+    "brand": "SJ",
+    "collection": "Upholstery",
+    "url": "catalogpdf/BIKANER VOLUME 1.pdf"
+  },
+  {
+    "id": 221,
+    "title": "BIKANER VOL 2",
+    "image": "assets/img/ecatalog/sj/bikaner 2_.png",
+    "type": "Woven",
+    "brand": "SJ",
+    "collection": "Upholstery",
+    "url": "catalogpdf/BIKANER VOLUME 2.pdf"
+  },
+  {
+    "id": 222,
+    "title": "ADDIS",
+    "image": "assets/img/ecatalog/sj/addis.png",
+    "type": "Woven",
+    "brand": "SJ",
+    "collection": "Upholstery",
+    "url": "catalogpdf/sjcurtains/sj/ADDIS.pdf"
+  },
+  {
+    "id": 223,
+    "title": "CHARCOAL",
+    "image": "assets/img/ecatalog/sj/charcol.png",
+    "type": "Woven",
+    "brand": "SJ",
+    "collection": "Upholstery",
+    "url": "catalogpdf/sjcurtains/sj/CHARCOAL.pdf"
+  },
+  {
+    "id": 224,
+    "title": "DUCATI",
+    "image": "assets/img/ecatalog/sj/ducati.png",
+    "type": "Woven",
+    "brand": "SJ",
+    "collection": "Upholstery",
+    "url": "catalogpdf/sjcurtains/sj/DUCATI.pdf"
+  },
+  {
+    "id": 225,
+    "title": "WILFORD",
+    "image": "assets/img/ecatalog/sj/wilford.png",
+    "type": "Woven",
+    "brand": "SJ",
+    "collection": "Upholstery",
+    "url": "catalogpdf/sjcurtains/sj/WILFORD.pdf"
+  }
+]

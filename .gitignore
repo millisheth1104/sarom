@@ -5,3 +5,11 @@ out/
 next-env.d.ts
 .DS_Store
 Albra Serif Font/
+
+# Catalogue PDFs mirrored from sarom.info — ~660MB across 204 files.
+# Deliberately NOT tracked: a repo that size is painful to clone, and they are
+# already hosted. reference/catalogue-manifest.json IS committed, so the set
+# rebuilds with `node reference/fetch-pdfs.mjs`.
+# Scoped to *.pdf, NOT the whole folder: the cover images live alongside them
+# and are only ~6MB, and the showroom renders blank without them.
+public/catalogues/**/*.pdf

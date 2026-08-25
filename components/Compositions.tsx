@@ -3,7 +3,8 @@
 import Image from "next/image";
 import { useRef, useState } from "react";
 import { SECTION_INDEX } from "@/lib/content";
-import { SHOWROOM_SLIDES, PRODUCT } from "@/lib/replicas";
+import { PRODUCT } from "@/lib/replicas";
+import { SHOWROOM_SLIDES } from "@/lib/catalogues";
 import { Reveal, ImageReveal, Arrow } from "./Motion";
 import { gsap, prefersReducedMotion } from "@/lib/motion";
 
@@ -29,6 +30,13 @@ export function Showroom() {
   const lowerRef = useRef<HTMLDivElement>(null);
   const slides = SHOWROOM_SLIDES;
   const slide = slides[active];
+  /* Five real catalogues per brand fill the bento: three cards across the
+     top, then the feature image and the side panel. */
+  const [cards, feature, panel] = [
+    slide.tiles.slice(0, 3),
+    slide.tiles[3],
+    slide.tiles[4],
+  ] as const;
 
   /* Per-tile wipe direction, matching the reference slider: it does not fade
      the grid, it opens each tile along ONE axis from a different edge, so the
@@ -177,19 +185,21 @@ export function Showroom() {
         {/* three cards; each label group is a NOTCH cut into the image corner,
             filled with the card ground, rather than a pill floating on top */}
         <div className="studio__cards" ref={cardsRef} data-reveal-stagger="0.07">
-          {slide.cards.map((c, i) => (
+          {cards.map((c) => (
             <Reveal
               as="a"
               className="studio__card"
               dir="up"
-              key={i}
-              href={c.href}
+              key={c.id}
+              href={c.pdf ?? undefined}
+              target="_blank"
+              rel="noopener"
               data-cursor="View"
-              aria-label={`${c.name} — ${c.family} catalogue`}
+              aria-label={`${c.title} — ${c.type} catalogue (PDF)`}
             >
               <Image
-                src={c.src}
-                alt={c.alt}
+                src={c.cover ?? ""}
+                alt={`${c.title}, ${c.type.toLowerCase()} by ${slide.brand}`}
                 width={760}
                 height={600}
                 sizes="(max-width: 680px) 50vw, 30vw"
@@ -197,8 +207,8 @@ export function Showroom() {
               />
               <span className="studio__notch">
                 <span className="studio__capsule">
-                  <span className="studio__pill">{c.family}</span>
-                  <span className="studio__pill">{c.name}</span>
+                  <span className="studio__pill">{c.type}</span>
+                  <span className="studio__pill">{c.title}</span>
                 </span>
               </span>
             </Reveal>
@@ -210,53 +220,67 @@ export function Showroom() {
         <div className="studio__lower" ref={lowerRef}>
           <ImageReveal className="studio__feature" delay={0.08}>
             <Image
-              src={slide.feature.src}
-              alt={slide.feature.alt}
+              src={feature.cover ?? ""}
+              alt={`${feature.title}, ${feature.type.toLowerCase()} by ${slide.brand}`}
               width={1240}
               height={776}
               sizes="(max-width: 1024px) 100vw, 58vw"
               data-cursor="Explore"
               unoptimized
             />
+            {/* Name and classification straight off the catalogue record — no
+                invented marketing copy standing in for real product data. */}
             <span className="studio__featurecopy">
-              <h3>{slide.feature.title}</h3>
-              <p>{slide.feature.body}</p>
+              <h3>{feature.title}</h3>
+              <p>
+                {feature.type} · {feature.collection}
+              </p>
             </span>
             <span className="studio__vtag">
-              <b>{slide.feature.tagName}</b>
-              {slide.feature.tagMeta}
+              <b>{slide.brand}</b>
+              {feature.collection}
             </span>
             {/* Stretched hit area: the whole feature tile opens its catalogue.
                 Sits above the image but below the copy plate and vertical tag,
                 which are decorative text and need no separate target. */}
             <a
               className="studio__hit"
-              href={slide.feature.href}
+              href={feature.pdf ?? undefined}
+              target="_blank"
+              rel="noopener"
               data-cursor="Explore"
-              aria-label={`${slide.feature.title} — ${slide.feature.tagName} catalogue`}
+              aria-label={`${feature.title} — ${feature.type} catalogue (PDF)`}
             />
           </ImageReveal>
 
           <Reveal className="studio__panel" dir="right" delay={0.14}>
             <span className="studio__panelhead">
               <h3>
-                {slide.panel.kicker.map((l) => (
-                  <span key={l}>{l}</span>
-                ))}
+                <span>{panel.title}</span>
+                <span>{panel.type}</span>
               </h3>
-              <a className="studio__round" href={slide.panel.href} data-cursor="Open">
+              <a
+                className="studio__round"
+                href={panel.pdf ?? undefined}
+                target="_blank"
+                rel="noopener"
+                data-cursor="Open"
+                aria-label={`${panel.title} catalogue (PDF)`}
+              >
                 <Diag />
               </a>
             </span>
             <a
               className="studio__panelimg"
-              href={slide.panel.href}
+              href={panel.pdf ?? undefined}
+              target="_blank"
+              rel="noopener"
               data-cursor="Open"
-              aria-label={`${slide.brand} catalogue`}
+              aria-label={`${panel.title} catalogue (PDF)`}
             >
               <Image
-                src={slide.panel.src}
-                alt={slide.panel.alt}
+                src={panel.cover ?? ""}
+                alt={`${panel.title}, ${panel.type.toLowerCase()} by ${slide.brand}`}
                 width={1000}
                 height={1250}
                 sizes="(max-width: 1024px) 100vw, 30vw"
