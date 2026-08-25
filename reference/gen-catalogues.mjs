@@ -5,7 +5,12 @@ const products = JSON.parse(readFileSync("reference/_catalogues.json", "utf8"));
 const manifest = JSON.parse(readFileSync("reference/catalogue-manifest.json", "utf8"));
 const { covers } = JSON.parse(readFileSync("reference/_covers.json", "utf8"));
 
-const pdfById = new Map(manifest.catalogues.map((c) => [c.id, c.file]));
+/* The catalogue link points at sarom.info's own copy, NOT the local mirror.
+   The 204 PDFs are ~660MB and deliberately not in git, so a deployed build
+   would 404 on every one of them. The client's copies are canonical and stay
+   current on their own. `pdfLocal` keeps the mirrored path for reference. */
+const pdfById = new Map(manifest.catalogues.map((c) => [c.id, c.source]));
+const pdfLocalById = new Map(manifest.catalogues.map((c) => [c.id, c.file]));
 const coverById = new Map(covers.map((c) => [c.id, c.cover]));
 
 const BRAND_ORDER = ["SJ", "Oofy", "Matlin", "Smart Plus", "Beds & More"];
@@ -56,6 +61,7 @@ const all = products.map((p) => {
     typeRaw: p.type,
     cover: coverById.get(p.id) ?? null,
     pdf: pdfById.get(p.id) ?? null,
+    pdfLocal: pdfLocalById.get(p.id) ?? null,
   };
 });
 
@@ -174,7 +180,10 @@ export type Catalogue = {
   /** Exactly as it appears on sarom.info, kept so corrections stay auditable. */
   typeRaw: string;
   cover: string | null;
+  /** Canonical URL on sarom.info — what the site links to. */
   pdf: string | null;
+  /** Path to the local mirror, which is not committed. See fetch-pdfs.mjs. */
+  pdfLocal: string | null;
 };
 
 export const BRAND_ORDER = ${JSON.stringify(BRAND_ORDER)} as const;
