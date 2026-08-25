@@ -71,8 +71,11 @@ export function Showroom({ index }: { index?: string } = {}) {
       lowerRef.current?.querySelector<HTMLElement>(".studio__panel"),
     ].filter(Boolean) as HTMLElement[];
 
-  const go = (dir: number) => {
-    const next = (active + dir + slides.length) % slides.length;
+  /* Both the arrows and the brand tabs run THIS. The tabs used to call
+     setActive directly, so jumping to a brand swapped the grid with no
+     animation at all while the arrows wiped — the same control doing two
+     different things depending on which one you pressed. */
+  const transitionTo = (next: number, dir: number) => {
     if (next === active) return;
 
     const els = tiles();
@@ -134,6 +137,13 @@ export function Showroom({ index }: { index?: string } = {}) {
     });
   };
 
+  const go = (dir: number) =>
+    transitionTo((active + dir + slides.length) % slides.length, dir);
+
+  /* Wipe in the direction the brand actually sits, so jumping from SJ to
+     Beds & More reads as moving forward rather than an arbitrary flick. */
+  const jumpTo = (next: number) => transitionTo(next, next > active ? 1 : -1);
+
   return (
     <section className="sect sect--comp sect--ivory" data-nav-tone="light">
       <div className="shell">
@@ -159,7 +169,7 @@ export function Showroom({ index }: { index?: string } = {}) {
                 key={b.brand}
                 type="button"
                 className="showroom__brandtab"
-                onClick={() => setActive(b.index)}
+                onClick={() => jumpTo(b.index)}
                 aria-current={b.brand === slide.brand}
               >
                 {b.brand}
