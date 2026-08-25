@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useRef, useState } from "react";
 import { SECTION_INDEX } from "@/lib/content";
 import { PRODUCT } from "@/lib/replicas";
-import { SHOWROOM_SLIDES } from "@/lib/catalogues";
+import { SHOWROOM_SLIDES, BRAND_STARTS } from "@/lib/catalogues";
 import { Reveal, ImageReveal, Arrow } from "./Motion";
 import { gsap, prefersReducedMotion } from "@/lib/motion";
 
@@ -146,21 +146,34 @@ export function Showroom() {
         </div>
 
         <Reveal className="showroom__bar" dir="up" delay={0.06}>
+          {/* Page within the current brand, not position in the whole run —
+              "04 / 27" of SJ reads better than "04 / 43" of everything. */}
           <span className="showroom__count">
-            {String(active + 1).padStart(2, "0")} / {String(slides.length).padStart(2, "0")}
+            {String(slide.page).padStart(2, "0")} / {String(slide.pages).padStart(2, "0")}
           </span>
-          <span className="showroom__brand">{slide.brand}</span>
+
+          {/* SJ alone is 27 slides, so stepping is not a realistic way to
+              reach the other brands. These jump straight to a brand's first
+              page. */}
+          <span className="showroom__brands">
+            {BRAND_STARTS.map((b) => (
+              <button
+                key={b.brand}
+                type="button"
+                className="showroom__brandtab"
+                onClick={() => setActive(b.index)}
+                aria-current={b.brand === slide.brand}
+              >
+                {b.brand}
+              </button>
+            ))}
+          </span>
+
           <span className="showroom__controls">
-            <a className="sctl__action" href="/ecatalogue.php" data-cursor="Open">
-              View catalogue
-              <i>
-                <Arrow className="" />
-              </i>
-            </a>
-            <button className="sctl__nav" type="button" onClick={() => go(-1)} aria-label="Previous brand">
+            <button className="sctl__nav" type="button" onClick={() => go(-1)} aria-label="Previous catalogues">
               ←
             </button>
-            <button className="sctl__nav" type="button" onClick={() => go(1)} aria-label="Next brand">
+            <button className="sctl__nav" type="button" onClick={() => go(1)} aria-label="More catalogues">
               →
             </button>
           </span>
@@ -185,12 +198,19 @@ export function Showroom() {
         {/* three cards; each label group is a NOTCH cut into the image corner,
             filled with the card ground, rather than a pill floating on top */}
         <div className="studio__cards" ref={cardsRef} data-reveal-stagger="0.07">
-          {cards.map((c) => (
+          {cards.map((c, i) => (
             <Reveal
               as="a"
               className="studio__card"
               dir="up"
-              key={c.id}
+              /* Keyed by POSITION, not by catalogue id. These are three fixed
+                 slots, and the key decides whether React updates the nodes or
+                 replaces them. Keying by id replaces them on every brand
+                 change — and a fresh node carries data-reveal (opacity 0) with
+                 no data-inview, because the reveal engine only registered the
+                 elements present at mount. The cards then never became
+                 visible again after the first slide. */
+              key={i}
               href={c.pdf ?? undefined}
               target="_blank"
               rel="noopener"

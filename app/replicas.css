@@ -88,11 +88,34 @@
   color: var(--fg-muted);
   font-variant-numeric: tabular-nums;
 }
-.showroom__brand {
-  font-family: var(--font-display);
-  font-size: clamp(1rem, 1.5vw, 1.4rem);
-  font-weight: 300;
-  color: var(--ink-1);
+/* Brand jump tabs — SJ alone runs to 27 pages, so stepping is not a viable
+   way to reach the other four brands. */
+.showroom__brands {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  padding: 0.25rem;
+  border-radius: var(--radius-pill);
+  background: var(--ivory);
+  box-shadow: inset 0 0 0 1px rgba(20, 17, 15, 0.09);
+}
+.showroom__brandtab {
+  padding: 0.45rem 0.9rem;
+  border-radius: var(--radius-pill);
+  background: transparent;
+  font-size: var(--fs-meta);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--fg-muted);
+  transition: background-color 0.35s var(--ease-soft), color 0.35s var(--ease-soft);
+}
+.showroom__brandtab:hover {
+  color: var(--charcoal);
+}
+.showroom__brandtab[aria-current="true"] {
+  background: var(--charcoal);
+  color: var(--ivory);
 }
 .showroom__controls {
   display: inline-flex;
