@@ -127,6 +127,8 @@
 
   .statement__meta { grid-template-columns: 1fr 1fr; }
 
+  .showroom__bar { flex-wrap: wrap; }
+  .showroom__controls { margin-left: 0; width: 100%; justify-content: space-between; }
 
   .chapter__frame { aspect-ratio: 4 / 5; }
   .chapter__overlay { padding: 1.2rem; }
