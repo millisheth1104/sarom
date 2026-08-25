@@ -227,6 +227,14 @@
   to { transform: none; }
 }
 @media (prefers-reduced-motion: reduce) {
+  /* The global reduced-motion block kills `transform`, which does not reach an
+     independent `scale`. Stop the pop here; the colour and the dimming stay. */
+  .house__logo,
+  .house__cell:hover .house__logo,
+  .house__cell:focus-visible .house__logo {
+    scale: 1;
+  }
+
   .films__slide { transform: none; }
   .films__stage[data-inview="true"] .films__slide { animation: none; }
 }
@@ -512,7 +520,23 @@
 
 .house {
   background: var(--ivory);
-  padding-block: var(--section-y) clamp(2.5rem, 5vw, 4.5rem);
+}
+/* `.sect.house`, not `.house`. `.sect { padding-block: var(--section-y) }`
+   lives in globals.css, which @imports editorial.css at the top — so at equal
+   specificity globals wins on source order and a bare `.house` padding is
+   discarded. The asymmetric padding this rule was always meant to apply has
+   therefore never once taken effect; the bottom has been a full 72px the whole
+   time. Two classes (0,2,0) settles it. */
+.sect.house {
+  padding-block: var(--section-y) clamp(1rem, 2vw, 1.75rem);
+}
+/* The marks run straight into whatever follows on the same ivory, so the two
+   section paddings stack into one dead band — 144px of it at desktop. Halve
+   the incoming side at the junction only, scoped by the sibling selector so
+   the following section keeps its normal spacing everywhere else it appears
+   (the preview variants reorder these, and this follows whichever lands). */
+.house + .sect {
+  padding-top: clamp(1.5rem, 3vw, 2.75rem);
 }
 /* One row, wrapping. Each cell is sized by its mark rather than boxed, so
    the logos read as a set of marks and not a rank of tiles. */
@@ -524,32 +548,38 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  justify-content: space-between;
-  gap: clamp(1.4rem, 3vw, 2.4rem);
+  justify-content: center;
+  gap: clamp(1.6rem, 4.5vw, 4rem) clamp(2rem, 5.5vw, 5rem);
 }
-/* The hover ground. Each brand carries its own pastel in --tint (set from
-   BRANDS), so the plate that appears belongs to that house rather than being
-   one shared colour. Padding gives the plate something to be. */
+/* No ground, no plate. The marks sit straight on the ivory and the hover
+   state is the mark itself POPPING: scaling up past its resting size and
+   settling back, on a back-out curve that overshoots. An ease-out would just
+   grow it; the overshoot is what makes it read as a pop rather than a zoom. */
 .house__cell {
   position: relative;
   display: grid;
   place-items: center;
-  padding: clamp(0.9rem, 1.9vw, 1.6rem) clamp(1.1rem, 2.4vw, 2.1rem);
-  border-radius: clamp(12px, 1.4vw, 18px);
-  background: transparent;
+  padding: clamp(0.6rem, 1.4vw, 1rem) clamp(0.5rem, 1.2vw, 1rem);
   /* The cell takes its size from the marks, which carry the definite height
      themselves — see .house__logo. Setting the height here and asking the
      image for 100% of it does NOT work: a percentage height on a grid item
      resolves against the grid area, that area is auto-sized by its content,
      and the content is the image. The percentage is dropped and the image
      falls back to its intrinsic 200px, overflowing the cell. */
-  transition: background-color 0.45s var(--ease-soft),
-    transform 0.5s var(--ease-out-expo);
+  /* No transform or transition of its own. The cell carries data-reveal, and
+     the reveal engine owns BOTH on that element: html[data-js]
+     [data-reveal][data-inview] pins transform at (0,3,1), and [data-reveal]
+     redeclares the transition shorthand at equal specificity but later source
+     order (editorial.css is @imported at the top of globals.css). Anything
+     set here is silently replaced — which is why the old translateY lift
+     never actually moved. The pop lives on the logo instead. */
 }
-.house__cell:hover,
-.house__cell:focus-visible {
-  background: var(--tint, var(--accent));
-  transform: translateY(-3px);
+/* And the four it is not recede, so the popped mark has somewhere to pop TO.
+   :has() lets the row know one of its children is hovered — without it every
+   mark would stay at full strength and the pop would fight the row instead of
+   leading it. Browsers without :has() simply skip this and keep the scale. */
+.house__row:has(.house__cell:hover) .house__cell:not(:hover) {
+  opacity: 0.4;
 }
 .house__logo {
   grid-area: 1 / 1;
@@ -557,32 +587,37 @@
      the aspect, capped for the wide lockups — the marks run from 0.58 to 6.24
      in aspect, so Smart Plus would otherwise be four times SJ's width.
      object-fit keeps it letterboxed rather than squashed when the cap binds. */
-  height: clamp(32px, 3.4vw, 48px);
+  height: clamp(34px, 3.6vw, 50px);
   width: auto;
-  max-width: min(220px, 40vw);
+  max-width: min(230px, 42vw);
   object-fit: contain;
-  transition: opacity 0.45s var(--ease-soft);
+  /* The mark is a plain img with no data-reveal, so its transform, scale and
+     transition are its own — nothing overrides them. ease-pop overshoots past
+     the target and settles back, which is what separates a pop from a zoom. */
+  scale: 1;
+  transition: opacity 0.45s var(--ease-soft), scale 0.52s var(--ease-pop);
 }
-/* Rest: the neutral mark, held back. Hover: the real logo, full strength. */
+.house__cell:hover .house__logo,
+.house__cell:focus-visible .house__logo {
+  scale: 1.14;
+}
+/* Rest: the neutral mark, held back. Hover: the real logo, full strength.
+   Keyboard focus gets the same reveal as the mouse. */
 .house__logo--grey {
-  opacity: 0.6;
+  opacity: 0.55;
 }
 .house__logo--colour {
   opacity: 0;
 }
-.house__cell:hover .house__logo--grey {
-  opacity: 0;
-}
-.house__cell:hover .house__logo--colour {
-  opacity: 1;
-}
-/* Keyboard users get the same reveal as the mouse. */
+.house__cell:hover .house__logo--grey,
 .house__cell:focus-visible .house__logo--grey {
   opacity: 0;
 }
+.house__cell:hover .house__logo--colour,
 .house__cell:focus-visible .house__logo--colour {
   opacity: 1;
 }
+
 
 
 /* ============================================================
