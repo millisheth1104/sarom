@@ -143,16 +143,16 @@ export function Showroom() {
           </span>
           <span className="showroom__brand">{slide.brand}</span>
           <span className="showroom__controls">
-            <a className="edit3__action" href="/ecatalogue.php" data-cursor="Open">
+            <a className="sctl__action" href="/ecatalogue.php" data-cursor="Open">
               View catalogue
               <i>
                 <Arrow className="" />
               </i>
             </a>
-            <button className="edit3__nav" type="button" onClick={() => go(-1)} aria-label="Previous brand">
+            <button className="sctl__nav" type="button" onClick={() => go(-1)} aria-label="Previous brand">
               ←
             </button>
-            <button className="edit3__nav" type="button" onClick={() => go(1)} aria-label="Next brand">
+            <button className="sctl__nav" type="button" onClick={() => go(1)} aria-label="Next brand">
               →
             </button>
           </span>

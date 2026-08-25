@@ -380,22 +380,27 @@ export const SELECTOR = {
    REDESIGNED EDITORIAL SECTIONS
    ============================================================ */
 
-/** 04 — In the Room: label / philosophy / pill, then a slider of all
-    eleven collections. Cards are stepped in a repeating 3-beat rhythm so the
-    stagger survives however far the track is scrolled. */
-export const IN_THE_ROOM = {
+/** 04 — The Edit: a centre-stage film carousel on a dark ground. The active
+    film plays muted and loops; its neighbours sit dimmed and bleed off both
+    edges. Deliberately unlabelled and unlinked — these are atmosphere, not
+    product cards.
+
+    Drop the six files in as /media/films/film-1.mp4 … film-6.mp4. Each entry
+    keeps a poster from the existing library so the slot still reads as a
+    picture before the video is decoded (and if a file is missing). */
+export const FILMS = {
   label: "The Edit",
   kicker: "Our Philosophy",
   body:
     "Every piece is finished to balance atmosphere, material and form — bringing quiet order to the rhythm of everyday living.",
-  cta: { label: "Enter Collection", href: "/ecatalogue.php" },
-  cards: COLLECTIONS.map((c) => ({
-    name: c.name,
-    type: `${c.type} Collection`,
-    src: c.image,
-    alt: `${c.name} — ${c.type} collection by Sarom`,
-    href: "/ecatalogue.php",
-  })),
+  items: [
+    { src: "/media/films/film-1.mp4", poster: "/media/product/showroom-hero.webp" },
+    { src: "/media/films/film-2.mp4", poster: "/media/product/coll-hero-upholstery.webp" },
+    { src: "/media/films/film-3.mp4", poster: "/media/product/editorial-hero.webp" },
+    { src: "/media/films/film-4.mp4", poster: "/media/product/coll-hero-curtains.webp" },
+    { src: "/media/films/film-5.mp4", poster: "/media/product/selector-hero.webp" },
+    { src: "/media/films/film-6.mp4", poster: "/media/product/coll-hero-bedding.webp" },
+  ].map((f, i) => ({ ...f, alt: `Sarom film ${i + 1}` })),
 };
 
 /** 05 — Our Story: heading + copy, oversized image, 4x2 grid. */

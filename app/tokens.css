@@ -5,68 +5,47 @@
    ============================================================ */
 
 /* ------------------------------------------------------------------
-   ALBRA — trial files are present in ./Albra Serif Font/ but their licence
-   forbids converting them, installing them on a server, and publishing
-   anything made with them. So they are NOT bundled or served. Each face
-   lists local() first: if the trial fonts are installed on the viewer's
-   machine the real typeface renders for evaluation, with nothing shipped.
-   Drop the licensed .woff2 files into /public/fonts to go live.
+   AVANTGARDE BK BT — the brand typeface.
+
+   Same shipping rule as before: this is a licensed commercial face
+   (ITC Avant Garde Gothic, Bitstream cut), so nothing is bundled here.
+   Each face lists local() first, which renders the real typeface for
+   anyone who has it installed; drop the licensed .woff2 files into
+   /public/fonts to serve it to everyone.
+
+   Book (Bk) covers 300-400. Medium/Demi covers 500-700 — Avant Garde has
+   no true bold at Book weight, and letting the browser synthesise one
+   smears the geometric forms, so the heavier weights map to a real cut.
    ------------------------------------------------------------------ */
 @font-face {
-  font-family: "Albra";
-  src: local("Albra Regular"), local("AlbraTRIAL-Regular"), local("Albra"),
-       url("/fonts/Albra-Regular.woff2") format("woff2");
-  font-weight: 400;
+  font-family: "AvantGarde BT";
+  src: local("AvantGarde Bk BT"), local("AvantGardeBkBT"),
+       local("ITC Avant Garde Gothic Book"), local("ITCAvantGardeStd-Bk"),
+       url("/fonts/AvantGardeBkBT-Book.woff2") format("woff2");
+  font-weight: 300 400;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
-  font-family: "Albra";
-  src: local("Albra Medium"), local("AlbraTRIAL-Medium"),
-       url("/fonts/Albra-Medium.woff2") format("woff2");
-  font-weight: 500;
+  font-family: "AvantGarde BT";
+  src: local("AvantGarde Md BT"), local("AvantGardeMdBT"),
+       local("ITC Avant Garde Gothic Medium"), local("ITCAvantGardeStd-Md"),
+       local("AvantGarde Demi BT"), local("ITC Avant Garde Gothic Demi"),
+       url("/fonts/AvantGardeMdBT-Medium.woff2") format("woff2");
+  font-weight: 500 700;
   font-style: normal;
   font-display: swap;
 }
+/* Avant Garde ships an OBLIQUE, not a true italic. Declaring it here keeps
+   the browser from shearing the upright itself, which distorts the circular
+   bowls the face is built on. */
 @font-face {
-  font-family: "Albra";
-  src: local("Albra Light"), local("AlbraTRIAL-Light"),
-       url("/fonts/Albra-Light.woff2") format("woff2");
-  font-weight: 300;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: "Albra Grotesk";
-  src: local("Albra Grotesk Regular"), local("AlbraGroteskTRIAL-Regular"),
-       local("Albra Grotesk"),
-       url("/fonts/AlbraGrotesk-Regular.woff2") format("woff2");
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: "Albra Grotesk";
-  src: local("Albra Grotesk Medium"), local("AlbraGroteskTRIAL-Medium"),
-       url("/fonts/AlbraGrotesk-Medium.woff2") format("woff2");
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: "Albra Grotesk";
-  src: local("Albra Grotesk Bold"), local("AlbraGroteskTRIAL-Bold"),
-       url("/fonts/AlbraGrotesk-Bold.woff2") format("woff2");
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: "Albra Grotesk";
-  src: local("Albra Grotesk Light"), local("AlbraGroteskTRIAL-Light"),
-       url("/fonts/AlbraGrotesk-Light.woff2") format("woff2");
-  font-weight: 300;
-  font-style: normal;
+  font-family: "AvantGarde BT";
+  src: local("AvantGarde Bk BT Oblique"), local("AvantGardeBkBT-Oblique"),
+       local("ITC Avant Garde Gothic Book Oblique"),
+       url("/fonts/AvantGardeBkBT-BookOblique.woff2") format("woff2");
+  font-weight: 300 400;
+  font-style: oblique 0deg 12deg;
   font-display: swap;
 }
 
@@ -129,9 +108,15 @@
   --fg-muted:        var(--stone);
   --rule:            rgba(20, 17, 15, 0.12);
 
-  /* ---- Type ---- */
-  --font-display: "Albra", "Cormorant Garamond", "Didot", "Times New Roman", serif;
-  --font-body:    "Albra Grotesk", "Neue Haas Grotesk", "Helvetica Neue", Inter, system-ui, sans-serif;
+  /* ---- Type ----
+     One family across the site now. Century Gothic leads the fallbacks
+     because it is the metric-compatible substitute for Avant Garde and
+     ships with Windows/Office, so the layout holds even without the
+     licensed files. */
+  --font-display: "AvantGarde BT", "Century Gothic", "Questrial", "Futura",
+                  "Avenir Next", "Avenir", system-ui, sans-serif;
+  --font-body:    "AvantGarde BT", "Century Gothic", "Questrial", "Futura",
+                  "Avenir Next", "Avenir", system-ui, sans-serif;
 
   --fs-hero:    clamp(2rem, 4.7vw, 5.5rem);
   --fs-display: clamp(2.25rem, 5.6vw, 6rem);

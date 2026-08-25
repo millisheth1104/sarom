@@ -1,8 +1,8 @@
 /* ============================================================
    REDESIGNED EDITORIAL SECTIONS
    Patterns handpicked from the supplied reference layouts:
-     .edit3   — label / philosophy / pill row over three
-                staggered image cards            (In the Room)
+     .films   — centre-stage film carousel on a dark
+                ground                            (The Edit)
      .objects — heading + copy left, large image right, then a
                 4x2 grid mixing images and text  (Our Story)
      .house   — restrained brand row             (House Brands)
@@ -26,45 +26,11 @@
 }
 
 /* ============================================================
-   IN THE ROOM — label / philosophy / pill, then staggered cards
+   SHARED SLIDER CONTROLS
+   Used by the showroom bento slider and the film carousel, so
+   they live outside either section's own block.
    ============================================================ */
-.edit3 {
-  background: var(--ivory);
-}
-
-.edit3__head {
-  display: grid;
-  grid-template-columns: auto 1fr auto;
-  gap: clamp(1.25rem, 3vw, 3.5rem);
-  align-items: start;
-  padding-bottom: clamp(1.75rem, 3.4vw, 3.4rem);
-}
-.edit3__label {
-  font-family: var(--font-display);
-  font-size: clamp(1.1rem, 1.7vw, 1.7rem);
-  font-weight: 300;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--ink-1);
-  white-space: nowrap;
-}
-.edit3__phil {
-  display: grid;
-  gap: 0.5rem;
-  max-width: 52ch;
-}
-.edit3__phil span {
-  font-size: var(--fs-meta);
-  letter-spacing: var(--tr-meta);
-  text-transform: uppercase;
-  color: var(--fg-muted);
-}
-.edit3__phil p {
-  font-size: var(--fs-body);
-  line-height: 1.68;
-  color: var(--fg-muted);
-}
-.edit3__action {
+.sctl__action {
   display: inline-flex;
   align-items: center;
   gap: 0.6rem;
@@ -79,7 +45,7 @@
   white-space: nowrap;
   transition: box-shadow 0.4s var(--ease-soft);
 }
-.edit3__action i {
+.sctl__action i {
   display: grid;
   place-items: center;
   width: 28px;
@@ -90,80 +56,13 @@
   font-style: normal;
   transition: transform 0.45s var(--ease-out-expo);
 }
-.edit3__action:hover {
+.sctl__action:hover {
   box-shadow: inset 0 0 0 1px var(--charcoal);
 }
-.edit3__action:hover i {
+.sctl__action:hover i {
   transform: translateX(2px);
 }
-
-/* Wrapper that gets pinned; holds the scrolling row plus the floating arrows
-   so they remain reachable once the heading has left the screen. Full width —
-   it sits outside .shell, so the carousel is not capped at --max-w. */
-.edit3__viewport {
-  position: relative;
-  width: 100%;
-}
-.edit3__float {
-  display: none;
-}
-@media (min-width: 1025px) {
-  .edit3__float {
-    position: absolute;
-    right: var(--gutter);
-    bottom: clamp(1rem, 3vw, 3.25rem);
-    z-index: 4;
-    display: inline-flex;
-    gap: 0.45rem;
-  }
-}
-
-/* Slider of every collection. Native scroll-snap carries drag, wheel and
-   touch; the arrows only nudge by one card. The stagger repeats on a 3-beat
-   cycle so it survives however far the track is scrolled. */
-.edit3__row {
-  /* flex, not grid: `grid-auto-columns: minmax(0, …)` let all eleven columns
-     compress to fit instead of overflowing, so the track never scrolled.
-     `flex: 0 0` below pins each card's width and forces the overflow. */
-  display: flex;
-  --slide-gap: clamp(0.9rem, 2vw, 2rem);
-  gap: var(--slide-gap);
-  align-items: flex-start;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  scrollbar-width: none;
-  -webkit-overflow-scrolling: touch;
-  /* room for the stagger drop plus the bar, so nothing is clipped */
-  padding-bottom: clamp(3.25rem, 8.5vw, 9.5rem);
-  /* aligns the first card with the heading, then runs to the far edge */
-  padding-inline: var(--gutter);
-  scroll-padding-left: var(--gutter);
-}
-.edit3__row::-webkit-scrollbar {
-  display: none;
-}
-.edit3__card {
-  position: relative;
-  display: block;
-  /* viewport-relative: the row is full width now, so a percentage of the
-     container would grow unbounded on very wide screens */
-  flex: 0 0 clamp(260px, 29vw, 470px);
-  scroll-snap-align: start;
-}
-.edit3__card:nth-child(3n + 2) {
-  transform: translateY(clamp(1.5rem, 4vw, 4.5rem));
-}
-.edit3__card:nth-child(3n) {
-  transform: translateY(clamp(3rem, 8vw, 9rem));
-}
-
-/* controls sit with the pill, top-right of the section */
-.edit3__controls {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.45rem;
-}
-.edit3__nav {
+.sctl__nav {
   display: grid;
   place-items: center;
   width: 38px;
@@ -174,72 +73,306 @@
   color: var(--ink-1);
   transition: background-color 0.4s var(--ease-soft), opacity 0.3s var(--ease-soft);
 }
-.edit3__nav:hover:not(:disabled) {
+.sctl__nav:hover:not(:disabled) {
   background: var(--accent);
 }
-.edit3__nav:disabled {
+.sctl__nav:disabled {
   opacity: 0.32;
   cursor: default;
 }
-.edit3__frame {
-  position: relative;
-  aspect-ratio: 4 / 4.6;
-  border-radius: clamp(16px, 1.8vw, 26px);
+
+/* ============================================================
+   THE EDIT — centre-stage film carousel on a dark ground
+
+   The active film is framed by corner crop-marks; its neighbours
+   sit dimmed and bleed past both edges of the viewport. Centring
+   is pure CSS: the track is translated by whole slide-widths, so
+   nothing has to be measured in JS.
+   ============================================================ */
+.films {
+  background: var(--charcoal);
+  color: var(--ivory);
+  --fg-muted: var(--stone-light);
+  --rule: rgba(245, 240, 232, 0.16);
   overflow: hidden;
-  background: var(--linen);
 }
-.edit3__frame img {
+/* Centred and sparse, as in the reference: one small-caps line over the
+   films, with the supporting copy kept short beneath it. */
+.films__head {
+  display: grid;
+  justify-items: center;
+  text-align: center;
+  gap: 0.75rem;
+  padding-bottom: clamp(1.5rem, 3vw, 3rem);
+}
+.films__label {
+  font-size: var(--fs-meta);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ivory);
+}
+.films__phil {
+  display: grid;
+  gap: 0.4rem;
+  max-width: 48ch;
+}
+.films__phil span {
+  font-size: var(--fs-meta);
+  letter-spacing: var(--tr-meta);
+  text-transform: uppercase;
+  color: rgba(245, 240, 232, 0.4);
+}
+.films__phil p {
+  font-size: var(--fs-body);
+  line-height: 1.68;
+  color: var(--fg-muted);
+}
+
+/* Full-bleed stage so the neighbouring films can run off both edges. */
+.films__stage {
+  position: relative;
+  width: 100%;
+}
+/* MEASURED off the reference (1253px wide): cards 390x218 with ~30px gaps,
+   three of them spanning the full width — 16 + 391 + 33 + 372 + 29 + 396 + 16.
+   That puts a slide at ~31vw and the gap at ~2.4vw.
+
+   Slides are positioned individually by their own --d offset rather than laid
+   out in a row, so the set can wrap endlessly. The track itself only carries
+   the live drag offset, with no transition, so it tracks the finger exactly. */
+.films__track {
+  --slide-w: min(31vw, 520px);
+  --slide-gap: clamp(0.6rem, 2.4vw, 2rem);
+  position: relative;
+  height: calc(var(--slide-w) * 9 / 16);
+  /* --drag is the live pointer offset; it is 0 except mid-gesture. */
+  transform: translateX(var(--drag, 0px));
+  will-change: transform;
+  /* Horizontal gestures belong to the carousel, vertical ones to the page. */
+  touch-action: pan-y;
+  cursor: grab;
+  -webkit-user-select: none;
+  user-select: none;
+}
+.films__track[data-dragging] {
+  cursor: grabbing;
+}
+/* Mid-drag the slides must not ease to their new places — the whole track is
+   already following the finger, and a second animation on top reads as lag. */
+.films__track[data-dragging] .films__slide {
+  transition: none;
+}
+/* The browser's own image/video drag would otherwise hijack the gesture. */
+.films__slide video,
+.films__slide img {
+  -webkit-user-drag: none;
+  user-select: none;
+  pointer-events: none;
+}
+/* Every slide is the SAME size — in the reference the neighbours are not
+   scaled down, only dimmed. The active one is distinguished by its crop-marks
+   and full brightness, not by being bigger. */
+.films__slide {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: var(--slide-w);
+  margin-left: calc(var(--slide-w) / -2);
+  /* one whole slide-plus-gap per step away from centre */
+  translate: calc(var(--d) * (var(--slide-w) + var(--slide-gap)));
+  aspect-ratio: 16 / 9;
+  background: #000;
+  opacity: 0.4;
+  filter: saturate(0.45) brightness(0.75);
+  padding: 0;
+  /* Entrance start-state. transform is free for this — positioning uses the
+     separate `translate` property, so the two compose rather than overwrite. */
+  transform: translateY(52px);
+  transition: translate 0.85s var(--ease-out-expo), opacity 0.85s var(--ease-soft),
+    filter 0.85s var(--ease-soft), padding 0.6s var(--ease-out-expo);
+}
+/* The entrance is an ANIMATION, not a transition: a transition-delay here
+   would also delay `translate`, so every step of the carousel would lag by
+   the stagger amount. An animation runs independently of the transition.
+   Delays key off nth-child, which never changes for a given element — keying
+   them off data-state would re-trigger the animation on every slide change. */
+.films__stage[data-inview="true"] .films__slide {
+  animation: films-rise 0.9s var(--ease-out-expo) forwards;
+}
+.films__stage[data-inview="true"] .films__slide:nth-child(2) { animation-delay: 0.06s; }
+.films__stage[data-inview="true"] .films__slide:nth-child(3) { animation-delay: 0.12s; }
+.films__stage[data-inview="true"] .films__slide:nth-child(4) { animation-delay: 0.18s; }
+.films__stage[data-inview="true"] .films__slide:nth-child(5) { animation-delay: 0.24s; }
+.films__stage[data-inview="true"] .films__slide:nth-child(6) { animation-delay: 0.30s; }
+@keyframes films-rise {
+  to { transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .films__slide { transform: none; }
+  .films__stage[data-inview="true"] .films__slide { animation: none; }
+}
+/* Wrapping from one end of the track to the other: snap, do not travel. */
+.films__slide[data-jump] {
+  transition: none;
+}
+.films__slide[data-state="active"] {
+  opacity: 1;
+  filter: none;
+  padding: clamp(6px, 0.85vw, 13px);
+}
+/* The active film pulls in slightly from its box so the crop-marks sit just
+   outside it — measured at ~12px on a 390px-wide card in the reference.
+   Done with PADDING on the slide, not inset on the video: a video carries
+   intrinsic dimensions, so `inset` + `width:auto` lets it overflow its box
+   rather than stretching to it. box-sizing:border-box means the padding eats
+   into the slide's 16:9 box, which is exactly the effect wanted. */
+.films__slide video {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 1s var(--ease-out-expo);
+  display: block;
 }
-.edit3__card:hover .edit3__frame img {
-  transform: scale(1.035);
-}
-/* glass bar carrying name + type and a small round control */
-.edit3__bar {
+
+/* Corner crop-marks. Eight gradients — two per corner — so the frame needs
+   no extra markup and never boxes the film in a full border. */
+.films__marks {
   position: absolute;
-  left: 0.6rem;
-  right: 0.6rem;
-  bottom: 0.6rem;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.5s var(--ease-soft);
+  --c: rgba(245, 240, 232, 0.9);
+  --len: clamp(14px, 1.6vw, 26px);
+  --w: 1px;
+  background-image:
+    linear-gradient(var(--c), var(--c)), linear-gradient(var(--c), var(--c)),
+    linear-gradient(var(--c), var(--c)), linear-gradient(var(--c), var(--c)),
+    linear-gradient(var(--c), var(--c)), linear-gradient(var(--c), var(--c)),
+    linear-gradient(var(--c), var(--c)), linear-gradient(var(--c), var(--c));
+  background-repeat: no-repeat;
+  background-size:
+    var(--len) var(--w), var(--w) var(--len),
+    var(--len) var(--w), var(--w) var(--len),
+    var(--len) var(--w), var(--w) var(--len),
+    var(--len) var(--w), var(--w) var(--len);
+  background-position:
+    left top, left top,
+    right top, right top,
+    left bottom, left bottom,
+    right bottom, right bottom;
+}
+.films__slide[data-state="active"] .films__marks {
+  opacity: 1;
+}
+/* Drag hint on the upcoming film. Rides above the dimming so it stays
+   readable on a slide that is otherwise pushed back. */
+.films__hint {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
   z-index: 2;
+  font-size: var(--fs-meta);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ivory);
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+/* ---- bar: index, dots, sound + arrows ---- */
+.films__bar {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 0.75rem;
-  padding: 0.6rem 0.6rem 0.6rem 0.9rem;
-  border-radius: var(--radius-pill);
-  background: rgba(245, 240, 232, 0.9);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  gap: clamp(0.9rem, 2.4vw, 2.2rem);
+  margin-top: clamp(1.25rem, 2.6vw, 2.4rem);
+  padding-top: clamp(0.9rem, 1.6vw, 1.5rem);
+  border-top: 1px solid var(--rule);
 }
-.edit3__bar b {
-  display: block;
-  font-family: var(--font-display);
-  font-size: clamp(0.9rem, 1.15vw, 1.15rem);
-  font-weight: 400;
-  line-height: 1.1;
-  color: var(--ink-1);
-}
-.edit3__bar span {
-  display: block;
-  font-size: 0.5rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
+.films__count {
+  font-size: var(--fs-meta);
+  letter-spacing: var(--tr-meta);
   color: var(--fg-muted);
-  margin-top: 0.15rem;
+  font-variant-numeric: tabular-nums;
 }
-.edit3__bar i {
-  flex: 0 0 auto;
-  display: grid;
-  place-items: center;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  background: var(--charcoal);
+.films__dots {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+/* Square markers, as in the reference. The active one stretches into a short
+   bar and doubles as the autoplay countdown. */
+.films__dot {
+  position: relative;
+  width: 9px;
+  height: 9px;
+  padding: 0;
+  overflow: hidden;
+  background: transparent;
+  box-shadow: inset 0 0 0 1px rgba(245, 240, 232, 0.45);
+  transition: width 0.55s var(--ease-out-expo), background-color 0.4s var(--ease-soft),
+    box-shadow 0.4s var(--ease-soft);
+}
+.films__dot:hover {
+  box-shadow: inset 0 0 0 1px var(--ivory);
+}
+.films__dot[aria-current="true"] {
+  width: 38px;
+  box-shadow: inset 0 0 0 1px var(--ivory);
+}
+/* Countdown fill. Runs only while autoplay is actually running; when the
+   pointer is over the carousel it holds where it is rather than resetting. */
+.films__fill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 0;
+  background: var(--ivory);
+}
+.films__fill[data-running] {
+  animation: films-fill var(--dur) linear forwards;
+}
+@keyframes films-fill {
+  to { width: 100%; }
+}
+/* With motion reduced there is no autoplay to count down, so the marker just
+   reads as a solid active state. */
+@media (prefers-reduced-motion: reduce) {
+  .films__dot[aria-current="true"] { width: 9px; background: var(--ivory); }
+  .films__fill { display: none; }
+}
+.films__controls {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-left: auto;
+}
+.films__sound {
+  padding: 0.5rem 0.95rem;
+  border-radius: var(--radius-pill);
+  background: transparent;
+  box-shadow: inset 0 0 0 1px rgba(245, 240, 232, 0.32);
+  color: rgba(245, 240, 232, 0.85);
+  font-size: var(--fs-meta);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  transition: background-color 0.4s var(--ease-soft), color 0.4s var(--ease-soft);
+}
+.films__sound:hover,
+.films__sound[aria-pressed="true"] {
+  background: var(--ivory);
+  color: var(--charcoal);
+}
+/* The nav buttons are ivory-on-ivory by default; on this dark ground they
+   need the inverse treatment. */
+.films .sctl__nav {
+  background: transparent;
+  box-shadow: inset 0 0 0 1px rgba(245, 240, 232, 0.32);
   color: var(--ivory);
-  font-style: normal;
+}
+.films .sctl__nav:hover:not(:disabled) {
+  background: var(--ivory);
+  color: var(--charcoal);
 }
 
 /* ============================================================
@@ -462,18 +595,8 @@
    RESPONSIVE
    ============================================================ */
 @media (max-width: 1024px) {
-  .edit3__head {
-    grid-template-columns: 1fr;
-    gap: 1.1rem;
-  }
-  .edit3__action {
+  .sctl__action {
     justify-self: start;
-  }
-  .edit3__card {
-    flex-basis: 44vw;
-  }
-  .edit3__row {
-    padding-bottom: clamp(2rem, 6vw, 5rem);
   }
 
   .objects__top {
@@ -496,20 +619,7 @@
 }
 
 @media (max-width: 680px) {
-  .edit3__card {
-    flex-basis: 74vw;
-  }
-  .edit3__row {
-    scroll-padding-left: var(--gutter);
-  }
-  .edit3__row {
-    padding-bottom: 1rem;
-  }
   /* stagger reads as misalignment at this width, so flatten it */
-  .edit3__card:nth-child(3n + 2),
-  .edit3__card:nth-child(3n) {
-    transform: none;
-  }
 
   .objects__grid {
     grid-template-columns: repeat(2, 1fr);

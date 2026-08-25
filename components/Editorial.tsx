@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import {
   SECTION_INDEX,
-  IN_THE_ROOM,
+  FILMS,
   OUR_STORY,
   BRANDS,
   LETTER,
@@ -13,206 +13,295 @@ import { Reveal, LineReveal, ImageReveal, Arrow } from "./Motion";
 import { gsap, ScrollTrigger, registerGsap, prefersReducedMotion } from "@/lib/motion";
 
 /* ============================================================
-   04 — IN THE ROOM
-   Label / philosophy / pill across the top, then three image
-   cards stepped progressively lower so the row reads as a
-   composition rather than a rank of equal tiles.
+   04 — THE EDIT (film carousel)
+   Centre-stage slider on a charcoal ground: the active film sits
+   framed by corner crop-marks, its neighbours dimmed and bleeding
+   off both edges. Only the active film plays — muted and looping,
+   because browsers refuse unmuted autoplay; sound is opt-in via
+   the control in the bar.
    ============================================================ */
-export function InTheRoom() {
+/** How long each film holds before the carousel advances itself. */
+const AUTOPLAY_MS = 6000;
+
+export function Films() {
+  const [active, setActive] = useState(0);
+  const [sound, setSound] = useState(false);
+  /* Auto-advance is suspended while the pointer is over the carousel, while a
+     drag is in progress, and whenever the section is off-screen — advancing a
+     slider nobody is looking at just burns battery. Hover and drag are tracked
+     separately so releasing a drag with the mouse still over the carousel
+     keeps it paused. */
+  const [hover, setHover] = useState(false);
+  const [dragging, setDragging] = useState(false);
+  const [onScreen, setOnScreen] = useState(false);
+  const [drag, setDrag] = useState(0);
+
   const rootRef = useRef<HTMLElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
-  const viewportRef = useRef<HTMLDivElement>(null);
-  const pinnedRef = useRef(false);
-  const [atStart, setAtStart] = useState(true);
-  const [atEnd, setAtEnd] = useState(false);
+  const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
+  const items = FILMS.items;
 
-  const sync = () => {
-    const el = trackRef.current;
-    if (!el) return;
-    setAtStart(el.scrollLeft <= 2);
-    setAtEnd(el.scrollLeft >= el.scrollWidth - el.clientWidth - 2);
+  const go = (dir: number) =>
+    setActive((i) => (i + dir + items.length) % items.length);
+
+  const autoplaying = onScreen && !hover && !dragging && !prefersReducedMotion();
+
+  /* Auto-advance. Keyed on `active` too, so any manual move (arrow, dot, drag)
+     restarts the countdown rather than firing mid-way through the new film. */
+  useEffect(() => {
+    if (!autoplaying) return;
+    const t = window.setTimeout(() => go(1), AUTOPLAY_MS);
+    return () => window.clearTimeout(t);
+  }, [active, autoplaying]);
+
+  /* ---- drag / swipe ----
+     Pointer events cover mouse, touch and pen in one path. The gesture is
+     direction-locked: until the pointer has moved further horizontally than
+     vertically it is treated as a page scroll and left alone, so dragging
+     down the page over a film still scrolls. */
+  const gesture = useRef({ x: 0, y: 0, locked: false, active: false });
+
+  const onPointerDown = (e: React.PointerEvent) => {
+    if (e.button !== 0) return;
+    gesture.current = { x: e.clientX, y: e.clientY, locked: false, active: true };
   };
 
-  useEffect(() => {
-    sync();
-    const el = trackRef.current;
-    if (!el) return;
-    el.addEventListener("scroll", sync, { passive: true });
-    window.addEventListener("resize", sync);
-    return () => {
-      el.removeEventListener("scroll", sync);
-      window.removeEventListener("resize", sync);
-    };
-  }, []);
+  const onPointerMove = (e: React.PointerEvent) => {
+    const g = gesture.current;
+    if (!g.active) return;
+    const dx = e.clientX - g.x;
+    const dy = e.clientY - g.y;
 
-  /* The heading scrolls away first, then the CARD ROW pins and the carousel
-     is driven by page scroll — so the reader cannot reach the next section
-     until the last card has passed, and the cards keep their full size
-     instead of being shrunk to share a viewport with the heading.
-     Desktop only: pinning on a phone traps the scroll. */
-  useEffect(() => {
-    if (prefersReducedMotion()) return;
-    registerGsap();
-
-    const root = rootRef.current;
-    const track = trackRef.current;
-    const viewport = viewportRef.current;
-    if (!root || !track || !viewport) return;
-
-    const ctx = gsap.context(() => {
-      const mm = gsap.matchMedia();
-
-      mm.add("(min-width: 1025px)", () => {
-        const distance = () => Math.max(0, track.scrollWidth - track.clientWidth);
-
-        // Scroll-snap fights programmatic scrollLeft, so it is disabled while
-        // the pin owns the position and restored when the pin releases.
-        const st = ScrollTrigger.create({
-          // trigger on the card area, not the section, so the head leaves first
-          trigger: viewport,
-          start: "top 9%",
-          end: () => `+=${distance()}`,
-          pin: viewport,
-          scrub: true,
-          anticipatePin: 1,
-          invalidateOnRefresh: true,
-          onToggle: (self) => {
-            pinnedRef.current = self.isActive;
-            track.style.scrollSnapType = self.isActive ? "none" : "";
-          },
-          onUpdate: (self) => {
-            track.scrollLeft = self.progress * distance();
-          },
-        });
-
-        return () => {
-          track.style.scrollSnapType = "";
-          pinnedRef.current = false;
-          st.kill();
-        };
-      });
-    }, root);
-
-    return () => ctx.revert();
-  }, []);
-
-  const step = (dir: number) => {
-    const el = trackRef.current;
-    if (!el) return;
-    const card = el.querySelector<HTMLElement>(".edit3__card");
-    const gap = parseFloat(getComputedStyle(el).columnGap || "24") || 24;
-    const by = (card?.offsetWidth ?? 320) + gap;
-
-    // While pinned, 1px of page scroll equals 1px of track scroll (the pin
-    // duration is exactly the track's overflow), so moving the window keeps
-    // the arrows and the scrub in agreement.
-    if (pinnedRef.current) {
-      window.scrollBy({ top: dir * by, behavior: "smooth" });
-    } else {
-      el.scrollBy({ left: dir * by, behavior: "smooth" });
+    if (!g.locked) {
+      // Not enough movement yet to tell which way this gesture is going.
+      if (Math.abs(dx) < 8 && Math.abs(dy) < 8) return;
+      if (Math.abs(dy) > Math.abs(dx)) {
+        g.active = false; // vertical: hand it back to the page
+        return;
+      }
+      g.locked = true;
+      setDragging(true);
+      trackRef.current?.setPointerCapture(e.pointerId);
     }
+    setDrag(dx);
+  };
+
+  const endDrag = (e: React.PointerEvent) => {
+    const g = gesture.current;
+    if (!g.active || !g.locked) {
+      gesture.current = { x: 0, y: 0, locked: false, active: false };
+      setDragging(false);
+      return;
+    }
+    const dx = e.clientX - g.x;
+    gesture.current = { x: 0, y: 0, locked: false, active: false };
+
+    // Past a quarter of a slide, commit to the next film; otherwise spring
+    // back to the one we started on.
+    const slide = trackRef.current?.querySelector<HTMLElement>(".films__slide");
+    const threshold = (slide?.offsetWidth ?? 400) * 0.25;
+    if (Math.abs(dx) > threshold) go(dx < 0 ? 1 : -1);
+
+    setDrag(0);
+    setDragging(false);
+  };
+
+  /* Exactly one film is ever decoding: the others are paused and rewound.
+     Six simultaneous video elements is the difference between a smooth
+     section and a stuttering one on a mid-range laptop. */
+  useEffect(() => {
+    videoRefs.current.forEach((v, i) => {
+      if (!v) return;
+      if (i === active) {
+        v.muted = !sound;
+        // play() rejects if the browser blocks it (no gesture yet, or the
+        // file is missing) — the poster stays up, which is the right
+        // fallback, so the rejection is swallowed rather than thrown.
+        v.play().catch(() => {});
+      } else {
+        v.pause();
+        v.currentTime = 0;
+      }
+    });
+  }, [active, sound]);
+
+  /* Stop playback entirely once the section leaves the screen. Without this
+     the film keeps decoding for the whole rest of the page. */
+  useEffect(() => {
+    const root = rootRef.current;
+    if (!root || typeof IntersectionObserver === "undefined") return;
+
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        setOnScreen(entry.isIntersecting);
+        const v = videoRefs.current[active];
+        if (!v) return;
+        if (entry.isIntersecting) v.play().catch(() => {});
+        else v.pause();
+      },
+      { threshold: 0.25 }
+    );
+    io.observe(root);
+    return () => io.disconnect();
+  }, [active]);
+
+  /* SHORTEST-PATH offset of each film from the active one, wrapped into
+     [-n/2, n/2). This is what makes the carousel endless without cloning a
+     single <video>: the six real elements are repositioned around the active
+     one, so there is always a film to the left and right and film 6 → film 1
+     is a one-step move rather than a rewind across the whole track. */
+  const offsets = items.map((_, i) => {
+    const n = items.length;
+    return ((i - active + Math.floor(n / 2) + n) % n) - Math.floor(n / 2);
+  });
+
+  /* A film that wraps from one end of the track to the other must not animate
+     across it — it would fly through the middle of the frame. Both ends of a
+     wrap are off-screen, so the jump is invisible if the transition is simply
+     dropped for that one frame. */
+  const prevOffsets = useRef<number[]>([]);
+  const jumped = offsets.map((d, i) => {
+    const p = prevOffsets.current[i];
+    return p === undefined || Math.abs(d - p) > 1;
+  });
+  useEffect(() => {
+    prevOffsets.current = offsets;
+  });
+
+  const stateOf = (d: number) => {
+    if (d === 0) return "active";
+    if (d === 1) return "next";
+    if (d === -1) return "prev";
+    return "rest";
   };
 
   return (
-    <section className="sect sect--comp edit3" ref={rootRef} data-nav-tone="light">
+    <section className="sect films" ref={rootRef} data-nav-tone="dark">
       <div className="shell">
-        <div className="edit3__head">
-          <Reveal as="span" dir="left" className="edit3__label">
-            {IN_THE_ROOM.label}
+        {/* No section index here: "The Edit" numbering already belongs to the
+            editorial showcase above, and the old carousel carried none. */}
+        <div className="films__head">
+          <Reveal as="span" dir="left" className="films__label">
+            {FILMS.label}
           </Reveal>
-
-          <Reveal className="edit3__phil" dir="up" delay={0.06}>
-            <span>{IN_THE_ROOM.kicker}</span>
-            <p>{IN_THE_ROOM.body}</p>
-          </Reveal>
-
-          <Reveal className="edit3__controls" dir="right" delay={0.12}>
-            <button
-              className="edit3__nav"
-              type="button"
-              onClick={() => step(-1)}
-              disabled={atStart}
-              aria-label="Previous collections"
-            >
-              ←
-            </button>
-            <button
-              className="edit3__nav"
-              type="button"
-              onClick={() => step(1)}
-              disabled={atEnd}
-              aria-label="More collections"
-            >
-              →
-            </button>
-            <a className="edit3__action" href={IN_THE_ROOM.cta.href} data-cursor="Open">
-              {IN_THE_ROOM.cta.label}
-              <i>
-                <Arrow className="" />
-              </i>
-            </a>
+          <Reveal className="films__phil" dir="up" delay={0.06}>
+            <span>{FILMS.kicker}</span>
+            <p>{FILMS.body}</p>
           </Reveal>
         </div>
-
       </div>
 
-      {/* Full-bleed: the track lives outside .shell so it uses the whole
-          viewport width, while the head above stays aligned to the grid. */}
-      <div className="edit3__viewport" ref={viewportRef}>
-          <div className="edit3__row" ref={trackRef}>
-          {IN_THE_ROOM.cards.map((c, i) => (
-            <a
-              className="edit3__card"
-              key={c.name}
-              href={c.href}
-              data-cursor="View"
+      {/* Full-bleed: the track sits outside .shell so the neighbouring films
+          can bleed past both edges of the viewport. */}
+      {/* Hover-to-pause is for mice only: on a touch screen pointerenter fires
+          on tap and never leaves, which would strand autoplay off for good. */}
+      {/* data-reveal hands the stage to the page-wide reveal engine, which
+          flips data-inview on scroll; the films then rise into place in a
+          stagger keyed off their position (see .films__slide in editorial.css). */}
+      <div
+        className="films__stage"
+        data-reveal="fade"
+        data-reveal-start="top 82%"
+        onPointerEnter={(e) => e.pointerType === "mouse" && setHover(true)}
+        onPointerLeave={(e) => e.pointerType === "mouse" && setHover(false)}
+      >
+        <div
+          className="films__track"
+          ref={trackRef}
+          data-dragging={dragging || undefined}
+          onPointerDown={onPointerDown}
+          onPointerMove={onPointerMove}
+          onPointerUp={endDrag}
+          onPointerCancel={endDrag}
+          style={{ "--drag": `${drag}px` } as React.CSSProperties}
+        >
+          {items.map((f, i) => (
+            <div
+              className="films__slide"
+              key={f.src}
+              data-state={stateOf(offsets[i])}
+              data-jump={jumped[i] || undefined}
+              style={{ "--d": offsets[i] } as React.CSSProperties}
             >
-              <ImageReveal className="edit3__frame" delay={i * 0.08}>
-                <Image
-                  src={c.src}
-                  alt={c.alt}
-                  width={760}
-                  height={874}
-                  sizes="(max-width: 680px) 74vw, 30vw"
-                  unoptimized
-                />
-                <span className="edit3__bar">
-                  <span>
-                    <b>{c.name}</b>
-                    <span>{c.type}</span>
-                  </span>
-                  <i>
-                    <Arrow className="" />
-                  </i>
+              <video
+                ref={(el) => {
+                  videoRefs.current[i] = el;
+                }}
+                poster={f.poster}
+                muted
+                loop
+                playsInline
+                // Only the active film is worth fetching up front; the rest
+                // load their poster and nothing else until they come round.
+                preload={i === active ? "auto" : "none"}
+                aria-label={f.alt}
+              >
+                <source src={f.src} type="video/mp4" />
+              </video>
+              {/* Corner crop-marks, drawn as eight background gradients so the
+                  frame needs no extra markup. Only shown on the active film. */}
+              <span className="films__marks" aria-hidden="true" />
+              {/* Drag affordance, sitting on the upcoming film as in the
+                  reference — it tells you the track is draggable without
+                  adding a control. */}
+              {stateOf(offsets[i]) === "next" ? (
+                <span className="films__hint" aria-hidden="true">
+                  [ Drag ]
                 </span>
-              </ImageReveal>
-            </a>
+              ) : null}
+            </div>
           ))}
-          </div>
+        </div>
+      </div>
 
-          {/* The arrows live in the heading, which scrolls away before the pin
-              engages — so they are mirrored here, travelling with the pinned
-              row, and stay reachable for the whole horizontal scroll. */}
-          <div className="edit3__float">
+      <div className="shell">
+        <Reveal className="films__bar" dir="up">
+          <span className="films__count">
+            {String(active + 1).padStart(2, "0")} / {String(items.length).padStart(2, "0")}
+          </span>
+
+          <span className="films__dots">
+            {items.map((f, i) => (
+              <button
+                className="films__dot"
+                type="button"
+                key={f.src}
+                onClick={() => setActive(i)}
+                aria-label={`Film ${i + 1}`}
+                aria-current={i === active}
+              >
+                {/* The active marker doubles as the autoplay countdown. Keyed
+                    on `active` so React remounts it and the CSS animation
+                    restarts from zero on every change of film. */}
+                {i === active ? (
+                  <span
+                    className="films__fill"
+                    key={active}
+                    data-running={autoplaying || undefined}
+                    style={{ "--dur": `${AUTOPLAY_MS}ms` } as React.CSSProperties}
+                  />
+                ) : null}
+              </button>
+            ))}
+          </span>
+
+          <span className="films__controls">
             <button
-              className="edit3__nav"
+              className="films__sound"
               type="button"
-              onClick={() => step(-1)}
-              disabled={atStart}
-              aria-label="Previous collections"
+              onClick={() => setSound((s) => !s)}
+              aria-pressed={sound}
             >
+              Sound {sound ? "on" : "off"}
+            </button>
+            <button className="sctl__nav" type="button" onClick={() => go(-1)} aria-label="Previous film">
               ←
             </button>
-            <button
-              className="edit3__nav"
-              type="button"
-              onClick={() => step(1)}
-              disabled={atEnd}
-              aria-label="More collections"
-            >
+            <button className="sctl__nav" type="button" onClick={() => go(1)} aria-label="Next film">
               →
             </button>
-          </div>
+          </span>
+        </Reveal>
       </div>
     </section>
   );

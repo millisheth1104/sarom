@@ -130,6 +130,14 @@
   .showroom__bar { flex-wrap: wrap; }
   .showroom__controls { margin-left: 0; width: 100%; justify-content: space-between; }
 
+  /* Three-across only works with room to spare. On a phone the active film
+     takes most of the width and the neighbours just peek at the edges. */
+  .films__track { --slide-w: 74vw; }
+  .films__bar { flex-wrap: wrap; gap: 0.9rem; }
+  .films__controls { margin-left: auto; }
+  /* The hint would sit on a sliver of slide at this width. */
+  .films__hint { display: none; }
+
   .chapter__frame { aspect-ratio: 4 / 5; }
   .chapter__overlay { padding: 1.2rem; }
   .chapter__props { grid-template-columns: 1fr 1fr; }

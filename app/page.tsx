@@ -4,7 +4,7 @@ import Hero from "@/components/Hero";
 import Footer from "@/components/Footer";
 import { Statement } from "@/components/Sections";
 import {
-  InTheRoom,
+  Films,
   Story,
   Brands,
   ClosingCta,
@@ -40,7 +40,7 @@ export default function Home() {
         <Statement />
         <Showroom />
         <EditorialShowcase />
-        <InTheRoom />
+        <Films />
 
         <div data-nav-tone="light">
           <Marquee

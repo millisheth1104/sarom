@@ -17,7 +17,8 @@ export function MotionProvider({ children }: { children: ReactNode }) {
     const killParallax = initParallax();
     ScrollTrigger.refresh();
 
-    // Re-measure once webfonts land — Albra changes line heights materially.
+    // Re-measure once webfonts land — swapping to Avant Garde changes line
+    // heights materially, and every scroll trigger is positioned off them.
     const onFonts = () => ScrollTrigger.refresh();
     document.fonts?.ready.then(onFonts).catch(() => {});
 
