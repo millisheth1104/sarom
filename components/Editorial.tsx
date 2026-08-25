@@ -20,8 +20,10 @@ import { gsap, ScrollTrigger, registerGsap, prefersReducedMotion } from "@/lib/m
    because browsers refuse unmuted autoplay; sound is opt-in via
    the control in the bar.
    ============================================================ */
-/** How long each film holds before the carousel advances itself. */
-const AUTOPLAY_MS = 6000;
+/** How long each film holds before the carousel advances itself. Long enough
+ *  to actually watch a shot land — six seconds cut the films off mid-moment.
+ *  The countdown in the active marker is driven off this same number. */
+const AUTOPLAY_MS = 12000;
 
 export function Films() {
   const [active, setActive] = useState(0);
