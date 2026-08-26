@@ -1,0 +1,153 @@
+/* ============================================================
+   E-CATALOGUE WALL
+   A masonry gallery of every catalogue on the site: CSS columns
+   rather than a grid, because the covers run 0.44–1.46 in aspect
+   (mostly portrait) and forcing them into equal-height cards would
+   crop or letterbox most of them. Columns let each tile keep its
+   own height and just flow.
+   ============================================================ */
+
+.wall__head { padding-bottom: 0; }
+.wall__title { margin-top: clamp(0.9rem, 2vw, 1.4rem); }
+.wall__lede {
+  margin-top: clamp(0.8rem, 1.6vw, 1.1rem);
+  max-width: var(--max-w-prose);
+  color: var(--fg-muted);
+}
+
+.wall__filters {
+  margin-top: clamp(1.8rem, 3.5vw, 2.8rem);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: clamp(0.8rem, 2vw, 1.6rem) clamp(1.4rem, 3vw, 2.4rem);
+  padding-bottom: clamp(1.6rem, 3vw, 2.4rem);
+  border-bottom: 1px solid var(--rule);
+}
+.wall__filtergroup {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.wall__pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  padding: 0.5rem 1rem;
+  border-radius: 999px;
+  border: 1px solid var(--rule);
+  background: transparent;
+  color: var(--fg-muted);
+  font-size: var(--fs-meta);
+  letter-spacing: var(--tr-meta);
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background-color 0.4s var(--ease-soft),
+    color 0.4s var(--ease-soft), border-color 0.4s var(--ease-soft);
+}
+.wall__pill span {
+  font-size: 0.85em;
+  opacity: 0.6;
+}
+.wall__pill:hover {
+  border-color: var(--fg);
+  color: var(--fg);
+}
+.wall__pill[data-active] {
+  background: var(--charcoal);
+  border-color: var(--charcoal);
+  color: var(--ivory);
+}
+.wall__pill[data-active] span { opacity: 0.7; }
+.wall__pill--brand[data-active] {
+  background: var(--dusty-peach);
+  border-color: var(--dusty-peach);
+  color: var(--charcoal);
+}
+
+/* `.sect.wall__body`, not `.wall__body` alone — `.sect` in globals.css sets
+   padding-block at equal specificity and beats a single-class selector on
+   source order (editorial.css and this file are both @imported ahead of the
+   base rules). Learned the hard way in the House Brands section: see
+   BUILDLOG.md, "the same source-order trap" — needed two classes there too. */
+.sect.wall__body {
+  padding-top: clamp(1.8rem, 3.5vw, 2.6rem);
+}
+
+.wall__masonry {
+  column-count: 2;
+  column-gap: clamp(0.9rem, 1.8vw, 1.4rem);
+}
+@media (min-width: 640px) {
+  .wall__masonry { column-count: 3; }
+}
+@media (min-width: 1024px) {
+  .wall__masonry { column-count: 4; }
+}
+@media (min-width: 1400px) {
+  .wall__masonry { column-count: 5; }
+}
+
+.wall__tile {
+  display: block;
+  position: relative;
+  break-inside: avoid;
+  margin-bottom: clamp(0.9rem, 1.8vw, 1.4rem);
+  border-radius: clamp(10px, 1vw, 14px);
+  overflow: hidden;
+  background: var(--ivory-deep);
+  /* Every tile is also a reveal target (data-reveal is applied via the row
+     stagger below), so — per the same lesson — hover motion goes on a plain
+     child, not on this element, where transform/transition are contested. */
+}
+.wall__tile img {
+  display: block;
+  width: 100%;
+  height: auto;
+  transition: scale 0.6s var(--ease-soft);
+}
+.wall__tile:hover img,
+.wall__tile:focus-visible img {
+  scale: 1.045;
+}
+
+.wall__tileinfo {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 0.15rem;
+  padding: clamp(0.9rem, 2vw, 1.3rem);
+  background: linear-gradient(to top, rgba(20, 17, 15, 0.82) 0%, rgba(20, 17, 15, 0) 55%);
+  opacity: 0;
+  transition: opacity 0.4s var(--ease-soft);
+}
+.wall__tile:hover .wall__tileinfo,
+.wall__tile:focus-visible .wall__tileinfo {
+  opacity: 1;
+}
+.wall__tileinfo b {
+  color: var(--ivory);
+  font-size: var(--fs-body);
+  font-weight: 500;
+}
+.wall__tileinfo em {
+  color: rgba(245, 240, 232, 0.72);
+  font-size: var(--fs-meta);
+  font-style: normal;
+  letter-spacing: 0.02em;
+}
+
+.wall__empty {
+  padding-block: clamp(3rem, 8vw, 6rem);
+  text-align: center;
+  color: var(--fg-muted);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wall__tile img { transition: none; }
+  .wall__tile:hover img,
+  .wall__tile:focus-visible img { scale: 1; }
+}

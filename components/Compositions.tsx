@@ -282,7 +282,7 @@ export function EditorialShowcase({ index }: { index?: string } = {}) {
             {index ?? SECTION_INDEX.editorial}
           </Reveal>
           <Reveal dir="right">
-            <a className="tlink" href="/ecatalogue.php" data-cursor="View">
+            <a className="tlink" href="/ecatalogue" data-cursor="View">
               View e-Catalogue
               <Arrow className="" />
             </a>

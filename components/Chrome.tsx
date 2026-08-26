@@ -167,7 +167,7 @@ export function Nav() {
         </nav>
 
         <div className="nav__actions">
-          <a className="btn" href="/ecatalogue.php" data-cursor="View">
+          <a className="btn" href="/ecatalogue" data-cursor="View">
             e-Catalogue
           </a>
           <button

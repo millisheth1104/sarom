@@ -121,7 +121,7 @@ export function Statement({ index }: { index?: string } = {}) {
 
             <Reveal className="belong__tags" dir="left" delay={0.18}>
               {STATEMENT.tags.map((t) => (
-                <a className="belong__tag" key={t} href="/ecatalogue.php">
+                <a className="belong__tag" key={t} href="/ecatalogue">
                   {t}
                 </a>
               ))}

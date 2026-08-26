@@ -54,7 +54,7 @@ export const SECTION_INDEX = Object.fromEntries(
 export const NAV = [
   { label: "About Us", href: "/about.php" },
   { label: "Brands", href: "/brand-sj.php" },
-  { label: "e-Catalogue", href: "/ecatalogue.php" },
+  { label: "e-Catalogue", href: "/ecatalogue" },
   { label: "Store Locator", href: "/store-locator.php" },
   { label: "Contact", href: "/contact.php" },
 ];
@@ -81,12 +81,12 @@ export const STATEMENT = {
   index: SECTION_INDEX.philosophy,
   // Section-scoped nav. Kept distinct from the site header above it.
   nav: [
-    { label: "Collections", href: "/ecatalogue.php", active: true },
-    { label: "New Arrivals", href: "/ecatalogue.php" },
+    { label: "Collections", href: "/ecatalogue", active: true },
+    { label: "New Arrivals", href: "/ecatalogue" },
     { label: "About", href: "/about.php" },
     { label: "Our Story", href: "/about.php" },
   ],
-  action: { label: "Explore Collection", href: "/ecatalogue.php" },
+  action: { label: "Explore Collection", href: "/ecatalogue" },
 
   // The brand's own line, which happens to sit in the same three-line +
   // italic structure the reference heading uses.
@@ -141,7 +141,7 @@ export const CATEGORIES = [
     id: "upholstery",
     index: "01",
     name: "Upholstery",
-    href: "/ecatalogue.php",
+    href: "/ecatalogue?category=upholstery",
     image: "/media/categories/upholstery@3x.webp",
     // editorial
     body:
@@ -152,7 +152,7 @@ export const CATEGORIES = [
     id: "curtains",
     index: "02",
     name: "Curtains",
-    href: "/ecatalogue.php",
+    href: "/ecatalogue?category=curtains",
     image: "/media/categories/curtains@3x.webp",
     // editorial
     body:
@@ -163,7 +163,7 @@ export const CATEGORIES = [
     id: "bed-sheet",
     index: "03",
     name: "Bed Sheets",
-    href: "/ecatalogue.php",
+    href: "/ecatalogue?category=bedsheets",
     image: "/media/categories/bed-sheet@3x.webp",
     // editorial
     body:
@@ -282,7 +282,7 @@ export const SHOWCASE = {
 
 /** Poster footer — small nav above a full-width wordmark. */
 export const FOOTER_NAV = [
-  { label: "Collection", href: "/ecatalogue.php" },
+  { label: "Collection", href: "/ecatalogue" },
   { label: "About", href: "/about.php" },
   { label: "Our Story", href: "/about.php" },
   { label: "Contact", href: "/contact.php" },
@@ -311,9 +311,9 @@ export const SHOWROOM = {
   index: "02 — Showroom",
   sideNav: ["Home", "Collections", "Materials", "About"],
   topNav: [
-    { label: "Upholstery", href: "/ecatalogue.php" },
-    { label: "Curtains", href: "/ecatalogue.php" },
-    { label: "Bed Sheets", href: "/ecatalogue.php" },
+    { label: "Upholstery", href: "/ecatalogue" },
+    { label: "Curtains", href: "/ecatalogue" },
+    { label: "Bed Sheets", href: "/ecatalogue" },
   ],
   caption: "Showroom",
   strip: [
@@ -333,7 +333,7 @@ export const SHOWROOM = {
     alt: "Macro detail of a Sarom woven fabric",
     kicker: "Every Weave, Every Room",
     label: "Natural Texture",
-    href: "/ecatalogue.php",
+    href: "/ecatalogue",
   },
 };
 
@@ -345,7 +345,7 @@ export const EDITORIAL = {
   titleEm: "living.",
   body:
     "We work in weave, weight and finish — materials chosen for how they behave in daylight, under use, and after a hundred washes.",
-  cta: { label: "View e-Catalogue", href: "/ecatalogue.php" },
+  cta: { label: "View e-Catalogue", href: "/ecatalogue" },
   hero: {
     src: "/media/product/editorial-hero.webp",
     alt: "A bedroom dressed in Sarom bedding",
@@ -362,12 +362,12 @@ export const EDITORIAL = {
 export const SELECTOR = {
   index: "04 — Collections",
   topNav: [
-    { label: "All", href: "/ecatalogue.php" },
-    { label: "Living", href: "/ecatalogue.php" },
-    { label: "Bedroom", href: "/ecatalogue.php" },
-    { label: "Dining", href: "/ecatalogue.php" },
+    { label: "All", href: "/ecatalogue" },
+    { label: "Living", href: "/ecatalogue" },
+    { label: "Bedroom", href: "/ecatalogue" },
+    { label: "Dining", href: "/ecatalogue" },
   ],
-  action: { label: "Shop Collection", href: "/ecatalogue.php" },
+  action: { label: "Shop Collection", href: "/ecatalogue" },
   titleLines: ["Fabrics,", "made to"],
   titleEm: "belong.",
   body:
@@ -467,7 +467,7 @@ export const LETTER = {
   titleEm: "keeping.",
   body:
     "New collections, studio notes and carefully curated inspiration — sent only when there is something worth sharing.",
-  primary: { label: "View e-Catalogue", href: "/ecatalogue.php" },
+  primary: { label: "View e-Catalogue", href: "/ecatalogue" },
   secondary: { label: "Find a Store", href: "/store-locator.php" },
 };
 
@@ -563,7 +563,7 @@ export const INSTAGRAM_URL = SOCIAL[0].href;
 export const FOOTER_LINKS = {
   explore: [
     { label: "About Us", href: "/about.php" },
-    { label: "e-Catalogue", href: "/ecatalogue.php" },
+    { label: "e-Catalogue", href: "/ecatalogue" },
     { label: "Store Locator", href: "/store-locator.php" },
     { label: "Careers", href: "/careers.php" },
   ],

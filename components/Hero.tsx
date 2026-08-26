@@ -157,7 +157,7 @@ export default function Hero() {
         </div>
 
         <div className="hero__cta" data-reveal="up" data-reveal-start="top 100%" style={{ "--reveal-delay": "0.66s" } as React.CSSProperties}>
-          <a className="btn" href="/ecatalogue.php" data-cursor="Explore">
+          <a className="btn" href="/ecatalogue" data-cursor="Explore">
             Explore Collections
             <Arrow />
           </a>
