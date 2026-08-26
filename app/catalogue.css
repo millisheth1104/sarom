@@ -7,7 +7,13 @@
    own height and just flow.
    ============================================================ */
 
-.wall__head { padding-bottom: 0; }
+/* `.sect.wall__head`, not `.wall__head` alone — this rule never actually
+   applied. `.sect` sets `padding-block: var(--section-y)` (~72px at desktop)
+   in globals.css's own body, which sits after every @imported partial
+   including this one, so a single-class selector loses the tie on source
+   order — the same trap written up for `.wall__title` and `.wall__body`
+   just below. It's what was silently padding out the band above the grid. */
+.sect.wall__head { padding-bottom: 0; }
 
 .wall__headgrid {
   display: grid;
@@ -106,7 +112,7 @@
   flex-wrap: wrap;
   align-items: center;
   gap: clamp(0.8rem, 2vw, 1.6rem) clamp(1.4rem, 3vw, 2.4rem);
-  padding-bottom: clamp(1.1rem, 1.8vw, 1.5rem);
+  padding-bottom: clamp(0.9rem, 1.3vw, 1.1rem);
   border-bottom: 1px solid var(--rule);
 }
 .wall__filtergroup {
@@ -157,7 +163,7 @@
    base rules). Learned the hard way in the House Brands section: see
    BUILDLOG.md, "the same source-order trap" — needed two classes there too. */
 .sect.wall__body {
-  padding-top: clamp(0.9rem, 1.6vw, 1.3rem);
+  padding-top: clamp(0.5rem, 0.9vw, 0.75rem);
 }
 
 .wall__masonry {
