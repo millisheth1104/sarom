@@ -8,11 +8,112 @@
    ============================================================ */
 
 .wall__head { padding-bottom: 0; }
+
+.wall__headgrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(2.2rem, 5vw, 3.5rem);
+  align-items: center;
+}
+@media (min-width: 900px) {
+  .wall__headgrid { grid-template-columns: minmax(0, 1fr) minmax(280px, 34%); }
+}
+
 .wall__title { margin-top: clamp(0.9rem, 2vw, 1.4rem); }
 .wall__lede {
   margin-top: clamp(0.8rem, 1.6vw, 1.1rem);
   max-width: var(--max-w-prose);
   color: var(--fg-muted);
+}
+
+/* THE STAT ROW. Three plain facts rather than marketing copy — the numbers
+   are the whole pitch on a catalogue page: how much is here to look at. */
+.wall__stats {
+  margin-top: clamp(1.8rem, 3.5vw, 2.6rem);
+  display: flex;
+  gap: clamp(1.8rem, 4vw, 3rem);
+}
+.wall__stat {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+.wall__stat b {
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 2.6vw, 2.4rem);
+  font-weight: 300;
+  line-height: 1;
+  color: var(--fg);
+}
+.wall__stat span {
+  font-size: var(--fs-meta);
+  letter-spacing: var(--tr-meta);
+  text-transform: uppercase;
+  color: var(--fg-muted);
+}
+
+/* THE PEEK. A fan of three real covers — one curtain, one upholstery, one
+   bedsheet — so the hero previews what the wall actually contains rather than
+   illustrating it with stock imagery. Absolutely positioned within a fixed
+   aspect box: each card's slot (top/left/width/rot) comes from the component
+   as custom properties, so the geometry and the pick move together in one
+   place (PEEK_SLOTS in CatalogueWall.tsx) instead of drifting between a
+   nth-child rule here and an array there.
+
+   Hidden below 900px rather than restacked: at that width the masonry wall
+   is one scroll away, and a cramped fan would be clutter, not preview. */
+.wall__peek {
+  display: none;
+  position: relative;
+  aspect-ratio: 4 / 3;
+}
+@media (min-width: 900px) {
+  .wall__peek { display: block; }
+}
+
+.wall__peekcard {
+  position: absolute;
+  top: var(--top);
+  left: var(--left);
+  width: var(--width);
+  z-index: var(--z);
+  display: block;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: var(--ivory-deep);
+  box-shadow: 0 30px 60px -32px rgba(20, 17, 15, 0.4);
+  transform: rotate(var(--rot));
+  transition: transform 0.5s var(--ease-out-expo),
+    box-shadow 0.5s var(--ease-soft);
+}
+.wall__peekcard:hover,
+.wall__peekcard:focus-visible {
+  transform: rotate(var(--rot)) translateY(-6px) scale(1.03);
+  box-shadow: 0 34px 64px -28px rgba(20, 17, 15, 0.48);
+}
+.wall__peekcard img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.wall__peekcard em {
+  /* Top, not bottom — the fan stacks each card over the lower-left of the one
+     behind it, so a bottom-left label sits right where the next card in the
+     stack covers it. Confirmed on the middle (SJ/Albert) card: its tag was
+     reduced to a sliver of "S" behind the front card before this moved. */
+  position: absolute;
+  left: 0.7rem;
+  top: 0.7rem;
+  padding: 0.35rem 0.7rem;
+  border-radius: var(--radius-pill);
+  background: rgba(245, 240, 232, 0.94);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: var(--charcoal);
+  font-size: 0.7rem;
+  font-style: normal;
+  letter-spacing: var(--tr-meta);
+  text-transform: uppercase;
 }
 
 .wall__filters {
