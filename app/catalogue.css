@@ -19,36 +19,20 @@
   .wall__headgrid { grid-template-columns: minmax(0, 1fr) minmax(280px, 34%); }
 }
 
-.wall__title { margin-top: clamp(0.9rem, 2vw, 1.4rem); }
+/* `.wall__title.t-h2`, not `.wall__title` alone — the same source-order trap
+   as `.sect.wall__body` below: `.t-h2` is declared directly in globals.css's
+   own body, which sits after every @imported partial (including this file)
+   in cascade order, so a single-class `.wall__title` rule loses ties on
+   font-size to `.t-h2` even though this file is read second. Two classes
+   raises specificity past the tie instead of fighting source order. */
+.wall__title.t-h2 {
+  margin-top: clamp(0.9rem, 2vw, 1.4rem);
+  font-size: clamp(2.4rem, 5vw, 4.75rem);
+  line-height: 0.98;
+}
 .wall__lede {
-  margin-top: clamp(0.8rem, 1.6vw, 1.1rem);
-  max-width: var(--max-w-prose);
-  color: var(--fg-muted);
-}
-
-/* THE STAT ROW. Three plain facts rather than marketing copy — the numbers
-   are the whole pitch on a catalogue page: how much is here to look at. */
-.wall__stats {
-  margin-top: clamp(1.8rem, 3.5vw, 2.6rem);
-  display: flex;
-  gap: clamp(1.8rem, 4vw, 3rem);
-}
-.wall__stat {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-}
-.wall__stat b {
-  font-family: var(--font-display);
-  font-size: clamp(1.6rem, 2.6vw, 2.4rem);
-  font-weight: 300;
-  line-height: 1;
-  color: var(--fg);
-}
-.wall__stat span {
-  font-size: var(--fs-meta);
-  letter-spacing: var(--tr-meta);
-  text-transform: uppercase;
+  margin-top: clamp(1.1rem, 2.2vw, 1.6rem);
+  max-width: 34ch;
   color: var(--fg-muted);
 }
 

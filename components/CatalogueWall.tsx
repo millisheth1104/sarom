@@ -121,24 +121,7 @@ export function CatalogueWall({
                   lines={[<>Every fabric,</>, <em key="em">in one wall.</em>]}
                 />
                 <Reveal as="p" dir="up" delay={0.24} className="t-body wall__lede">
-                  Curtains, upholstery and bedsheets, across all five houses —
-                  every catalogue Sarom makes, open to read in full the moment
-                  you find it.
-                </Reveal>
-
-                <Reveal dir="up" delay={0.3} className="wall__stats">
-                  <div className="wall__stat">
-                    <b>{USABLE.length}</b>
-                    <span>Catalogues</span>
-                  </div>
-                  <div className="wall__stat">
-                    <b>{BRAND_ORDER.length}</b>
-                    <span>Houses</span>
-                  </div>
-                  <div className="wall__stat">
-                    <b>{CATEGORY_TABS.length - 1}</b>
-                    <span>Categories</span>
-                  </div>
+                  Every catalogue Sarom makes, open to read in full.
                 </Reveal>
               </div>
 
