@@ -122,7 +122,7 @@
   flex-wrap: wrap;
   align-items: center;
   gap: clamp(0.8rem, 2vw, 1.6rem) clamp(1.4rem, 3vw, 2.4rem);
-  padding-bottom: clamp(1.6rem, 3vw, 2.4rem);
+  padding-bottom: clamp(1.1rem, 1.8vw, 1.5rem);
   border-bottom: 1px solid var(--rule);
 }
 .wall__filtergroup {
@@ -173,7 +173,7 @@
    base rules). Learned the hard way in the House Brands section: see
    BUILDLOG.md, "the same source-order trap" — needed two classes there too. */
 .sect.wall__body {
-  padding-top: clamp(1.8rem, 3.5vw, 2.6rem);
+  padding-top: clamp(0.9rem, 1.6vw, 1.3rem);
 }
 
 .wall__masonry {

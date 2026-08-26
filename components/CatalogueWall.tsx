@@ -88,10 +88,15 @@ export function CatalogueWall({
    * client render and mismatch on hydration.
    */
   const peek = useMemo(() => {
-    const firstOf = (id: Exclude<CategoryId, "all">) =>
-      USABLE.find((c) => MATCH[id](c));
+    const firstOf = (id: Exclude<CategoryId, "all">) => {
+      const c = USABLE.find((cat) => MATCH[id](cat));
+      // The card's own label is the category it represents, not its brand —
+      // the fan is "here are the three kinds of thing in this wall", and a
+      // brand name in that spot answered a question nobody was asking.
+      return c ? { c, label: CATEGORY_TABS.find((t) => t.id === id)!.label } : null;
+    };
     return [firstOf("curtains"), firstOf("upholstery"), firstOf("bedsheets")].filter(
-      (c): c is Catalogue => Boolean(c)
+      (x): x is NonNullable<typeof x> => Boolean(x)
     );
   }, []);
 
@@ -139,7 +144,7 @@ export function CatalogueWall({
 
               {peek.length === PEEK_SLOTS.length ? (
                 <Reveal dir="scale" delay={0.18} className="wall__peek" aria-hidden="true">
-                  {peek.map((c, i) => (
+                  {peek.map(({ c, label }, i) => (
                     <a
                       className="wall__peekcard"
                       key={c.id}
@@ -167,7 +172,7 @@ export function CatalogueWall({
                         sizes="22vw"
                         unoptimized
                       />
-                      <em>{c.brand}</em>
+                      <em>{label}</em>
                     </a>
                   ))}
                 </Reveal>
