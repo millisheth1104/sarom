@@ -84,6 +84,22 @@ export function initReveals(root: HTMLElement | Document = document): (() => voi
     );
   });
 
+  // Content already inside the viewport at mount — an above-the-fold hero,
+  // most obviously — has no scroll event left to fire onEnter with: the user
+  // has to scroll AWAY and back for ScrollTrigger's own initial-position check
+  // to run again. In practice this stayed hidden until MotionProvider's
+  // 3-second fallback timer caught it, on both a cold load and a hard
+  // refresh — measured, not assumed: reveal time landed at 3133ms either way,
+  // matching that timer exactly rather than any real scroll-driven trigger.
+  // A direct bounding-box check bypasses relying on ScrollTrigger's own
+  // refresh-time callback firing, which is what was not happening here.
+  targets.forEach((el) => {
+    const r = el.getBoundingClientRect();
+    if (r.top < window.innerHeight && r.bottom > 0) {
+      el.setAttribute("data-inview", "true");
+    }
+  });
+
   return () => triggers.forEach((t) => t.kill());
 }
 
