@@ -432,6 +432,21 @@
      - no dots
    ------------------------------------------------------------ */
 .ask {
+  /* The fade envelope, as two independent factors multiplied together.
+   *
+   *   --fin   0 -> 1 on approach, written by its own trigger
+   *   --fout  1 -> 0 over the last 14% of the pin
+   *
+   * --fout is DERIVED from --ap rather than written, since --ap already
+   * carries the pin's progress — no second style write per frame, and the
+   * fade cannot drift out of step with the aperture.
+   *
+   * Both default to 1 so that below 900px and under reduced motion, where
+   * neither trigger runs, the section simply renders at full opacity. */
+  --fin: 1;
+  --fout: clamp(0, calc((1 - var(--ap, 0)) * 7.15), 1);
+  --fade: calc(var(--fin) * var(--fout));
+
   position: relative;
   min-height: 100svh;
   display: flex;
@@ -441,7 +456,10 @@
   color: var(--ivory);
   overflow: hidden;
 }
-.ask__media { position: absolute; inset: 0; overflow: hidden; }
+/* The charcoal ground stays put and only the picture and the copy fade, so
+   the section resolves to its own colour at both ends rather than letting
+   the sections either side show through. */
+.ask__media { position: absolute; inset: 0; overflow: hidden; opacity: var(--fade); }
 .ask__media img {
   width: 100%;
   height: 100%;
@@ -461,6 +479,7 @@
   background: radial-gradient(130% 78% at 50% 52%, rgba(20,17,15,0.84) 0%, rgba(20,17,15,0.7) 46%, rgba(20,17,15,0.52) 100%);
 }
 .ask__inner {
+  opacity: var(--fade);
   position: relative;
   z-index: 1;
   width: 100%;

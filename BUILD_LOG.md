@@ -456,6 +456,43 @@ font 404s, no 4xx responses, `next build` clean on a wiped `.next`.
 
 ---
 
+## Why Sarom — fade the section in and out
+
+An envelope built from two independent factors multiplied in CSS:
+
+    --fin    0 -> 1 on approach, written by its own trigger
+    --fout   1 -> 0 over the last 14% of the pin
+
+`--fin` needs a separate trigger because the pin cannot do that job: the pin starts at
+"top top", by which point the section already fills the screen, so a fade driven off pin
+progress would have the section arrive fully formed and only *then* begin fading in. The
+approach trigger runs while the section is still rising into view and is finished before the
+pin takes over.
+
+Two triggers on one element is normally the bug documented above; it is safe here because
+they write DIFFERENT properties and CSS multiplies them. `--fout` is not written at all — it
+is derived from `--ap`, which already carries the pin's progress, so there is no second style
+write per frame and the fade cannot drift out of step with the aperture.
+
+Only the photograph and the copy fade. The section's charcoal ground stays, so it resolves to
+its own colour at both ends rather than letting the sections either side show through.
+
+**The fade exposed a real defect.** `--pos` used to reach the last panel at exactly progress
+1.0 — the same point the fade reaches zero — so the fifth reason arrived just as the section
+vanished and never rose above **0.63** effective opacity. It was unreadable, and had been
+since the section was built; the fade only made it visible as a problem. The carousel now
+lands at 75% of the pin and holds, with the pin lengthened by the same proportion so the ring
+keeps its original pace instead of being sped up to fit. Panel 5 now reaches a full **1.00**
+and holds before anything fades.
+
+Both factors default to 1, so below 900px and under reduced motion — where neither trigger
+runs — the section renders at full opacity. Verified: 390 and reduced motion never drop below
+1.00 while on screen; on desktop the envelope measures 0 -> 0.27 -> 0.56 -> 0.86 -> 1 on
+approach, holds 1 through 75% of the pin, then 0.72 -> 0.36 -> 0. No overflow, no console
+errors, `next build` clean.
+
+---
+
 ## Outstanding for the client
 
 1. **Drop Albra `.woff2` files into `public/fonts/`** — six exact filenames listed in README.

@@ -412,25 +412,58 @@ function WhySarom() {
       /* Desktop only — pinning traps the scroll on a phone, so below 900px
          the CSS falls back to a plain stack. */
       mm.add("(min-width: 900px)", () => {
+        /* The carousel finishes at 75% of the pin, not at 100%.
+         *
+         * The fade-out starts at 86%, and the ring used to bring its LAST
+         * panel to centre at exactly 100% — so the fifth reason arrived just
+         * as the section vanished and never rose above 0.63 effective
+         * opacity. Landing the travel early leaves the last panel held at
+         * full strength for a beat before anything fades. The pin is
+         * lengthened by the same proportion so the ring keeps its original
+         * pace rather than being sped up to fit. */
+        const TRAVEL = 0.75;
         const st = ScrollTrigger.create({
           trigger: root,
           start: "top top",
-          end: () => `+=${(WHY.length - 1) * window.innerHeight * 0.72}`,
+          end: () => `+=${((WHY.length - 1) * window.innerHeight * 0.72) / TRAVEL}`,
           pin: true,
           anticipatePin: 1,
           scrub: 0.8,
           invalidateOnRefresh: true,
           onUpdate: (self) => {
-            track.style.setProperty("--pos", String(self.progress * (WHY.length - 1)));
+            const t = Math.min(1, self.progress / TRAVEL);
+            track.style.setProperty("--pos", String(t * (WHY.length - 1)));
             /* The photograph grows across the chapter so its own frame of
                foliage closes in around the copy. */
             root.style.setProperty("--ap", String(self.progress));
           },
         });
+        /* Fade IN on approach.
+         *
+         * A separate trigger, because the pin cannot do this job: the pin
+         * starts at "top top", by which point the section already fills the
+         * screen, so a fade driven off pin progress would have the section
+         * arrive fully formed and only then begin fading in. This one runs
+         * while the section is still rising into view and is finished by the
+         * time the pin takes over.
+         *
+         * Writing a DIFFERENT property from the pin's --ap is what makes two
+         * triggers on one element safe here — CSS multiplies the two rather
+         * than either overwriting the other. */
+        const fin = ScrollTrigger.create({
+          trigger: root,
+          start: "top 85%",
+          end: "top 25%",
+          scrub: 0.6,
+          invalidateOnRefresh: true,
+          onUpdate: (self) => root.style.setProperty("--fin", String(self.progress)),
+        });
         return () => {
           track.style.removeProperty("--pos");
           root.style.removeProperty("--ap");
+          root.style.removeProperty("--fin");
           st.kill();
+          fin.kill();
         };
       });
     }, root);
