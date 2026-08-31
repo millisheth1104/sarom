@@ -1,0 +1,895 @@
+/* ============================================================
+   ABOUT — a seven-part brand story.
+
+   Built on the site's existing tokens, reveal engine and pin+scrub idiom.
+
+   One recurring trap, documented in BUILDLOG.md and hit repeatedly on this
+   project: `.sect` sets padding-block in globals.css's own body, which the
+   cascade reads AFTER every @imported partial including this one. A
+   single-class override loses that tie on source order, so every section
+   padding below is `.sect.x`, never `.x`.
+   ============================================================ */
+
+/* One shared vertical rhythm. Each section previously set its own
+   clamp(4.5rem, 12vw, 10rem) — 160px top and bottom at desktop, so 320px of
+   empty ground at every junction. */
+:root { --about-pad: clamp(2.5rem, 6vw, 5.25rem); }
+
+/* Parallax carrier. GSAP writes --py; the transform lives here so nothing
+   fights the reveal engine, which owns `transform` on [data-reveal]
+   elements. The wrapper scales slightly so the travel never exposes an
+   edge — a parallax that reveals its own gap is worse than none. */
+.par { display: block; overflow: hidden; border-radius: inherit; }
+.par img {
+  display: block;
+  width: 100%;
+  height: auto;
+  transform: translate3d(0, var(--py, 0px), 0) scale(1.1);
+  will-change: transform;
+}
+
+/* Shared heading scale, so all seven sections speak at one size rather than
+   each picking its own clamp. */
+.astory__title,
+.team__title,
+.work__title,
+.journey__title {
+  font-family: var(--font-display);
+  font-size: clamp(1.7rem, 3.4vw, 3rem);
+  font-weight: 300;
+  line-height: 1.06;
+  letter-spacing: var(--tr-display);
+  margin-top: clamp(0.8rem, 1.6vw, 1.2rem);
+}
+
+/* ------------------------------------------------------------
+   1 — HERO
+   min-height, never height: a fixed 100vh crops the copy the moment a
+   phone's browser chrome appears.
+   ------------------------------------------------------------ */
+.ahero {
+  position: relative;
+  min-height: 100svh;
+  display: flex;
+  align-items: flex-end;
+  padding-block: clamp(7rem, 14vh, 11rem) clamp(2.5rem, 6vh, 4.5rem);
+  background: var(--charcoal);
+  color: var(--ivory);
+  overflow: hidden;
+}
+.ahero__media { position: absolute; inset: 0; }
+.ahero__img { position: absolute; inset: -8% 0; will-change: transform; }
+.ahero__img img { width: 100%; height: 100%; object-fit: cover; }
+.ahero__media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  /* Weighted to the bottom where the copy sits, so the photograph keeps its
+     light at the top rather than being flattened by an even scrim. */
+  background: linear-gradient(
+    to top,
+    rgba(20, 17, 15, 0.93) 0%,
+    rgba(20, 17, 15, 0.62) 32%,
+    rgba(20, 17, 15, 0.16) 66%,
+    rgba(20, 17, 15, 0.38) 100%
+  );
+}
+.ahero__inner { position: relative; z-index: 1; width: 100%; }
+.ahero__eyebrow { color: rgba(245, 240, 232, 0.68); }
+.ahero__title {
+  margin-top: clamp(1rem, 2vw, 1.6rem);
+  /* Wide enough that each of the two supplied lines fits on ONE visual line.
+     At 15ch both wrapped again inside their own line box, so a two-line
+     heading rendered as four. */
+  max-width: 30ch;
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 4vw, 3.4rem);
+  text-wrap: nowrap;
+  font-weight: 300;
+  line-height: 1.02;
+  letter-spacing: var(--tr-display);
+}
+.ahero__title .lines__line:last-child { color: var(--dusty-peach); font-style: italic; }
+.ahero__body {
+  margin-top: clamp(1.2rem, 2.4vw, 1.8rem);
+  max-width: 42ch;
+  font-size: var(--fs-body-lg);
+  line-height: 1.6;
+  color: rgba(245, 240, 232, 0.76);
+}
+/* A rail of facts along the foot, with the scroll cue at its right end, so
+   the hero has structure rather than a headline floating on a photograph. */
+.ahero__meta {
+  margin-top: clamp(2rem, 5vh, 3.2rem);
+  padding-top: clamp(1.1rem, 2.2vh, 1.6rem);
+  border-top: 1px solid rgba(245, 240, 232, 0.22);
+  display: flex;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: clamp(1.6rem, 5vw, 4rem);
+}
+.ahero__meta b {
+  display: block;
+  font-family: var(--font-display);
+  font-size: clamp(1.05rem, 1.8vw, 1.5rem);
+  font-weight: 300;
+  line-height: 1;
+  color: var(--ivory);
+}
+.ahero__meta > div span {
+  display: block;
+  margin-top: 0.35rem;
+  font-size: var(--fs-meta);
+  letter-spacing: var(--tr-meta);
+  text-transform: uppercase;
+  color: rgba(245, 240, 232, 0.6);
+}
+.ahero__cue { margin-left: auto; }
+@media (max-width: 700px) { .ahero__cue { display: none; } }
+
+/* ------------------------------------------------------------
+   2 — ABOUT SAROM
+   ------------------------------------------------------------ */
+.sect.astory { padding-block: var(--about-pad); }
+.astory__grid { display: grid; gap: clamp(1.6rem, 3.5vw, 2.75rem); }
+@media (min-width: 900px) {
+  .astory__grid {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 0.86fr) minmax(0, 0.8fr);
+    align-items: start;
+  }
+}
+.astory__title { max-width: 13ch; }
+/* The lead carries the ink accent, the rest recedes — it gives a two-
+   paragraph block hierarchy without introducing a second type size. */
+.astory__lead {
+  font-size: var(--fs-body-lg);
+  line-height: 1.6;
+  color: var(--ink-2, var(--charcoal));
+}
+.astory__para {
+  margin-top: clamp(0.9rem, 1.6vw, 1.2rem);
+  font-size: var(--fs-body);
+  line-height: 1.72;
+  color: var(--fg-muted);
+}
+.astory__media { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(0.7rem, 1.6vw, 1.1rem); }
+.astory__shot { border-radius: var(--radius-lg); overflow: hidden; }
+/* The second frame drops, breaking the pair's symmetry — what keeps an
+   editorial page from reading as a two-up CMS template. */
+.astory__shot--2 { margin-top: clamp(1.6rem, 5vw, 3.5rem); }
+
+/* ------------------------------------------------------------
+   3 — MEET THE FOUNDERS
+   Heading held in a column on the left, portraits in a grid on the right.
+   ------------------------------------------------------------ */
+.sect.team { padding-block: var(--about-pad); }
+.team__grid { display: grid; gap: clamp(2rem, 4.5vw, 3.5rem); }
+@media (min-width: 900px) {
+  .team__grid { grid-template-columns: minmax(0, 0.72fr) minmax(0, 1.28fr); align-items: start; }
+  /* Sticky, so the heading holds while the portraits pass it. */
+  .team__head { position: sticky; top: clamp(5rem, 12vh, 8rem); }
+}
+.team__title { max-width: 12ch; }
+.team__title em { color: var(--dusty-peach); }
+
+.team__row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(1rem, 2.4vw, 1.8rem);
+}
+@media (min-width: 640px) { .team__row { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.team__frame {
+  display: block;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: var(--charcoal-warm);
+  aspect-ratio: 301 / 356;
+}
+.team__frame img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* Hover motion on the img, not the card: the card is a reveal target and
+     the reveal engine owns transform there (BUILDLOG.md). */
+  transition: scale 0.9s var(--ease-out-expo), filter 0.7s var(--ease-soft);
+  filter: grayscale(1) brightness(0.94);
+}
+.team__card:hover .team__frame img { scale: 1.05; filter: grayscale(0) brightness(1); }
+.team__card b {
+  display: block;
+  margin-top: 0.8rem;
+  font-family: var(--font-display);
+  font-size: clamp(0.98rem, 1.5vw, 1.2rem);
+  font-weight: 300;
+  font-style: italic;
+  line-height: 1.25;
+  color: var(--ivory);
+}
+.team__role {
+  display: block;
+  margin-top: 0.25rem;
+  font-size: var(--fs-meta);
+  letter-spacing: var(--tr-meta);
+  text-transform: uppercase;
+  color: rgba(245, 240, 232, 0.55);
+}
+
+/* ------------------------------------------------------------
+   4 - HOW SAROM IS TODAY   (after Pear's "The Work")
+   A chapter plays over one full-bleed ground, with a hairline rail on the
+   far left. Only the ACTIVE tick carries a label; the rest stay as marks.
+   A list of all four labels with a moving bar - which is what this was
+   first - says the same thing far more loudly.
+   ------------------------------------------------------------ */
+.work {
+  position: relative;
+  padding-block: clamp(3.5rem, 9vw, 7rem);
+  background: var(--charcoal);
+  color: var(--ivory);
+  overflow: hidden;
+  --rule: rgba(245, 240, 232, 0.18);
+  --fg-muted: rgba(245, 240, 232, 0.68);
+}
+.work__media { position: absolute; inset: 0; }
+.work__media .par, .work__media .par img { position: absolute; inset: 0; height: 100%; }
+.work__media .par img { object-fit: cover; }
+.work__media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  /* Heavier than the hero's scrim: this ground carries four blocks of body
+     copy rather than a single headline. */
+  background: linear-gradient(90deg, rgba(20,17,15,0.95) 0%, rgba(20,17,15,0.88) 46%, rgba(20,17,15,0.62) 100%);
+}
+
+.work__rail { display: none; }
+@media (min-width: 1000px) {
+  .work__rail {
+    /* display, not just position: the base rule hides the rail below 1000px,
+       and overriding only the geometry left it display:none at every width -
+       the ticks never rendered at all. */
+    display: block;
+    position: sticky;
+    top: 46vh;
+    height: 0;
+    z-index: 2;
+    width: min(100vw, var(--max-w));
+    margin-inline: auto;
+    padding-inline: var(--gutter);
+  }
+  .work__railline {
+    position: absolute;
+    left: var(--gutter);
+    top: -8rem;
+    width: 1px;
+    height: 16rem;
+    background: var(--rule);
+  }
+  .work__tick {
+    position: absolute;
+    left: var(--gutter);
+    top: calc(var(--n, 0) * 2.9rem - 4.4rem);
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    white-space: nowrap;
+  }
+  .work__tick:nth-of-type(1) { --n: 0; }
+  .work__tick:nth-of-type(2) { --n: 1; }
+  .work__tick:nth-of-type(3) { --n: 2; }
+  .work__tick:nth-of-type(4) { --n: 3; }
+  /* A short mark that grows into a dash when its chapter is being read. */
+  .work__tick i {
+    display: block;
+    width: 10px;
+    height: 1px;
+    background: var(--rule);
+    transition: width 0.5s var(--ease-out-expo), background-color 0.4s var(--ease-soft);
+  }
+  .work__tick[data-on] i { width: 26px; background: var(--dusty-peach); }
+  .work__tick em {
+    font-size: var(--fs-meta);
+    font-style: normal;
+    letter-spacing: var(--tr-meta);
+    text-transform: uppercase;
+    color: var(--ivory);
+    /* Only the active chapter is named. */
+    opacity: 0;
+    transform: translateX(-6px);
+    transition: opacity 0.45s var(--ease-soft), transform 0.5s var(--ease-out-expo);
+  }
+  .work__tick[data-on] em { opacity: 1; transform: none; }
+}
+
+.work__inner {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: var(--max-w);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+@media (min-width: 1000px) {
+  /* Content sits clear of the rail, as in the reference. */
+  .work__inner > * { margin-left: clamp(0px, 13vw, 210px); }
+}
+.work__eyebrow { color: rgba(245, 240, 232, 0.68); }
+.work__title { max-width: 12ch; }
+.work__blocks {
+  margin-top: clamp(2rem, 4.5vw, 3.5rem);
+  display: grid;
+  gap: clamp(2rem, 5vw, 4rem);
+  max-width: 44rem;
+}
+.work__block { padding-top: clamp(1.2rem, 2.4vw, 1.8rem); border-top: 1px solid var(--rule); }
+.work__blockLabel {
+  font-size: var(--fs-meta);
+  letter-spacing: var(--tr-meta);
+  text-transform: uppercase;
+  color: rgba(245, 240, 232, 0.55);
+}
+.work__figure {
+  margin-top: clamp(0.5rem, 1.2vw, 0.9rem);
+  display: flex;
+  align-items: baseline;
+  gap: 0.1em;
+  font-family: var(--font-display);
+  font-size: clamp(1.9rem, 4.4vw, 3.4rem);
+  font-weight: 300;
+  line-height: 1;
+  /* Tabular figures so a counting number does not jitter its own width. */
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  color: var(--ivory);
+}
+/* `> span`, not `span:last-child`: the counting number is itself a <span> and
+   the last child, so a descendant selector caught it too and rendered the
+   figure at label size beside a full-size "+". */
+.work__figure > span { font-size: inherit; letter-spacing: 0; }
+.work__figure em {
+  margin-left: 0.6rem;
+  font-size: var(--fs-meta);
+  font-style: normal;
+  letter-spacing: var(--tr-meta);
+  text-transform: uppercase;
+  color: rgba(245, 240, 232, 0.55);
+}
+.work__block p {
+  margin-top: 0.7rem;
+  max-width: 44ch;
+  font-size: var(--fs-body);
+  line-height: 1.72;
+  color: var(--fg-muted);
+}
+
+/* ------------------------------------------------------------
+   5 — VISION, MISSION, STRENGTH
+   White cards on a pale ground in a descending staircase, each with an
+   oversized pale numeral. The offset is the whole idea: three cards flush
+   left is a list, three stepped is a sequence.
+   ------------------------------------------------------------ */
+.sect.pillars {
+  padding-block: var(--about-pad);
+  background: linear-gradient(180deg, var(--ivory) 0%, var(--ivory-deep) 100%);
+}
+.pillars__eyebrow { justify-content: center; }
+.sect.pillars .shell { text-align: center; }
+.pillars__stack {
+  margin-top: clamp(1.8rem, 4vw, 3rem);
+  display: grid;
+  gap: clamp(0.9rem, 2vw, 1.5rem);
+  text-align: left;
+}
+.pillars__card {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: clamp(1.2rem, 3vw, 2.4rem);
+  align-items: center;
+  padding: clamp(1.4rem, 3vw, 2.4rem) clamp(1.4rem, 3.5vw, 2.8rem);
+  border-radius: var(--radius-lg);
+  background: var(--ivory);
+  box-shadow: 0 24px 50px -34px rgba(20, 17, 15, 0.4);
+}
+@media (min-width: 820px) {
+  /* The staircase. Percentage margins resolve against WIDTH, which is what
+     makes the step scale with the container instead of needing a breakpoint
+     per size. */
+  .pillars__card:nth-child(2) { margin-left: 8%; margin-right: -2%; }
+  .pillars__card:nth-child(3) { margin-left: 16%; margin-right: -4%; }
+}
+.pillars__num {
+  font-family: var(--font-display);
+  font-size: clamp(2.2rem, 5vw, 4rem);
+  font-weight: 300;
+  line-height: 1;
+  /* Pale and decorative — it marks sequence, it is not information. */
+  color: var(--powder-blue);
+}
+.pillars__card b {
+  display: block;
+  font-size: var(--fs-body);
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+.pillars__card p {
+  margin-top: 0.5rem;
+  max-width: 62ch;
+  font-size: var(--fs-body);
+  line-height: 1.72;
+  color: var(--fg-muted);
+}
+
+/* ------------------------------------------------------------
+   6 - WHY SAROM
+   Matched to the reference frame by frame. The differences from a plain
+   carousel are what make it read correctly:
+     - everything LEFT-aligned, not centred
+     - the open item sits inside a hairline PANEL, with its answer in the
+       same box and a deliberate gap between the two
+     - items sit at DIFFERENT heights, not on one line
+     - a long diagonal thread and two sparkles
+     - no dots
+   ------------------------------------------------------------ */
+.ask {
+  position: relative;
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  padding-block: clamp(3rem, 7vw, 5.5rem);
+  background: var(--charcoal);
+  color: var(--ivory);
+  overflow: hidden;
+}
+.ask__media { position: absolute; inset: 0; overflow: hidden; }
+.ask__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* THE APERTURE. The photograph grows across the chapter so its own frame
+     of foliage closes in around the copy - the "circular" close in the
+     reference is the picture's own vignette tightening, not a drawn shape.
+     scale, not width/height: it stays on the compositor. */
+  scale: calc(1 + var(--ap, 0) * 0.3);
+  transform-origin: 50% 46%;
+  will-change: transform;
+}
+.ask__media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(130% 78% at 50% 52%, rgba(20,17,15,0.84) 0%, rgba(20,17,15,0.7) 46%, rgba(20,17,15,0.52) 100%);
+}
+.ask__inner {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: var(--max-w);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+  text-align: center;
+}
+.ask__eyebrow { justify-content: center; color: rgba(245, 240, 232, 0.68); }
+.ask__title {
+  margin-top: clamp(0.7rem, 1.4vw, 1.1rem);
+  font-family: var(--font-display);
+  font-size: clamp(1.9rem, 4.6vw, 3.6rem);
+  font-weight: 300;
+  line-height: 1.05;
+  letter-spacing: var(--tr-display);
+}
+/* The italic tail, as in the reference's script half. */
+.ask__title em { font-style: italic; color: var(--dusty-peach); }
+
+.ask__track {
+  position: relative;
+  margin-top: clamp(1.4rem, 3.5vh, 2.6rem);
+  --pos: 0;
+}
+@media (min-width: 900px) {
+  .ask__track {
+    height: clamp(340px, 46vh, 480px);
+    /* The ring's radii. Wide and shallow rather than a true circle: a
+       circular orbit on a 16:9 viewport sends items far off the top and
+       bottom while barely using the width. */
+    /* Sized so a panel at the widest point of the ring still ends inside
+       the viewport: 50% + rx - 4vw + panel width must stay under 100vw.
+       At 30vw the side boxes were chopped through the middle by the section's
+       overflow, which reads as broken rather than as travelling off. */
+    --rx: 24vw;
+    --ry: 104px;
+  }
+}
+
+/* Sparkles and the tether, both desktop-only. */
+.ask__tether, .ask__spark { display: none; }
+@media (min-width: 900px) {
+  .ask__spark {
+    display: block;
+    position: absolute;
+    width: 9px;
+    height: 9px;
+    opacity: 0.72;
+    /* A four-point star, drawn rather than a glyph so it keeps its weight at
+       any size. */
+    background:
+      radial-gradient(closest-side, rgba(245,240,232,0.95) 0%, rgba(245,240,232,0) 100%) center/100% 1.4px no-repeat,
+      radial-gradient(closest-side, rgba(245,240,232,0.95) 0%, rgba(245,240,232,0) 100%) center/1.4px 100% no-repeat;
+  }
+  .ask__spark--a { left: 30%; top: 6%; }
+  .ask__spark--b { left: 71%; bottom: 8%; }
+}
+
+.ask__item { text-align: left; }
+@media (min-width: 900px) {
+  .ask__item {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    width: min(24rem, 30vw);
+
+    /* ORBIT.
+     *
+     * The items ride a circle, not a rail. Each one's angle is its distance
+     * from the reading position expressed as a fraction of a full turn, so
+     * as --pos advances the whole ring rotates and the next question comes
+     * round to the front.
+     *
+     * A straight track - which is what this was - gives the items nowhere to
+     * go but left and right, and reads as a filmstrip however they are faded.
+     * On a ring they arc away and return.
+     *
+     * x = sin(angle) - swings widest at the sides, zero at front and back.
+     * y = 1 - cos(angle) - zero at the front, deepest at the back, so items
+     *     drop away as they travel round rather than sliding flat.
+     */
+    --turn: calc((var(--i) - var(--pos)) / var(--n, 5));
+    /* --orbit, NOT --ang: the component already sets --ang inline on every
+       item for its own thread's direction, and an inline custom property
+       beats a stylesheet one. Reusing the name pinned every item to its
+       thread angle, so the ring never turned - the positions were a fixed
+       arc rather than a moving one. */
+    --orbit: calc(var(--turn) * 360deg);
+    /* 1 at the front of the ring, 0 at the back. Everything visual hangs
+       off this rather than off raw distance. */
+    --depth: calc((1 + cos(var(--orbit))) / 2);
+    --a: calc(1 - var(--depth));
+
+    /* The panel's own offset from the ring's centre. Named, because the
+       thread below is solved from these two numbers rather than guessed. */
+    --offx: calc(sin(var(--orbit)) * var(--rx) - 4vw);
+    --offy: calc((1 - cos(var(--orbit))) * var(--ry));
+
+    transform:
+      translate3d(var(--offx), var(--offy), 0)
+      scale(calc(0.74 + var(--depth) * 0.26));
+    transform-origin: left top;
+    /* Squared, so the back of the ring falls away fast and only the front
+       few read - otherwise five overlapping panels compete at once. */
+    opacity: calc(var(--depth) * var(--depth));
+    /* The ones in front sit above the ones behind. */
+    z-index: calc(var(--depth) * 100);
+    padding: clamp(1.1rem, 2.4vw, 1.8rem);
+    border: 1px solid rgba(245, 240, 232, 0);
+    will-change: transform, opacity;
+  }
+
+  /* The open panel draws itself fully; its neighbours keep a fainter box
+     rather than none, which is what puts two panels on screen at once in
+     the reference rather than one boxed item floating among bare text. */
+  .ask__item { border-color: rgba(245, 240, 232, calc(var(--depth) * var(--depth) * 0.24)); }
+
+}
+
+/* THE TETHERS.
+   One per panel, each pinned at a fixed point in the frame and reaching to
+   its panel wherever the ring has carried it. Measured off the reference:
+   the foot holds still while the head follows the panel, and the angle
+   swings only as a consequence of that.
+
+   Both ends are therefore real: a line starts somewhere deliberate and
+   finishes exactly on the panel it belongs to. Earlier passes fixed the
+   angle instead and let the far end fall wherever it landed, which is what
+   made them look like they were flying about. */
+@media (min-width: 900px) {
+  .ask__tether {
+    display: block;
+    position: absolute;
+    /* Pinned end. */
+    left: calc(50% + var(--ax));
+    top: var(--ay);
+    width: 1px;
+    transform-origin: top center;
+    background: linear-gradient(to bottom, rgba(245,240,232,0.55), rgba(245,240,232,0.08));
+    z-index: 1;
+
+    /* Where this panel currently is, from the same numbers that place it. */
+    --orbit: calc(((var(--i) - var(--pos)) / var(--n, 5)) * 360deg);
+    --depth: calc((1 + cos(var(--orbit))) / 2);
+    --offx: calc(sin(var(--orbit)) * var(--rx) - 4vw);
+    --offy: calc((1 - cos(var(--orbit))) * var(--ry));
+
+    /* Foot -> head. */
+    --vx: calc(var(--offx) - var(--ax));
+    --vy: calc(var(--offy) - var(--ay));
+
+    height: hypot(var(--vx), var(--vy));
+    /* The element hangs downward at rotate(0), so pointing it along (vx, vy)
+       needs atan2(-vx, vy). */
+    transform: rotate(atan2(calc(0px - var(--vx)), var(--vy)));
+
+    /* Only the panels at the front of the ring carry a visible tether. */
+    opacity: calc(var(--depth) * var(--depth) * var(--depth) * 0.9);
+  }
+  /* The node sits on the pinned end, as in the reference. */
+  .ask__tether::before {
+    content: "";
+    position: absolute;
+    left: -2.5px;
+    top: -3px;
+    width: 6px;
+    height: 6px;
+    background: var(--ivory);
+  }
+}
+
+.ask__item h3 {
+  font-family: var(--font-display);
+  font-size: clamp(1.25rem, 2.5vw, 2rem);
+  font-weight: 300;
+  line-height: 1.15;
+  color: var(--ivory);
+}
+.ask__item p {
+  margin-top: clamp(0.8rem, 1.8vw, 1.2rem);
+  max-width: 34ch;
+  font-size: var(--fs-body);
+  line-height: 1.72;
+  color: rgba(245, 240, 232, 0.74);
+}
+@media (min-width: 900px) {
+  /* A deliberate gap between question and answer, as in the reference -
+     they are not a tight block. */
+  .ask__item p {
+    margin-top: clamp(2.4rem, 6vh, 4.5rem);
+    /* The copy belongs to the open item only: it falls away far faster than
+       the heading, so a neighbour shows its title and not its paragraph. */
+    /* The copy belongs to the front of the ring only: a high power drops it
+       away almost immediately, so a neighbour shows its title and not its
+       paragraph. */
+    opacity: clamp(0, calc((var(--depth) - 0.86) * 7), 1);
+    transform: translateY(calc(var(--a) * 14px));
+  }
+}
+
+@media (max-width: 899px) {
+  /* No pin below 900px, so --pos is never written and the offsets would all
+     resolve to 0 - every item stacked on one spot. Plain flow instead. */
+  .ask { min-height: 0; }
+  .ask__inner { text-align: left; }
+  .ask__eyebrow { justify-content: flex-start; }
+  .ask__track { display: grid; gap: clamp(1.8rem, 5vw, 2.6rem); }
+  .ask__item { position: static; width: auto; transform: none; opacity: 1; }
+  .ask__item p { opacity: 1; transform: none; }
+  .ask__tether, .ask__spark { display: none; }
+}
+
+/* ------------------------------------------------------------
+   7 — OUR JOURNEY
+   ------------------------------------------------------------ */
+/* Tighter top than the rest of the page - this section pins, so every pixel
+   above the timeline is one the photographs lose - but not so tight that the
+   heading slides under the fixed header, which is ~82px tall.
+
+   The clamp MINIMUM does that work, not the vh term: a viewport-height
+   padding shrinks on short screens, which is backwards, since the header
+   stays the same size. At 9.5vh alone the heading sat under the bar on
+   760px- and 700px-tall windows while clearing it at 900px. */
+.sect.journey { padding-block: clamp(5.9rem, 9.5vh, 6.5rem) 0; overflow: hidden; }
+.journey__head { text-align: center; }
+.journey__head .shead__index { justify-content: center; }
+.journey__title { margin-top: clamp(0.6rem, 1.2vw, 1rem); }
+
+.journey__viewport { margin-top: clamp(1.8rem, 4vw, 2.75rem); padding-bottom: clamp(2.5rem, 6vw, 4.5rem); }
+.journey__track { position: relative; display: flex; gap: clamp(1.5rem, 4vw, 3rem); padding-inline: var(--gutter); }
+@media (min-width: 900px) {
+  .journey__track { flex-wrap: nowrap; transform: translate3d(var(--x, 0px), 0, 0); will-change: transform; }
+}
+@media (max-width: 899px) { .journey__track { flex-direction: column; } }
+
+/* A column, so the photograph can be pushed to the bottom of the stop and
+   every image lines up on one baseline. The bodies run from two lines to
+   four, which left the images 51px out of register with each other. */
+.journey__stop {
+  position: relative;
+  /* Above the thread, which is z-index 2 on the track. Without this the line
+     paints OVER the year, and `line-height: 1` on a display face lets ink
+     overflow its line box — so on a machine with the real AvantGarde
+     installed the digits rise into the line and get struck through, while a
+     fallback face measures clear. Paint order has to make the text win
+     whatever the font metrics turn out to be. */
+  z-index: 3;
+  flex: 0 0 clamp(250px, 26vw, 350px);
+  /* The band the thread runs in. Was 2.4rem, which left only 32px between the
+     line and the top of the year's line box — less than one em of the year at
+     this size, so any ascender overflow closed it. */
+  padding-top: clamp(2.3rem, 3.8vw, 3.1rem);
+  display: flex;
+  flex-direction: column;
+}
+@media (max-width: 899px) {
+  /* Stacked, the rail runs down a left gutter beside the steps rather than
+     through them — Threadline detects the column from the anchors and moves
+     itself; this reserves the room for it. */
+  .journey__stop { flex: 1 1 auto; padding-top: 0; padding-left: 2.6rem; }
+  .journey__stop + .journey__stop { margin-top: clamp(2.2rem, 7vw, 3.5rem); }
+}
+.journey__year {
+  display: block;
+  font-family: var(--font-display);
+  font-size: clamp(1.45rem, 2.7vw, 2.15rem);
+  font-weight: 300;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  color: var(--dusty-peach);
+}
+.journey__stopTitle {
+  margin-top: 0.55rem;
+  font-size: var(--fs-body);
+  font-weight: 400;
+  line-height: 1.3;
+  letter-spacing: var(--tr-meta);
+  text-transform: uppercase;
+  color: rgba(245, 240, 232, 0.9);
+}
+.journey__stopBody { margin-top: 0.55rem; font-size: var(--fs-body); line-height: 1.68; color: var(--fg-muted); }
+.journey__shot {
+  /* auto, not a fixed gap: the flex column pushes every photograph to the
+     foot of its stop regardless of how long the copy above it runs. The
+     padding is the MINIMUM gap for when the copy runs long enough that auto
+     collapses. */
+  margin-top: auto;
+  padding-top: clamp(0.9rem, 1.8vw, 1.3rem);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  /* content-box so `height` is the picture, not the picture minus the gap.
+     Under the global border-box the padding above was eaten out of the
+     height — a 189px box rendered a 168px image. */
+  box-sizing: content-box;
+  /* Height from the VIEWPORT, not an aspect ratio: the pin fixes this
+     section at one screen and clips the overflow, so a width-derived height
+     cropped the photographs on shorter screens.
+     Raised from 21svh/240: the sources are PORTRAIT (267x388), and a 350x168
+     box is aspect 2.08 against the source's 0.69 — `cover` was throwing away
+     two thirds of every photograph. This is still a crop, which a horizontal
+     rail cannot avoid, but a far gentler one. */
+  /* Derived from the space left over, not a bare vh fraction. Everything
+     else in the pinned section (heading, copy, padding) is ~535px tall at
+     every width, so the picture gets whatever remains. A flat 29svh grew the
+     section to 741px on a 720-tall window and broke the pin's fit. */
+  height: clamp(150px, calc(100svh - 545px), 330px);
+}
+.journey__shot img { width: 100%; height: 100%; object-fit: cover; }
+
+.journey__stop--close { display: flex; align-items: center; flex: 0 0 clamp(280px, 32vw, 440px); }
+.journey__close {
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 3.4vw, 2.8rem);
+  font-weight: 300;
+  line-height: 1.15;
+  letter-spacing: var(--tr-display);
+}
+.journey__close em { color: var(--dusty-peach); font-style: italic; }
+
+/* ------------------------------------------------------------
+   THREADLINE
+   A connecting line that draws on scroll with nodes that pop in as it
+   reaches them. Overlay only — it must never intercept a click.
+   ------------------------------------------------------------ */
+.thread {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  /* No local `--p` default. JS writes --p to the PARENT so anchored content
+     inherits it too; a `--p: 0` here would shadow that for the svg subtree
+     and freeze the nodes at scale 0 — the line drew, the nodes never
+     popped. */
+  --len: 0;
+}
+/* max-width: none defeats the global `svg { max-width: 100% }` reset. The
+   thread's svg is deliberately WIDER than its parent when the parent is a
+   horizontal rail (2092 against a 1440 padding box). Clamped to 100%, the
+   svg keeps its viewBox aspect and preserveAspectRatio scales the whole
+   drawing to 69% and centres it 89px DOWN — which is what put the rail
+   through the year headings. Nothing about the path data was wrong. */
+.thread svg { display: block; overflow: visible; max-width: none; }
+/* The draw: one dash the length of the whole path, its offset walked back to
+   zero as --p runs 0 -> 1. */
+.thread__line {
+  stroke-dasharray: var(--len);
+  stroke-dashoffset: calc(var(--len) * (1 - var(--p, 0)));
+}
+/* The base rail: the whole track, always visible, dim. */
+.thread__base { opacity: 0.22; }
+
+/* ---- step states ----------------------------------------------------
+   Every state below is computed from the SAME --p the line is drawn from,
+   so the markers cannot drift out of step with the rail no matter how the
+   scroll is driven.
+
+     --s  how far THIS step has completed          0 -> 1
+     --a  whether it is the step currently reached 0 -> 1
+
+   --a is --s minus "the next step has also been reached", which is why the
+   component stamps --tn. Active is a comparison between neighbours, not a
+   property a step can know on its own. */
+.thread__step {
+  /* +0.05 lead: the last node sits very near the end of the path, so without
+     it the ramp runs out of progress before the step finishes. */
+  --s: clamp(0, calc((var(--p, 0) - var(--t, 0) + 0.05) * 26), 1);
+  --next: clamp(0, calc((var(--p, 0) - var(--tn, 1) + 0.05) * 26), 1);
+  --a: calc(var(--s) * (1 - var(--next)));
+}
+.thread__node {
+  /* fill-box so the origin is the circle's own centre — without it the scale
+     would run from the SVG origin and the nodes would fly in from the
+     top-left corner instead of popping in place. */
+  transform-box: fill-box;
+  transform-origin: center;
+  scale: clamp(0, calc((var(--p, 0) - var(--t, 0) + 0.05) * 26), 1);
+  transition: scale 0.28s var(--ease-pop);
+}
+/* With checks on, a step is never absent — it waits on the rail as a small
+   dim ring, grows as it completes, and fills. */
+.thread--rail .thread__node {
+  scale: calc(0.5 + var(--s) * 0.5);
+  fill: var(--charcoal);
+  stroke: var(--dusty-peach);
+  stroke-opacity: calc(0.3 + var(--s) * 0.7);
+  transition: scale 0.34s var(--ease-pop), stroke-opacity 0.34s ease;
+}
+/* Completed steps fill so the tick reads against them. */
+.thread--rail .thread__step { --fill: calc(var(--s) * var(--s)); }
+.thread--rail .thread__node { fill: color-mix(in srgb, var(--dusty-peach) calc(var(--fill) * 100%), var(--charcoal)); }
+
+.thread__halo {
+  transform-box: fill-box;
+  transform-origin: center;
+  opacity: calc(var(--a, 0) * 0.18);
+  scale: calc(1 + var(--a, 0) * 1.6);
+  transition: opacity 0.4s ease, scale 0.4s var(--ease-glide);
+}
+
+/* The tick draws itself on rather than appearing — same dash technique as
+   the rail, so it completes in step with the step it belongs to. */
+.thread__check {
+  --clen: 14px;
+  stroke-dasharray: var(--clen);
+  stroke-dashoffset: calc(var(--clen) * (1 - var(--s, 0)));
+  opacity: clamp(0, calc((var(--s, 0) - 0.55) * 4), 1);
+  transition: stroke-dashoffset 0.34s var(--ease-glide), opacity 0.2s linear;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* The pin never engages, so --pos is never written and every item
+     would resolve to the same slot. Fall back to the plain stack. */
+  .ask { min-height: 0; }
+  .ask__track { display: grid; gap: 2rem; height: auto; }
+  .ask__item { position: static; width: auto; transform: none; opacity: 1; border-color: transparent; }
+  .ask__item p { opacity: 1; transform: none; margin-top: 1rem; }
+  .ask__tether, .ask__spark { display: none; }
+
+  .thread__line { stroke-dashoffset: 0; }
+  .thread__node { scale: 1; transition: none; }
+  .thread--rail .thread__node { scale: 1; fill: var(--dusty-peach); stroke-opacity: 1; }
+  .thread__check { stroke-dashoffset: 0; opacity: 1; transition: none; }
+  .thread__halo { opacity: 0; }
+  .par img, .ahero__img { transform: none !important; }
+  .team__card:hover .team__frame img { scale: 1; }
+  /* The pin never engages, so --x is never written and the track would sit
+     at natural width with everything past the fold unreachable. */
+  .journey__track { flex-direction: column; transform: none !important; }
+  .journey__stop { flex: 1 1 auto; padding-top: 0; padding-left: 2.6rem; }
+  .journey__stop + .journey__stop { margin-top: clamp(2.2rem, 7vw, 3.5rem); }
+}

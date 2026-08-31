@@ -291,6 +291,139 @@ fits one viewport; mobile stacks with cradle and fillets switched off, no horizo
 
 ---
 
+## Our Journey — horizontal rail scroll (about page)
+
+Two measured faults, not a feel problem.
+
+**1. Travel distance was a guess.** `scrollWidth - innerWidth * 0.9` overshot by 84px, so
+the rail parked with 144px of ragged dead space to the right of the closing card instead of
+resting on the gutter. Replaced with `scrollWidth - innerWidth + gutter`, reading the gutter
+off the track's own computed `padding-left` rather than hardcoding the clamp.
+
+**2. The pin was 2.2x longer than the travel.** `distance * 1.6 + innerHeight * 0.5` gave
+1724px of scroll for 796px of motion — a 0.46 ratio, so the page held still while the rail
+crawled. The original comment claimed the stretch made it glide; it does the opposite, by
+decoupling the rail from the wheel. Now `distance + innerHeight * 0.35`, with the extra
+mapped as a genuine hold (`progress / travelShare`, clamped) rather than a slower ramp —
+so the travel runs 1:1 and the closing line gets a beat before unpin. `scrub` 1.2 -> 0.6;
+1.2s of catch-up read as mush.
+
+Verified in real Chrome at 1440x900: ratio 1.00 across the travel, `lastRight` lands on
+1380 = `innerWidth - gutter` exactly, then holds through the last quarter. No overflow at
+1440 or 390, mobile keeps `transform: none` (the sub-900px vertical fallback), no gap at
+the section join, `next build` passes.
+
+The 3 console 404s are pre-existing and site-wide — the Avant Garde `.woff2` files, already
+listed under Outstanding.
+
+---
+
+## Our Journey — the timeline thread
+
+The line was short and its progress ran backwards. Two separate faults.
+
+**1. The path was sized to the wrong box.** `Threadline` measured its parent with
+`offsetWidth`. For a horizontal rail the children overflow the parent: the journey track's
+padding box is 1440 while its content spans 2092. So the path was built 1440 long and simply
+stopped in mid-air ~650px short of the end — the last two stops sat past the end of the line,
+and the final node landed at `t=0.99` because the lead-out had nowhere left to run, so it
+never popped until the very last frame. Now `max(offsetWidth, scrollWidth)`.
+Path length measured 2092 after the fix, exactly the track's `scrollWidth`.
+
+**2. Two ScrollTriggers were writing the same `--p`.** The rail's pin (7956->8983) and
+Threadline's own trigger (7370->8219) both wrote `--p` on `.journey__track`, and their ranges
+overlap. They do not average, they alternate — `--p` measured
+`0 -> 0.93 -> 0.58 -> 0.86 -> 1` across the scroll, so the line drew, retracted, and drew
+again. A self trigger is meaningless inside a pin regardless: once the section pins, the
+element is frozen in the viewport and its own progress stops measuring anything.
+
+Added an `externalDrive` prop — a media query under which an outside trigger owns `--p`, so
+Threadline skips creating its own. The journey passes `(min-width: 900px)`, matching the pin's
+own `matchMedia`, and the listener re-evaluates on change so a resize across the breakpoint
+never leaves the line with no driver.
+
+Verified at 1440x900: one trigger on the section, `--p` monotonic 0->1, drawn tip advancing
+0 -> 2092px, nodes popping in order (`[1,0,0,0]` -> `[1,1,0,0]` -> `[1,1,1,0.41]` ->
+`[1,1,1,1]`). At 390px the self trigger still runs (9 distinct `--p` values across the
+scroll, ends at 1, no overflow). Under reduced motion `--p` holds at 1 and the line renders
+complete and static. No console errors, `tsc --noEmit` and `next build` clean.
+
+---
+
+## Our Journey — line over the year headings, and the cropped photographs
+
+**The line over the text could not be reproduced here, and that is the finding.** Swept 10
+viewport sizes x 3 zoom levels: clearance measured 21–32px, never an overlap. The cause is
+that `public/fonts/` is missing, so this machine renders a fallback face while the client has
+the real AvantGarde installed. `.journey__year` uses `line-height: 1`, where ink overflows the
+line box by an amount that depends entirely on the font's ascent — so their digits rise into
+the line and are struck through, and the measurement here stays clean.
+
+`.thread` is `z-index: 2` on the track and `.journey__stop` had no z-index, so the line painted
+over the headings. Fixed on both axes rather than picking one: `.journey__stop { z-index: 3 }`
+so text wins on paint order whatever the metrics, and the padding band widened
+(`clamp(1.6rem, 3vw, 2.4rem)` -> `clamp(2.3rem, 3.8vw, 3.1rem)`) so the line is not near the
+ink at all. Clearance 32px -> 44px.
+
+**The photographs.** Sources are portrait (267x388, AR 0.69) and `.journey__shot` was a 350x168
+box (AR 2.08), so `object-fit: cover` was discarding two thirds of each one. Two faults:
+the global `border-box` subtracted the 20.8px `padding-top` from the declared height (a 189px
+box rendered a 168px picture), and the height itself was too small. Now `box-sizing:
+content-box`, and the height derived from the space left over rather than a flat `vh`
+fraction — everything else in the pinned section is ~535px tall at every width, so
+`clamp(150px, calc(100svh - 545px), 330px)`. At 1440x900 the picture went 350x168 -> 350x330,
+visible fraction 0.33 -> 0.65.
+
+The first attempt used a flat `29svh`, which grew the section to 741px on a 720-tall window —
+a pinned section past the viewport clips its own bottom. The leftover-space formula fits at
+1280x720, 1366x768, 1440x900, 1920x1080 and 2560x1440. At heights <=650px the section still
+cannot fit (689px); it could not before this change either and the copy alone sets that floor.
+
+Verified: no overflow at 1440 or 390, 0 broken images, no image clipped inside its frame,
+reduced motion clean, no console errors beyond the 3 known font 404s, `next build` passes.
+
+---
+
+## Our Journey — rebuilt as a real progress rail
+
+**The root cause of the line-through-the-headings, found at last, and it was mine.**
+`globals.css` has a global `svg { max-width: 100% }` reset. The scrollWidth fix earlier had
+widened the thread's svg to 2092 against a 1440 padding box, so that reset clamped it — and
+because the svg keeps its viewBox aspect, `preserveAspectRatio` scaled the whole drawing to
+69% and centred it **89px DOWN**, landing the rail on the year headings. Nothing about the
+path data was ever wrong. Fixed with `max-width: none` on `.thread svg`.
+
+**Why the earlier sweep said "no overlap" when the client could see one.** It measured
+`svgTop + path.getBBox().y`. `getBBox()` returns USER-SPACE coordinates and knows nothing
+about the scaling `preserveAspectRatio` applied, so it reported the rail at y=230 while it
+rendered at 317. Mixing a user-space measurement with a screen-space origin produced a
+confident, repeatable, wrong answer across 30 size/zoom combinations. **Measure SVG with
+`getBoundingClientRect()` on the rendered element, never `getBBox()` plus a screen offset.**
+
+**The rail itself.** It had a progress line and no base line, so there was nothing ahead of
+the progress and it never read as a track. Now:
+
+- `.thread__base` — the full path underneath at 0.22 opacity, so the distance still to go is
+  visible. This was the substance of "the progress rail is not proper".
+- Three step states, all computed from the same `--p` the line is drawn from, so markers
+  cannot drift out of step with the rail: `--s` (this step's completion) and `--a` (whether it
+  is the step currently reached). `--a` needs the NEXT step's threshold, so Threadline now
+  stamps `--tn` — active is a comparison between neighbours, not something a step knows alone.
+- Idle steps wait on the rail as small dim rings; the active one carries a halo; completed
+  ones fill and draw a tick on, via the same dash technique as the rail.
+
+**Responsive.** Threadline now detects a COLUMN from its own anchors (x-spread vs y-spread)
+rather than from a media query, and moves the rail into a left gutter with `railInset`. A
+centred rail runs straight down the middle of stacked copy, which is what it had been doing
+on mobile all along. `.journey__stop` reserves 2.6rem for it when stacked.
+
+Verified rect-based at 1440x900, 1280x720, 390x844 and under reduced motion: **0 text
+collisions**, base rail present, 4 steps and 4 checks, horizontal on desktop and vertical when
+stacked, no overflow, 0 broken images, no console errors beyond the 3 known font 404s,
+`tsc --noEmit` and `next build` clean.
+
+---
+
 ## Outstanding for the client
 
 1. **Drop Albra `.woff2` files into `public/fonts/`** — six exact filenames listed in README.

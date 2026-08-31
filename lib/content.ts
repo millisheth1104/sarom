@@ -52,8 +52,7 @@ export const SECTION_INDEX = Object.fromEntries(
 ) as Record<(typeof SECTION_ORDER)[number][0], string>;
 
 export const NAV = [
-  { label: "About Us", href: "/about.php" },
-  { label: "Brands", href: "/brand-sj.php" },
+  { label: "About Us", href: "/about" },
   { label: "e-Catalogue", href: "/ecatalogue" },
   { label: "Store Locator", href: "/store-locator.php" },
   { label: "Contact", href: "/contact.php" },
@@ -283,8 +282,8 @@ export const SHOWCASE = {
 /** Poster footer — small nav above a full-width wordmark. */
 export const FOOTER_NAV = [
   { label: "Collection", href: "/ecatalogue" },
-  { label: "About", href: "/about.php" },
-  { label: "Our Story", href: "/about.php" },
+  { label: "About", href: "/about" },
+  { label: "Our Story", href: "/about" },
   { label: "Contact", href: "/contact.php" },
 ];
 
