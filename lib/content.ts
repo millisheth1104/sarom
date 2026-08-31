@@ -82,8 +82,8 @@ export const STATEMENT = {
   nav: [
     { label: "Collections", href: "/ecatalogue", active: true },
     { label: "New Arrivals", href: "/ecatalogue" },
-    { label: "About", href: "/about.php" },
-    { label: "Our Story", href: "/about.php" },
+    { label: "About", href: "/about" },
+    { label: "Our Story", href: "/about" },
   ],
   action: { label: "Explore Collection", href: "/ecatalogue" },
 
@@ -561,7 +561,7 @@ export const INSTAGRAM_URL = SOCIAL[0].href;
 
 export const FOOTER_LINKS = {
   explore: [
-    { label: "About Us", href: "/about.php" },
+    { label: "About Us", href: "/about" },
     { label: "e-Catalogue", href: "/ecatalogue" },
     { label: "Store Locator", href: "/store-locator.php" },
     { label: "Careers", href: "/careers.php" },

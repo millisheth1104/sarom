@@ -424,6 +424,38 @@ stacked, no overflow, 0 broken images, no console errors beyond the 3 known font
 
 ---
 
+## Drop The Edit from the homepage
+
+The Edit composition and Collections did the same job — a pill nav over a thumbnail row and
+one dominant image, both driven by the same catalogue data — so the page made the same
+argument twice. `HomePage` carried a `variant` prop and two noindex preview routes built
+solely so the two could be compared before one was dropped. That call is now made:
+Collections keeps the slot, and the scaffolding goes with it.
+
+Removed: the `EditorialShowcase` render, the `HomeVariant` type and the `variant` branching,
+and `app/preview/collections` + `app/preview/edit`. The `EditorialShowcase` component itself
+is left in `Compositions.tsx` rather than deleted, so restoring it is a one-line change.
+
+Numbering needed no edit — the eyebrows are numbered by POSITION from HomePage's `order`
+array, not a fixed map, so the rest renumbered themselves. Verified in the rendered page:
+`01 — House Brands, 02 — Collections, 03 — Showroom, 04 — Our Story`, with no gap in the
+section rhythm where it used to sit.
+
+Also fixed while in here: `STATEMENT.nav`, `FOOTER_LINKS.explore` and both `PRODUCT.nav`
+blocks in `lib/replicas.ts` still pointed at `/about.php` and `/ecatalogue.php`. Those were
+missed when the nav was repointed at the new Next routes, and they 404 inside the app. No
+`.php` href remains except the client's real pages that have not been rebuilt —
+store-locator, contact, privacy-policy and the five brand pages.
+
+Note: the Films section still labels itself "The Edit". That is its own name, not a leftover
+of the removed composition, so it was left alone — but it does mean the phrase still appears
+once on the page.
+
+Verified at 1440 and 390: no overflow, 0 broken images, no console errors beyond the 3 known
+font 404s, no 4xx responses, `next build` clean on a wiped `.next`.
+
+---
+
 ## Outstanding for the client
 
 1. **Drop Albra `.woff2` files into `public/fonts/`** — six exact filenames listed in README.

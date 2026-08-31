@@ -4,41 +4,27 @@ import Hero from "@/components/Hero";
 import Footer from "@/components/Footer";
 import { Statement } from "@/components/Sections";
 import { Films, Story, Brands, ClosingCta } from "@/components/Editorial";
-import { Showroom, EditorialShowcase } from "@/components/Compositions";
+import { Showroom } from "@/components/Compositions";
 import { MARQUEE_WORDS, PROPERTIES, SITE, sectionLabel } from "@/lib/content";
 
 /**
- * Which of the two category-tabbed compositions the page shows.
+ * The Edit composition has been dropped from the page.
  *
- * The Collections composition (01) and The Edit composition now do the same
- * job — both are a pill nav over a thumbnail row and one dominant image, both
- * driven by the same catalogue data — so running both is a duplication. The
- * preview routes render one each so the two can be compared before one is
- * dropped; "both" is the current homepage, unchanged until that call is made.
+ * It and Collections did the same job — a pill nav over a thumbnail row and
+ * one dominant image, both driven by the same catalogue data — so the page
+ * was making the same argument twice. Collections keeps the slot. The
+ * `EditorialShowcase` component is left in `Compositions.tsx` rather than
+ * deleted, so restoring it is a one-line change if the client wants it back.
  */
-export type HomeVariant = "both" | "collections" | "edit";
-
-export function HomePage({ variant = "both" }: { variant?: HomeVariant }) {
-  const showCollections = variant === "both" || variant === "collections";
-  const showEdit = variant === "both" || variant === "edit";
-
-  /* Section eyebrows are NUMBERED BY POSITION, not by a fixed map. The brands
-     lead the page now, and each preview drops one of the two compositions —
-     between them, any hard-coded numbering drifts out of order immediately. */
-  const order: string[] = ["House Brands"];
-  if (showCollections) order.push("Collections");
-  order.push("Showroom");
-  if (showEdit && variant !== "edit") order.push("The Edit");
-  order.push("Our Story");
+export function HomePage() {
+  /* Section eyebrows are NUMBERED BY POSITION, not by a fixed map, so
+     dropping a section renumbers the rest on its own. */
+  const order = ["House Brands", "Collections", "Showroom", "Our Story"];
 
   const label = (name: string) => {
     const i = order.indexOf(name);
     return i === -1 ? undefined : sectionLabel(i + 1, name);
   };
-
-  /* In the `edit` variant The Edit composition stands in for Collections
-     outright, so it takes that name rather than its own. */
-  const editLabel = variant === "edit" ? label("Collections") : label("The Edit");
 
   return (
     <MotionProvider>
@@ -57,10 +43,8 @@ export function HomePage({ variant = "both" }: { variant?: HomeVariant }) {
             client wants a visitor to meet after the hero. */}
         <Brands index={label("House Brands")} />
 
-        {variant === "edit" ? <EditorialShowcase index={editLabel} /> : null}
-        {showCollections ? <Statement index={label("Collections")} /> : null}
+        <Statement index={label("Collections")} />
         <Showroom index={label("Showroom")} />
-        {showEdit && variant !== "edit" ? <EditorialShowcase index={editLabel} /> : null}
         <Films />
 
         <div data-nav-tone="light">

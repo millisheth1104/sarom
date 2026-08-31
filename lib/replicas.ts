@@ -18,8 +18,8 @@
 export const PRODUCT = {
   nav: [
     { label: "Home", href: "/", active: true },
-    { label: "Fabrics", href: "/ecatalogue.php" },
-    { label: "About", href: "/about.php" },
+    { label: "Fabrics", href: "/ecatalogue" },
+    { label: "About", href: "/about" },
     { label: "Contact", href: "/contact.php" },
   ],
   action: { label: "Contact us", href: "/contact.php" },
@@ -65,11 +65,11 @@ export const PRODUCT = {
 export const BELONG = {
   nav: [
     { label: "Home", href: "/", active: true },
-    { label: "Collections", href: "/ecatalogue.php" },
-    { label: "New Arrivals", href: "/ecatalogue.php" },
-    { label: "About", href: "/about.php" },
+    { label: "Collections", href: "/ecatalogue" },
+    { label: "New Arrivals", href: "/ecatalogue" },
+    { label: "About", href: "/about" },
   ],
-  action: { label: "Shop Collection", href: "/ecatalogue.php" },
+  action: { label: "Shop Collection", href: "/ecatalogue" },
   titleLines: ["Fabrics,", "Made to"],
   titleLast: "Belong.",
   body:
