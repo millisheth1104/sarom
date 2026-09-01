@@ -704,6 +704,32 @@ no overflow, 0 broken images, no console errors, `next build` clean.
 
 ---
 
+## Why Sarom — flatten the tile, keep the glass
+
+Client: the tile should match the reference exactly, and the 3D effect added in the previous
+pass is not wanted. The reference tile is a flat plane.
+
+Removed: both side-face pseudo-elements, the offset solid bottom face, and the lit-top /
+shaded-bottom inset edge pair — everything that was there to suggest thickness. Also removed
+`perspective()` and `rotateY()`, which were turning the tile's face into a trapezoid; that
+perspective turn is the other half of what read as 3D.
+
+Kept: the glassmorphism (gradient panel, blur(26px) saturate(140%), white hairline) and the
+rotateZ slant, since the client separately asked that cards arrive slanted and square up
+through the centre. Those two requests are compatible — a flat plane can still be rotated in
+its own plane.
+
+Verified every card transform now reports `is2D: true`, with the slant intact: -7.7deg
+arriving at u=0.04, 0.0deg at u=0.56, +9.8deg leaving at u=1.08. No card pseudo-elements
+remain. 1440 / 390 / reduced motion clean, no overflow, 0 broken images, no console errors,
+`next build` clean.
+
+One detail deliberately NOT copied: the reference tiles carry a faint dashed line inset from
+their right and bottom edges. It is not clear whether that is a design detail or an artifact
+of the recording, so it was left out rather than guessed at.
+
+---
+
 ## Outstanding for the client
 
 1. **Drop Albra `.woff2` files into `public/fonts/`** — six exact filenames listed in README.
