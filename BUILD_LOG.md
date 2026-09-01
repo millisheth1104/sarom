@@ -909,6 +909,39 @@ tolerance ever changes.
 
 ---
 
+## Store locator - the pins were never registered to the map
+
+Client: the pins are outside their states. Two separate faults, and the second was the real one.
+
+**1. The anchor was below the pin.** `.loc__pin` was a grid containing the head AND the name
+label. The label only shows on hover, but a grid row still RESERVES its height, so the
+element's bottom edge sat below an invisible label rather than at the head - and
+`translate(-50%, -100%)` anchors that bottom edge. Every head floated above its point. Now
+`display: block` with the label taken out of flow, and `translate(-50%, -50%)` so the head's
+CENTRE sits on the state. The stem went too: a stem points at a spot below the head, which is
+only honest when the head is anchored by its tip.
+
+**2. The two coordinate systems were never the same.** Pins are positioned as a percentage of
+the stage box; the artwork is laid out by the svg's viewBox. The stage was
+`aspect-ratio: 1 / 1.02` (0.980) against a viewBox aspect of 0.873, so
+`preserveAspectRatio`'s default `xMidYMid meet` letterboxed the drawing - scaled to fit and
+centred - and the two systems came apart, walking the narrow coastal states clean off the map.
+Worse, the comment on that line justified the value as *avoiding* a letterbox. It caused one.
+Now `aspect-ratio: 1000 / 1146`, exactly the viewBox.
+
+**Verified by hit-testing, not by eye.** For each pin, its head centre is converted into the
+svg's own user space and tested with `path.isPointInFill()`. The shared tilt is neutralised
+first, because `getScreenCTM()` does not account for CSS 3D transforms and the test is
+worthless otherwise - both layers carry the identical transform, so registration is unaffected
+by removing it. Result: **25 / 25 inside**, at 1440, 390 and under reduced motion, up from
+19/25.
+
+A red herring on the way: `translateZ(16px)` on each pin genuinely does displace it outward
+from the vanishing point under perspective, so it was removed - but it was not the cause here,
+and the count stayed at 19/25 until the aspect ratio was fixed.
+
+---
+
 ## Outstanding for the client
 
 1. **Drop Albra `.woff2` files into `public/fonts/`** — six exact filenames listed in README.

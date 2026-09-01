@@ -43,10 +43,16 @@
 .loc__stage {
   position: relative;
   width: 100%;
-  /* The map is taller than it is wide (Kashmir to Kanyakumari is the longer
-     axis), and the tilt foreshortens height, so the box is squarer than the
-     artwork to stop a letterbox opening above and below it. */
-  aspect-ratio: 1 / 1.02;
+  /* EXACTLY the viewBox's aspect (1000 x 1146). This is not cosmetic.
+     The pins are positioned as a percentage of THIS box, while the artwork is
+     laid out by the svg's viewBox. Any mismatch and preserveAspectRatio's
+     default `xMidYMid meet` letterboxes the drawing inside the box — it is
+     scaled to fit and centred — so the two coordinate systems come apart and
+     every pin drifts horizontally. A previous value of 1/1.02 was chosen to
+     "avoid a letterbox" and caused precisely the letterbox it named: stage
+     aspect 0.980 against a viewBox aspect of 0.873, which walked the narrow
+     coastal states clean off the map. */
+  aspect-ratio: 1000 / 1146;
   perspective: 1400px;
   perspective-origin: 50% 42%;
 }
@@ -95,14 +101,22 @@
   left: var(--x);
   top: var(--y);
   pointer-events: auto;
-  display: grid;
-  justify-items: center;
-  gap: 0.28rem;
+  /* NOT grid. The name label is only shown on hover but a grid row still
+     RESERVES its height, so the element's bottom edge sat below the label
+     rather than at the head — and with translate(-50%, -100%) anchoring that
+     bottom edge, every head floated well above its state and the coastal ones
+     ended up out at sea. The label is taken out of flow below instead. */
+  display: block;
   padding: 0;
-  /* Counter-rotating by the plane's own angle is what stands the pin up.
-     translateZ lifts it clear so its shadow reads as cast onto the map. */
-  transform: translate(-50%, -100%) rotateX(-24deg) translateZ(18px);
-  transform-origin: 50% 100%;
+  /* -50%, -50%: the head's CENTRE sits on the state's point, and rotateX
+     counter-rotates the plane's tilt so it stands up.
+     NO translateZ. Lifting a pin toward the viewer inside a perspective
+     context DISPLACES it outward from the vanishing point, and the further
+     from centre the worse — it was carrying Goa, Kerala, Punjab, Sikkim,
+     Mizoram and Tamil Nadu clean off their states. The box-shadow already
+     does the lifting the eye needs, and costs no accuracy. */
+  transform: translate(-50%, -50%) rotateX(-24deg);
+  transform-origin: 50% 50%;
   transform-style: preserve-3d;
   /* THE LANDING, measured off the reference rather than guessed.
    *
@@ -154,18 +168,14 @@ html[data-js] [data-reveal][data-inview="true"] .loc__pin {
   box-shadow: 0 5px 12px rgba(0, 0, 0, 0.42), 0 1px 3px rgba(0, 0, 0, 0.3);
   transition: scale 0.35s var(--ease-pop), background-color 0.35s var(--ease-soft);
 }
-/* The stem, so the head reads as pinned to a point rather than floating. */
-.loc__pinHead::after {
-  content: "";
-  position: absolute;
-  top: calc(var(--pin) - 2px);
-  left: 50%;
-  width: 1px;
-  height: 11px;
-  transform: translateX(-50%);
-  background: linear-gradient(to bottom, var(--dusty-peach), rgba(229, 200, 185, 0));
-}
+/* No stem. A stem points at a spot below the head, which is only honest when
+   the head is anchored by its tip — this one is centred on the state. */
 .loc__pinName {
+  /* Out of flow, so it cannot push the head off its point. */
+  position: absolute;
+  top: calc(100% + 5px);
+  left: 50%;
+  transform: translateX(-50%);
   font-size: 0.52rem;
   letter-spacing: var(--tr-meta);
   text-transform: uppercase;
@@ -294,7 +304,7 @@ html[data-js] [data-reveal][data-inview="true"] .loc__pin {
   /* Flat below the two-column breakpoint. The tilt only reads when the map is
      large; at phone width it just eats vertical space and shrinks the states
      that are already smallest. */
-  .loc__stage { aspect-ratio: 1 / 1.12; perspective: none; }
+  .loc__stage { perspective: none; }
   .loc__map,
   .loc__pins { transform: none; }
   .loc__pin { transform: translate(-50%, -100%); }

@@ -321,6 +321,18 @@ page). `PRODUCT.md` holds the positioning brief. Nav no longer carries "Brands".
   assert every marker lands inside its own polygon at generation time.
   Generator: `reference/build-india-map.py`.
 
+- **Overlaying HTML markers on an SVG map: the stage box MUST match the viewBox aspect
+  exactly.** Markers positioned in `%` of the element box and artwork laid out by the viewBox
+  are two different coordinate systems, and `preserveAspectRatio`'s default `xMidYMid meet`
+  letterboxes the drawing the moment the aspects differ - so every marker drifts. Cost two
+  wrong diagnoses on the store locator.
+- **A hidden-but-present grid row still reserves space.** A label shown only on hover still
+  gave `.loc__pin` its height, so `translate(-50%, -100%)` anchored the element below an
+  invisible label. Take such labels out of flow (`position: absolute`).
+- **`getScreenCTM()` ignores CSS 3D transforms**, so any SVG hit-test on a tilted map is
+  meaningless. Neutralise the transform first (safe when every layer shares it), then test with
+  `path.isPointInFill()`.
+
 ## Reference mockups — which file drives which section
 
 The client's mockups are unlabelled WhatsApp screenshots in `reference/`. Mapping:
