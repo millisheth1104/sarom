@@ -54,7 +54,7 @@ export const SECTION_INDEX = Object.fromEntries(
 export const NAV = [
   { label: "About Us", href: "/about" },
   { label: "e-Catalogue", href: "/ecatalogue" },
-  { label: "Store Locator", href: "/store-locator.php" },
+  { label: "Store Locator", href: "/store-locator" },
   { label: "Contact", href: "/contact.php" },
 ];
 
@@ -467,7 +467,7 @@ export const LETTER = {
   body:
     "New collections, studio notes and carefully curated inspiration — sent only when there is something worth sharing.",
   primary: { label: "View e-Catalogue", href: "/ecatalogue" },
-  secondary: { label: "Find a Store", href: "/store-locator.php" },
+  secondary: { label: "Find a Store", href: "/store-locator" },
 };
 
 /** House brands — as listed in the live site navigation. */
@@ -563,7 +563,7 @@ export const FOOTER_LINKS = {
   explore: [
     { label: "About Us", href: "/about" },
     { label: "e-Catalogue", href: "/ecatalogue" },
-    { label: "Store Locator", href: "/store-locator.php" },
+    { label: "Store Locator", href: "/store-locator" },
     { label: "Careers", href: "/careers.php" },
   ],
   brands: BRANDS.map((b) => ({ label: b.name, href: b.href })),

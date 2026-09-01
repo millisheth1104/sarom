@@ -788,6 +788,51 @@ Verified 1440 and 390: no overflow, no console errors, `next build` clean.
 
 ---
 
+## Store Locator
+
+New route at `/store-locator`, replacing the link out to `/store-locator.php`.
+
+**The data is real and complete.** All 195 stockists were scraped once from
+sarom.info/store-locator.php - they sit in `article.news-item` elements carrying a
+`data-category` state and a postal address - across 25 states. Maharashtra 42, Gujarat 35,
+Karnataka 16, Delhi 13, West Bengal 11. Nothing invented.
+
+**Why one pin per state and not per store.** The source publishes no coordinates, only
+address strings. Geocoding 195 addresses needs a paid API run and a token, and a rooftop pin
+derived from a bad geocode is worse than an honest state-level one. The count rides in the
+pin head; the panel carries the actual addresses. "Get directions" hands the address string
+to Google Maps search, which is what a person would type - so directions work with no
+coordinates at all.
+
+**The map is generated, not drawn.** Natural Earth 1:50m admin-1 - PUBLIC DOMAIN, so no
+attribution burden and free commercially. The first candidate found was GADM (recognisable by
+its `ID_0`/`NAME_1` property names) whose licence forbids commercial use; it was discarded.
+Rings are projected equirectangular with a cos(mid-latitude) correction so India keeps its
+proportions, Douglas-Peucker simplified at ~1.1px, and specks under 6 square units dropped:
+35 states in 33KB. Centroids are area-weighted, and place the pins.
+
+**The tilt.** The map plane and the pin layer take an identical `rotateX(24deg)`, and each pin
+counter-rotates by the same angle with a `translateZ` lift. That is what makes a pin read as
+STANDING ON the map rather than lying flat on it. Both layers must share the transform exactly
+or every pin drifts off its state. Below 1000px the tilt is dropped - it only reads when the
+map is large, and at phone width it just eats height and shrinks the smallest states.
+
+**A data bug worth recording.** The first generated `lib/stores.ts` had every pincode replaced
+by ``. The tidy step used a `"\1"` backreference in the replacement string, which
+collapsed to `""` = chr(1) passing through a shell heredoc, silently eating the digits -
+addresses rendered as "MAHARASHTRA - [box]". Regenerated with a lambda replacement instead of
+a backreference: all 195 now carry their pincode, verified, zero control characters in the file.
+
+Verified 1440 / 768 / 390 / reduced motion: 25 pins all landing, state filter (Gujarat -> 35
+listed, 1 state lit), search ("thane" -> 3 results), no overflow at any width, 0 broken images,
+no console errors, `next build` clean.
+
+**FOR THE CLIENT: depictions of India's external boundaries are regulated.** This is a
+decorative, heavily simplified map from a public-domain dataset, not a survey document. Have
+it checked against the official Survey of India depiction before the site goes live.
+
+---
+
 ## Outstanding for the client
 
 1. **Drop Albra `.woff2` files into `public/fonts/`** — six exact filenames listed in README.

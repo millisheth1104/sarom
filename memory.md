@@ -288,6 +288,24 @@ page). `PRODUCT.md` holds the positioning brief. Nav no longer carries "Brands".
   where there is genuinely a lot to travel through (the card sweep, the timeline rail); for a
   few short blocks, use a stagger.
 
+- **Store data: 195 stockists across 25 states**, scraped from
+  sarom.info/store-locator.php into `lib/stores.ts`. The source has NO store names and NO
+  coordinates - only a state and a postal address - which is why `/store-locator` pins per
+  state and sends the address string to Google Maps search instead of a lat/lng. This is not
+  the "1,000+ stores" the brand claims; those are different figures.
+- **India map data: use Natural Earth (PUBLIC DOMAIN), never GADM.** GADM forbids commercial
+  use and is recognisable by its `ID_0` / `ISO` / `NAME_0` / `NAME_1` property names. Check the
+  licence before shipping any geodata on a client site.
+- **Depictions of India's external boundaries are regulated.** Any map of India on this site
+  is decorative, and the client must check it against the official Survey of India depiction
+  before going live. Flag this every time a map is added.
+- **A tilted map needs the plane and the pin layer to share the SAME transform**, with each pin
+  counter-rotating by the tilt angle plus a translateZ lift. Any difference between the two
+  layers and every pin drifts off its location.
+- **Never use a `"\1"` backreference in a replacement string inside a shell heredoc.** It
+  collapses to chr(1) and silently destroys the captured text - it ate the pincode from all 195
+  store addresses and only showed up as a tofu box in the rendered page. Use a lambda.
+
 ## Reference mockups — which file drives which section
 
 The client's mockups are unlabelled WhatsApp screenshots in `reference/`. Mapping:
