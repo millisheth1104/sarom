@@ -397,6 +397,22 @@ function WhySarom() {
            the whole train parked off the right. */
         const span = () => track.scrollWidth + window.innerWidth * 0.9;
 
+        /* Constants the CSS needs to work out where each card currently is on
+           screen. Unitless, because CSS cannot divide a length by a length to
+           get a number — every term in the --u calc has to be a bare number
+           and only becomes px at the very end. */
+        const constants = () => {
+          const card = track.querySelector<HTMLElement>(".ask__card");
+          /* offsetWidth, not getBoundingClientRect: the cards carry a scale,
+             and the rect would report the scaled width. */
+          const cw = card?.offsetWidth ?? 320;
+          const gap = parseFloat(getComputedStyle(track).columnGap || "0") || 0;
+          track.style.setProperty("--cwn", String(cw));
+          track.style.setProperty("--stepn", String(cw + gap));
+          track.style.setProperty("--vwn", String(window.innerWidth));
+        };
+        constants();
+
         const st = ScrollTrigger.create({
           trigger: root,
           start: "top top",
@@ -405,10 +421,11 @@ function WhySarom() {
           anticipatePin: 1,
           scrub: 0.7,
           invalidateOnRefresh: true,
+          onRefresh: constants,
           onUpdate: (self) => {
             track.style.setProperty(
-              "--x",
-              `${window.innerWidth * 0.9 - span() * self.progress}px`
+              "--xn",
+              String(window.innerWidth * 0.9 - span() * self.progress)
             );
             /* Fade envelope, held at full across the middle so the cards are
                never read through a half-faded section. */
@@ -418,7 +435,9 @@ function WhySarom() {
           },
         });
         return () => {
-          track.style.removeProperty("--x");
+          ["--xn", "--cwn", "--stepn", "--vwn"].forEach((v) =>
+            track.style.removeProperty(v)
+          );
           root.style.removeProperty("--fade");
           st.kill();
         };

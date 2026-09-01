@@ -478,13 +478,14 @@
 .ask__mega {
   margin-top: clamp(0.6rem, 1.2vw, 1rem);
   font-family: var(--font-display);
-  /* Deliberately oversized — it is scenery for the cards to cross, so it
-     wants to fill the frame rather than sit politely in a column. */
-  font-size: clamp(2.6rem, 8.4vw, 8.5rem);
+  /* Scenery for the cards to cross, but it was swamping them at 8.4vw —
+     two words of headline filled the frame and the cards read as clutter on
+     top of it rather than as the subject. */
+  font-size: clamp(1.9rem, 5vw, 4.6rem);
   font-weight: 300;
-  line-height: 0.94;
-  letter-spacing: -0.015em;
-  max-width: 15ch;
+  line-height: 1;
+  letter-spacing: -0.012em;
+  max-width: 18ch;
   text-transform: uppercase;
 }
 .ask__mega em { font-style: italic; text-transform: none; color: var(--dusty-peach); }
@@ -523,7 +524,7 @@
   padding-inline: var(--gutter);
   /* In front of the headline. This single line is the whole illusion. */
   z-index: 2;
-  transform: translate3d(var(--x, 100vw), 0, 0);
+  transform: translate3d(calc(var(--xn, 1200) * 1px), 0, 0);
   will-change: transform;
   transform-style: preserve-3d;
 }
@@ -532,30 +533,49 @@
   flex: 0 0 clamp(270px, 23vw, 370px);
   padding: clamp(1.3rem, 2vw, 1.9rem);
   border-radius: var(--radius-md);
-  /* Near-opaque ivory, not glass: the headline reads THROUGH a translucent
-     card as a smear rather than as depth, and the body copy loses contrast
-     over whichever letter happens to be behind it. */
-  background: rgba(247, 243, 236, 0.965);
+  /* Translucent, with the ground blurred behind it — the headline shows
+     through as the reference's cards show their headline through. Dark text
+     on this still clears AA: over charcoal the panel resolves to ~183 luma,
+     and anywhere the ivory headline sits behind it only gets lighter. */
+  background: rgba(247, 243, 236, 0.76);
+  backdrop-filter: blur(16px) saturate(115%);
+  -webkit-backdrop-filter: blur(16px) saturate(115%);
+  border: 1px solid rgba(255, 255, 255, 0.34);
   color: var(--charcoal);
   box-shadow:
-    0 2px 6px rgba(0, 0, 0, 0.18),
-    0 22px 50px rgba(0, 0, 0, 0.36),
-    0 60px 120px rgba(0, 0, 0, 0.26);
+    0 2px 6px rgba(0, 0, 0, 0.16),
+    0 22px 50px rgba(0, 0, 0, 0.3),
+    0 60px 120px rgba(0, 0, 0, 0.22);
 
-  /* Depth, derived from the index alone so the arrangement is deterministic
-     and identical on every load — trig rather than hand-set values, so
-     adding a sixth reason needs no new numbers. */
-  --z: cos(calc(var(--i) * 1.9rad));
-  --lift: calc((var(--z) + 1) / 2);
+  /* WHERE THIS CARD CURRENTLY IS, 0 at the left edge of the screen and 1 at
+     the right. Everything below is a function of it, so each card animates
+     as it crosses rather than holding one fixed pose for the whole sweep —
+     which is what made the previous build read as a flat sliding strip.
+     Unitless throughout: CSS cannot divide a length by a length. */
+  --u: calc(
+    (var(--xn, 0) + var(--i) * var(--stepn, 400) + var(--cwn, 320) / 2) /
+      var(--vwn, 1440)
+  );
+  /* Distance from mid-screen, 0 in the middle and 0.25 at either edge. */
+  --off: calc((var(--u) - 0.5) * (var(--u) - 0.5));
+
   transform:
-    translateY(calc(sin(calc(var(--i) * 2.3rad)) * 4.2vh))
-    rotateY(calc(cos(calc(var(--i) * 1.1rad)) * -7deg))
-    rotateZ(calc(sin(calc(var(--i) * 1.7rad)) * 2.4deg))
-    scale(calc(0.93 + var(--lift) * 0.07));
-  /* Depth of field: the cards sitting further back soften, as in the
-     reference. Capped low — past ~1.5px it reads as a rendering fault
-     rather than as distance. */
-  filter: blur(calc((1 - var(--lift)) * 1.4px));
+    /* THE ARC. Measured off the reference: fitting dy = a + b*x per frame
+       separates page scroll from tilt, and b came back consistently negative
+       at ~0.31x the horizontal step — the train is not flat, it rides an
+       arc that peaks mid-screen and dips at both edges. */
+    translateY(calc(var(--off) * 620px - 40px))
+    rotateY(calc((var(--u) - 0.5) * -18deg))
+    rotateZ(calc((var(--u) - 0.5) * 5deg))
+    scale(calc(1 - var(--off) * 0.34));
+  /* NO `filter` here. An element carrying a filter loses its backdrop-filter
+     in Chrome, and the frosting is the more important of the two: looking
+     again at the reference, the blur on those cards is the HEADLINE BEHIND
+     being frosted, not the card blurring — each card's own text is perfectly
+     sharp. Depth comes from the arc's scale instead. */
+  /* Gentle. At 1.15 an edge card fell to 0.71, which on a translucent panel
+     over charcoal dropped the body copy to 3.87:1 — below AA. */
+  opacity: calc(1 - var(--off) * 0.8);
 }
 
 .ask__cardNum {
@@ -577,7 +597,10 @@
   margin-top: 0.7rem;
   font-size: var(--fs-body);
   line-height: 1.6;
-  color: #4c453e;
+  /* Measured, not picked: on a 0.76-alpha panel over charcoal the panel
+     resolves to ~168 luma, and #4c453e came back at 3.87:1. This clears
+     AA with margin at the darkest point of the darkest card. */
+  color: #35302a;
 }
 
 @media (max-width: 899px) {
@@ -592,7 +615,10 @@
     margin-top: clamp(2rem, 6vw, 3rem);
     transform: none;
   }
-  .ask__card { flex: none; transform: none; filter: none; }
+  /* opacity too: the arc's falloff is driven by --u, and with no --xn written
+     every stacked card resolved to 0.58. Reset every property the sweep
+     touches, not just the transform. */
+  .ask__card { flex: none; transform: none; filter: none; opacity: 1; }
 }
 
 /* ------------------------------------------------------------
@@ -803,7 +829,10 @@
     margin-top: 2rem;
     transform: none;
   }
-  .ask__card { flex: none; transform: none; filter: none; }
+  /* opacity too: the arc's falloff is driven by --u, and with no --xn written
+     every stacked card resolved to 0.58. Reset every property the sweep
+     touches, not just the transform. */
+  .ask__card { flex: none; transform: none; filter: none; opacity: 1; }
 
   .thread__line { stroke-dashoffset: 0; }
   .thread__node { scale: 1; transition: none; }

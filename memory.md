@@ -229,6 +229,22 @@ page). `PRODUCT.md` holds the positioning brief. Nav no longer carries "Brands".
   A probe that scrolled to `sectionTop + 120` reported 0 cards on screen at 1000px wide and
   looked like a real bug; the pin spacer means the measured section top is not the pin start.
 
+- **`filter` and `backdrop-filter` cannot coexist on one element in Chrome** — the element's
+  own filter kills its backdrop-filter, and an ancestor filter kills a descendant's. Pick one.
+  For frosted cards over type, the frosting is almost always the one worth keeping.
+- **Lightning CSS emits only `-webkit-backdrop-filter`** in this project's build. Reading
+  `getComputedStyle(el).backdropFilter` therefore returns "none" even when frosting works —
+  a false alarm. Verify visually, or read the prefixed property.
+- **Reset EVERY property a scroll effect touches in the static fallbacks.** The mobile and
+  reduced-motion blocks reset `transform` and `filter` but not `opacity`, so cards driven by a
+  position-derived falloff sat at 0.58 with no `--xn` ever written. Same class of miss as
+  zeroing a gutter: the fallback is written once and then not revisited when the effect grows.
+- **To reproduce a reference's motion, use optical flow and FIT, don't eyeball.** Grouping LK
+  flow into horizontal bands showed noomo's cards share one `dx` (a rigid train), while
+  fitting `dy = a + b*x` per frame separated page scroll from tilt and exposed a consistent
+  negative `b` — the cards ride an arc. That gradient was invisible by eye and was the whole
+  difference between the build reading right and reading wrong.
+
 ## Reference mockups — which file drives which section
 
 The client's mockups are unlabelled WhatsApp screenshots in `reference/`. Mapping:

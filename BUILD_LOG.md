@@ -566,6 +566,54 @@ no overflow, 0 broken images, no console errors, `next build` clean.
 
 ---
 
+## Why Sarom — the arc, translucency and a smaller headline
+
+Client rejected the first pass: headline too big, cards should be translucent, motion wrong.
+Went back to the recording rather than adjusting by feel.
+
+**The motion.** Optical flow (LK on goodFeaturesToTrack), grouped into horizontal bands:
+
+* every band shares the same `dx` (frame 51: -15.47, -15.31, -15.55) — it IS a rigid train,
+  so that part was already right;
+* fitting `dy = a + b*x` per frame separates page scroll (`a`) from tilt (`b`), and `b` came
+  back consistently NEGATIVE, scaling with `dx` at roughly 0.31x.
+
+That gradient is the thing the first build missed entirely: the cards ride an **arc**, highest
+mid-screen and dipping at both edges. Mine travelled dead flat, which is what read as wrong.
+
+Implemented by giving each card its live screen position. GSAP writes `--xn` (unitless px) and,
+on refresh, `--cwn` / `--stepn` / `--vwn`; CSS derives `--u` (0 at the left edge, 1 at the
+right) and `--off` (distance from mid-screen). Arc, rotateY, rotateZ, scale and opacity are all
+functions of those, so each card animates AS IT CROSSES rather than holding one fixed pose for
+the whole sweep. Unitless throughout, because CSS cannot divide a length by a length.
+
+**Translucency.** Looking again at the reference, the blur on those cards is the HEADLINE
+BEHIND being frosted — each card's own text is perfectly sharp. So the previous build had it
+backwards: it blurred the cards and made them opaque. Now `backdrop-filter` frosting with a
+0.76 panel, and NO `filter` — an element carrying a filter loses its backdrop-filter in Chrome,
+and they cannot both be had. Depth comes from the arc's scale instead.
+(Note: Lightning CSS emits only the `-webkit-` prefixed form; reading the unprefixed
+`backdropFilter` in a probe returns "none" and is a false alarm — verify visually.)
+
+**Headline** 8.4vw -> 5vw. Two words were filling the frame and the cards read as clutter on
+top of it rather than as the subject.
+
+**Contrast, measured on the real panel.** Translucency put the body copy at **3.87:1** — the
+panel resolves to ~168 luma over charcoal and `#4c453e` is not dark enough for it. Edge cards
+also fell to 0.71 opacity, compounding it. Body copy darkened to `#35302a` and the falloff
+eased 1.15 -> 0.8. Worst element now **6.39:1**.
+
+Bug caught in the fallbacks: the stacked mobile and reduced-motion blocks reset `transform`
+and `filter` but not `opacity`, so with no `--xn` written every stacked card resolved to 0.58.
+Reset every property the sweep touches, not just the obvious one.
+
+Verified 1000x800 / 1280x720 / 1920x1080 (2 / 4-5 / 2 cards on screen, headline's left edge
+identical at every sample, highest card top varying with the arc), 390 and reduced motion
+(transform none, opacity 1, no overflow), 0 broken images, no console errors, `next build`
+clean.
+
+---
+
 ## Outstanding for the client
 
 1. **Drop Albra `.woff2` files into `public/fonts/`** — six exact filenames listed in README.
