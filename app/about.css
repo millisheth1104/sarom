@@ -423,169 +423,176 @@
 /* ------------------------------------------------------------
    6 - WHY SAROM
 
-   An editorial index, not a carousel.
+   A fixed headline with the five reasons drifting across it.
 
-   The previous build orbited one reason into view and ghosted the other
-   four. Five one-line claims are meant to be COMPARED, not revealed one at
-   a time — the reference this borrowed from carries a long answer per item,
-   which is what earns a scroll-jack. These do not. So: all five legible at
-   once, ranked 01-05, with the photograph behind changing to whichever the
-   reader is on.
+   The type never moves. The cards sweep right to left in FRONT of it, each
+   on its own slight 3D rotation, partly covering the letters as they pass.
+   All the depth comes from cards crossing the headline's plane — which is
+   why the headline must not parallax: if both move, neither reads as being
+   in front of the other.
    ------------------------------------------------------------ */
 .ask {
-  /* Fade envelope. One trigger writes --fin as the section enters and
-     --fout as it leaves; CSS multiplies them. Defaults of 1 mean the
-     section renders plainly if neither ever runs. */
-  --fin: 1;
-  --fout: 1;
-  --fade: calc(var(--fin) * var(--fout));
-  --active: 0;
-
   position: relative;
-  padding-block: clamp(4.5rem, 9vw, 8rem);
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  padding-block: clamp(3rem, 6vw, 5rem);
   background: var(--charcoal);
   color: var(--ivory);
   overflow: hidden;
+  /* Written by the pin; 1 by default so the section renders plainly wherever
+     the pin never runs (below 900px, reduced motion). */
+  --fade: 1;
 }
 
-/* ---- the backdrop ---- */
-.ask__bg { position: absolute; inset: 0; opacity: var(--fade); }
-.ask__bg img {
+/* The warm bloom behind everything — the reference's cool lilac wash,
+   translated to Sarom's own accent instead of borrowed wholesale. */
+.ask__bloom {
   position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  /* Each frame shows only when it is the active one. Integer --active plus a
-     transition IS the cross-fade — no per-frame JS, one class of value. */
-  opacity: calc(1 - min(1, max(var(--i) - var(--active), var(--active) - var(--i))));
-  /* Same integer comparison drives a slow settle out of a 1.04 crop, so the
-     active frame is the only one moving. */
-  scale: calc(1.04 - 0.04 * (1 - min(1, max(var(--i) - var(--active), var(--active) - var(--i)))));
-  transition: opacity 0.8s var(--ease-glide), scale 1.6s var(--ease-glide);
-}
-/* Held dark enough that ivory copy clears AA over any of the six frames. */
-.ask__bg::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  /* One horizontal scrim, no radial. The radial that was here painted a
-     visible disc across the middle of the section, and stacked with the
-     gradient it took the photograph to near-black — the picture may as well
-     not have been there. This holds the left dark enough for ivory copy to
-     clear AA and lets the right side actually show the fabric. */
-  background: linear-gradient(
-    to right,
-    rgba(20,17,15,0.91) 0%,
-    rgba(20,17,15,0.89) 56%,
-    rgba(20,17,15,0.76) 72%,
-    rgba(20,17,15,0.44) 100%
-  );
+  inset: -10%;
+  background:
+    radial-gradient(48% 42% at 64% 60%, rgba(229, 200, 185, 0.24) 0%, transparent 70%),
+    radial-gradient(40% 46% at 20% 24%, rgba(185, 200, 179, 0.13) 0%, transparent 72%);
+  opacity: var(--fade);
 }
 
-.ask__inner { position: relative; z-index: 1; opacity: var(--fade); }
-.ask__head { max-width: 62ch; }
-.ask__eyebrow { color: rgba(245, 240, 232, 0.68); }
-.ask__title {
-  margin-top: clamp(0.7rem, 1.4vw, 1.1rem);
-  font-family: var(--font-display);
-  font-size: clamp(2.1rem, 5.2vw, 4.2rem);
-  font-weight: 300;
-  line-height: 1.06;
-  letter-spacing: var(--tr-display);
-}
-.ask__title em { font-style: italic; color: var(--dusty-peach); }
-
-/* ---- the index ---- */
-.ask__list {
-  margin-top: clamp(2.4rem, 5vw, 4rem);
-  border-top: 1px solid rgba(245, 240, 232, 0.14);
-}
-.ask__row {
+.ask__stage {
   position: relative;
-  display: grid;
-  grid-template-columns: clamp(3rem, 5vw, 4.5rem) minmax(0, 1fr);
-  gap: 0 clamp(1rem, 2.5vw, 2rem);
-  align-items: baseline;
-  padding-block: clamp(1rem, 1.9vw, 1.5rem);
-  border-bottom: 1px solid rgba(245, 240, 232, 0.14);
-  /* 1 on the active row, 0 on the rest — the same integer comparison the
-     backdrop uses, so the row and its photograph can never disagree. */
-  --on: calc(1 - min(1, max(var(--i) - var(--active), var(--active) - var(--i))));
+  width: 100%;
+  /* The rotateY on each card needs a shared vanishing point, or every card
+     turns about its own centre and the row reads flat. */
+  perspective: 1600px;
+  perspective-origin: 50% 45%;
+  opacity: var(--fade);
 }
-/* The active row's own rule, drawn over the hairline left to right. */
-.ask__row::after {
-  content: "";
+
+.ask__fixed {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: var(--max-w);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+.ask__eyebrow { color: rgba(245, 240, 232, 0.6); }
+.ask__mega {
+  margin-top: clamp(0.6rem, 1.2vw, 1rem);
+  font-family: var(--font-display);
+  /* Deliberately oversized — it is scenery for the cards to cross, so it
+     wants to fill the frame rather than sit politely in a column. */
+  font-size: clamp(2.6rem, 8.4vw, 8.5rem);
+  font-weight: 300;
+  line-height: 0.94;
+  letter-spacing: -0.015em;
+  max-width: 15ch;
+  text-transform: uppercase;
+}
+.ask__mega em { font-style: italic; text-transform: none; color: var(--dusty-peach); }
+.ask__lead {
+  margin-top: clamp(1.2rem, 2.4vw, 2rem);
+  max-width: 34ch;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(1.05rem, 1.7vw, 1.5rem);
+  line-height: 1.35;
+  color: var(--dusty-peach);
+}
+@media (min-width: 900px) {
+  /* Top right, above the band the cards travel through. Left in the normal
+     flow it sat under the first card and was unreadable for most of the
+     sweep — the reference keeps its paragraph clear of the train for the
+     same reason. */
+  .ask__lead {
+    position: absolute;
+    top: 0;
+    right: var(--gutter);
+    margin-top: 0;
+    width: min(30ch, 32vw);
+    text-align: left;
+  }
+}
+
+/* ---- the drifting train ---- */
+.ask__track {
   position: absolute;
   left: 0;
-  bottom: -1px;
-  height: 1px;
-  width: 100%;
-  background: var(--dusty-peach);
-  transform: scaleX(var(--on));
-  transform-origin: left center;
-  transition: transform 0.6s var(--ease-glide);
+  top: 46%;
+  display: flex;
+  align-items: flex-start;
+  gap: clamp(1.5rem, 3vw, 3rem);
+  padding-inline: var(--gutter);
+  /* In front of the headline. This single line is the whole illusion. */
+  z-index: 2;
+  transform: translate3d(var(--x, 100vw), 0, 0);
+  will-change: transform;
+  transform-style: preserve-3d;
 }
-.ask__num {
+
+.ask__card {
+  flex: 0 0 clamp(270px, 23vw, 370px);
+  padding: clamp(1.3rem, 2vw, 1.9rem);
+  border-radius: var(--radius-md);
+  /* Near-opaque ivory, not glass: the headline reads THROUGH a translucent
+     card as a smear rather than as depth, and the body copy loses contrast
+     over whichever letter happens to be behind it. */
+  background: rgba(247, 243, 236, 0.965);
+  color: var(--charcoal);
+  box-shadow:
+    0 2px 6px rgba(0, 0, 0, 0.18),
+    0 22px 50px rgba(0, 0, 0, 0.36),
+    0 60px 120px rgba(0, 0, 0, 0.26);
+
+  /* Depth, derived from the index alone so the arrangement is deterministic
+     and identical on every load — trig rather than hand-set values, so
+     adding a sixth reason needs no new numbers. */
+  --z: cos(calc(var(--i) * 1.9rad));
+  --lift: calc((var(--z) + 1) / 2);
+  transform:
+    translateY(calc(sin(calc(var(--i) * 2.3rad)) * 4.2vh))
+    rotateY(calc(cos(calc(var(--i) * 1.1rad)) * -7deg))
+    rotateZ(calc(sin(calc(var(--i) * 1.7rad)) * 2.4deg))
+    scale(calc(0.93 + var(--lift) * 0.07));
+  /* Depth of field: the cards sitting further back soften, as in the
+     reference. Capped low — past ~1.5px it reads as a rendering fault
+     rather than as distance. */
+  filter: blur(calc((1 - var(--lift)) * 1.4px));
+}
+
+.ask__cardNum {
+  display: block;
   font-size: var(--fs-meta);
   letter-spacing: var(--tr-meta);
   font-variant-numeric: tabular-nums;
-  color: var(--dusty-peach);
-  opacity: calc(0.6 + var(--on) * 0.4);
-  transition: opacity 0.5s ease;
+  color: var(--ink-2, #7e5f4d);
 }
-.ask__rowTitle {
+.ask__cardTitle {
+  margin-top: 0.7rem;
   font-family: var(--font-display);
-  /* Sized so the longest reason ("Colour & Pattern") holds ONE line in its
-     column. At 2.3rem the three longest wrapped and the five read as a
-     ragged block rather than a table. */
-  font-size: clamp(1.25rem, 2.2vw, 1.85rem);
-  text-wrap: balance;
+  font-size: clamp(1.2rem, 1.9vw, 1.7rem);
   font-weight: 300;
-  line-height: 1.14;
+  line-height: 1.12;
   letter-spacing: var(--tr-display);
-  /* Never ghosted. An inactive row is quieter, not half-there — the whole
-     point of the rewrite is that all five stay readable. */
-  color: rgba(245, 240, 232, calc(0.68 + var(--on) * 0.32));
-  transform: translateX(calc(var(--on) * clamp(0px, 0.8vw, 10px)));
-  transition: color 0.5s ease, transform 0.6s var(--ease-glide);
 }
-.ask__rowBody {
-  grid-column: 2;
-  max-width: 52ch;
-  margin-top: 0.5rem;
+.ask__cardBody {
+  margin-top: 0.7rem;
   font-size: var(--fs-body);
-  line-height: 1.66;
-  /* Floor raised from 0.56: measured against the real photograph, an
-     inactive row body came out at 3.27:1 over a light patch — below AA. */
-  color: rgba(245, 240, 232, calc(0.74 + var(--on) * 0.26));
-  transform: translateX(calc(var(--on) * clamp(0px, 0.8vw, 10px)));
-  transition: color 0.5s ease, transform 0.6s var(--ease-glide);
+  line-height: 1.6;
+  color: #4c453e;
 }
 
-.ask__close {
-  margin-top: clamp(2.2rem, 4.5vw, 3.6rem);
-  font-family: var(--font-display);
-  font-size: clamp(1.35rem, 3vw, 2.3rem);
-  font-weight: 300;
-  font-style: italic;
-  line-height: 1.2;
-  letter-spacing: var(--tr-display);
-  color: var(--dusty-peach);
-}
-
-@media (min-width: 900px) {
-  /* Three columns above the fold width: the number, the reason, and its
-     sentence alongside rather than beneath — so the five read as a table to
-     be scanned down, which is the whole argument for this layout. */
-  .ask__row {
-    /* The reason column is sized in px, not ch: ch resolves against the
-       GRID's font, not the title's, so 22ch came out at ~176px against
-       titles that need well over 300. */
-    grid-template-columns: clamp(2.6rem, 4vw, 3.6rem) clamp(210px, 24vw, 350px) minmax(0, 1fr);
-    align-items: start;
+@media (max-width: 899px) {
+  /* No pin below 900px, so --x is never written and the train would sit off
+     the right edge for ever. Plain stack, no rotation, no blur. */
+  .ask { min-height: 0; display: block; }
+  .ask__mega { max-width: none; }
+  .ask__track {
+    position: static;
+    display: grid;
+    gap: clamp(1rem, 3vw, 1.6rem);
+    margin-top: clamp(2rem, 6vw, 3rem);
+    transform: none;
   }
-  .ask__rowBody { grid-column: 3; margin-top: 0.2rem; }
+  .ask__card { flex: none; transform: none; filter: none; }
 }
 
 /* ------------------------------------------------------------
@@ -786,10 +793,17 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  /* Why Sarom needs no fallback now — the index is static by construction.
-     Only the backdrop cross-fade and row transitions are stilled. */
-  .ask__bg img, .ask__row::after, .ask__rowTitle, .ask__rowBody { transition: none; }
-  .ask__rowTitle, .ask__rowBody { transform: none; }
+  /* The pin never engages, so --x is never written and the train would sit
+     parked off the right edge. Same static stack mobile falls back to. */
+  .ask { min-height: 0; display: block; }
+  .ask__track {
+    position: static;
+    display: grid;
+    gap: 1.4rem;
+    margin-top: 2rem;
+    transform: none;
+  }
+  .ask__card { flex: none; transform: none; filter: none; }
 
   .thread__line { stroke-dashoffset: 0; }
   .thread__node { scale: 1; transition: none; }

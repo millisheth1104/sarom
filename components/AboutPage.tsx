@@ -367,170 +367,96 @@ function Pillars() {
    ============================================================ */
 
 /**
- * An editorial index of the five reasons — all legible at once.
+ * A fixed headline with the five reasons drifting across it.
  *
- * This replaces an orbit carousel that brought one reason to the front and
- * ghosted the other four. That mechanic was borrowed from a reference whose
- * items are questions with long answers, where dwelling on one at a time is
- * the point. These are five one-line claims: their value is in being
- * COMPARED, and a mechanic that hides four of five works against them.
+ * The type does not move. The cards sweep right to left in front of it on
+ * scroll, each on its own slight 3D rotation, partly occluding the letters
+ * as they pass — the depth comes from the cards crossing the headline's
+ * plane, not from moving the headline.
  *
- * The only motion left is a backdrop that follows whichever row the reader
- * is on, and the section's own fade in and out.
+ * GSAP writes one value, `--x`. Every card's position, rotation and blur is
+ * derived from it in CSS, so a five-card sweep costs one style write a frame.
  */
 function WhySarom() {
   const rootRef = useRef<HTMLElement>(null);
-  const listRef = useRef<HTMLUListElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const root = rootRef.current;
-    const list = listRef.current;
-    if (!root || !list) return;
-
-    const rows = Array.from(list.querySelectorAll<HTMLElement>(".ask__row"));
-    const setActive = (i: number) => root.style.setProperty("--active", String(i));
-
-    /* Pointer wins while it is over the list, scroll drives otherwise. They
-       are not competing writers: hover only takes over between scrolls, and
-       the next scroll resumes control, which is what a reader expects. */
-    let hovering = false;
-    const enter = (i: number) => () => {
-      hovering = true;
-      setActive(i);
-    };
-    const leave = () => {
-      hovering = false;
-    };
-    rows.forEach((r, i) => {
-      r.addEventListener("pointerenter", enter(i));
-      r.addEventListener("pointerleave", leave);
-    });
-
-    if (prefersReducedMotion()) {
-      return () => {
-        rows.forEach((r, i) => {
-          r.removeEventListener("pointerenter", enter(i));
-          r.removeEventListener("pointerleave", leave);
-        });
-      };
-    }
-
+    if (prefersReducedMotion()) return;
     registerGsap();
-    const ctx = gsap.context(() => {
-      /* Which row the reader is on: the one whose middle is nearest a line
-         at 45% of the viewport. Cheaper and steadier than an observer per
-         row, which fires on entry rather than on being the current one. */
-      ScrollTrigger.create({
-        trigger: list,
-        start: "top bottom",
-        end: "bottom top",
-        onUpdate: () => {
-          if (hovering) return;
-          const line = window.innerHeight * 0.45;
-          let best = 0;
-          let bestD = Infinity;
-          rows.forEach((r, i) => {
-            const b = r.getBoundingClientRect();
-            const d = Math.abs(b.top + b.height / 2 - line);
-            if (d < bestD) {
-              bestD = d;
-              best = i;
-            }
-          });
-          setActive(best);
-        },
-      });
+    const root = rootRef.current;
+    const track = trackRef.current;
+    if (!root || !track) return;
 
-      /* The fade envelope, as two factors CSS multiplies. Separate ramps so
-         the section is fully present for the whole middle of its travel and
-         only resolves to its own charcoal at the two ends. */
-      ScrollTrigger.create({
-        trigger: root,
-        start: "top 88%",
-        end: "top 40%",
-        scrub: 0.6,
-        invalidateOnRefresh: true,
-        onUpdate: (self) => root.style.setProperty("--fin", String(self.progress)),
-      });
-      ScrollTrigger.create({
-        trigger: root,
-        /* Anchored to the section LEAVING, not to its bottom entering. The
-           section is only ~1.2 viewports tall, so "bottom 78%" fired while
-           the reader was still on the second row and had the closing line at
-           0.03 opacity by the time they reached it. */
-        start: "bottom 40%",
-        end: "bottom 2%",
-        scrub: 0.6,
-        invalidateOnRefresh: true,
-        onUpdate: (self) => root.style.setProperty("--fout", String(1 - self.progress)),
+    const ctx = gsap.context(() => {
+      const mm = gsap.matchMedia();
+      /* Desktop only — pinning traps the scroll on a phone, so below 900px
+         the CSS falls back to a plain stack of the same cards. */
+      mm.add("(min-width: 900px)", () => {
+        /* Far enough that the last card clears the left edge, starting from
+           the whole train parked off the right. */
+        const span = () => track.scrollWidth + window.innerWidth * 0.9;
+
+        const st = ScrollTrigger.create({
+          trigger: root,
+          start: "top top",
+          end: () => `+=${span() * 0.85}`,
+          pin: true,
+          anticipatePin: 1,
+          scrub: 0.7,
+          invalidateOnRefresh: true,
+          onUpdate: (self) => {
+            track.style.setProperty(
+              "--x",
+              `${window.innerWidth * 0.9 - span() * self.progress}px`
+            );
+            /* Fade envelope, held at full across the middle so the cards are
+               never read through a half-faded section. */
+            const p = self.progress;
+            const fade = Math.min(1, p / 0.08, (1 - p) / 0.08);
+            root.style.setProperty("--fade", String(Math.max(0, fade)));
+          },
+        });
+        return () => {
+          track.style.removeProperty("--x");
+          root.style.removeProperty("--fade");
+          st.kill();
+        };
       });
     }, root);
-
-    return () => {
-      rows.forEach((r, i) => {
-        r.removeEventListener("pointerenter", enter(i));
-        r.removeEventListener("pointerleave", leave);
-      });
-      ctx.revert();
-      root.style.removeProperty("--fin");
-      root.style.removeProperty("--fout");
-      root.style.removeProperty("--active");
-    };
+    return () => ctx.revert();
   }, []);
 
   return (
     <section className="ask" ref={rootRef} data-nav-tone="dark">
-      <div className="ask__bg" aria-hidden="true">
-        {WHY.map((w, i) => (
-          <Image
-            key={w.id}
-            src={w.image.src}
-            alt=""
-            fill
-            sizes="100vw"
-            loading="lazy"
-            unoptimized
-            style={{ "--i": i } as React.CSSProperties}
-          />
-        ))}
-      </div>
+      <div className="ask__bloom" aria-hidden="true" />
 
-      <div className="shell ask__inner">
-        <div className="ask__head">
+      <div className="ask__stage">
+        <div className="ask__fixed">
           <Reveal as="p" dir="fade" className="shead__index ask__eyebrow">
             Why Sarom
           </Reveal>
-          <LineReveal
-            as="h2"
-            className="ask__title"
-            step={0.1}
-            lines={[
-              <>
-                What sets <em>Sarom apart</em>
-              </>,
-            ]}
-          />
+          {/* Deliberately NOT a LineReveal: the headline is the backdrop the
+              cards cross, so it has to be in place before they arrive. */}
+          <h2 className="ask__mega">
+            What sets <em>Sarom</em> apart.
+          </h2>
+          <p className="ask__lead">{WHY_CLOSE}</p>
         </div>
 
-        <ul className="ask__list" ref={listRef}>
+        <div className="ask__track" ref={trackRef}>
           {WHY.map((w, i) => (
-            <Reveal
-              as="li"
-              dir="up"
-              className="ask__row"
+            <article
+              className="ask__card"
               key={w.id}
               style={{ "--i": i } as React.CSSProperties}
             >
-              <span className="ask__num">{String(i + 1).padStart(2, "0")}</span>
-              <h3 className="ask__rowTitle">{w.title}</h3>
-              <p className="ask__rowBody">{w.body}</p>
-            </Reveal>
+              <span className="ask__cardNum">{String(i + 1).padStart(2, "0")}</span>
+              <h3 className="ask__cardTitle">{w.title}</h3>
+              <p className="ask__cardBody">{w.body}</p>
+            </article>
           ))}
-        </ul>
-
-        <Reveal as="p" dir="up" className="ask__close">
-          {WHY_CLOSE}
-        </Reveal>
+        </div>
       </div>
     </section>
   );

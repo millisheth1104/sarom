@@ -212,6 +212,23 @@ page). `PRODUCT.md` holds the positioning brief. Nav no longer carries "Brands".
   22ch)` for a column of display-type titles came out ~176px against titles needing 300+, so
   three of five wrapped. Size such columns in px/vw.
 
+- **Sarom has NO testimonials, reviews or client quotes.** Searched the Brand Book and
+  sarom.info: zero hits for testimonial/review/quote/dealer. Any reference design built around
+  social proof has to be refilled with real Sarom content — the five Why Sarom reasons, the
+  catalogue covers, the 11 collections or the reach figures. Never write a quote.
+- **In a fixed-headline card sweep, the headline must NOT move.** The depth comes entirely
+  from cards crossing its plane; parallax the type as well and neither layer reads as being in
+  front of the other. Verify by asserting the headline's bounding box is identical at every
+  scroll sample.
+- **Cards that cross type should be near-opaque, not glass.** Translucent panels turn the
+  letters behind them into a smear rather than depth, and body copy loses contrast over
+  whichever glyph happens to be behind it.
+- **Cap depth-of-field blur at ~1.4px.** Past roughly 1.5px it stops reading as distance and
+  starts reading as a rendering fault.
+- **Measure a pinned section using the trigger's own start/end, never a fixed scroll offset.**
+  A probe that scrolled to `sectionTop + 120` reported 0 cards on screen at 1000px wide and
+  looked like a real bug; the pin spacer means the measured section top is not the pin start.
+
 ## Reference mockups — which file drives which section
 
 The client's mockups are unlabelled WhatsApp screenshots in `reference/`. Mapping:

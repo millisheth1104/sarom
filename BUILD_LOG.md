@@ -532,6 +532,40 @@ no row below opacity 1, no overflow, 0 broken images, no console errors, `next b
 
 ---
 
+## Why Sarom — the noomo card sweep
+
+Client supplied noomoagency.com plus a screen recording. Frames pulled with OpenCV; sampling
+the bright card columns across the clip shows their left edges marching steadily leftward
+while the headline's bounding box never moves. So the mechanic is: **the type is fixed, and
+the cards cross in front of it.** All the depth comes from cards crossing the headline's
+plane — if the headline parallaxed too, neither would read as being in front of the other.
+
+The reference fills its cards with client testimonials. Sarom has none: searched the Brand
+Book and sarom.info for testimonial/review/quote/dealer — **zero hits**, and inventing them is
+forbidden. The client chose the five Why Sarom reasons instead, which is a good fit: each is
+already a title plus a paragraph, the exact card shape, and every word is sourced.
+
+GSAP writes one value, `--x`. Each card's rotation, lift, scale and blur derive from its index
+in CSS via trig, so the arrangement is deterministic, identical on every load, and a sixth
+reason would need no new numbers. Depth-of-field blur is capped at 1.4px — past about 1.5 it
+reads as a rendering fault rather than as distance.
+
+Cards are near-opaque ivory rather than glass. Translucent panels let the headline show
+through as a smear rather than as depth, and the body copy loses contrast over whichever
+letter happens to sit behind it.
+
+Two things the screenshots caught that the numbers did not: the lead line sat in normal flow
+and spent most of the sweep buried under the first card (now pinned top-right, above the band
+the train travels through, as the reference does), and the stacked mobile fallback had its
+gutter zeroed so the cards bled to both edges.
+
+Verified with the trigger's own range rather than a fixed offset — at 1000x800, 1280x720 and
+1920x1080 the sweep runs 1 card entering / 4-5 mid / 1 leaving, with the headline's left edge
+identical at every sample. 390 and reduced motion fall back to a plain stack, transform none,
+no overflow, 0 broken images, no console errors, `next build` clean.
+
+---
+
 ## Outstanding for the client
 
 1. **Drop Albra `.woff2` files into `public/fonts/`** — six exact filenames listed in README.
