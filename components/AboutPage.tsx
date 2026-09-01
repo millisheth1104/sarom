@@ -487,18 +487,12 @@ function WhySarom() {
               "--xn",
               String(window.innerWidth * 0.9 - span() * self.progress)
             );
-            /* Fade envelope, held at full across the middle so the cards are
-               never read through a half-faded section. */
-            const p = self.progress;
-            const fade = Math.min(1, p / 0.08, (1 - p) / 0.08);
-            root.style.setProperty("--fade", String(Math.max(0, fade)));
           },
         });
         return () => {
           ["--xn", "--cwn", "--stepn", "--vwn"].forEach((v) =>
             track.style.removeProperty(v)
           );
-          root.style.removeProperty("--fade");
           st.kill();
         };
       });
@@ -509,7 +503,6 @@ function WhySarom() {
   return (
     <section className="ask" ref={rootRef} data-nav-tone="dark">
       <div className="ask__bloom" aria-hidden="true" />
-      <div className="ask__veil" aria-hidden="true" />
 
       <div className="ask__stage">
         <div className="ask__fixed">

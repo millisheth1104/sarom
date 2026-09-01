@@ -661,6 +661,19 @@ do not overlap (ask 3671-6430, pillars 7330-9004, journey 9904-10931).
 
 ---
 
+## Why Sarom — fade removed
+
+Client asked for the section fade to go. Removed the envelope from the pin, the `--fade`
+variable, and the `.ask__veil` element that existed only to carry it (the veil was added
+because an animated ancestor opacity was killing the cards' backdrop-filter; with no fade at
+all, neither is needed).
+
+The section now holds full opacity from the moment it pins to the moment it releases —
+measured 1.00 at every sample through the pin. Cards still enter and leave by travelling, so
+nothing appears or vanishes in place. No console errors, `next build` clean.
+
+---
+
 ## Outstanding for the client
 
 1. **Drop Albra `.woff2` files into `public/fonts/`** — six exact filenames listed in README.

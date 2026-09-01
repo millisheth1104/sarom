@@ -470,9 +470,6 @@
   background: var(--charcoal);
   color: var(--ivory);
   overflow: hidden;
-  /* Written by the pin; 1 by default so the section renders plainly wherever
-     the pin never runs (below 900px, reduced motion). */
-  --fade: 1;
 }
 
 /* The warm bloom behind everything — the reference's cool lilac wash,
@@ -488,19 +485,6 @@
 .ask__stage {
   position: relative;
   width: 100%;
-}
-
-/* The fade is a VEIL over the top, not opacity on an ancestor. An animated
-   opacity promotes the element to its own compositing layer, and that layer
-   becomes a backdrop root — every card's backdrop-filter then samples an
-   empty backdrop and the frosting silently does nothing. */
-.ask__veil {
-  position: absolute;
-  inset: 0;
-  z-index: 5;
-  pointer-events: none;
-  background: var(--charcoal);
-  opacity: calc(1 - var(--fade));
 }
 
 .ask__fixed {
