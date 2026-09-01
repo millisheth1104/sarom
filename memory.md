@@ -306,6 +306,13 @@ page). `PRODUCT.md` holds the positioning brief. Nav no longer carries "Brands".
   collapses to chr(1) and silently destroys the captured text - it ate the pincode from all 195
   store addresses and only showed up as a tofu box in the rendered page. Use a lambda.
 
+- **An element that mounts ALREADY in view never transitions.** Its first painted style is the
+  end state, so there is nothing to animate from - the delays compute correctly and do nothing,
+  which looks like a stagger that is simply too fast. Use a CSS `animation` with
+  `animation-fill-mode: both` instead: it runs on mount regardless of prior state and holds the
+  start state until each element's delay elapses. Diagnose by sampling how many elements have
+  landed over time, not by watching.
+
 ## Reference mockups — which file drives which section
 
 The client's mockups are unlabelled WhatsApp screenshots in `reference/`. Mapping:

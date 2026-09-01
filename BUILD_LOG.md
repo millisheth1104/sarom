@@ -833,6 +833,39 @@ it checked against the official Survey of India depiction before the site goes l
 
 ---
 
+## Store locator - the pin landing, measured off the video
+
+Client asked for the motion from the reference clip rather than an approximation, so it was
+measured rather than eyeballed. Counting saturated-red blobs frame by frame:
+
+* pins arrive ONE AT A TIME, roughly every 0.2s - nineteen of them over about four seconds;
+* tracking a single pin through its entrance, its blob area runs 247 -> 582 in two frames
+  (~67ms), OVERSHOOTS to 678, then settles back to 578.
+
+So it is a spring anchored at the tip, not a fade, and the sequence is slow. The first build
+staggered at 42ms and put all twenty-five pins down inside a second, which read as one blob
+appearing. Now 190ms apart with `--ease-pop` (the overshoot curve already in tokens), matching
+the reference at 25 pins over ~5.1s.
+
+**Why a keyframe and not a transition.** The map sits above the fold, so the pins mount
+already in view: the reveal flag is set before their start styles are ever painted, the
+transition has nothing to run FROM, and every pin jumped straight to landed inside 300ms with
+its delay correctly set and doing nothing at all. Measured: `landed 0 -> 25 by 295ms` with a
+4.56s delay on the last pin. A CSS animation runs on mount regardless of prior state, and
+`animation-fill-mode: both` holds each pin at its start until its own delay elapses. After the
+change: 1 pin at 549ms, 13 at 2.7s, 25 at 5.1s.
+
+`scale` and `opacity` are animated as INDEPENDENT properties, never inside `transform` -
+transform already carries the tilt counter-rotation, and overwriting it would lie every pin
+flat on the map.
+
+The hidden start state is scoped under `html[data-js]`, so with the bundle absent or broken
+the map still shows all 25 pins. Verified at 1440 / 390 / reduced motion / **JavaScript
+disabled**: 25 of 25 pins visible in every case, no overflow, no console errors,
+`next build` clean.
+
+---
+
 ## Outstanding for the client
 
 1. **Drop Albra `.woff2` files into `public/fonts/`** — six exact filenames listed in README.

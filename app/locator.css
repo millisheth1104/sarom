@@ -99,16 +99,38 @@
   transform: translate(-50%, -100%) rotateX(-24deg) translateZ(18px);
   transform-origin: 50% 100%;
   transform-style: preserve-3d;
-  /* Dropped in on a stagger once the map is in view — the reference lands its
-     pins one after another rather than all at once. */
-  opacity: 0;
-  translate: 0 -22px;
-  transition: opacity 0.5s var(--ease-soft), translate 0.6s var(--ease-pop);
-  transition-delay: calc(var(--i) * 42ms);
+  /* THE LANDING, measured off the reference rather than guessed.
+   *
+   * Counting red blobs frame by frame, pins arrive ONE AT A TIME roughly
+   * every 0.2s, nineteen of them over about four seconds — not all at once.
+   * An earlier 42ms stagger put all twenty-five down inside a second, which
+   * read as a single blob appearing rather than as pins landing.
+   *
+   * And each one POPS rather than fades: tracking a single pin through its
+   * entrance, its area goes 247 -> 582 in two frames (~67ms), overshoots to
+   * 678, then settles back to 578. That is a spring, anchored at the tip —
+   * the apparent 7px drop is just the head growing away from its point.
+   *
+   * `scale` and `opacity` as INDEPENDENT properties, never inside `transform`:
+   * transform already carries the tilt counter-rotation, and overwriting it
+   * here would lie the pin flat on the map. */
+  /* A KEYFRAME, not a transition. The map sits above the fold, so the pins
+     mount already in view: the reveal flag is set before their start styles
+     have ever been painted, the transition has nothing to run FROM, and all
+     twenty-five jumped to landed inside 300ms with the delays correctly set
+     and doing nothing. An animation runs on mount regardless, and
+     `both` fill holds each pin at its start state until its delay elapses. */
 }
+/* Hidden only when JS is there to land them — with the bundle absent or
+   broken the map still shows every pin. */
+html[data-js] .loc__pin { opacity: 0; }
 html[data-js] [data-reveal][data-inview="true"] .loc__pin {
-  opacity: 1;
-  translate: 0 0;
+  animation: loc-pin-land 0.44s var(--ease-pop) both;
+  animation-delay: calc(var(--i) * 190ms);
+}
+@keyframes loc-pin-land {
+  from { opacity: 0; scale: 0.34; }
+  to { opacity: 1; scale: 1; }
 }
 
 .loc__pinHead {
@@ -275,5 +297,11 @@ html[data-js] [data-reveal][data-inview="true"] .loc__pin {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .loc__pin { opacity: 1; translate: 0 0; transition: none; }
+  /* Reset every property the landing touches, not just the obvious one. */
+  html[data-js] .loc__pin,
+  html[data-js] [data-reveal][data-inview="true"] .loc__pin {
+    opacity: 1;
+    scale: 1;
+    animation: none;
+  }
 }
