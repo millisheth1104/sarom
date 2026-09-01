@@ -196,9 +196,18 @@ function Founders() {
         </div>
 
         <div className="team__row" data-reveal-stagger="0.08">
-          {FOUNDERS.map((f) => (
+          {FOUNDERS.map((f, i) => (
             <Reveal className="team__card" dir="up" key={f.id}>
-              <span className="team__frame">
+              {/* Parallax on the FRAME, not the card. The card is a reveal
+                  target and the reveal engine owns transform there at
+                  (0,3,1), which beats [data-parallax] outright — the drift
+                  would be silently dead. Depth alternates by column so the
+                  three columns separate as they pass the sticky heading. */}
+              <span
+                className="team__frame"
+                data-parallax={[0.06, 0.16, 0.1][i % 3]}
+                data-parallax-trigger=".team__row"
+              >
                 <Image
                   src={f.portrait}
                   alt={`${f.name}, ${f.role}`}
@@ -339,22 +348,73 @@ function Reach() {
    5 — VISION, MISSION, STRENGTH  (staircase pillars)
    ============================================================ */
 function Pillars() {
+  const rootRef = useRef<HTMLElement>(null);
+  const stackRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (prefersReducedMotion()) return;
+    registerGsap();
+    const root = rootRef.current;
+    const stack = stackRef.current;
+    if (!root || !stack) return;
+
+    const ctx = gsap.context(() => {
+      const mm = gsap.matchMedia();
+      /* Desktop only — pinning traps the scroll on a phone. */
+      mm.add("(min-width: 900px)", () => {
+        const st = ScrollTrigger.create({
+          trigger: root,
+          start: "top top",
+          /* A screen and a bit per card: enough that each one lands and is
+             read before the next begins, without the section outstaying it. */
+          end: () => `+=${PILLARS.length * window.innerHeight * 0.62}`,
+          pin: true,
+          anticipatePin: 1,
+          scrub: 0.7,
+          invalidateOnRefresh: true,
+          onUpdate: (self) => {
+            /* One value; each card works out its own state against its index.
+               Slightly past the count so the last card finishes landing
+               before the pin releases rather than at the instant it does. */
+            stack.style.setProperty(
+              "--seq",
+              String(self.progress * (PILLARS.length + 0.35))
+            );
+          },
+        });
+        return () => {
+          stack.style.removeProperty("--seq");
+          st.kill();
+        };
+      });
+    }, root);
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <section className="sect pillars" data-nav-tone="light">
+    <section className="sect pillars" ref={rootRef} data-nav-tone="light">
       <div className="shell">
         <Reveal as="p" dir="fade" className="shead__index pillars__eyebrow">
           What we stand for
         </Reveal>
 
-        <div className="pillars__stack" data-reveal-stagger="0.12">
-          {PILLARS.map((p) => (
-            <Reveal className="pillars__card" dir="up" key={p.key}>
+        {/* NOT Reveal cards: the reveal engine would own their transform and
+            the sequence could never move them. They are plain elements whose
+            whole state is derived from --seq, which defaults to a value past
+            the end so they render complete wherever the pin never runs. */}
+        <div className="pillars__stack" ref={stackRef}>
+          {PILLARS.map((p, i) => (
+            <article
+              className="pillars__card"
+              key={p.key}
+              style={{ "--i": i } as React.CSSProperties}
+            >
               <span className="pillars__num">{p.index}</span>
               <div>
                 <b>{p.title}</b>
                 <p>{p.body}</p>
               </div>
-            </Reveal>
+            </article>
           ))}
         </div>
       </div>
@@ -449,6 +509,7 @@ function WhySarom() {
   return (
     <section className="ask" ref={rootRef} data-nav-tone="dark">
       <div className="ask__bloom" aria-hidden="true" />
+      <div className="ask__veil" aria-hidden="true" />
 
       <div className="ask__stage">
         <div className="ask__fixed">

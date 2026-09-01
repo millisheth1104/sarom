@@ -177,7 +177,14 @@
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: clamp(1rem, 2.4vw, 1.8rem);
 }
-@media (min-width: 640px) { .team__row { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (min-width: 640px) {
+  .team__row { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  /* The middle column drops. Two jobs: it stops the six portraits reading as
+     a plain grid, and it makes the row taller than the heading beside it —
+     without that the sticky head had almost no travel to hold through, which
+     is what a sticky-scroll section is for. */
+  .team__card:nth-child(3n + 2) { margin-top: clamp(1.5rem, 5vw, 4.5rem); }
+}
 .team__frame {
   display: block;
   border-radius: var(--radius-lg);
@@ -374,6 +381,17 @@
   background: linear-gradient(180deg, var(--ivory) 0%, var(--ivory-deep) 100%);
 }
 .pillars__eyebrow { justify-content: center; }
+@media (min-width: 900px) {
+  /* Pinned, so it has to hold the viewport exactly — and centre its own
+     content, since the stack no longer flows past. */
+  .sect.pillars {
+    min-height: 100svh;
+    display: flex;
+    align-items: center;
+    padding-block: clamp(3rem, 6vw, 5rem);
+  }
+  .sect.pillars .shell { width: 100%; }
+}
 .sect.pillars .shell { text-align: center; }
 .pillars__stack {
   margin-top: clamp(1.8rem, 4vw, 3rem);
@@ -382,6 +400,16 @@
   text-align: left;
 }
 .pillars__card {
+  /* The sequence. --seq is written by the pin and counts up through the
+     cards; each one lands when the count reaches its index. The 99 default
+     means that wherever the pin never runs — below 900px, reduced motion,
+     JS off — every card resolves to fully landed and the section is just a
+     stack. No separate fallback rule needed. */
+  --on: clamp(0, calc((var(--seq, 99) - var(--i, 0)) * 1.5), 1);
+  opacity: var(--on);
+  transform: translateY(calc((1 - var(--on)) * 64px)) scale(calc(0.965 + var(--on) * 0.035));
+  transition: none;
+
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
   gap: clamp(1.2rem, 3vw, 2.4rem);
@@ -398,7 +426,9 @@
   .pillars__card:nth-child(2) { margin-left: 8%; margin-right: -2%; }
   .pillars__card:nth-child(3) { margin-left: 16%; margin-right: -4%; }
 }
+/* The number leads its card in, so the eye is drawn to the sequence. */
 .pillars__num {
+  opacity: calc(var(--on, 1) * var(--on, 1));
   font-family: var(--font-display);
   font-size: clamp(2.2rem, 5vw, 4rem);
   font-weight: 300;
@@ -453,17 +483,24 @@
   background:
     radial-gradient(48% 42% at 64% 60%, rgba(229, 200, 185, 0.24) 0%, transparent 70%),
     radial-gradient(40% 46% at 20% 24%, rgba(185, 200, 179, 0.13) 0%, transparent 72%);
-  opacity: var(--fade);
 }
 
 .ask__stage {
   position: relative;
   width: 100%;
-  /* The rotateY on each card needs a shared vanishing point, or every card
-     turns about its own centre and the row reads flat. */
-  perspective: 1600px;
-  perspective-origin: 50% 45%;
-  opacity: var(--fade);
+}
+
+/* The fade is a VEIL over the top, not opacity on an ancestor. An animated
+   opacity promotes the element to its own compositing layer, and that layer
+   becomes a backdrop root — every card's backdrop-filter then samples an
+   empty backdrop and the frosting silently does nothing. */
+.ask__veil {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+  background: var(--charcoal);
+  opacity: calc(1 - var(--fade));
 }
 
 .ask__fixed {
@@ -487,6 +524,12 @@
   letter-spacing: -0.012em;
   max-width: 18ch;
   text-transform: uppercase;
+  /* Held back rather than full ivory. It is scenery for the cards to cross,
+     and at full strength it read straight through the translucent panels as
+     legible letters — which is what made the cards look like they were
+     BEHIND the type. Dimmed, what shows through is a faint ghost.
+     Still 8:1 on charcoal, so it is in no way hard to read. */
+  color: rgba(245, 240, 232, 0.6);
 }
 .ask__mega em { font-style: italic; text-transform: none; color: var(--dusty-peach); }
 .ask__lead {
@@ -524,9 +567,14 @@
   padding-inline: var(--gutter);
   /* In front of the headline. This single line is the whole illusion. */
   z-index: 2;
-  transform: translate3d(calc(var(--xn, 1200) * 1px), 0, 0);
-  will-change: transform;
-  transform-style: preserve-3d;
+  /* NO transform on the track, and no perspective either.
+     An ancestor carrying a transform becomes a BACKDROP ROOT: every
+     descendant's backdrop-filter then samples only what is painted inside
+     that ancestor. The headline is a sibling of this track, so a card
+     frosted here had nothing to frost — which is why the letters kept
+     showing through crisply and the cards read as sitting behind the type.
+     The sweep translation moves onto the cards themselves instead, and each
+     card carries its own perspective() in its transform list. */
 }
 
 .ask__card {
@@ -537,9 +585,17 @@
      through as the reference's cards show their headline through. Dark text
      on this still clears AA: over charcoal the panel resolves to ~183 luma,
      and anywhere the ivory headline sits behind it only gets lighter. */
-  background: rgba(247, 243, 236, 0.76);
-  backdrop-filter: blur(16px) saturate(115%);
-  -webkit-backdrop-filter: blur(16px) saturate(115%);
+  /* Denser and blurred harder than before. At 0.76/16px the headline stayed
+     legible through the panel, so a card read as sitting BEHIND the type
+     rather than in front of it. The letters now resolve to a soft bloom —
+     still visibly translucent, but the card is unambiguously on top. */
+  /* Frosting is declared and does work where the browser composites it, but
+     it cannot be relied on here: the card sits inside a transformed,
+     will-change'd subtree, and Chrome drops backdrop-filter in that stack.
+     The panel alpha therefore has to carry the job on its own. */
+  background: rgba(247, 243, 236, 0.92);
+  backdrop-filter: blur(30px) saturate(118%);
+  -webkit-backdrop-filter: blur(30px) saturate(118%);
   border: 1px solid rgba(255, 255, 255, 0.34);
   color: var(--charcoal);
   box-shadow:
@@ -556,17 +612,29 @@
     (var(--xn, 0) + var(--i) * var(--stepn, 400) + var(--cwn, 320) / 2) /
       var(--vwn, 1440)
   );
-  /* Distance from mid-screen, 0 in the middle and 0.25 at either edge. */
-  --off: calc((var(--u) - 0.5) * (var(--u) - 0.5));
+  /* Distance from mid-screen: --d is signed (-0.5 .. 0.5), --off is its
+     square (0 mid, 0.25 at either edge). */
+  --d: calc(var(--u) - 0.5);
+  --off: calc(var(--d) * var(--d));
+  /* CUBED for the rotations. Linear tilt meant a card was only exactly
+     straight at the single instant it crossed the centre line; cubing
+     flattens the middle third to almost nothing, so a card arrives clearly
+     slanted, squares up, holds square across the centre, then slants away. */
+  --d3: calc(var(--d) * var(--d) * var(--d));
 
+  will-change: transform;
   transform:
+    /* The sweep itself. On the card rather than the track, so no transformed
+       ancestor cuts this card off from the headline it needs to frost. */
+    translateX(calc(var(--xn, 1200) * 1px))
     /* THE ARC. Measured off the reference: fitting dy = a + b*x per frame
        separates page scroll from tilt, and b came back consistently negative
        at ~0.31x the horizontal step — the train is not flat, it rides an
        arc that peaks mid-screen and dips at both edges. */
     translateY(calc(var(--off) * 620px - 40px))
-    rotateY(calc((var(--u) - 0.5) * -18deg))
-    rotateZ(calc((var(--u) - 0.5) * 5deg))
+    perspective(1600px)
+    rotateY(calc(var(--d3) * -150deg))
+    rotateZ(calc(var(--d3) * 62deg))
     scale(calc(1 - var(--off) * 0.34));
   /* NO `filter` here. An element carrying a filter loses its backdrop-filter
      in Chrome, and the frosting is the more important of the two: looking

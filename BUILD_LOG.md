@@ -614,6 +614,53 @@ clean.
 
 ---
 
+## Card slant, occlusion, and two new section animations
+
+**Slant.** rotateZ/rotateY were linear in `--u`, so a card was exactly square only at the
+single instant it crossed the centre line. Cubing the signed distance flattens the middle
+third to almost nothing: measured, a card now reads -7.0deg arriving at u=0.04, -0.9deg at
+u=0.30, **0.0deg across u=0.48-0.56**, then +8.1deg leaving. Arrives slanted, squares up,
+holds square, slants away.
+
+**"Hiding behind the heading."** Hit-testing said the card WAS topmost, so it was never a
+z-order fault — the ivory headline was reading through the translucent panel as legible
+letters, which is what made the card look like it was behind. Chasing the frosting that
+should have washed those letters out cost three attempts, and each found a real rule:
+
+1. `transform-style: preserve-3d` disables `backdrop-filter` on descendants in Chrome.
+2. An ancestor carrying a `transform` becomes a BACKDROP ROOT, so a card inside the
+   transformed track could only ever frost what was painted inside that track — and the
+   headline is a sibling of it. Moved the sweep translation onto the cards themselves.
+3. An animated `opacity` on an ancestor promotes it to its own layer, which is also a
+   backdrop root. Replaced the section fade with a veil element over the top.
+
+After all three the frosting still would not composite in this stack, so it is declared but
+not relied on. The panel alpha carries the job (0.92) and the headline is held back to 0.6
+ivory — still 8:1 on charcoal, in no way hard to read, but what shows through a card is now a
+faint ghost rather than bright type. Dimming it also answers "the heading is too big": it is
+scenery, and it now behaves like scenery.
+
+**Our Team — sticky + parallax.** The sticky heading already existed; what was missing was
+parallax. `data-parallax` goes on `.team__frame`, NOT on `.team__card`: the card is a reveal
+target and the reveal engine owns transform there at (0,3,1), so the drift would have been
+silently dead. Depth alternates by column (0.06 / 0.16 / 0.10) so the three columns separate
+as they pass. The middle column also drops, which stops six portraits reading as a plain grid
+AND makes the row taller than the heading — without that the sticky head had almost no travel
+to hold through, which is the entire point of a sticky-scroll section.
+
+**Vision & Mission — pinned sequential reveal.** The section pins and writes one value,
+`--seq`, counting up through the cards; each works out its own state against its index.
+Measured across the pin: `0,0,0 -> 1,0,0 -> 1,0.76,0 -> 1,1,0.52 -> 1,1,1`. The cards are no
+longer `Reveal` elements — the reveal engine would have owned their transform and the sequence
+could never have moved them. `--seq` defaults to 99, so below 900px, under reduced motion, or
+with JS off every card resolves to fully landed and no separate fallback rule is needed.
+
+Verified 1440 / 390 / reduced motion: pillars and cards all at opacity 1 in the static
+fallbacks, no overflow, 0 broken images, no console errors, `next build` clean. The three pins
+do not overlap (ask 3671-6430, pillars 7330-9004, journey 9904-10931).
+
+---
+
 ## Outstanding for the client
 
 1. **Drop Albra `.woff2` files into `public/fonts/`** — six exact filenames listed in README.

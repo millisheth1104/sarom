@@ -245,6 +245,18 @@ page). `PRODUCT.md` holds the positioning brief. Nav no longer carries "Brands".
   negative `b` — the cards ride an arc. That gradient was invisible by eye and was the whole
   difference between the build reading right and reading wrong.
 
+- **Three separate things silently kill `backdrop-filter` in Chrome**, all of which this
+  project hit in one section: `transform-style: preserve-3d` on an ancestor; an ancestor with
+  a `transform` (it becomes a BACKDROP ROOT, so descendants can only frost what is painted
+  inside it); and an animated `opacity` on an ancestor (promotes it to a layer, also a
+  backdrop root). If a frosted panel must blur something painted OUTSIDE its parent, none of
+  those may sit between them. Budget for it not working and let panel alpha carry the job.
+- **"It's hiding behind X" is often not a z-order bug.** Hit-test before touching z-index —
+  `document.elementFromPoint` said the card was topmost while it plainly looked behind. The
+  real cause was a translucent panel letting bright type read through it.
+- **Linear rotation means "straight" lasts one instant.** Cube the signed distance from centre
+  (`--d3`) so the middle third is flat and the element genuinely HOLDS square while it crosses.
+
 ## Reference mockups — which file drives which section
 
 The client's mockups are unlabelled WhatsApp screenshots in `reference/`. Mapping:
