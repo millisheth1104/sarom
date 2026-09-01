@@ -866,6 +866,21 @@ disabled**: 25 of 25 pins visible in every case, no overflow, no console errors,
 
 ---
 
+## Store locator - smaller pins
+
+Head down from 24-32px to 17-23px, with the label, stem and shadow scaled to match. Measured:
+24px tall at 1440 (was 32) and 17px at 390 (was 24). The map is far less cluttered and the
+state shapes read through it.
+
+The size is now declared ONCE as `--pin` on `.loc__pin`. It had been repeated in three
+places - min-width, height, and the stem's `top` offset - and the stem detaches from the head
+the moment any of them drifts, which is exactly the kind of bug a resize would have introduced
+silently.
+
+Verified 1440 / 390: 25 pins visible, no overflow, no console errors, `next build` clean.
+
+---
+
 ## Outstanding for the client
 
 1. **Drop Albra `.woff2` files into `public/fonts/`** — six exact filenames listed in README.
