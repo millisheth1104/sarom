@@ -313,6 +313,14 @@ page). `PRODUCT.md` holds the positioning brief. Nav no longer carries "Brands".
   start state until each element's delay elapses. Diagnose by sampling how many elements have
   landed over time, not by watching.
 
+- **To place a marker inside a map region, use the POLE OF INACCESSIBILITY, not a centroid.**
+  Averaging ring vertices is not a centroid at all - it drags toward dense vertices, and
+  coastlines have far more than inland borders, which put Punjab's pin over Himachal. A true
+  centroid fixes the bias but still falls outside concave shapes (Gujarat wraps the Gulf of
+  Kutch). Compute it on the SIMPLIFIED ring that gets rendered, on the largest ring only, and
+  assert every marker lands inside its own polygon at generation time.
+  Generator: `reference/build-india-map.py`.
+
 ## Reference mockups — which file drives which section
 
 The client's mockups are unlabelled WhatsApp screenshots in `reference/`. Mapping:

@@ -881,6 +881,34 @@ Verified 1440 / 390: 25 pins visible, no overflow, no console errors, `next buil
 
 ---
 
+## Store locator - pins were in the wrong places
+
+Client spotted it: Punjab's pin sat over Himachal, Maharashtra's up near the Madhya Pradesh
+border, and several others were off their state.
+
+The cause was my own maths. Each pin was placed at the mean of its ring's VERTICES, weighted
+by area - which is not a centroid at all. It drags toward wherever vertices are dense, and a
+crinkled coastline carries far more of them than a straight inland border, so every coastal
+state pulled its pin seawards and every state bordering one pulled the other way.
+
+A true polygon centroid fixes that bias but is still wrong here: it falls OUTSIDE concave
+states, and Gujarat wraps the Gulf of Kutch. So the pins now use the **pole of
+inaccessibility** - the point furthest from any border while still inside the shape, which is
+what mapping libraries use to place labels. Computed on the SIMPLIFIED ring that actually gets
+rendered, so a pin can never disagree with the drawn shape, and on the largest ring only so it
+never lands on an offshore island.
+
+Verified at generation: every one of the 35 pins asserted inside its own polygon, smallest
+clearance from a border 1.3px. Spot-checked against real geography, worst deviation from a
+state's true centre is 37px on a 1000x1146 map - 3.7% of the width - and that difference is
+expected, since the widest inscribed point of a long thin state like Kerala is not its centroid.
+
+The generator is kept as `reference/build-india-map.py` rather than thrown away, alongside
+`build-assets.py`, so the map can be regenerated if the state list or the simplification
+tolerance ever changes.
+
+---
+
 ## Outstanding for the client
 
 1. **Drop Albra `.woff2` files into `public/fonts/`** — six exact filenames listed in README.
