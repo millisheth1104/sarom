@@ -268,6 +268,16 @@ page). `PRODUCT.md` holds the positioning brief. Nav no longer carries "Brands".
 - **Linear rotation means "straight" lasts one instant.** Cube the signed distance from centre
   (`--d3`) so the middle third is flat and the element genuinely HOLDS square while it crosses.
 
+- **`--radius-md` DOES NOT EXIST.** The scale in `tokens.css` is `--radius-sm` (2px),
+  `--radius` (4px), `--radius-lg` (14px), `--radius-pill`. An undefined `var()` silently falls
+  back to the property's initial value, so `var(--radius-md)` renders SQUARE corners rather
+  than erroring — it survived several passes on the Why Sarom card unnoticed. Check a
+  custom property exists before using it, and verify `borderRadius` computed, not just the source.
+- **Never chain a file edit behind a `grep` that may find nothing.** `grep ... && python <<EOF`
+  silently skips the edit when grep exits 1, and the verification that follows then measures
+  the OLD file and reports plausible-looking "bugs" that are not real. Cost a full debugging
+  round. Use `;` or run the edit on its own.
+
 ## Reference mockups — which file drives which section
 
 The client's mockups are unlabelled WhatsApp screenshots in `reference/`. Mapping:

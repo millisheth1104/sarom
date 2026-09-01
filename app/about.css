@@ -565,23 +565,18 @@
   position: relative;
   flex: 0 0 clamp(270px, 23vw, 370px);
   padding: clamp(1.3rem, 2vw, 1.9rem);
-  border-radius: var(--radius-md);
-  /* Translucent, with the ground blurred behind it — the headline shows
-     through as the reference's cards show their headline through. Dark text
-     on this still clears AA: over charcoal the panel resolves to ~183 luma,
-     and anywhere the ivory headline sits behind it only gets lighter. */
-  /* Denser and blurred harder than before. At 0.76/16px the headline stayed
-     legible through the panel, so a card read as sitting BEHIND the type
-     rather than in front of it. The letters now resolve to a soft bloom —
-     still visibly translucent, but the card is unambiguously on top. */
-  /* GLASS. backdrop-filter does composite here — verified by giving a card
-     `invert(1)` and no background, which turned the charcoal ground behind it
-     to 219,222,225. An earlier pass wrongly concluded it was dead and pushed
-     the panel to 0.92 alpha, which is why it read as a flat card: at 0.92
-     only 8% of the blurred backdrop was ever visible.
-     A gradient rather than a flat fill, so the slab catches light across its
-     face. The 0.74 floor is the contrast limit, not a taste call: below it
-     the dark body copy stops clearing AA over charcoal. */
+  /* 8px. Slightly rounded, as a cut card is — not a pill.
+     NOTE: this said `var(--radius-md)`, which does not exist in tokens.css
+     (the scale is --radius-sm / --radius / --radius-lg). An undefined var
+     makes the property fall back to its initial value, so every card had
+     been rendering with SQUARE corners. */
+  border-radius: calc(var(--radius) * 2);
+
+  /* GLASS. backdrop-filter does composite here: verified by giving a card
+     `invert(1)` with no background, which turned the charcoal ground behind
+     it to 219,222,225. A gradient rather than a flat fill so the face catches
+     light across it. The 0.75 floor is a contrast limit, not a taste call —
+     below it the dark body copy stops clearing AA over charcoal. */
   background: linear-gradient(
     138deg,
     rgba(253, 251, 248, 0.9) 0%,
@@ -592,57 +587,84 @@
   -webkit-backdrop-filter: blur(26px) saturate(140%);
   border: 1px solid rgba(255, 255, 255, 0.5);
   color: var(--charcoal);
-  /* Flat. No slab edges, no offset bottom face — the tile is a plane, and
-     only the drop shadow tells you it is lifted off the ground. */
+
   box-shadow:
-    0 2px 6px rgba(0, 0, 0, 0.16),
+    /* Lit top edge and shaded bottom — the pair that reads as a sheet with a
+       thickness rather than a printed rectangle. */
+    inset 0 1px 0 rgba(255, 255, 255, 0.7),
+    inset 0 -1px 0 rgba(120, 112, 102, 0.14),
+    /* The card's bottom face: offset SOLID, not blurred. */
+    0 5px 0 -2px rgba(216, 210, 201, 0.4),
+    0 2px 6px rgba(0, 0, 0, 0.18),
     0 24px 52px rgba(0, 0, 0, 0.32),
     0 62px 120px rgba(0, 0, 0, 0.24);
 
   /* WHERE THIS CARD CURRENTLY IS, 0 at the left edge of the screen and 1 at
-     the right. Everything below is a function of it, so each card animates
-     as it crosses rather than holding one fixed pose for the whole sweep —
-     which is what made the previous build read as a flat sliding strip.
-     Unitless throughout: CSS cannot divide a length by a length. */
+     the right. Everything below is a function of it, so a card animates AS IT
+     CROSSES rather than holding one pose for the whole sweep. Unitless
+     throughout: CSS cannot divide a length by a length. */
   --u: calc(
     (var(--xn, 0) + var(--i) * var(--stepn, 400) + var(--cwn, 320) / 2) /
       var(--vwn, 1440)
   );
-  /* Distance from mid-screen: --d is signed (-0.5 .. 0.5), --off is its
-     square (0 mid, 0.25 at either edge). */
   --d: calc(var(--u) - 0.5);
   --off: calc(var(--d) * var(--d));
-  /* CUBED for the rotations. Linear tilt meant a card was only exactly
-     straight at the single instant it crossed the centre line; cubing
-     flattens the middle third to almost nothing, so a card arrives clearly
-     slanted, squares up, holds square across the centre, then slants away. */
+  /* CUBED for the rotations. Linear tilt meant a card was only exactly square
+     at the single instant it crossed the centre; cubing flattens the middle
+     third, so a card arrives clearly tilted, squares up, HOLDS square across
+     the centre, then tilts away. */
   --d3: calc(var(--d) * var(--d) * var(--d));
 
   will-change: transform;
   transform:
-    /* The sweep itself. On the card rather than the track, so no transformed
-       ancestor cuts this card off from the headline it needs to frost. */
+    /* The sweep. On the card rather than the track: an ancestor carrying a
+       transform becomes a backdrop root, and the cards would then have
+       nothing to frost but the inside of that ancestor. */
     translateX(calc(var(--xn, 1200) * 1px))
     /* THE ARC. Measured off the reference: fitting dy = a + b*x per frame
        separates page scroll from tilt, and b came back consistently negative
-       at ~0.31x the horizontal step — the train is not flat, it rides an
-       arc that peaks mid-screen and dips at both edges. */
+       at ~0.31x the horizontal step. The train is not flat — it rides an arc
+       that peaks mid-screen and dips at both edges. */
     translateY(calc(var(--off) * 620px - 40px))
-    /* Slant only. rotateY + perspective turned the tile's face into a
-       trapezoid, which is the "3D effect" the client did not want — the
-       reference tile is a flat plane. rotateZ stays, because the tile still
-       has to arrive slanted and square up through the centre. */
-    rotateZ(calc(var(--d3) * 62deg))
+    /* The tilt. Gentle on purpose: the reference turns its cards by roughly
+       ten degrees, and past about fifteen the face skews into a wedge and the
+       body copy visibly distorts. */
+    perspective(1400px)
+    rotateY(calc(var(--d3) * -100deg))
+    rotateZ(calc(var(--d3) * 58deg))
     scale(calc(1 - var(--off) * 0.34));
-  /* NO `filter` here. An element carrying a filter loses its backdrop-filter
-     in Chrome, and the frosting is the more important of the two: looking
-     again at the reference, the blur on those cards is the HEADLINE BEHIND
-     being frosted, not the card blurring — each card's own text is perfectly
-     sharp. Depth comes from the arc's scale instead. */
-  /* Gentle. At 1.15 an edge card fell to 0.71, which on a translucent panel
-     over charcoal dropped the body copy to 3.87:1 — below AA. */
   opacity: calc(1 - var(--off) * 0.8);
 }
+
+/* THE SIDE FACE.
+   A card turned about Y shows one of its two edges, and which one depends on
+   the direction of the turn — so both are drawn and each fades in against the
+   sign of the rotation. Faked in 2D deliberately: a real side face needs
+   `transform-style: preserve-3d`, and that disables the backdrop-filter this
+   whole look depends on. The two cannot both be had. */
+.ask__card::before,
+.ask__card::after {
+  content: "";
+  position: absolute;
+  top: 6px;
+  bottom: 6px;
+  width: 9px;
+  pointer-events: none;
+  border-radius: 2px;
+}
+.ask__card::before {
+  left: -8px;
+  transform: skewY(6deg);
+  background: linear-gradient(to right, rgba(186, 179, 169, 0.45), rgba(244, 240, 233, 0.7));
+  opacity: clamp(0, calc(var(--d3, 0) * 13), 1);
+}
+.ask__card::after {
+  right: -8px;
+  transform: skewY(-6deg);
+  background: linear-gradient(to left, rgba(186, 179, 169, 0.45), rgba(244, 240, 233, 0.7));
+  opacity: clamp(0, calc(var(--d3, 0) * -13), 1);
+}
+
 
 .ask__cardNum {
   display: block;
@@ -685,6 +707,7 @@
      every stacked card resolved to 0.58. Reset every property the sweep
      touches, not just the transform. */
   .ask__card { flex: none; transform: none; filter: none; opacity: 1; }
+  .ask__card::before, .ask__card::after { display: none; }
 }
 
 /* ------------------------------------------------------------
@@ -899,6 +922,7 @@
      every stacked card resolved to 0.58. Reset every property the sweep
      touches, not just the transform. */
   .ask__card { flex: none; transform: none; filter: none; opacity: 1; }
+  .ask__card::before, .ask__card::after { display: none; }
 
   .thread__line { stroke-dashoffset: 0; }
   .thread__node { scale: 1; transition: none; }

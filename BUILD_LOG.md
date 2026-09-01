@@ -730,6 +730,39 @@ of the recording, so it was left out rather than guessed at.
 
 ---
 
+## Why Sarom — the tilted paper card, and a token that never existed
+
+Client clarified: the 3D IS wanted, as a tilted paper card matching the reference. The
+previous pass had stripped it on a misread. Restored, tuned gentler than the first attempt —
+`perspective(1400px)` with rotateY at ~10deg rather than ~19deg, because past about fifteen
+the face skews into a wedge and the body copy visibly distorts.
+
+**`--radius-md` does not exist.** The card asked for `border-radius: var(--radius-md)`; the
+scale in tokens.css is `--radius-sm` / `--radius` / `--radius-lg`. An undefined `var()` makes
+the property fall back to its initial value, so every card had been rendering with SQUARE
+corners for several passes and nobody caught it — the reference's rounded corners were one of
+the things that never matched. Now `calc(var(--radius) * 2)` = 8px, verified computed.
+
+The side faces are back and now measurably correct: face opacity runs 1.00 at u=0.04, 0.18 at
+u=0.30, **0.00 at the centre**, 0.28, 1.00 at u=1.09 — the edge shows only while the card is
+turned and vanishes as it squares up, which is what a real card does.
+
+Also rewrote the whole `.ask__card` rule rather than patching it again. It had accumulated
+five superseded comment blocks across passes, several of them contradicting each other about
+whether backdrop-filter worked.
+
+**A process note.** The rewrite silently did not run the first time: the command was
+`grep -n "radius-md" app/tokens.css && python - <<'PYEOF'`, and because that grep found
+nothing it exited 1 and `&&` skipped the Python. The verification then measured the OLD file
+and reported `is2D: true` and both side faces at full opacity, which read as CSS bugs. Chaining
+an edit behind a grep that is expected to find nothing will do this every time.
+
+Verified: all transforms `is3D: true`, radius 8px, side faces `block` on desktop and `none` in
+both stacked fallbacks, 1440 / 390 / reduced motion clean, no overflow, 0 broken images, no
+console errors, `next build` clean.
+
+---
+
 ## Outstanding for the client
 
 1. **Drop Albra `.woff2` files into `public/fonts/`** — six exact filenames listed in README.
