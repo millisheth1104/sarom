@@ -245,12 +245,23 @@ page). `PRODUCT.md` holds the positioning brief. Nav no longer carries "Brands".
   negative `b` — the cards ride an arc. That gradient was invisible by eye and was the whole
   difference between the build reading right and reading wrong.
 
-- **Three separate things silently kill `backdrop-filter` in Chrome**, all of which this
-  project hit in one section: `transform-style: preserve-3d` on an ancestor; an ancestor with
-  a `transform` (it becomes a BACKDROP ROOT, so descendants can only frost what is painted
-  inside it); and an animated `opacity` on an ancestor (promotes it to a layer, also a
-  backdrop root). If a frosted panel must blur something painted OUTSIDE its parent, none of
-  those may sit between them. Budget for it not working and let panel alpha carry the job.
+- **Three separate things silently kill `backdrop-filter` in Chrome**: `transform-style:
+  preserve-3d` on an ancestor; an ancestor with a `transform` (it becomes a BACKDROP ROOT, so
+  descendants can only frost what is painted inside it); and an animated `opacity` on an
+  ancestor (promotes it to a layer, also a backdrop root). If a frosted panel must blur
+  something painted OUTSIDE its parent, none of those may sit between them.
+- **TEST backdrop-filter, never infer it.** Set `background: transparent` and
+  `backdrop-filter: invert(1)` on the element and sample the region: bright means it
+  composites, unchanged means it does not. Reading `getComputedStyle().backdropFilter` is
+  useless here (Lightning CSS emits only the `-webkit-` form, so it returns "none"), and
+  judging by eye is worse — three rounds of inference on this project concluded the frosting
+  was dead when it had worked all along, and the panel was pushed to 0.92 alpha to compensate,
+  which is exactly what made the cards look flat.
+- **Glass over a DARK ground has a hard alpha floor.** Dark body copy stops clearing AA below
+  about 0.75 panel alpha over charcoal. Below that, switch the card's text to light instead.
+- **A real 3D side face needs `preserve-3d`, which costs the frosting.** Fake thickness in 2D:
+  a lit top inset edge, a shaded bottom one, an offset SOLID shadow for the bottom face, and a
+  pseudo-element per side fading in against the sign of the rotation.
 - **"It's hiding behind X" is often not a z-order bug.** Hit-test before touching z-index —
   `document.elementFromPoint` said the card was topmost while it plainly looked behind. The
   real cause was a translucent panel letting bright type read through it.

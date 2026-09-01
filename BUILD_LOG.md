@@ -674,6 +674,36 @@ nothing appears or vanishes in place. No console errors, `next build` clean.
 
 ---
 
+## Why Sarom — glass slabs
+
+**A correction first.** An earlier pass concluded backdrop-filter did not composite in this
+stack and compensated by pushing the panel to 0.92 alpha. That was wrong. Tested properly —
+give a card `background: transparent` and `backdrop-filter: invert(1)`, then sample the
+region — the charcoal ground came back **219,222,225**, fully inverted. The frosting worked
+the whole time; at 0.92 alpha only 8% of it was ever visible, which is why the cards read as
+flat. **The right probe settles in one step what three rounds of inference got wrong.**
+
+With that established the cards are real glass: a 138deg gradient from 0.90 to 0.75 alpha so
+the face catches light across it, `blur(26px) saturate(140%)`, and a 0.5-white hairline. The
+0.75 floor is a contrast limit rather than a taste call — below it the dark body copy stops
+clearing AA over charcoal.
+
+**Thickness.** Two things give the slab depth. A lit top edge paired with a shaded bottom one
+(`inset 0 1px` / `inset 0 -1px`) is what stops a rectangle reading as a decal, and an offset
+SOLID shadow (`0 7px 0 -2px`) draws the bottom face. The vertical side face is a pair of
+pseudo-elements, one per edge, each fading in against the sign of `--d3` — a card turned about
+Y shows one edge or the other depending on which way it turned, so both are drawn and the
+rotation decides which is visible.
+
+Faked in 2D deliberately. A real side face needs `transform-style: preserve-3d` on the card,
+and that disables the backdrop-filter the whole look depends on — the two cannot both be had.
+
+Contrast re-measured on the finished panels: worst **6.21:1** against the 4.5 AA needs.
+Side faces are switched off in the stacked fallbacks. 1440 / 390 / reduced motion all clean,
+no overflow, 0 broken images, no console errors, `next build` clean.
+
+---
+
 ## Outstanding for the client
 
 1. **Drop Albra `.woff2` files into `public/fonts/`** — six exact filenames listed in README.

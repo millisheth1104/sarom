@@ -562,6 +562,7 @@
 }
 
 .ask__card {
+  position: relative;
   flex: 0 0 clamp(270px, 23vw, 370px);
   padding: clamp(1.3rem, 2vw, 1.9rem);
   border-radius: var(--radius-md);
@@ -573,19 +574,34 @@
      legible through the panel, so a card read as sitting BEHIND the type
      rather than in front of it. The letters now resolve to a soft bloom —
      still visibly translucent, but the card is unambiguously on top. */
-  /* Frosting is declared and does work where the browser composites it, but
-     it cannot be relied on here: the card sits inside a transformed,
-     will-change'd subtree, and Chrome drops backdrop-filter in that stack.
-     The panel alpha therefore has to carry the job on its own. */
-  background: rgba(247, 243, 236, 0.92);
-  backdrop-filter: blur(30px) saturate(118%);
-  -webkit-backdrop-filter: blur(30px) saturate(118%);
-  border: 1px solid rgba(255, 255, 255, 0.34);
+  /* GLASS. backdrop-filter does composite here — verified by giving a card
+     `invert(1)` and no background, which turned the charcoal ground behind it
+     to 219,222,225. An earlier pass wrongly concluded it was dead and pushed
+     the panel to 0.92 alpha, which is why it read as a flat card: at 0.92
+     only 8% of the blurred backdrop was ever visible.
+     A gradient rather than a flat fill, so the slab catches light across its
+     face. The 0.74 floor is the contrast limit, not a taste call: below it
+     the dark body copy stops clearing AA over charcoal. */
+  background: linear-gradient(
+    138deg,
+    rgba(253, 251, 248, 0.9) 0%,
+    rgba(246, 242, 235, 0.82) 42%,
+    rgba(236, 231, 223, 0.75) 100%
+  );
+  backdrop-filter: blur(26px) saturate(140%);
+  -webkit-backdrop-filter: blur(26px) saturate(140%);
+  border: 1px solid rgba(255, 255, 255, 0.5);
   color: var(--charcoal);
   box-shadow:
+    /* The lit top edge and the shaded bottom one — this pair is what makes a
+       flat rectangle read as a solid with thickness rather than a decal. */
+    inset 0 1px 0 rgba(255, 255, 255, 0.75),
+    inset 0 -1px 0 rgba(120, 112, 102, 0.16),
+    /* The slab's bottom face, offset solid rather than blurred. */
+    0 7px 0 -2px rgba(214, 208, 199, 0.42),
     0 2px 6px rgba(0, 0, 0, 0.16),
-    0 22px 50px rgba(0, 0, 0, 0.3),
-    0 60px 120px rgba(0, 0, 0, 0.22);
+    0 24px 52px rgba(0, 0, 0, 0.32),
+    0 62px 120px rgba(0, 0, 0, 0.24);
 
   /* WHERE THIS CARD CURRENTLY IS, 0 at the left edge of the screen and 1 at
      the right. Everything below is a function of it, so each card animates
@@ -630,6 +646,35 @@
   opacity: calc(1 - var(--off) * 0.8);
 }
 
+/* THE SIDE FACES.
+   A card turned about Y shows one of its two edges, and which one depends on
+   the direction of the turn — so both are drawn and each fades in against the
+   sign of the rotation. Faked in 2D on purpose: a real side face would need
+   `transform-style: preserve-3d` on the card, and that disables the
+   backdrop-filter this whole look depends on. */
+.ask__card::before,
+.ask__card::after {
+  content: "";
+  position: absolute;
+  top: 7px;
+  bottom: 7px;
+  width: 11px;
+  pointer-events: none;
+  border-radius: 2px;
+}
+.ask__card::before {
+  left: -10px;
+  transform: skewY(7deg);
+  background: linear-gradient(to right, rgba(190, 183, 173, 0.5), rgba(246, 242, 235, 0.72));
+  opacity: clamp(0, calc(var(--d3, 0) * 13), 1);
+}
+.ask__card::after {
+  right: -10px;
+  transform: skewY(-7deg);
+  background: linear-gradient(to left, rgba(190, 183, 173, 0.5), rgba(246, 242, 235, 0.72));
+  opacity: clamp(0, calc(var(--d3, 0) * -13), 1);
+}
+
 .ask__cardNum {
   display: block;
   font-size: var(--fs-meta);
@@ -671,6 +716,7 @@
      every stacked card resolved to 0.58. Reset every property the sweep
      touches, not just the transform. */
   .ask__card { flex: none; transform: none; filter: none; opacity: 1; }
+  .ask__card::before, .ask__card::after { display: none; }
 }
 
 /* ------------------------------------------------------------
@@ -885,6 +931,7 @@
      every stacked card resolved to 0.58. Reset every property the sweep
      touches, not just the transform. */
   .ask__card { flex: none; transform: none; filter: none; opacity: 1; }
+  .ask__card::before, .ask__card::after { display: none; }
 
   .thread__line { stroke-dashoffset: 0; }
   .thread__node { scale: 1; transition: none; }
