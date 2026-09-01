@@ -278,6 +278,16 @@ page). `PRODUCT.md` holds the positioning brief. Nav no longer carries "Brands".
   the OLD file and reports plausible-looking "bugs" that are not real. Cost a full debugging
   round. Use `;` or run the edit on its own.
 
+- **`align-items` centres on the CROSS axis — check `flex-direction` first.** A flex child
+  that inherits `flex-direction: column` from a shared base class is centred HORIZONTALLY by
+  `align-items: center`; the vertical axis needs `justify-content`. This left the Journey
+  closing statement at the top of its card with 420px of dead space under it, looking like a
+  layout bug rather than a one-property omission.
+- **This client rejects pinned sequential reveals for short content.** A pin that holds the
+  page to deal out three one-line statements reads as the page having stalled. Pins are fine
+  where there is genuinely a lot to travel through (the card sweep, the timeline rail); for a
+  few short blocks, use a stagger.
+
 ## Reference mockups — which file drives which section
 
 The client's mockups are unlabelled WhatsApp screenshots in `reference/`. Mapping:

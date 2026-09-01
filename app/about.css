@@ -381,17 +381,7 @@
   background: linear-gradient(180deg, var(--ivory) 0%, var(--ivory-deep) 100%);
 }
 .pillars__eyebrow { justify-content: center; }
-@media (min-width: 900px) {
-  /* Pinned, so it has to hold the viewport exactly — and centre its own
-     content, since the stack no longer flows past. */
-  .sect.pillars {
-    min-height: 100svh;
-    display: flex;
-    align-items: center;
-    padding-block: clamp(3rem, 6vw, 5rem);
-  }
-  .sect.pillars .shell { width: 100%; }
-}
+
 .sect.pillars .shell { text-align: center; }
 .pillars__stack {
   margin-top: clamp(1.8rem, 4vw, 3rem);
@@ -400,16 +390,6 @@
   text-align: left;
 }
 .pillars__card {
-  /* The sequence. --seq is written by the pin and counts up through the
-     cards; each one lands when the count reaches its index. The 99 default
-     means that wherever the pin never runs — below 900px, reduced motion,
-     JS off — every card resolves to fully landed and the section is just a
-     stack. No separate fallback rule needed. */
-  --on: clamp(0, calc((var(--seq, 99) - var(--i, 0)) * 1.5), 1);
-  opacity: var(--on);
-  transform: translateY(calc((1 - var(--on)) * 64px)) scale(calc(0.965 + var(--on) * 0.035));
-  transition: none;
-
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
   gap: clamp(1.2rem, 3vw, 2.4rem);
@@ -426,9 +406,7 @@
   .pillars__card:nth-child(2) { margin-left: 8%; margin-right: -2%; }
   .pillars__card:nth-child(3) { margin-left: 16%; margin-right: -4%; }
 }
-/* The number leads its card in, so the eye is drawn to the sequence. */
 .pillars__num {
-  opacity: calc(var(--on, 1) * var(--on, 1));
   font-family: var(--font-display);
   font-size: clamp(2.2rem, 5vw, 4rem);
   font-weight: 300;
@@ -807,7 +785,19 @@
 }
 .journey__shot img { width: 100%; height: 100%; object-fit: cover; }
 
-.journey__stop--close { display: flex; align-items: center; flex: 0 0 clamp(280px, 32vw, 440px); }
+.journey__stop--close {
+  display: flex;
+  /* flex-direction is column, inherited from .journey__stop — so align-items
+     was only ever centring this HORIZONTALLY and the statement sat at the top
+     of a 573px card with 420px of dead space under it. justify-content is the
+     axis that matters here. */
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  flex: 0 0 clamp(280px, 32vw, 440px);
+  /* No top padding: the milestones need it to clear the rail, this does not. */
+  padding-top: 0;
+}
 .journey__close {
   font-family: var(--font-display);
   font-size: clamp(1.6rem, 3.4vw, 2.8rem);

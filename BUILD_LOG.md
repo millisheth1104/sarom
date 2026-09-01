@@ -763,6 +763,31 @@ console errors, `next build` clean.
 
 ---
 
+## Revert the pillars pin; centre two stranded text blocks
+
+**Vision & Mission — pin removed.** The pinned sequential reveal added earlier was rejected:
+holding the page still to deal out three short statements one at a time reads as the page
+having stalled, not as choreography. Back to the staircase with a 0.12 stagger, which is how
+the rest of the page behaves. The `--seq` machinery, the `--on` derivation and the
+`min-height: 100svh` centring block all came out with it — only two pins remain on the page
+(`ask`, `journey`), confirmed.
+
+**Our Journey's closing line.** `.journey__stop--close` set `display: flex; align-items:
+center` — but `flex-direction: column` is inherited from `.journey__stop`, so align-items was
+centring it on the wrong axis and `justify-content` was never set. The statement sat at the
+top of a 573px card with **420px of dead space** beneath it. Measured 50 above / 420 below;
+now 235 / 235. Its top padding also went — the milestones need that to clear the rail, a
+statement with no rail node does not.
+
+**A letter worth keeping.** The paragraph is capped at 40ch and the two buttons are narrower
+still, so left-aligned in a 597px column they trailed off and left a wide empty gutter down
+the right of the card. Body centred within its column; actions measured 120 left / 120 right,
+balanced against the photograph beside it. At 390px it reads 5 / 5 with no overflow.
+
+Verified 1440 and 390: no overflow, no console errors, `next build` clean.
+
+---
+
 ## Outstanding for the client
 
 1. **Drop Albra `.woff2` files into `public/fonts/`** — six exact filenames listed in README.

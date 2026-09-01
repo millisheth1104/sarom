@@ -652,8 +652,14 @@
 }
 .letter__body {
   display: grid;
+  /* Centred within its column. The paragraph is capped at 40ch and the two
+     buttons are narrower still, so left-aligned they left a wide empty gutter
+     down the right of the card. Centring balances the block against the
+     photograph beside it instead of trailing off. */
+  justify-items: center;
+  text-align: center;
   gap: clamp(0.85rem, 1.6vw, 1.4rem);
-  padding-right: clamp(0.25rem, 1.4vw, 1.5rem);
+  padding-inline: clamp(0.25rem, 1.4vw, 1.5rem);
 }
 .letter__title {
   font-family: var(--font-display);
@@ -676,6 +682,7 @@
 .letter__actions {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   gap: 0.6rem;
   margin-top: 0.2rem;
 }

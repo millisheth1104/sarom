@@ -348,73 +348,26 @@ function Reach() {
    5 — VISION, MISSION, STRENGTH  (staircase pillars)
    ============================================================ */
 function Pillars() {
-  const rootRef = useRef<HTMLElement>(null);
-  const stackRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (prefersReducedMotion()) return;
-    registerGsap();
-    const root = rootRef.current;
-    const stack = stackRef.current;
-    if (!root || !stack) return;
-
-    const ctx = gsap.context(() => {
-      const mm = gsap.matchMedia();
-      /* Desktop only — pinning traps the scroll on a phone. */
-      mm.add("(min-width: 900px)", () => {
-        const st = ScrollTrigger.create({
-          trigger: root,
-          start: "top top",
-          /* A screen and a bit per card: enough that each one lands and is
-             read before the next begins, without the section outstaying it. */
-          end: () => `+=${PILLARS.length * window.innerHeight * 0.62}`,
-          pin: true,
-          anticipatePin: 1,
-          scrub: 0.7,
-          invalidateOnRefresh: true,
-          onUpdate: (self) => {
-            /* One value; each card works out its own state against its index.
-               Slightly past the count so the last card finishes landing
-               before the pin releases rather than at the instant it does. */
-            stack.style.setProperty(
-              "--seq",
-              String(self.progress * (PILLARS.length + 0.35))
-            );
-          },
-        });
-        return () => {
-          stack.style.removeProperty("--seq");
-          st.kill();
-        };
-      });
-    }, root);
-    return () => ctx.revert();
-  }, []);
-
+  /* Deliberately NOT pinned. A pinned sequential reveal was tried here and
+     the client rejected it: holding the page still to deal out three short
+     statements one at a time reads as the page having stalled. They land
+     together on a stagger instead, which is how the rest of the page behaves. */
   return (
-    <section className="sect pillars" ref={rootRef} data-nav-tone="light">
+    <section className="sect pillars" data-nav-tone="light">
       <div className="shell">
         <Reveal as="p" dir="fade" className="shead__index pillars__eyebrow">
           What we stand for
         </Reveal>
 
-        {/* NOT Reveal cards: the reveal engine would own their transform and
-            the sequence could never move them. They are plain elements whose
-            whole state is derived from --seq, which defaults to a value past
-            the end so they render complete wherever the pin never runs. */}
-        <div className="pillars__stack" ref={stackRef}>
-          {PILLARS.map((p, i) => (
-            <article
-              className="pillars__card"
-              key={p.key}
-              style={{ "--i": i } as React.CSSProperties}
-            >
+        <div className="pillars__stack" data-reveal-stagger="0.12">
+          {PILLARS.map((p) => (
+            <Reveal className="pillars__card" dir="up" key={p.key}>
               <span className="pillars__num">{p.index}</span>
               <div>
                 <b>{p.title}</b>
                 <p>{p.body}</p>
               </div>
-            </article>
+            </Reveal>
           ))}
         </div>
       </div>
