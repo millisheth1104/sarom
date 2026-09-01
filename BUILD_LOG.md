@@ -493,6 +493,45 @@ errors, `next build` clean.
 
 ---
 
+## Why Sarom — rebuilt as an editorial index
+
+The client rejected the orbit. The fault was the mechanic, not its tuning: it brought one
+reason to the front and ghosted the other four, so "Service" and "Quality & Design" read as
+half-loaded rather than as a carousel. It was borrowed from a reference whose items are
+questions with long answers, where dwelling on one at a time is the point. These are five
+one-line claims — their value is in being COMPARED, and hiding four of five worked against
+them. Several rounds had already gone into tuning it; another was not going to fix that.
+
+Replaced with a numbered 01-05 index: all five legible at once, the reason and its sentence
+side by side so the set scans as a table, and the photograph behind changing to whichever row
+the reader is on. Gone with it: the pin, the tethers, the sparks, the aperture zoom and
+`ASK_ANCHORS` — no orphans remain.
+
+Active state is one integer, `--active`, on the section root. Both the backdrop frames and the
+rows resolve their own state from it with the same comparison
+(`1 - min(1, max(--i - --active, --active - --i))`), so a row and its photograph cannot
+disagree. Scroll picks the row nearest a line at 45% of the viewport; pointer takes over while
+it is inside the list and the next scroll resumes control.
+
+**Contrast was measured, not assumed.** The copy sits over a photograph, so the text was hidden,
+the true background screenshotted, and the 95th-percentile luminance under each text box
+compared against the composited foreground. First pass: inactive row bodies came out at
+**3.27:1** over a light patch — below AA — because the scrim was too weak in the body column
+and the inactive floor too low. Scrim rebalanced (and its radial dropped, which had been
+painting a visible disc across the section) and the floor raised 0.56 -> 0.74. Worst element
+now **6.93:1** against the 4.5 AA needs; every row passes.
+
+The fade envelope carried over from the previous build, re-anchored. `bottom 78%` fired while
+the reader was still on the second row and had the closing line at 0.03 by the time they
+reached it — the section is only ~1.2 viewports tall, so its bottom enters early. Now
+`bottom 40%` -> `bottom 2%`: in by the time the rows arrive, held at 1 across the whole
+readable span, out only as the section genuinely leaves.
+
+Verified at 1440, 390 and reduced motion: 5 rows, every body visible, **0 titles wrapping**,
+no row below opacity 1, no overflow, 0 broken images, no console errors, `next build` clean.
+
+---
+
 ## Outstanding for the client
 
 1. **Drop Albra `.woff2` files into `public/fonts/`** — six exact filenames listed in README.

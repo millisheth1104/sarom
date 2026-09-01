@@ -422,275 +422,170 @@
 
 /* ------------------------------------------------------------
    6 - WHY SAROM
-   Matched to the reference frame by frame. The differences from a plain
-   carousel are what make it read correctly:
-     - everything LEFT-aligned, not centred
-     - the open item sits inside a hairline PANEL, with its answer in the
-       same box and a deliberate gap between the two
-     - items sit at DIFFERENT heights, not on one line
-     - a long diagonal thread and two sparkles
-     - no dots
+
+   An editorial index, not a carousel.
+
+   The previous build orbited one reason into view and ghosted the other
+   four. Five one-line claims are meant to be COMPARED, not revealed one at
+   a time — the reference this borrowed from carries a long answer per item,
+   which is what earns a scroll-jack. These do not. So: all five legible at
+   once, ranked 01-05, with the photograph behind changing to whichever the
+   reader is on.
    ------------------------------------------------------------ */
 .ask {
-  /* The fade envelope, as two independent factors multiplied together.
-   *
-   *   --fin   0 -> 1 on approach, written by its own trigger
-   *   --fout  1 -> 0 over the last 14% of the pin
-   *
-   * --fout is DERIVED from --ap rather than written, since --ap already
-   * carries the pin's progress — no second style write per frame, and the
-   * fade cannot drift out of step with the aperture.
-   *
-   * Both default to 1 so that below 900px and under reduced motion, where
-   * neither trigger runs, the section simply renders at full opacity. */
+  /* Fade envelope. One trigger writes --fin as the section enters and
+     --fout as it leaves; CSS multiplies them. Defaults of 1 mean the
+     section renders plainly if neither ever runs. */
   --fin: 1;
-  --fout: clamp(0, calc((1 - var(--ap, 0)) * 7.15), 1);
+  --fout: 1;
   --fade: calc(var(--fin) * var(--fout));
+  --active: 0;
 
   position: relative;
-  min-height: 100svh;
-  display: flex;
-  align-items: center;
-  padding-block: clamp(3rem, 7vw, 5.5rem);
+  padding-block: clamp(4.5rem, 9vw, 8rem);
   background: var(--charcoal);
   color: var(--ivory);
   overflow: hidden;
 }
-/* The charcoal ground stays put and only the picture and the copy fade, so
-   the section resolves to its own colour at both ends rather than letting
-   the sections either side show through. */
-.ask__media { position: absolute; inset: 0; overflow: hidden; opacity: var(--fade); }
-.ask__media img {
+
+/* ---- the backdrop ---- */
+.ask__bg { position: absolute; inset: 0; opacity: var(--fade); }
+.ask__bg img {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  /* THE APERTURE. The photograph grows across the chapter so its own frame
-     of foliage closes in around the copy - the "circular" close in the
-     reference is the picture's own vignette tightening, not a drawn shape.
-     scale, not width/height: it stays on the compositor. */
-  scale: calc(1 + var(--ap, 0) * 0.3);
-  transform-origin: 50% 46%;
-  will-change: transform;
+  /* Each frame shows only when it is the active one. Integer --active plus a
+     transition IS the cross-fade — no per-frame JS, one class of value. */
+  opacity: calc(1 - min(1, max(var(--i) - var(--active), var(--active) - var(--i))));
+  /* Same integer comparison drives a slow settle out of a 1.04 crop, so the
+     active frame is the only one moving. */
+  scale: calc(1.04 - 0.04 * (1 - min(1, max(var(--i) - var(--active), var(--active) - var(--i)))));
+  transition: opacity 0.8s var(--ease-glide), scale 1.6s var(--ease-glide);
 }
-.ask__media::after {
+/* Held dark enough that ivory copy clears AA over any of the six frames. */
+.ask__bg::after {
   content: "";
   position: absolute;
   inset: 0;
-  background: radial-gradient(130% 78% at 50% 52%, rgba(20,17,15,0.84) 0%, rgba(20,17,15,0.7) 46%, rgba(20,17,15,0.52) 100%);
+  /* One horizontal scrim, no radial. The radial that was here painted a
+     visible disc across the middle of the section, and stacked with the
+     gradient it took the photograph to near-black — the picture may as well
+     not have been there. This holds the left dark enough for ivory copy to
+     clear AA and lets the right side actually show the fabric. */
+  background: linear-gradient(
+    to right,
+    rgba(20,17,15,0.91) 0%,
+    rgba(20,17,15,0.89) 56%,
+    rgba(20,17,15,0.76) 72%,
+    rgba(20,17,15,0.44) 100%
+  );
 }
-.ask__inner {
-  opacity: var(--fade);
-  position: relative;
-  z-index: 1;
-  width: 100%;
-  max-width: var(--max-w);
-  margin-inline: auto;
-  padding-inline: var(--gutter);
-  text-align: center;
-}
-.ask__eyebrow { justify-content: center; color: rgba(245, 240, 232, 0.68); }
+
+.ask__inner { position: relative; z-index: 1; opacity: var(--fade); }
+.ask__head { max-width: 62ch; }
+.ask__eyebrow { color: rgba(245, 240, 232, 0.68); }
 .ask__title {
   margin-top: clamp(0.7rem, 1.4vw, 1.1rem);
   font-family: var(--font-display);
-  font-size: clamp(1.9rem, 4.6vw, 3.6rem);
+  font-size: clamp(2.1rem, 5.2vw, 4.2rem);
   font-weight: 300;
-  line-height: 1.05;
+  line-height: 1.06;
   letter-spacing: var(--tr-display);
 }
-/* The italic tail, as in the reference's script half. */
 .ask__title em { font-style: italic; color: var(--dusty-peach); }
 
-.ask__track {
+/* ---- the index ---- */
+.ask__list {
+  margin-top: clamp(2.4rem, 5vw, 4rem);
+  border-top: 1px solid rgba(245, 240, 232, 0.14);
+}
+.ask__row {
   position: relative;
-  margin-top: clamp(1.4rem, 3.5vh, 2.6rem);
-  --pos: 0;
+  display: grid;
+  grid-template-columns: clamp(3rem, 5vw, 4.5rem) minmax(0, 1fr);
+  gap: 0 clamp(1rem, 2.5vw, 2rem);
+  align-items: baseline;
+  padding-block: clamp(1rem, 1.9vw, 1.5rem);
+  border-bottom: 1px solid rgba(245, 240, 232, 0.14);
+  /* 1 on the active row, 0 on the rest — the same integer comparison the
+     backdrop uses, so the row and its photograph can never disagree. */
+  --on: calc(1 - min(1, max(var(--i) - var(--active), var(--active) - var(--i))));
 }
-@media (min-width: 900px) {
-  .ask__track {
-    height: clamp(340px, 46vh, 480px);
-    /* The ring's radii. Wide and shallow rather than a true circle: a
-       circular orbit on a 16:9 viewport sends items far off the top and
-       bottom while barely using the width. */
-    /* Sized so a panel at the widest point of the ring still ends inside
-       the viewport: 50% + rx - 4vw + panel width must stay under 100vw.
-       At 30vw the side boxes were chopped through the middle by the section's
-       overflow, which reads as broken rather than as travelling off. */
-    --rx: 24vw;
-    --ry: 104px;
-  }
+/* The active row's own rule, drawn over the hairline left to right. */
+.ask__row::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  height: 1px;
+  width: 100%;
+  background: var(--dusty-peach);
+  transform: scaleX(var(--on));
+  transform-origin: left center;
+  transition: transform 0.6s var(--ease-glide);
 }
-
-/* Sparkles and the tether, both desktop-only. */
-.ask__tether, .ask__spark { display: none; }
-@media (min-width: 900px) {
-  .ask__spark {
-    display: block;
-    position: absolute;
-    width: 9px;
-    height: 9px;
-    opacity: 0.72;
-    /* A four-point star, drawn rather than a glyph so it keeps its weight at
-       any size. */
-    background:
-      radial-gradient(closest-side, rgba(245,240,232,0.95) 0%, rgba(245,240,232,0) 100%) center/100% 1.4px no-repeat,
-      radial-gradient(closest-side, rgba(245,240,232,0.95) 0%, rgba(245,240,232,0) 100%) center/1.4px 100% no-repeat;
-  }
-  .ask__spark--a { left: 30%; top: 6%; }
-  .ask__spark--b { left: 71%; bottom: 8%; }
+.ask__num {
+  font-size: var(--fs-meta);
+  letter-spacing: var(--tr-meta);
+  font-variant-numeric: tabular-nums;
+  color: var(--dusty-peach);
+  opacity: calc(0.6 + var(--on) * 0.4);
+  transition: opacity 0.5s ease;
 }
-
-.ask__item { text-align: left; }
-@media (min-width: 900px) {
-  .ask__item {
-    position: absolute;
-    left: 50%;
-    top: 0;
-    width: min(24rem, 30vw);
-
-    /* ORBIT.
-     *
-     * The items ride a circle, not a rail. Each one's angle is its distance
-     * from the reading position expressed as a fraction of a full turn, so
-     * as --pos advances the whole ring rotates and the next question comes
-     * round to the front.
-     *
-     * A straight track - which is what this was - gives the items nowhere to
-     * go but left and right, and reads as a filmstrip however they are faded.
-     * On a ring they arc away and return.
-     *
-     * x = sin(angle) - swings widest at the sides, zero at front and back.
-     * y = 1 - cos(angle) - zero at the front, deepest at the back, so items
-     *     drop away as they travel round rather than sliding flat.
-     */
-    --turn: calc((var(--i) - var(--pos)) / var(--n, 5));
-    /* --orbit, NOT --ang: the component already sets --ang inline on every
-       item for its own thread's direction, and an inline custom property
-       beats a stylesheet one. Reusing the name pinned every item to its
-       thread angle, so the ring never turned - the positions were a fixed
-       arc rather than a moving one. */
-    --orbit: calc(var(--turn) * 360deg);
-    /* 1 at the front of the ring, 0 at the back. Everything visual hangs
-       off this rather than off raw distance. */
-    --depth: calc((1 + cos(var(--orbit))) / 2);
-    --a: calc(1 - var(--depth));
-
-    /* The panel's own offset from the ring's centre. Named, because the
-       thread below is solved from these two numbers rather than guessed. */
-    --offx: calc(sin(var(--orbit)) * var(--rx) - 4vw);
-    --offy: calc((1 - cos(var(--orbit))) * var(--ry));
-
-    transform:
-      translate3d(var(--offx), var(--offy), 0)
-      scale(calc(0.74 + var(--depth) * 0.26));
-    transform-origin: left top;
-    /* Squared, so the back of the ring falls away fast and only the front
-       few read - otherwise five overlapping panels compete at once. */
-    opacity: calc(var(--depth) * var(--depth));
-    /* The ones in front sit above the ones behind. */
-    z-index: calc(var(--depth) * 100);
-    padding: clamp(1.1rem, 2.4vw, 1.8rem);
-    border: 1px solid rgba(245, 240, 232, 0);
-    will-change: transform, opacity;
-  }
-
-  /* The open panel draws itself fully; its neighbours keep a fainter box
-     rather than none, which is what puts two panels on screen at once in
-     the reference rather than one boxed item floating among bare text. */
-  .ask__item { border-color: rgba(245, 240, 232, calc(var(--depth) * var(--depth) * 0.24)); }
-
-}
-
-/* THE TETHERS.
-   One per panel, each pinned at a fixed point in the frame and reaching to
-   its panel wherever the ring has carried it. Measured off the reference:
-   the foot holds still while the head follows the panel, and the angle
-   swings only as a consequence of that.
-
-   Both ends are therefore real: a line starts somewhere deliberate and
-   finishes exactly on the panel it belongs to. Earlier passes fixed the
-   angle instead and let the far end fall wherever it landed, which is what
-   made them look like they were flying about. */
-@media (min-width: 900px) {
-  .ask__tether {
-    display: block;
-    position: absolute;
-    /* Pinned end. */
-    left: calc(50% + var(--ax));
-    top: var(--ay);
-    width: 1px;
-    transform-origin: top center;
-    background: linear-gradient(to bottom, rgba(245,240,232,0.55), rgba(245,240,232,0.08));
-    z-index: 1;
-
-    /* Where this panel currently is, from the same numbers that place it. */
-    --orbit: calc(((var(--i) - var(--pos)) / var(--n, 5)) * 360deg);
-    --depth: calc((1 + cos(var(--orbit))) / 2);
-    --offx: calc(sin(var(--orbit)) * var(--rx) - 4vw);
-    --offy: calc((1 - cos(var(--orbit))) * var(--ry));
-
-    /* Foot -> head. */
-    --vx: calc(var(--offx) - var(--ax));
-    --vy: calc(var(--offy) - var(--ay));
-
-    height: hypot(var(--vx), var(--vy));
-    /* The element hangs downward at rotate(0), so pointing it along (vx, vy)
-       needs atan2(-vx, vy). */
-    transform: rotate(atan2(calc(0px - var(--vx)), var(--vy)));
-
-    /* Only the panels at the front of the ring carry a visible tether. */
-    opacity: calc(var(--depth) * var(--depth) * var(--depth) * 0.9);
-  }
-  /* The node sits on the pinned end, as in the reference. */
-  .ask__tether::before {
-    content: "";
-    position: absolute;
-    left: -2.5px;
-    top: -3px;
-    width: 6px;
-    height: 6px;
-    background: var(--ivory);
-  }
-}
-
-.ask__item h3 {
+.ask__rowTitle {
   font-family: var(--font-display);
-  font-size: clamp(1.25rem, 2.5vw, 2rem);
+  /* Sized so the longest reason ("Colour & Pattern") holds ONE line in its
+     column. At 2.3rem the three longest wrapped and the five read as a
+     ragged block rather than a table. */
+  font-size: clamp(1.25rem, 2.2vw, 1.85rem);
+  text-wrap: balance;
   font-weight: 300;
-  line-height: 1.15;
-  color: var(--ivory);
+  line-height: 1.14;
+  letter-spacing: var(--tr-display);
+  /* Never ghosted. An inactive row is quieter, not half-there — the whole
+     point of the rewrite is that all five stay readable. */
+  color: rgba(245, 240, 232, calc(0.68 + var(--on) * 0.32));
+  transform: translateX(calc(var(--on) * clamp(0px, 0.8vw, 10px)));
+  transition: color 0.5s ease, transform 0.6s var(--ease-glide);
 }
-.ask__item p {
-  margin-top: clamp(0.8rem, 1.8vw, 1.2rem);
-  max-width: 34ch;
+.ask__rowBody {
+  grid-column: 2;
+  max-width: 52ch;
+  margin-top: 0.5rem;
   font-size: var(--fs-body);
-  line-height: 1.72;
-  color: rgba(245, 240, 232, 0.74);
-}
-@media (min-width: 900px) {
-  /* A deliberate gap between question and answer, as in the reference -
-     they are not a tight block. */
-  .ask__item p {
-    margin-top: clamp(2.4rem, 6vh, 4.5rem);
-    /* The copy belongs to the open item only: it falls away far faster than
-       the heading, so a neighbour shows its title and not its paragraph. */
-    /* The copy belongs to the front of the ring only: a high power drops it
-       away almost immediately, so a neighbour shows its title and not its
-       paragraph. */
-    opacity: clamp(0, calc((var(--depth) - 0.86) * 7), 1);
-    transform: translateY(calc(var(--a) * 14px));
-  }
+  line-height: 1.66;
+  /* Floor raised from 0.56: measured against the real photograph, an
+     inactive row body came out at 3.27:1 over a light patch — below AA. */
+  color: rgba(245, 240, 232, calc(0.74 + var(--on) * 0.26));
+  transform: translateX(calc(var(--on) * clamp(0px, 0.8vw, 10px)));
+  transition: color 0.5s ease, transform 0.6s var(--ease-glide);
 }
 
-@media (max-width: 899px) {
-  /* No pin below 900px, so --pos is never written and the offsets would all
-     resolve to 0 - every item stacked on one spot. Plain flow instead. */
-  .ask { min-height: 0; }
-  .ask__inner { text-align: left; }
-  .ask__eyebrow { justify-content: flex-start; }
-  .ask__track { display: grid; gap: clamp(1.8rem, 5vw, 2.6rem); }
-  .ask__item { position: static; width: auto; transform: none; opacity: 1; }
-  .ask__item p { opacity: 1; transform: none; }
-  .ask__tether, .ask__spark { display: none; }
+.ask__close {
+  margin-top: clamp(2.2rem, 4.5vw, 3.6rem);
+  font-family: var(--font-display);
+  font-size: clamp(1.35rem, 3vw, 2.3rem);
+  font-weight: 300;
+  font-style: italic;
+  line-height: 1.2;
+  letter-spacing: var(--tr-display);
+  color: var(--dusty-peach);
+}
+
+@media (min-width: 900px) {
+  /* Three columns above the fold width: the number, the reason, and its
+     sentence alongside rather than beneath — so the five read as a table to
+     be scanned down, which is the whole argument for this layout. */
+  .ask__row {
+    /* The reason column is sized in px, not ch: ch resolves against the
+       GRID's font, not the title's, so 22ch came out at ~176px against
+       titles that need well over 300. */
+    grid-template-columns: clamp(2.6rem, 4vw, 3.6rem) clamp(210px, 24vw, 350px) minmax(0, 1fr);
+    align-items: start;
+  }
+  .ask__rowBody { grid-column: 3; margin-top: 0.2rem; }
 }
 
 /* ------------------------------------------------------------
@@ -891,13 +786,10 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  /* The pin never engages, so --pos is never written and every item
-     would resolve to the same slot. Fall back to the plain stack. */
-  .ask { min-height: 0; }
-  .ask__track { display: grid; gap: 2rem; height: auto; }
-  .ask__item { position: static; width: auto; transform: none; opacity: 1; border-color: transparent; }
-  .ask__item p { opacity: 1; transform: none; margin-top: 1rem; }
-  .ask__tether, .ask__spark { display: none; }
+  /* Why Sarom needs no fallback now — the index is static by construction.
+     Only the backdrop cross-fade and row transitions are stilled. */
+  .ask__bg img, .ask__row::after, .ask__rowTitle, .ask__rowBody { transition: none; }
+  .ask__rowTitle, .ask__rowBody { transform: none; }
 
   .thread__line { stroke-dashoffset: 0; }
   .thread__node { scale: 1; transition: none; }

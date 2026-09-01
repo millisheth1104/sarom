@@ -193,6 +193,25 @@ page). `PRODUCT.md` holds the positioning brief. Nav no longer carries "Brands".
   against y-spread; if the anchors form a column it rails down the left gutter instead of
   through the centre of the copy. Follows whatever the layout actually did, at any breakpoint.
 
+- **Match the mechanic to the content, not to the reference site.** Why Sarom orbited one of
+  five reasons into view and ghosted the rest; the client rejected it repeatedly. The
+  reference it copied (pear.no) carries a question with a long answer per item, which is what
+  earns a scroll-jack. Five one-line claims want to be COMPARED — hiding four of five fights
+  the copy. Rebuilt as a numbered 01-05 index, all legible at once. **When a section is
+  rejected several times, stop tuning and re-examine the mechanic.**
+- **Measure contrast over photographs, don't assume it.** Hide the text, screenshot the true
+  background, take the 95th-percentile luminance under each text box and composite the
+  foreground at its own alpha. Why Sarom's inactive row bodies measured 3.27:1 over a bright
+  patch — well below AA — while looking fine at a glance. Fixed to a worst case of 6.93:1.
+- **Scrims: prefer one linear gradient to a linear plus a radial.** The two stacked took the
+  photograph to near-black AND painted a visible disc across the middle of the section.
+- **Anchor a fade-out to the section LEAVING.** `bottom 78%` fires very early on a section
+  only ~1.2 viewports tall — its bottom enters the viewport long before the reader is done.
+  `bottom 40%` -> `bottom 2%` holds the section at full opacity across its readable span.
+- **`ch` in a grid template resolves against the GRID's font, not the child's.** `minmax(0,
+  22ch)` for a column of display-type titles came out ~176px against titles needing 300+, so
+  three of five wrapped. Size such columns in px/vw.
+
 ## Reference mockups — which file drives which section
 
 The client's mockups are unlabelled WhatsApp screenshots in `reference/`. Mapping:

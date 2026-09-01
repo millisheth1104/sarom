@@ -366,172 +366,176 @@ function Pillars() {
    6 — WHY SAROM
    ============================================================ */
 
-/* Where each panel's line is PINNED.
+/**
+ * An editorial index of the five reasons — all legible at once.
  *
- * Measured off the reference rather than chosen: detecting the line across
- * the clip shows one end sitting still while the other moves —
+ * This replaces an orbit carousel that brought one reason to the front and
+ * ghosted the other four. That mechanic was borrowed from a reference whose
+ * items are questions with long answers, where dwelling on one at a time is
+ * the point. These are five one-line claims: their value is in being
+ * COMPARED, and a mechanic that hides four of five works against them.
  *
- *   0.36  (499,893) -> (965,385)   -47.5deg
- *   0.42  (500,893) -> (817,366)   -59.0deg
- *   0.48  (500,893) -> (712,355)   -68.5deg
- *   0.54  (499,893) -> (561,347)   -83.5deg
- *
- * The foot is fixed at (500,893) through all four; only the head travels,
- * following the panel. The angle swings from -47 to -83 purely as a
- * consequence. So the line is a TETHER: pinned to a point in the frame,
- * reaching to the panel wherever it currently is.
- *
- * The anchor differs per panel, which is what sends each line in from a
- * different quarter of the frame.
+ * The only motion left is a backdrop that follows whichever row the reader
+ * is on, and the section's own fade in and out.
  */
-const ASK_ANCHORS = [
-  { ax: "-30vw", ay: "300px" },
-  { ax: "31vw", ay: "268px" },
-  { ax: "-33vw", ay: "-130px" },
-  { ax: "29vw", ay: "-112px" },
-  { ax: "-27vw", ay: "310px" },
-];
-
 function WhySarom() {
   const rootRef = useRef<HTMLElement>(null);
-  const trackRef = useRef<HTMLDivElement>(null);
+  const listRef = useRef<HTMLUListElement>(null);
 
-  /* Scroll-driven carousel. GSAP writes ONE continuous value, `--pos`; every
-     consequence — each item's offset, scale, opacity, whether its panel and
-     answer are open — is computed from it in CSS, so a five-item track costs
-     one style write per frame rather than five React re-renders. */
   useEffect(() => {
-    if (prefersReducedMotion()) return;
-    registerGsap();
     const root = rootRef.current;
-    const track = trackRef.current;
-    if (!root || !track) return;
+    const list = listRef.current;
+    if (!root || !list) return;
 
+    const rows = Array.from(list.querySelectorAll<HTMLElement>(".ask__row"));
+    const setActive = (i: number) => root.style.setProperty("--active", String(i));
+
+    /* Pointer wins while it is over the list, scroll drives otherwise. They
+       are not competing writers: hover only takes over between scrolls, and
+       the next scroll resumes control, which is what a reader expects. */
+    let hovering = false;
+    const enter = (i: number) => () => {
+      hovering = true;
+      setActive(i);
+    };
+    const leave = () => {
+      hovering = false;
+    };
+    rows.forEach((r, i) => {
+      r.addEventListener("pointerenter", enter(i));
+      r.addEventListener("pointerleave", leave);
+    });
+
+    if (prefersReducedMotion()) {
+      return () => {
+        rows.forEach((r, i) => {
+          r.removeEventListener("pointerenter", enter(i));
+          r.removeEventListener("pointerleave", leave);
+        });
+      };
+    }
+
+    registerGsap();
     const ctx = gsap.context(() => {
-      const mm = gsap.matchMedia();
-      /* Desktop only — pinning traps the scroll on a phone, so below 900px
-         the CSS falls back to a plain stack. */
-      mm.add("(min-width: 900px)", () => {
-        /* The carousel finishes at 75% of the pin, not at 100%.
-         *
-         * The fade-out starts at 86%, and the ring used to bring its LAST
-         * panel to centre at exactly 100% — so the fifth reason arrived just
-         * as the section vanished and never rose above 0.63 effective
-         * opacity. Landing the travel early leaves the last panel held at
-         * full strength for a beat before anything fades. The pin is
-         * lengthened by the same proportion so the ring keeps its original
-         * pace rather than being sped up to fit. */
-        const TRAVEL = 0.75;
-        const st = ScrollTrigger.create({
-          trigger: root,
-          start: "top top",
-          end: () => `+=${((WHY.length - 1) * window.innerHeight * 0.72) / TRAVEL}`,
-          pin: true,
-          anticipatePin: 1,
-          scrub: 0.8,
-          invalidateOnRefresh: true,
-          onUpdate: (self) => {
-            const t = Math.min(1, self.progress / TRAVEL);
-            track.style.setProperty("--pos", String(t * (WHY.length - 1)));
-            /* The photograph grows across the chapter so its own frame of
-               foliage closes in around the copy. */
-            root.style.setProperty("--ap", String(self.progress));
-          },
-        });
-        /* Fade IN on approach.
-         *
-         * A separate trigger, because the pin cannot do this job: the pin
-         * starts at "top top", by which point the section already fills the
-         * screen, so a fade driven off pin progress would have the section
-         * arrive fully formed and only then begin fading in. This one runs
-         * while the section is still rising into view and is finished by the
-         * time the pin takes over.
-         *
-         * Writing a DIFFERENT property from the pin's --ap is what makes two
-         * triggers on one element safe here — CSS multiplies the two rather
-         * than either overwriting the other. */
-        const fin = ScrollTrigger.create({
-          trigger: root,
-          start: "top 85%",
-          end: "top 25%",
-          scrub: 0.6,
-          invalidateOnRefresh: true,
-          onUpdate: (self) => root.style.setProperty("--fin", String(self.progress)),
-        });
-        return () => {
-          track.style.removeProperty("--pos");
-          root.style.removeProperty("--ap");
-          root.style.removeProperty("--fin");
-          st.kill();
-          fin.kill();
-        };
+      /* Which row the reader is on: the one whose middle is nearest a line
+         at 45% of the viewport. Cheaper and steadier than an observer per
+         row, which fires on entry rather than on being the current one. */
+      ScrollTrigger.create({
+        trigger: list,
+        start: "top bottom",
+        end: "bottom top",
+        onUpdate: () => {
+          if (hovering) return;
+          const line = window.innerHeight * 0.45;
+          let best = 0;
+          let bestD = Infinity;
+          rows.forEach((r, i) => {
+            const b = r.getBoundingClientRect();
+            const d = Math.abs(b.top + b.height / 2 - line);
+            if (d < bestD) {
+              bestD = d;
+              best = i;
+            }
+          });
+          setActive(best);
+        },
+      });
+
+      /* The fade envelope, as two factors CSS multiplies. Separate ramps so
+         the section is fully present for the whole middle of its travel and
+         only resolves to its own charcoal at the two ends. */
+      ScrollTrigger.create({
+        trigger: root,
+        start: "top 88%",
+        end: "top 40%",
+        scrub: 0.6,
+        invalidateOnRefresh: true,
+        onUpdate: (self) => root.style.setProperty("--fin", String(self.progress)),
+      });
+      ScrollTrigger.create({
+        trigger: root,
+        /* Anchored to the section LEAVING, not to its bottom entering. The
+           section is only ~1.2 viewports tall, so "bottom 78%" fired while
+           the reader was still on the second row and had the closing line at
+           0.03 opacity by the time they reached it. */
+        start: "bottom 40%",
+        end: "bottom 2%",
+        scrub: 0.6,
+        invalidateOnRefresh: true,
+        onUpdate: (self) => root.style.setProperty("--fout", String(1 - self.progress)),
       });
     }, root);
-    return () => ctx.revert();
+
+    return () => {
+      rows.forEach((r, i) => {
+        r.removeEventListener("pointerenter", enter(i));
+        r.removeEventListener("pointerleave", leave);
+      });
+      ctx.revert();
+      root.style.removeProperty("--fin");
+      root.style.removeProperty("--fout");
+      root.style.removeProperty("--active");
+    };
   }, []);
 
   return (
     <section className="ask" ref={rootRef} data-nav-tone="dark">
-      <div className="ask__media">
-        <Image src="/media/about/3.webp" alt="" fill sizes="100vw" loading="lazy" unoptimized />
+      <div className="ask__bg" aria-hidden="true">
+        {WHY.map((w, i) => (
+          <Image
+            key={w.id}
+            src={w.image.src}
+            alt=""
+            fill
+            sizes="100vw"
+            loading="lazy"
+            unoptimized
+            style={{ "--i": i } as React.CSSProperties}
+          />
+        ))}
       </div>
 
-      <div className="ask__inner">
-        <Reveal as="p" dir="fade" className="shead__index ask__eyebrow">
-          Why Sarom
-        </Reveal>
-        <LineReveal
-          as="h2"
-          className="ask__title"
-          step={0.1}
-          lines={[
-            <>
-              What sets <em>Sarom apart</em>
-            </>,
-          ]}
-        />
-
-        <div className="ask__track" ref={trackRef} style={{ "--n": WHY.length } as React.CSSProperties}>
-          {/* The tethers live in the TRACK, not inside the panels: a line
-              has to span from a fixed point in the frame to a panel that is
-              moving, so it cannot be a child of the thing it points at. */}
-          {WHY.map((w, i) => (
-            <span
-              className="ask__tether"
-              key={`t-${w.id}`}
-              aria-hidden="true"
-              style={
-                {
-                  "--i": i,
-                  "--ax": ASK_ANCHORS[i % ASK_ANCHORS.length].ax,
-                  "--ay": ASK_ANCHORS[i % ASK_ANCHORS.length].ay,
-                } as React.CSSProperties
-              }
-            />
-          ))}
-
-          <span className="ask__spark ask__spark--a" aria-hidden="true" />
-          <span className="ask__spark ask__spark--b" aria-hidden="true" />
-
-          {/* No per-item vertical offset: the orbit's own cosine already
-              drops the items as they travel round, and a hand-set nudge on
-              top of it moved each panel's resting corner by up to 34px, so
-              the tether could not land on it. */}
-          {/* The panel carries only its index — the tether that points at it
-              is a sibling in the track, because a line spanning from a fixed
-              point in the frame to a moving panel cannot be a child of the
-              thing it points at. */}
-          {WHY.map((w, i) => (
-            <article className="ask__item" key={w.id} style={{ "--i": i } as React.CSSProperties}>
-              <h3>{w.title}</h3>
-              <p>{w.body}</p>
-            </article>
-          ))}
+      <div className="shell ask__inner">
+        <div className="ask__head">
+          <Reveal as="p" dir="fade" className="shead__index ask__eyebrow">
+            Why Sarom
+          </Reveal>
+          <LineReveal
+            as="h2"
+            className="ask__title"
+            step={0.1}
+            lines={[
+              <>
+                What sets <em>Sarom apart</em>
+              </>,
+            ]}
+          />
         </div>
+
+        <ul className="ask__list" ref={listRef}>
+          {WHY.map((w, i) => (
+            <Reveal
+              as="li"
+              dir="up"
+              className="ask__row"
+              key={w.id}
+              style={{ "--i": i } as React.CSSProperties}
+            >
+              <span className="ask__num">{String(i + 1).padStart(2, "0")}</span>
+              <h3 className="ask__rowTitle">{w.title}</h3>
+              <p className="ask__rowBody">{w.body}</p>
+            </Reveal>
+          ))}
+        </ul>
+
+        <Reveal as="p" dir="up" className="ask__close">
+          {WHY_CLOSE}
+        </Reveal>
       </div>
     </section>
   );
 }
+
 
 /* ============================================================
    7 — OUR JOURNEY
