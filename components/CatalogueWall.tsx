@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useMemo, useState } from "react";
 import { MotionProvider } from "@/components/Motion";
-import { Preloader, Nav, Cursor } from "@/components/Chrome";
+import { Preloader, Nav, Cursor, WhatsAppFab } from "@/components/Chrome";
 import Footer from "@/components/Footer";
 import { Reveal, LineReveal } from "@/components/Motion";
 import {
@@ -104,6 +104,7 @@ export function CatalogueWall({
     <MotionProvider>
       <Preloader />
       <Cursor />
+      <WhatsAppFab />
       <Nav />
 
       <main id="main">

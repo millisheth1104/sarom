@@ -942,6 +942,30 @@ and the count stayed at 19/25 until the aspect ratio was fixed.
 
 ---
 
+## Buy Now CTA and a WhatsApp button
+
+The nav action was "e-Catalogue" pointing at /ecatalogue. It is now **Buy Now**, pointing at
+the Beds & More Shopify store, with `target="_blank"` and `data-cursor="Beds & More"` so the
+custom cursor names the destination on hover. A Buy Now that silently swaps domains is a
+surprise, not a shortcut, which is why it both opens in a new tab and says where it goes.
+
+**WhatsApp** is a plain anchor to `wa.me`, fixed bottom-right on every page. No SDK and no
+script: wa.me opens the desktop app or web client if one is installed and falls back to
+WhatsApp Web, and it still works with JavaScript off. The number is DERIVED from `SITE.phone`
+(`replace(/\D/g, "")` -> `918657944323`) rather than typed a second time, so it cannot drift
+out of sync with the contact details.
+
+Collision caught by measuring rather than by eye: the hero's scroll cue sits at x=1315 and the
+button at x=1358 — straight through each other. The cue now carries a right margin clearing it,
+and is hidden below 900px anyway.
+
+Verified on /, /about, /store-locator and /ecatalogue: CTA text, href, target and cursor label
+all correct, wa.me href correct, button inside the viewport at 1440 and 390, and no clash with
+any interactive element. No console errors, `next build` clean. (The 28px overflow still
+reported at 390 is the pre-existing `.letter` bug, unrelated and unchanged.)
+
+---
+
 ## Outstanding for the client
 
 1. **Drop Albra `.woff2` files into `public/fonts/`** — six exact filenames listed in README.

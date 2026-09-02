@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { MotionProvider, Reveal, LineReveal, ImageReveal } from "@/components/Motion";
-import { Preloader, Nav, Cursor } from "@/components/Chrome";
+import { Preloader, Nav, Cursor, WhatsAppFab } from "@/components/Chrome";
 import Footer from "@/components/Footer";
 import { ClosingCta } from "@/components/Editorial";
 import { Threadline } from "@/components/Threadline";
@@ -638,6 +638,7 @@ export function AboutPage() {
     <MotionProvider>
       <Preloader />
       <Cursor />
+      <WhatsAppFab />
       <Nav />
 
       <main id="main">

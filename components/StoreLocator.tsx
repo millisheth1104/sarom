@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { MotionProvider, Marquee, Reveal, LineReveal } from "@/components/Motion";
-import { Preloader, Nav, Cursor } from "@/components/Chrome";
+import { Preloader, Nav, Cursor, WhatsAppFab } from "@/components/Chrome";
 import Footer from "@/components/Footer";
 import { INDIA_STATES, INDIA_VIEWBOX } from "@/lib/india-map";
 import { STORES, STORE_COUNTS, STORE_STATES } from "@/lib/stores";
@@ -48,6 +48,7 @@ export default function StoreLocator() {
     <MotionProvider>
       <Preloader />
       <Cursor />
+      <WhatsAppFab />
       <Nav />
 
       <main id="main">

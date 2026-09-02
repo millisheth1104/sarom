@@ -166,6 +166,10 @@
   display: inline-flex;
   align-items: center;
   gap: 0.65rem;
+  /* Clear of the floating WhatsApp button, which is fixed to the same corner.
+     Measured: the cue sat at x=1315 and the button at x=1358, straight through
+     each other. Below 900px the cue is hidden anyway (responsive.css). */
+  margin-right: clamp(56px, 5vw, 74px);
 }
 .hero__scroll span {
   display: block;

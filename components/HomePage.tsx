@@ -1,5 +1,5 @@
 import { MotionProvider, Marquee } from "@/components/Motion";
-import { Preloader, Nav, Cursor } from "@/components/Chrome";
+import { Preloader, Nav, Cursor, WhatsAppFab } from "@/components/Chrome";
 import Hero from "@/components/Hero";
 import Footer from "@/components/Footer";
 import { Statement } from "@/components/Sections";
@@ -30,6 +30,7 @@ export function HomePage() {
     <MotionProvider>
       <Preloader />
       <Cursor />
+      <WhatsAppFab />
       <Nav />
 
       <main id="main">

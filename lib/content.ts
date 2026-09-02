@@ -51,6 +51,27 @@ export const SECTION_INDEX = Object.fromEntries(
   ])
 ) as Record<(typeof SECTION_ORDER)[number][0], string>;
 
+/**
+ * The nav's primary action. It leaves the site for the Beds & More Shopify
+ * store, which is why it opens in a new tab and why the custom cursor names
+ * the destination — a "Buy Now" that silently swaps domains is a surprise.
+ */
+export const SHOP = {
+  label: "Buy Now",
+  href: "https://0ww0zm-c1.myshopify.com/",
+  cursor: "Beds & More",
+};
+
+/**
+ * wa.me wants the number in full international form with no +, spaces or
+ * dashes, so it is derived from SITE.phone rather than typed twice and left
+ * to drift out of sync with it.
+ */
+export const WHATSAPP = {
+  href: "https://wa.me/" + SITE.phone.replace(/\D/g, ""),
+  label: "Chat with Sarom on WhatsApp",
+};
+
 export const NAV = [
   { label: "About Us", href: "/about" },
   { label: "e-Catalogue", href: "/ecatalogue" },

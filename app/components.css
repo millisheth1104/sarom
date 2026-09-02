@@ -421,3 +421,32 @@
   text-transform: uppercase;
   color: var(--fg-muted);
 }
+
+/* ============================================================
+   WHATSAPP FLOATING BUTTON
+   A plain anchor to wa.me — no SDK, no script, works with JS off.
+   ============================================================ */
+.wafab {
+  position: fixed;
+  right: clamp(0.9rem, 2vw, 1.6rem);
+  /* Clear of the iOS home indicator and any browser chrome. */
+  bottom: calc(clamp(0.9rem, 2vw, 1.6rem) + env(safe-area-inset-bottom, 0px));
+  z-index: 400;
+  display: grid;
+  place-items: center;
+  width: clamp(46px, 4vw, 56px);
+  aspect-ratio: 1;
+  border-radius: var(--radius-pill);
+  background: #25d366;
+  color: #fff;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.28), 0 18px 40px rgba(0, 0, 0, 0.22);
+  transition: scale 0.35s var(--ease-pop), box-shadow 0.35s var(--ease-soft);
+}
+.wafab svg { width: 58%; height: 58%; }
+.wafab:hover { scale: 1.08; box-shadow: 0 8px 20px rgba(0, 0, 0, 0.32), 0 22px 48px rgba(0, 0, 0, 0.26); }
+.wafab:active { scale: 0.96; }
+
+@media (prefers-reduced-motion: reduce) {
+  .wafab { transition: none; }
+  .wafab:hover, .wafab:active { scale: 1; }
+}
