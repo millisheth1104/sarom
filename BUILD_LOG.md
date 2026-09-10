@@ -999,6 +999,33 @@ counter and dot count are derived from `items.length`, so both picked up the fif
 
 ---
 
+## Store Locator - replaced with the client's real customer list
+
+Client supplied `CUSTOMER DETAILS.xlsx` (Sept 2026) with the actual field set: Store name,
+Address, City, State, Pincode. **This replaces the 195-store list scraped from
+sarom.info/store-locator.php.** That source had no store names and no coordinates - only a
+state and a free-text address - so directions were built by shipping the whole blob to Maps
+search. The new list has 150 rows, every one complete (checked: 0 missing fields, 0 malformed
+pincodes, 0 duplicate names), across 14 states, all of which already exist on the generated
+India map.
+
+The two lists are NOT merged. They were scraped/supplied independently and never reconciled
+against each other - the same physical store could easily appear under a different name or
+address string in each, and merging blind would silently double-count stockists on the map.
+
+`lib/stores.ts` now carries a real shape: `{ name, address, city, state, pincode }` rather than
+`{ state, address }` with the city and pincode baked into the address string. The store card
+shows the stockist's own name above its address (new `.loc__storeName` style), and directions
+now hand Maps the name, address, city, state AND pincode together - more precise than the
+scraped list could ever be, since Maps can match on the actual business name.
+
+Verified: 150 stockists across 14 states rendered (was 195/25 under the scraped list), map pin
+counts match the state totals (Maharashtra 38, Gujarat 25, Delhi 16, Karnataka 15...), every
+store card shows name + full address + working directions link, no horizontal overflow at 1440
+or 390, `tsc --noEmit` and `next build` clean.
+
+---
+
 ## Outstanding for the client
 
 1. **Drop Albra `.woff2` files into `public/fonts/`** — six exact filenames listed in README.

@@ -5,7 +5,7 @@ import { MotionProvider, Marquee, Reveal, LineReveal } from "@/components/Motion
 import { Preloader, Nav, Cursor, WhatsAppFab } from "@/components/Chrome";
 import Footer from "@/components/Footer";
 import { INDIA_STATES, INDIA_VIEWBOX } from "@/lib/india-map";
-import { STORES, STORE_COUNTS, STORE_STATES } from "@/lib/stores";
+import { STORES, STORE_COUNTS, STORE_STATES, type Store } from "@/lib/stores";
 import { MARQUEE_WORDS } from "@/lib/content";
 
 /** Title case for display; the data is stored SHOUTING, as the source has it. */
@@ -18,14 +18,17 @@ const title = (s: string) =>
 /**
  * Directions without coordinates.
  *
- * The source publishes no lat/lng, so rather than geocode 195 addresses this
- * hands the address string to Maps' own search — which is what a person would
- * type anyway. Maps resolves the ones it knows and shows the surrounding area
- * for the rest, and an approximate pin beats a confidently wrong one.
+ * The client's list has no lat/lng, so rather than geocode 150 addresses this
+ * hands the full address — including the store name, city and pincode — to
+ * Maps' own search, which is what a person would type anyway. Maps resolves
+ * the ones it knows and shows the surrounding area for the rest, and an
+ * approximate pin beats a confidently wrong one.
  */
-const directions = (address: string, state: string) =>
+const directions = (s: Store) =>
   "https://www.google.com/maps/search/?api=1&query=" +
-  encodeURIComponent(address + ", " + title(state) + ", India");
+  encodeURIComponent(
+    s.name + ", " + s.address + ", " + s.city + ", " + title(s.state) + " " + s.pincode + ", India"
+  );
 
 export default function StoreLocator() {
   const [active, setActive] = useState<string>(STORE_STATES[0]);
@@ -35,7 +38,11 @@ export default function StoreLocator() {
   const list = useMemo(
     () =>
       q
-        ? STORES.filter((s) => (s.address + " " + s.state).toLowerCase().includes(q))
+        ? STORES.filter((s) =>
+            (s.name + " " + s.address + " " + s.city + " " + s.state + " " + s.pincode)
+              .toLowerCase()
+              .includes(q)
+          )
         : STORES.filter((s) => s.state === active),
     [q, active]
   );
@@ -177,10 +184,13 @@ export default function StoreLocator() {
                 {list.map((s, i) => (
                   <li className="loc__store" key={s.state + "-" + i}>
                     <span className="loc__storeState">{title(s.state)}</span>
-                    <address>{s.address}</address>
+                    <b className="loc__storeName">{s.name}</b>
+                    <address>
+                      {s.address}, {s.city} {s.pincode}
+                    </address>
                     <a
                       className="loc__dir"
-                      href={directions(s.address, s.state)}
+                      href={directions(s)}
                       target="_blank"
                       rel="noreferrer noopener"
                       data-cursor="Open"
