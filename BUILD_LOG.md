@@ -966,6 +966,39 @@ reported at 390 is the pre-existing `.letter` bug, unrelated and unchanged.)
 
 ---
 
+## The Edit - fifth reel added
+
+Client supplied an Instagram reel link to add to the films carousel.
+
+Worth being clear what that section is: the tiles are POSTER FRAMES that link out to the
+post. There are no video files at all - `public/media/films/` holds four jpgs and no mp4s,
+and the `src: ".../film-N.mp4"` field is an unused identifier (the existing comment says so).
+The play button is the site's own overlay. So adding a reel is a poster plus a data entry,
+not an embed.
+
+**Instagram has since closed the route the original four came through.** An unauthenticated
+fetch now returns a login-walled shell - no `og:image`, no CDN URLs, nothing. Loading the reel
+in a real browser does still expose the `og:image` meta tag, and that is where the cover came
+from. The og:description confirmed provenance before anything was downloaded: "saromfab on
+September 3, 2026" - the client's own account, their own content, going onto their own site.
+
+The cover came down at 360x640, aspect 0.562 - identical to all four existing posters, so no
+cropping or processing was needed. It also carries Instagram's baked-in play triangle, and
+checking film-3 confirmed the existing four carry the same one, so it is consistent rather
+than an artefact.
+
+The CDN URL is signed and expires (`oe=6AA86293`), which is exactly why these are stored
+locally rather than hotlinked - the existing comment in `content.ts` already warned of this.
+
+The `?stkn=` share token on the supplied link was stripped: it is a per-share credential, not
+part of the permalink.
+
+Verified: counter reads `01 / 05`, five distinct posters render, the reel URL is linked, 0
+broken images, no 4xx beyond the three known font 404s, `next build` clean. The carousel
+counter and dot count are derived from `items.length`, so both picked up the fifth on their own.
+
+---
+
 ## Outstanding for the client
 
 1. **Drop Albra `.woff2` files into `public/fonts/`** — six exact filenames listed in README.

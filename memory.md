@@ -333,6 +333,16 @@ page). `PRODUCT.md` holds the positioning brief. Nav no longer carries "Brands".
   meaningless. Neutralise the transform first (safe when every layer shares it), then test with
   `path.isPointInFill()`.
 
+- **"The Edit" films section has NO video files.** `public/media/films/` holds only jpg poster
+  frames; the `src: ".../film-N.mp4"` field is an unused identifier and the play button is the
+  site's own overlay. Each tile links out to the Instagram post. Adding a reel = one poster
+  + one entry in `FILMS.items`; the counter and dots derive from `items.length`.
+- **Instagram now login-walls unauthenticated fetches** - curl gets a shell with no `og:image`
+  and no CDN URLs. Loading the post in a real browser still exposes the `og:image` meta tag,
+  which is how poster frames are obtained. Always check `og:description` for the account name
+  and date first, to confirm the post is actually the client's own content before downloading.
+  Instagram CDN URLs are signed and expire, so store the frame locally - never hotlink.
+
 ## Reference mockups — which file drives which section
 
 The client's mockups are unlabelled WhatsApp screenshots in `reference/`. Mapping:

@@ -451,6 +451,13 @@ export const FILMS = {
       poster: "/media/films/film-4.jpg",
       source: "https://www.instagram.com/p/Da7y4blBrTb/",
     },
+    {
+      /* Added Sept 2026. The ?stkn= share token the link arrived with is
+         stripped: it is a per-share credential, not part of the permalink. */
+      src: "/media/films/film-5.mp4",
+      poster: "/media/films/film-5.jpg",
+      source: "https://www.instagram.com/reel/Dc0xBdJIOCY/",
+    },
   ].map((f, i) => ({ ...f, alt: `Sarom film ${i + 1}` })),
 };
 
