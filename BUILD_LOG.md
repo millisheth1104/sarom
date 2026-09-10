@@ -1026,6 +1026,56 @@ or 390, `tsc --noEmit` and `next build` clean.
 
 ---
 
+## Store locator - close the empty band below the store list
+
+Client pointed at a large area of empty background under the store cards.
+
+**It was not a padding problem.** Measured the two columns across widths: the sticky map is a
+portrait-aspect country and is naturally taller than a search bar, two rows of chips and a
+count line, so the panel column simply ran out before the map did.
+
+    width   map    panel   gap
+    1200    621    713     -92   (panel taller, no gap)
+    1440    746    713     +33
+    1600    809    714     +95
+    1920    844    720    +124
+
+Making `.loc__store` bigger - the literal request - would not have fixed it. For any state
+with more than a handful of stockists the list is already pinned at its `max-height`
+regardless of card size, so the panel's height is effectively fixed and the shortfall stays.
+Only a small state would have looked any different.
+
+**A pure-CSS grid stretch was tried first and reverted.** `align-items: stretch` plus
+`flex: 1` plus `height: 100%` creates a circular sizing dependency: with no definite height
+yet established, the unclamped list reports its full content height as its contribution to
+the grid row's own auto-height, so the row - and the map stretched to match it - both inflated
+to ~5800px. Measured that before backing it out; the map column was reporting 5898px tall.
+
+Fixed instead with a measurement: a `ResizeObserver` on the map's own aspect-ratio box writes
+`--loc-map-h` in px onto the grid, and the panel reads it as its height with the list
+absorbing the slack via flex. No feedback loop, because the value is read off the map and
+never depends on the panel. Same one-value-per-frame pattern the rest of this site uses for
+scroll-driven CSS, triggered by size rather than scroll.
+
+Scoped to the `@media (min-width: 1000px)` two-column layout only; the single-column stack
+below that keeps its original `max-height` cap and is untouched (verified: panel still
+`display:grid`, natural height, 0 overflow at 390px).
+
+**One real bug this surfaced.** Grid's default `align-content` behaves as `stretch` for
+auto-sized rows, so once the list box was taller than its content - a state with 2 stockists
+stretched to match the map - the leftover space was distributed by INFLATING each card
+instead of collecting after the last one. Cards rendered with a visible gap between the name
+and the address. Fixed with `align-content: start` on `.loc__list`.
+
+Verified after: gap is 0 at 1200 / 1440 / 1600 / 1920; map heights back to their true
+621-844px; list still internally scrollable (scrollHeight 5635 against a 580px box, so cards
+past the fold scroll rather than overflowing the page); Chandigarh's 2 cards keep their
+natural height with the slack below them; mobile unchanged; no console errors beyond the three
+known font 404s, including across a live resize to exercise the observer; tsc and next build
+clean.
+
+---
+
 ## Outstanding for the client
 
 1. **Drop Albra `.woff2` files into `public/fonts/`** — six exact filenames listed in README.

@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { MotionProvider, Marquee, Reveal, LineReveal } from "@/components/Motion";
 import { Preloader, Nav, Cursor, WhatsAppFab } from "@/components/Chrome";
 import Footer from "@/components/Footer";
@@ -36,6 +36,42 @@ export default function StoreLocator() {
      selected one when there is no search. */
   const lit = useMemo(() => new Set(list.map((s) => s.state)), [list]);
 
+  /* Match the panel's height to the map's, above the 1000px breakpoint where
+     they sit side by side.
+   *
+   * The map is a portrait-aspect country, so it is naturally TALLER than a
+   * few lines of search bar, chips and a count — left alone, that leaves a
+   * band of empty section background below the store list on anything wider
+   * than ~1440px (measured up to 124px at 1920px). A CSS-only stretch was
+   * tried first and rejected: it creates a circular sizing dependency (the
+   * unclamped list reports its full ~4600px content height as its
+   * contribution to the grid row's own auto-height, inflating the map to
+   * match). Measuring in JS and writing a plain pixel value has no such
+   * loop — same one-value-per-frame pattern the rest of this site uses for
+   * scroll-driven CSS, just triggered by size instead of scroll position.
+   */
+  const gridRef = useRef<HTMLDivElement>(null);
+  const stageRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const grid = gridRef.current;
+    const stage = stageRef.current;
+    if (!grid || !stage) return;
+
+    const sync = () => {
+      /* Only meaningful at/above 1000px, where the two-column layout — and
+         the CSS that reads this variable — actually applies; the var goes
+         unused by the single-column stack below that, so no guard is needed
+         beyond the CSS media query itself. */
+      grid.style.setProperty("--loc-map-h", `${stage.offsetHeight}px`);
+    };
+
+    sync();
+    const ro = new ResizeObserver(sync);
+    ro.observe(stage);
+    return () => ro.disconnect();
+  }, []);
+
   return (
     <MotionProvider>
       <Preloader />
@@ -64,9 +100,9 @@ export default function StoreLocator() {
             </Reveal>
           </div>
 
-          <div className="shell loc__grid">
+          <div className="shell loc__grid" ref={gridRef}>
             <Reveal className="loc__mapWrap" dir="fade" start="top 82%">
-              <div className="loc__stage">
+              <div className="loc__stage" ref={stageRef}>
                 <svg
                   className="loc__map"
                   viewBox={"0 0 " + INDIA_VIEWBOX.w + " " + INDIA_VIEWBOX.h}

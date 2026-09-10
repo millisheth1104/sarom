@@ -254,9 +254,53 @@ html[data-js] [data-reveal][data-inview="true"] .loc__pin {
 .loc__list {
   display: grid;
   gap: 0.55rem;
+  /* Grid's default align-content is effectively "stretch" for auto-sized
+     rows: when the box is taller than its content (e.g. a state with only
+     2 stockists, stretched to match the map's height on desktop), leftover
+     space gets distributed by INFLATING each row rather than collecting
+     after the last card. start keeps every card its own natural height and
+     puts any leftover space where it belongs, past the last one. */
+  align-content: start;
   max-height: clamp(320px, 52vh, 620px);
   overflow-y: auto;
   padding-right: 0.35rem;
+}
+@media (min-width: 1000px) {
+  /* The sticky map is a portrait-aspect country, so it is naturally TALLER
+     than a few lines of search bar, state chips and a count — measured, the
+     gap between the map's bottom edge and the panel's grew from 33px at
+     1440px wide to 124px at 1920px, all of it empty section background
+     below the store list. A bigger .loc__store card does not close this:
+     for any state with more than a handful of stockists the list is already
+     capped by max-height regardless of card size, so the shortfall is
+     structural, not a padding problem.
+
+     Tried first as a pure-CSS grid stretch (align-items:stretch + flex:1 +
+     height:100%). That created a circular sizing dependency: with a
+     definite height not yet established, the flex:1 list falls back to
+     reporting its full unclamped content height (4600px+ for a 38-store
+     state) as its CONTRIBUTION to the grid row's own auto-height
+     calculation — so the row, and therefore the map stretched to match it,
+     both inflated to ~5800px. Measured before reverting.
+
+     Fixed instead with a JS-measured height, the same one-value-per-frame
+     pattern GSAP uses elsewhere in this file: a ResizeObserver on the map's
+     own aspect-ratio box writes --loc-map-h in px onto this section, once,
+     with no dependency back on the panel's size — so there is nothing for
+     the layout to feed back on. */
+  .loc__panel {
+    display: flex;
+    flex-direction: column;
+    height: var(--loc-map-h, auto);
+  }
+  .loc__list {
+    max-height: none;
+    flex: 1;
+    /* Without this a flex item defaults to its content's height as a floor,
+       which defeats overflow-y:auto — the box would grow past the map's
+       height instead of scrolling within it. */
+    min-height: 0;
+  }
 }
 .loc__store {
   display: grid;
