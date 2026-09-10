@@ -293,17 +293,6 @@ html[data-js] [data-reveal][data-inview="true"] .loc__pin {
   line-height: 1.62;
   color: rgba(245, 240, 232, 0.82);
 }
-.loc__dir {
-  justify-self: start;
-  font-size: var(--fs-meta);
-  letter-spacing: var(--tr-meta);
-  text-transform: uppercase;
-  color: rgba(245, 240, 232, 0.6);
-  border-bottom: 1px solid rgba(245, 240, 232, 0.24);
-  padding-bottom: 2px;
-  transition: color 0.35s var(--ease-soft), border-color 0.35s var(--ease-soft);
-}
-.loc__dir:hover { color: var(--dusty-peach); border-color: var(--dusty-peach); }
 .loc__empty {
   padding: 1.4rem;
   font-size: var(--fs-body);
