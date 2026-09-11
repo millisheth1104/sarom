@@ -1,0 +1,473 @@
+/* ============================================================
+   CONTACT
+
+   Three movements, dark → ivory → linen:
+     .ct__hero    — the heading, with the three direct lines (email,
+                    phone, WhatsApp) beside it rather than under it, so
+                    anyone who does not want a form never has to scroll
+                    to find a way through.
+     .ct__main    — the enquiry form, with both offices and the social
+                    links in a narrower column beside it.
+     .ct__mapSect — the corporate office on the map.
+
+   The form's field names are the client's, not ours — see lib/contact.ts.
+   ============================================================ */
+
+.sect.ct__hero {
+  /* Clears the fixed nav, same as the locator's head. */
+  padding-block: clamp(6.5rem, 12vh, 9rem) clamp(3rem, 6vw, 5rem);
+}
+
+.ct__heroGrid {
+  display: grid;
+  gap: clamp(2.2rem, 5vw, 4rem);
+}
+@media (min-width: 900px) {
+  .ct__heroGrid {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 0.82fr);
+    /* end, not center: the direct lines should sit against the baseline of
+       the heading block, not float in the middle of its height. */
+    align-items: end;
+  }
+}
+
+.ct__title {
+  margin-top: clamp(0.6rem, 1.2vw, 1rem);
+  font-size: clamp(2.2rem, 5.6vw, 4.6rem);
+  line-height: var(--lh-snug);
+  letter-spacing: var(--tr-display);
+}
+.ct__lead {
+  margin-top: clamp(0.8rem, 1.6vw, 1.2rem);
+  max-width: 34ch;
+  font-size: var(--fs-body-lg);
+  line-height: var(--lh-body);
+  color: rgba(245, 240, 232, 0.68);
+}
+
+/* ---------------- the three direct lines ---------------- */
+.ct__direct ul {
+  display: grid;
+  gap: 0.5rem;
+}
+.ct__direct a {
+  display: grid;
+  /* icon | text | arrow — the text column is the only flexible one, so a
+     long email truncates rather than pushing the arrow off the row. */
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: clamp(0.85rem, 1.8vw, 1.15rem);
+  padding: clamp(0.9rem, 1.8vw, 1.15rem) clamp(1rem, 2vw, 1.35rem);
+  border: 1px solid rgba(245, 240, 232, 0.13);
+  border-radius: var(--radius-lg);
+  background: rgba(245, 240, 232, 0.035);
+  transition: border-color 0.4s var(--ease-soft), background-color 0.4s var(--ease-soft);
+}
+.ct__direct a:hover,
+.ct__direct a:focus-visible {
+  border-color: rgba(229, 200, 185, 0.42);
+  background: rgba(245, 240, 232, 0.07);
+}
+
+.ct__directIcon {
+  display: grid;
+  place-items: center;
+  width: clamp(34px, 3.4vw, 40px);
+  aspect-ratio: 1;
+  border-radius: var(--radius-pill);
+  background: rgba(229, 200, 185, 0.14);
+  color: var(--dusty-peach);
+}
+.ct__directIcon svg { width: 55%; height: 55%; }
+
+.ct__directText { display: grid; gap: 0.16rem; min-width: 0; }
+.ct__directText b {
+  font-family: var(--font-display);
+  font-size: clamp(0.95rem, 1.4vw, 1.1rem);
+  font-weight: 400;
+  color: var(--ivory);
+  /* The email is the longest value here and the row is the narrowest column
+     on the page at 900–1100px. */
+  overflow-wrap: anywhere;
+}
+.ct__directText span {
+  font-size: var(--fs-meta);
+  letter-spacing: var(--tr-meta);
+  text-transform: uppercase;
+  color: rgba(245, 240, 232, 0.5);
+}
+.ct__directArrow {
+  color: var(--dusty-peach);
+  transition: transform 0.45s var(--ease-out-expo);
+}
+.ct__direct a:hover .ct__directArrow,
+.ct__direct a:focus-visible .ct__directArrow {
+  transform: translateX(5px);
+}
+
+/* ============================================================
+   02 — FORM + OFFICES
+   ============================================================ */
+.ct__mainGrid {
+  display: grid;
+  gap: clamp(2.5rem, 5.5vw, 4.5rem);
+}
+@media (min-width: 1000px) {
+  .ct__mainGrid {
+    grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.72fr);
+    align-items: start;
+  }
+}
+
+.ct__h2 {
+  margin: clamp(0.5rem, 1vw, 0.8rem) 0 clamp(1.5rem, 3vw, 2.2rem);
+  font-family: var(--font-display);
+  font-size: var(--fs-h2);
+  font-weight: 400;
+  line-height: var(--lh-snug);
+  letter-spacing: var(--tr-display);
+  color: var(--ink-1);
+}
+
+/* ---------------- fields ---------------- */
+.ct__form { display: grid; gap: clamp(0.85rem, 1.8vw, 1.1rem); }
+
+.ct__field {
+  position: relative;
+  margin: 0;
+}
+.ct__field input {
+  width: 100%;
+  /* Top padding leaves room for the label to sit inside the field once it
+     floats up; without it the label would overlap the value. */
+  padding: 1.55rem 1.1rem 0.62rem;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.5);
+  color: var(--charcoal);
+  font: inherit;
+  font-size: var(--fs-body);
+  transition: border-color 0.35s var(--ease-soft), background-color 0.35s var(--ease-soft);
+}
+.ct__field input:hover { border-color: rgba(20, 17, 15, 0.24); }
+.ct__field input:focus-visible {
+  outline: none;
+  border-color: var(--ink-2);
+  background: #fff;
+}
+.ct__field input[aria-invalid] { border-color: #A6392E; }
+
+.ct__field label {
+  position: absolute;
+  left: 1.15rem;
+  top: 1.05rem;
+  font-size: var(--fs-body);
+  color: var(--stone);
+  pointer-events: none;
+  transform-origin: 0 0;
+  transition: transform 0.28s var(--ease-soft), color 0.28s var(--ease-soft);
+}
+/* Floats only while the field is EMPTY and unfocused. placeholder-shown is
+   what makes this work with no JS: the input carries a single-space
+   placeholder, so the pseudo-class tracks emptiness for us. */
+.ct__field input:focus-visible + label,
+.ct__field input:not(:placeholder-shown) + label {
+  /* scale + translate rather than a font-size change, so the label MOVES
+     instead of reflowing — a font-size transition on an absolutely
+     positioned box jitters as the text re-wraps sub-pixel. */
+  transform: translateY(-0.72rem) scale(0.72);
+  color: var(--ink-2);
+}
+
+.ct__err {
+  display: block;
+  margin-top: 0.34rem;
+  font-size: var(--fs-meta);
+  letter-spacing: 0.06em;
+  /* 4.83:1 on warm ivory — this is small text, so it has to clear AA in its
+     own right and not just look like a warning. */
+  color: #A6392E;
+}
+
+/* ---------------- who are you ---------------- */
+.ct__who {
+  margin: clamp(0.3rem, 0.8vw, 0.6rem) 0 0;
+  padding: 0;
+  border: 0;
+}
+.ct__who legend {
+  padding: 0 0 0.7rem;
+  font-size: var(--fs-meta);
+  letter-spacing: var(--tr-meta);
+  text-transform: uppercase;
+  color: var(--stone);
+}
+.ct__whoOpts {
+  display: grid;
+  gap: 0.5rem;
+}
+@media (min-width: 560px) {
+  .ct__whoOpts { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+.ct__whoOpt {
+  position: relative;
+  display: grid;
+  gap: 0.22rem;
+  padding: 0.9rem 1rem;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.45);
+  cursor: pointer;
+  transition: border-color 0.3s var(--ease-soft), background-color 0.3s var(--ease-soft);
+}
+.ct__whoOpt:hover { border-color: rgba(20, 17, 15, 0.26); }
+/* The native radio is stretched over the whole card and given no appearance.
+   appearance:none removes the glyph but keeps the control focusable AND
+   keeps its outline paintable — which an opacity:0 input would not, so the
+   keyboard focus ring covers the card without needing :has(). */
+.ct__whoOpt input {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  appearance: none;
+  -webkit-appearance: none;
+  border: 0;
+  background: none;
+  border-radius: inherit;
+  cursor: pointer;
+}
+.ct__whoOpt input:focus-visible {
+  outline: 2px solid var(--ink-2);
+  outline-offset: 2px;
+}
+.ct__whoOpt b {
+  font-family: var(--font-display);
+  font-size: var(--fs-body);
+  font-weight: 400;
+  color: var(--ink-1);
+}
+.ct__whoOpt span {
+  font-size: var(--fs-meta);
+  line-height: 1.5;
+  color: var(--stone);
+}
+.ct__whoOpt[data-on] {
+  border-color: var(--charcoal);
+  background: var(--charcoal);
+}
+.ct__whoOpt[data-on] b { color: var(--ivory); }
+.ct__whoOpt[data-on] span { color: rgba(245, 240, 232, 0.66); }
+.ct__whoOpt[data-on] input:focus-visible {
+  outline-color: var(--dusty-peach);
+}
+
+/* ---------------- honeypot ---------------- */
+.ct__trap {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+/* ---------------- submit ---------------- */
+.ct__submit {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: clamp(0.9rem, 2vw, 1.4rem);
+  margin-top: clamp(0.5rem, 1vw, 0.8rem);
+}
+.ct__submit .btn { flex: 0 0 auto; }
+.ct__submit .btn[disabled] { opacity: 0.55; cursor: progress; }
+.ct__note {
+  flex: 1 1 16ch;
+  min-width: 0;
+  font-size: var(--fs-meta);
+  line-height: 1.6;
+  color: var(--stone);
+}
+
+.ct__status:empty { display: none; }
+.ct__fail {
+  padding: 0.85rem 1rem;
+  border: 1px solid rgba(166, 57, 46, 0.4);
+  border-radius: var(--radius);
+  background: rgba(166, 57, 46, 0.06);
+  font-size: var(--fs-body);
+  line-height: 1.6;
+  color: #8C2F26;
+}
+.ct__fail a { text-decoration: underline; text-underline-offset: 0.2em; }
+
+/* ---------------- the sent state ---------------- */
+.ct__done {
+  display: grid;
+  justify-items: start;
+  gap: 1rem;
+  padding: clamp(1.6rem, 3.4vw, 2.4rem);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-lg);
+  background: rgba(255, 255, 255, 0.55);
+}
+.ct__done:focus-visible { outline: 2px solid var(--ink-2); outline-offset: 3px; }
+.ct__doneMark {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  aspect-ratio: 1;
+  border-radius: var(--radius-pill);
+  background: var(--soft-sage);
+  color: var(--charcoal);
+}
+.ct__doneMark svg { width: 58%; height: 58%; }
+.ct__done p {
+  max-width: 34ch;
+  font-size: var(--fs-body-lg);
+  line-height: var(--lh-body);
+  color: var(--ink-1);
+}
+
+/* ---------------- the offices aside ---------------- */
+.ct__offices {
+  display: grid;
+  gap: clamp(1.4rem, 3vw, 2rem);
+  margin-top: clamp(1rem, 2vw, 1.4rem);
+}
+.ct__offices > li {
+  display: grid;
+  justify-items: start;
+  gap: 0.7rem;
+  padding-top: clamp(1.1rem, 2.2vw, 1.5rem);
+  border-top: 1px solid var(--rule);
+}
+.ct__offices h3 {
+  margin: 0;
+  font-size: var(--fs-meta);
+  font-weight: 400;
+  letter-spacing: var(--tr-meta);
+  text-transform: uppercase;
+  color: var(--ink-2);
+}
+.ct__offices address {
+  display: grid;
+  font-style: normal;
+  font-size: var(--fs-body);
+  line-height: 1.62;
+  color: var(--ink-1);
+}
+/* Two columns, label then value, so Email and Phone line up across both
+   offices instead of each wrapping to its own width. */
+.ct__offices dl {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.3rem 1rem;
+  margin: 0;
+  font-size: var(--fs-body);
+}
+.ct__offices dt {
+  font-size: var(--fs-meta);
+  letter-spacing: var(--tr-meta);
+  text-transform: uppercase;
+  color: var(--stone);
+  /* Nudged down so the small-caps label sits on the value's baseline. */
+  padding-top: 0.18em;
+}
+.ct__offices dd { margin: 0; overflow-wrap: anywhere; }
+.ct__offices dd a { color: var(--ink-1); }
+.ct__offices dd a:hover { color: var(--ink-2); }
+
+.ct__social { margin-top: clamp(1.6rem, 3.4vw, 2.4rem); }
+.ct__social ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: clamp(0.8rem, 1.6vw, 1.1rem);
+}
+.ct__social a {
+  display: inline-flex;
+  padding: 0.42rem 0.8rem;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-pill);
+  font-size: var(--fs-meta);
+  letter-spacing: var(--tr-meta);
+  text-transform: uppercase;
+  color: var(--stone);
+  transition: color 0.3s var(--ease-soft), border-color 0.3s var(--ease-soft),
+    background-color 0.3s var(--ease-soft);
+}
+.ct__social a:hover,
+.ct__social a:focus-visible {
+  color: var(--ivory);
+  background: var(--charcoal);
+  border-color: var(--charcoal);
+}
+@media (max-width: 700px) {
+  /* Measured at 34px tall on a 390px viewport — over the 24px WCAG 2.5.8
+     floor but under a comfortable thumb. These are the only touch targets
+     on the page that were short, so they are padded rather than the rule
+     being applied site-wide. */
+  .ct__social a { padding-block: 0.7rem; }
+}
+
+/* ============================================================
+   03 — MAP
+   ============================================================ */
+.ct__mapCard {
+  display: grid;
+  gap: clamp(1.2rem, 2.6vw, 2rem);
+  align-items: center;
+}
+@media (min-width: 900px) {
+  .ct__mapCard { grid-template-columns: minmax(0, 1fr) minmax(0, 0.42fr); }
+}
+
+.ct__mapFrame {
+  width: 100%;
+  /* Wide and short on desktop, squarer on a phone — an address map only has
+     to establish the area, and a tall one on a narrow screen pushes the
+     caption off the fold. */
+  aspect-ratio: 16 / 9;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-lg);
+  /* The embed paints white to its own corners, so the radius has to clip. */
+  overflow: hidden;
+  /* Google's iframe carries a default 2px inset border. */
+  display: block;
+  /* Grey while it loads, rather than a flash of white in a warm page. */
+  background: var(--linen);
+  filter: saturate(0.82);
+}
+@media (max-width: 560px) {
+  .ct__mapFrame { aspect-ratio: 4 / 3; }
+}
+
+.ct__mapCaption {
+  display: grid;
+  justify-items: start;
+  gap: 0.8rem;
+}
+.ct__mapCaption address {
+  font-style: normal;
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  color: var(--ink-1);
+}
+
+/* ============================================================
+   REDUCED MOTION
+   The reveal engine handles its own; these are the local transitions,
+   and the label float is the one that matters — it is the only motion
+   here tied to typing.
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  .ct__field label,
+  .ct__field input,
+  .ct__whoOpt,
+  .ct__direct a,
+  .ct__directArrow,
+  .ct__social a {
+    transition: none;
+  }
+}

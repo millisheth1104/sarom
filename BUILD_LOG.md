@@ -1074,6 +1074,63 @@ natural height with the slack below them; mobile unchanged; no console errors be
 known font 404s, including across a live resize to exercise the observer; tsc and next build
 clean.
 
+## /contact — the contact page
+
+New route `/contact`, built from the client's own live `contact.php` plus the enquiry form
+that page embeds. Files: `components/ContactPage.tsx`, `lib/contact.ts`, `app/contact.css`,
+`app/contact/page.tsx`, `app/api/contact/route.ts`. Nav, footer nav and footer legal links all
+repointed from `/contact.php` to `/contact` (3 occurrences in `lib/content.ts`).
+
+Three movements, dark -> ivory -> linen: the heading with the three direct lines (email, phone,
+WhatsApp) beside it rather than under it; the enquiry form with both offices and the social
+links in a narrower column next to it; the corporate office on the map.
+
+**The form posts to the client's own handler, proxied.** The live contact page iframes a form
+at `spectrum-impact.org/saromwebsiteformlive/`. Keeping our own markup but posting straight
+there fails both ways from the browser: a native form POST navigates the visitor off the site
+onto the vendor's bare success page, and `fetch` is blocked cross-origin with no CORS headers.
+`app/api/contact/route.ts` takes JSON from our form, validates it, and re-posts it as the
+url-encoded payload the vendor's PHP handler actually reads - server-to-server, so neither
+problem applies and the visitor never leaves the page. The field names (`first_name`,
+`phone_number`, `email`, `f_option`, plus the `submit` button name) are the VENDOR's, stated
+once in `lib/contact.ts`; renaming any of them silently detaches the form from the inbox.
+Endpoint is overridable via `CONTACT_FORM_ENDPOINT`.
+
+**No message field.** The client's handler accepts name, phone, email and audience, and no
+free text. A textarea is deliberately not rendered rather than collecting what the endpoint
+would discard.
+
+**One real bug, caught by measurement.** `maxLength={10}` on the phone input counts RAW
+characters, not digits: pasting "+91 86579 44323" was cut to "+91 86579 " and the digit-strip
+then left `9186579` - a seven-digit number, wrong and silently so. The code comment had
+claimed the opposite. Replaced with `normalisePhone()` in `lib/contact.ts`, shared by the form
+and the route: strip non-digits, drop leading zeros (STD trunk and `00` international), then
+drop a `91` country code but only while what remains is longer than 10, so a genuine 10-digit
+mobile beginning `91` is left alone. 10 cases unit-tested, all pass.
+
+Also fixed: social pills measured 34px tall at 390px (over the 24px WCAG 2.5.8 floor but under
+a comfortable thumb) - padded on `max-width: 700px` only.
+
+Verified in real Chrome: no horizontal page overflow at 1440 or 390 (`scrollWidth == innerWidth`
+both); floating labels move on focus and return when blurred empty; empty submit posts nothing,
+raises all four messages, sets `aria-invalid` and focuses the first bad field; a pasted
+international number normalises to `8657944323`; failure path shows the email/phone fallback in
+an `aria-live` region with the form intact; success path replaces the form and moves focus to
+the confirmation. Route validation exercised directly - 400 on short name, short phone, bad
+email and an out-of-set audience, 405 on GET, and a filled honeypot answers a silent 200
+without forwarding. All 17 text styles measured for contrast over their real composited
+backgrounds, lowest 4.74:1, zero failures. Reduced motion leaves nothing hidden. tsc and
+next build clean.
+
+**The map.** Google's `/maps/embed?pb=` string is the client's verbatim, kept rather than
+rebuilt from coordinates because it carries Google's own place id for "Kerom" - verified in
+headed Chrome to resolve to "Kerom SAROM Fab Pvt Ltd, Plot No. A/112 ... Thane West 400604".
+Re-deriving it from a lat/lng would mean inventing coordinates the source does not publish.
+Its viewport is very wide (a ~240km span, the client's own value); tightening it would need
+real coordinates for the office, since the string's centre sits ~14km west of the pin.
+Headless Chrome does not composite the map tiles - the embed's own UI chrome paints and the
+requests return 200, so verify the map headed.
+
 ---
 
 ## Outstanding for the client

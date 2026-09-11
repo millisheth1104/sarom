@@ -4,9 +4,9 @@ Knowledge base for this project: decisions, constraints, and answers to things
 that will come up again. `BUILD_LOG.md` is the chronological history of what
 was built and fixed; this file is the reference for *why* and *how it works*.
 
-**Scope has grown past the homepage.** Three routes now: `/` (homepage),
+**Scope has grown past the homepage.** Five routes now: `/` (homepage),
 `/ecatalogue` (all 204 catalogues, filterable), `/about` (7-section editorial
-page). `PRODUCT.md` holds the positioning brief. Nav no longer carries "Brands".
+page), `/store-locator` and `/contact`. `PRODUCT.md` holds the positioning brief. Nav no longer carries "Brands".
 
 ---
 
@@ -398,6 +398,10 @@ runs ~3.5pp taller than the reference. That is expected, not a bug.
 - 5 house brands: SJ, Oofy, Matlin, Smart Plus, Beds & More.
 - Contact: Sarom Fab Pvt. Ltd., 2nd Floor, Kerom, Plot No A/112, Wagle Industrial Estate,
   Thane West – 400604. customercare@sarom.info, +91-8657944323.
+  The **contact page** carries a LONGER form of that address than the footer does — it adds
+  the two landmarks "Near Toyota Showroom, Next To SBI Bank". Both are the client's; `/contact`
+  uses the full one, `SITE.address` stays the compact one. There is also a second,
+  **registered office**: VidyaVihar, Mumbai – 400086, same email and phone.
 - Performance tags (from live site): Water Repellent, Child Friendly, Party Friendly, Pet
   Friendly, Durable, Easy Clean, Stain Friendly, Fire Retardant.
 - **204 catalogues** drive `/ecatalogue`, in `lib/catalogues.ts`, filterable by brand and by
@@ -408,6 +412,38 @@ runs ~3.5pp taller than the reference. That is expected, not a bug.
 - **Bedsheet catalogues are still a stand-in.** "Beds & More" is standing in for real bedsheet
   catalogues that the client has not supplied.
 - **5 catalogues have no PDF on sarom.info**: Regalia, Cloud, Willow, Auralia, Abruzzi.
+
+## The /contact page — the form is not ours
+
+`/contact` is `components/ContactPage.tsx` + `lib/contact.ts` + `app/contact.css`, with a
+route handler at `app/api/contact/route.ts`.
+
+**The enquiry form belongs to the client's vendor.** Their live contact page iframes a form at
+`spectrum-impact.org/saromwebsiteformlive/`. We render our own markup but post the vendor's
+exact payload — `first_name`, `phone_number`, `email`, `f_option` (values `End User` / `Store`
+/ `Interior or Architect`), plus `submit` — **proxied server-side**. Both browser-side options
+fail: a native form POST navigates the visitor onto the vendor's bare success page, and
+`fetch` is blocked cross-origin with no CORS. The names live once in `FIELD_NAMES`; renaming
+one silently detaches the form from the client's inbox. `CONTACT_FORM_ENDPOINT` overrides the
+URL.
+
+- **There is no message field, on purpose.** The handler accepts those four fields and no free
+  text. Do not add a textarea until the handler accepts one — it would collect what the
+  endpoint discards.
+- **Never fire a live submission to verify.** It puts a real lead in the client's inbox. The
+  route rejects invalid payloads *before* any outbound fetch, so validation is testable
+  (400s, 405 on GET, honeypot → silent 200); the form's failure and success paths are testable
+  by intercepting `/api/contact` in Playwright.
+- **`maxLength` on a phone input is a trap.** It counts raw characters, so "+91 86579 44323"
+  is cut to "+91 86579 " and a digit-strip then yields `9186579` — silently wrong. Use
+  `normalisePhone()` from `lib/contact.ts` (shared by form and route), not an inline strip.
+- **The Google Maps embed is the client's verbatim `pb=` string**, kept because it carries
+  Google's own place id for "Kerom" and therefore lands on the real building. Rebuilding it
+  from a lat/lng would invent coordinates the source does not publish — same rule as the store
+  locator. Its viewport is a ~240km span and the centre sits ~14km west of the pin, so
+  tightening the zoom needs real coordinates first.
+- **Headless Chrome does not composite Google Maps tiles.** The frame loads (200s) and the
+  embed's own UI chrome paints, but the map reads as a blank grey box. Verify the map headed.
 
 ## Verification harness (use it — build success proves almost nothing here)
 

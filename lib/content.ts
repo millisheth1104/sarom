@@ -76,7 +76,7 @@ export const NAV = [
   { label: "About Us", href: "/about" },
   { label: "e-Catalogue", href: "/ecatalogue" },
   { label: "Store Locator", href: "/store-locator" },
-  { label: "Contact", href: "/contact.php" },
+  { label: "Contact", href: "/contact" },
 ];
 
 /** Hero — built from the live site's own positioning language. */
@@ -305,7 +305,7 @@ export const FOOTER_NAV = [
   { label: "Collection", href: "/ecatalogue" },
   { label: "About", href: "/about" },
   { label: "Our Story", href: "/about" },
-  { label: "Contact", href: "/contact.php" },
+  { label: "Contact", href: "/contact" },
 ];
 
 export const FOOTER_IMAGE = {
@@ -597,7 +597,7 @@ export const FOOTER_LINKS = {
   brands: BRANDS.map((b) => ({ label: b.name, href: b.href })),
   legal: [
     { label: "Privacy Policy", href: "/privacy-policy.php" },
-    { label: "Contact", href: "/contact.php" },
+    { label: "Contact", href: "/contact" },
   ],
 };
 
