@@ -1176,6 +1176,34 @@ inside a 3D sweep, so their transformed heights are meaningless); zero clipped o
 text in the pillars, Why cards or timeline; no horizontal page overflow; no console errors
 beyond the three known font 404s. tsc and next build clean.
 
+## Hero video swapped, and the sound toggle removed
+
+Client supplied a properly compressed hero video and asked for the sound control to go.
+
+`public/media/sarom-interiors.mp4` is now the 11.3MB re-encode (was 19.9MB, -43%). Verified
+it is the same footage before swapping, by parsing the MP4 atoms rather than trusting the
+filename: both 1920x1080, both 10.177s, both H.264, differing only in bitrate (8,885 vs
+15,669 kbps) and MD5. This matters because the file supplied on the previous round was
+byte-identical to the original and nothing was actually swapped.
+
+**The sound toggle was a dead control.** Removed `.hero__vidctl` — the button, the `muted`
+state, `toggleSound`, and its CSS in both `sections.css` and `responsive.css`. Worth
+recording WHY it was dead rather than just unwanted: neither the old nor the new file has an
+audio track at all. Zero `soun`, `mp4a` and `esds` atoms in both, one `hdlr` of type `vide`
+and nothing else, and Chrome reports `webkitAudioDecodedByteCount === 0` at runtime. So
+clicking "Sound Off" only ever unmuted silence. If audio is ever added to the footage the
+control has to come back with it.
+
+The video keeps its `muted` attribute — that is what permits autoplay, and is unrelated to
+the toggle. The autoplay-retry fallback no longer re-mutes on failure, since there is now no
+path by which the element could be unmuted.
+
+Verified in real Chrome at 1440 and 390: zero `.hero__vidctl` nodes and no "Sound Off"/"Sound
+On" text anywhere in the page; the new 11,303,388-byte file is the one served; the video is
+genuinely PLAYING, not merely loaded (`paused: false`, and `currentTime` advanced 1.21s over
+a 1.2s wait); 1920x1080 at `data-ready="true"` and opacity 1; no console errors beyond the
+known font 404s. tsc clean.
+
 ---
 
 ## Outstanding for the client
@@ -1185,7 +1213,9 @@ beyond the three known font 404s. tsc and next build clean.
 2. **Photography** — largely resolved from the Brand Book extracts (886–3277px). Remaining gap:
    only ~8 distinct product scenes exist, so images repeat across sections. More shots would let
    each composition hold its own imagery.
-3. **Compress the hero video** — still outstanding. The Drive link supplied
-   (`1JSdz-MEZMOYHU2RvJk7b6gq5_JAeZ2-N`) is **byte-identical to the original**: same MD5
-   `9185b3e06ec27f54d75b5808f358b561`, same 19,933,242 bytes. No compression was applied, so
-   nothing was swapped in. `ffmpeg` recipe and poster-frame step are in the README.
+3. ~~**Compress the hero video**~~ — **RESOLVED 2026-09-11.** The client supplied
+   `Sarom 10 Mb.mp4`, genuinely re-encoded this time: 11,303,388 bytes against the original's
+   19,933,242 (-43%), MD5 `b58a6954…` against `9185b3e0…`. Same footage — 1920x1080, 10.177s,
+   H.264 — at 8,885 kbps instead of 15,669. Swapped in as
+   `public/media/sarom-interiors.mp4`. A poster frame is still not set; the `ffmpeg` recipe
+   for one is in the README if the 11MB first paint needs improving further.

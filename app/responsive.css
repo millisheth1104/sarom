@@ -44,14 +44,6 @@
     grid-column: 1 / 13;
     justify-content: flex-start;
   }
-  .hero__vidctl {
-    top: auto;
-    bottom: auto;
-    right: var(--gutter);
-    transform: none;
-    top: clamp(5.5rem, 12vw, 7rem);
-  }
-
   .statement__title { grid-column: 1 / 13; }
   .statement__body { grid-column: 1 / 13; }
   .statement__meta {

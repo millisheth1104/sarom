@@ -16,7 +16,6 @@ export default function Hero() {
   const rootRef = useRef<HTMLElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const [ready, setReady] = useState(false);
-  const [muted, setMuted] = useState(true);
 
   // Reveal the video only once it actually has a frame to show.
   useEffect(() => {
@@ -27,10 +26,12 @@ export default function Hero() {
     if (v.readyState >= 2) onReady();
     v.addEventListener("loadeddata", onReady, { once: true });
 
-    // Some browsers refuse the initial autoplay promise; retry once muted.
+    /* Some browsers refuse the initial autoplay promise (data saver, a
+       background tab at load); retry once. The video is permanently muted
+       and the file carries no audio track at all, so there is nothing to
+       re-mute on the retry the way there was when this was unmutable. */
     const tryPlay = () => {
       v.play().catch(() => {
-        v.muted = true;
         v.play().catch(() => {});
       });
     };
@@ -85,14 +86,6 @@ export default function Hero() {
     return () => ctx.revert();
   }, []);
 
-  const toggleSound = () => {
-    const v = videoRef.current;
-    if (!v) return;
-    v.muted = !v.muted;
-    setMuted(v.muted);
-    if (!v.muted) v.play().catch(() => {});
-  };
-
   return (
     <section className="hero" ref={rootRef} data-nav-tone="dark" aria-label="Introduction">
       <div className="hero__media">
@@ -117,10 +110,6 @@ export default function Hero() {
           <rect width="100%" height="100%" filter="url(#grain)" />
         </svg>
       </div>
-
-      <button className="hero__vidctl" onClick={toggleSound} aria-pressed={!muted}>
-        {muted ? "Sound Off" : "Sound On"}
-      </button>
 
       <div className="hero__inner">
         <p className="hero__eyebrow" data-reveal="fade" data-reveal-start="top 100%">

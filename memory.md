@@ -445,6 +445,17 @@ URL.
 - **Headless Chrome does not composite Google Maps tiles.** The frame loads (200s) and the
   embed's own UI chrome paints, but the map reads as a blank grey box. Verify the map headed.
 
+## The hero video has NO audio track
+
+Both the original and the 2026-09-11 re-encode of `public/media/sarom-interiors.mp4` carry a
+single `vide` handler and zero `soun` / `mp4a` / `esds` atoms; Chrome confirms it at runtime
+with `webkitAudioDecodedByteCount === 0`. The hero's old "Sound Off / Sound On" button
+therefore toggled nothing — it was removed at the client's request on 2026-09-11, and it
+should only come back if audio is actually added to the footage.
+
+The `<video muted>` attribute stays regardless: that is what permits autoplay, and is not
+the toggle.
+
 ## Verification harness (use it — build success proves almost nothing here)
 
 Every visual claim in this project is checked by driving the **installed Chrome** through
@@ -589,9 +600,10 @@ About work — don't attribute it there.
    No code change needed; the `@font-face` blocks already reference them.
 2. **Real bedsheet catalogues** — "Beds & More" is a stand-in.
 3. **PDFs for 5 catalogues** absent from sarom.info: Regalia, Cloud, Willow, Auralia, Abruzzi.
-4. **A compressed hero video.** The Drive file supplied previously was **byte-identical** to
-   the original (same MD5, same 19,933,242 bytes) — no compression had been applied, so
-   nothing was swapped in. `ffmpeg` recipe and poster-frame step are in the README.
+4. ~~A compressed hero video~~ — **DONE 2026-09-11**: 11.3MB re-encode swapped in (was
+   19.9MB). Still no poster frame. **Verify a supplied video by parsing its MP4 atoms, not by
+   its filename** — the round before this one shipped a file called compressed that was
+   byte-identical to the original, and it was caught only by MD5.
 5. **More photography.** Only ~8 distinct product scenes exist, so images repeat across
    sections of `/about`.
 

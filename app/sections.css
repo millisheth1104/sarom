@@ -196,32 +196,6 @@
   }
 }
 
-/* Mute / sound toggle for the hero video */
-.hero__vidctl {
-  position: absolute;
-  top: 50%;
-  right: var(--gutter);
-  transform: translateY(-50%);
-  display: inline-flex;
-  align-items: center;
-  gap: 0.6rem;
-  padding: 0.6rem 1rem;
-  border: 1px solid rgba(245, 240, 232, 0.28);
-  border-radius: var(--radius-pill);
-  font-size: 0.625rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: rgba(245, 240, 232, 0.82);
-  background: rgba(20, 17, 15, 0.22);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-  transition: border-color 0.4s, color 0.4s;
-}
-.hero__vidctl:hover {
-  border-color: var(--dusty-peach);
-  color: var(--ivory);
-}
-
 /* ============================================================
    BRAND STATEMENT
    ============================================================ */
