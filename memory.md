@@ -481,9 +481,20 @@ placeholders remain — do not add one.** Sources:
 - `reference/Brand Book.pdf` — About Us and Our Strength copy, the founders' note, warehouse
   and SKU figures.
 
+**A THIRD SOURCE now outranks both: client copy supplied 2026-09-11.** It rewrote Mission,
+Vision, Strength, all four timeline entries and all five Why cards, and it RAISED the reach
+figures. Where it overlaps the other two, it wins.
+
 Facts, so they don't get re-derived: founded **2005** by Mr. Amarshi Shah and Mr. Shantilal
 Shah; six directors (Amarshi, Shantilal, Manish, Rohit, Milin Shah, Deepak Nishar);
-**200+ cities, 1,000+ stores, 6,000+ SKUs, 3 Lakh+ sq ft** warehouse; Thane, Maharashtra.
+**200+ cities, 10,000+ touchpoints, 10,000+ SKUs, 3 Lakh+ sq ft** warehouse; Thane,
+Maharashtra. The client's own term is **touchpoints**, not stores. The older
+*1,000+ stores / 6,000+ SKUs* pair is superseded as a CURRENT claim but is still correct
+inside the timeline as 2005-2010 and 2016-2021 period figures - don't "fix" those.
+
+Reach figures live in `REACH` + `REACH_CHAPTERS`, which are a different section from the
+timeline and Why cards. **Changing one and not the other puts two contradictory counts on the
+same page** - that already happened once and had to be reconciled.
 
 Where the sources disagree the **live site wins as the public claim** — the Brand Book says
 "over 1,200 stores", about.php says "1000+". `1,000+` is used, true under both.

@@ -645,11 +645,25 @@
 
 
 .ask__cardNum {
-  display: block;
+  display: flex;
+  /* The label can be two words on a 270px card, so it wraps under the number
+     rather than squeezing the headline. */
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.5rem;
   font-size: var(--fs-meta);
   letter-spacing: var(--tr-meta);
   font-variant-numeric: tabular-nums;
   color: var(--ink-2, #7e5f4d);
+}
+/* The client's category label — "01 — DESIGN & QUALITY". The em-dash is a
+   pseudo-element so it is not read out as punctuation between two words. */
+.ask__cardNum em {
+  font-style: normal;
+  text-transform: uppercase;
+}
+.ask__cardNum em::before {
+  content: "— ";
 }
 .ask__cardTitle {
   margin-top: 0.7rem;

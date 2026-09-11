@@ -10,9 +10,17 @@
  * Nothing here is invented. Long-form copy is trimmed rather than rewritten:
  * where a sentence is shortened, it keeps the brand's own words.
  *
- * Where the two sources disagree, the live site wins as the public claim:
- * the Brand Book says "over 1,200 stores", about.php says "1000+ stores".
- * `1,000+` is used, which is true under both.
+ * THIRD AND NEWEST SOURCE — client copy supplied 2026-09-11, which SUPERSEDES
+ * both of the above wherever they overlap. It rewrote Mission, Vision,
+ * Strength, all four timeline entries and all five Why cards, and it raises
+ * the reach figures to "200+ cities and 10,000+ Touchpoints with 10,000+
+ * SKU’s" (previously 1,000+ stores and 6,000+ SKUs). `REACH` and
+ * `REACH_CHAPTERS` were updated to match: leaving them would have put two
+ * different store and SKU counts on the same page.
+ *
+ * The older note on this, kept for the record: where about.php and the Brand
+ * Book disagreed, the live site won as the public claim — the Brand Book
+ * said "over 1,200 stores", about.php "1000+ stores".
  */
 
 /* ── 1 · HERO ─────────────────────────────────────────────────────────── */
@@ -84,11 +92,20 @@ export const FOUNDERS = [
 
 /* ── 4 · REACH ────────────────────────────────────────────────────────── */
 
-/** Figures from about.php (cities, stores) and the Brand Book (SKUs, sq ft). */
+/**
+ * Reach figures.
+ *
+ * Cities and the warehouse are unchanged. The other two were RAISED to the
+ * client's 2026-09-11 copy, which supersedes both earlier sources: that copy
+ * states "200+ cities and 10,000+ Touchpoints with 10,000+ SKU's", against
+ * about.php's "1000+ stores" and the Brand Book's "6,000+ SKUs". Left alone
+ * these would have contradicted the timeline and the Why cards ON THE SAME
+ * PAGE. Note the client's own term is now "touchpoints", not "stores".
+ */
 export const REACH = [
   { value: 200, suffix: "+", label: "Cities" },
-  { value: 1000, suffix: "+", label: "Stores" },
-  { value: 6000, suffix: "+", label: "SKUs" },
+  { value: 10000, suffix: "+", label: "Touchpoints" },
+  { value: 10000, suffix: "+", label: "SKUs" },
   /* Non-breaking space: the figure sits in a nowrap flex row, which collapses
      an ordinary leading space and renders "3Lakh+". */
   { value: 3, suffix: " Lakh+", label: "Sq. Ft. Warehouse" },
@@ -97,8 +114,8 @@ export const REACH = [
 /** Named chapters for the Reach rail. */
 export const REACH_CHAPTERS = [
   { id: "presence", label: "Presence", body: "A PAN India presence across 200 cities, and the preferred choice of architects and interior designers." },
-  { id: "retail", label: "Retail", body: "Over 1,000 stores carry Sarom, with a growing presence in overseas markets." },
-  { id: "range", label: "Range", body: "More than 6,000 SKUs across designs, colours and textures." },
+  { id: "retail", label: "Retail", body: "Sarom reaches 10,000+ touchpoints across India, with a growing presence in overseas markets." },
+  { id: "range", label: "Range", body: "More than 10,000 SKUs across designs, colours and textures." },
   { id: "logistics", label: "Logistics", body: "A centralised 3 lakh+ sq. ft. warehouse with real-time inventory and same-day dispatch." },
 ];
 
@@ -129,59 +146,69 @@ export const PILLARS = [
     index: "01",
     title: "Mission",
     body:
-      "To elevate the Indian home furnishings market with superior fabrics, designs and decor solutions for the best return value.",
+      "To transform spaces through fabrics that bring together design, quality and enduring value.",
   },
   {
     key: "vision",
     index: "02",
     title: "Vision",
     body:
-      "To be your one-stop destination for exquisite furnishings — enhancing and personalising your luxurious home experience.",
+      "To shape the future of furnishings in India — making exceptional design accessible to every space.",
   },
   {
     key: "strength",
     index: "03",
     title: "Strength",
     body:
-      "A trendsetter in product quality and design, evolving to meet the needs of both customers and the market — a go-to name for sourcing and retail alike.",
+      "A world of fabrics. An eye for what’s next. A network built to deliver. Sarom combines scale, design and service to keep India beautifully furnished.",
   },
 ];
 
 /* ── 6 · WHY ──────────────────────────────────────────────────────────── */
 
 /**
- * Drawn from about.php's "Why Sarom?" and the Brand Book's "Our Strength" —
- * split into the distinct claims those two passages actually make.
+ * The client's five "Why Sarom" cards, supplied as copy (2026-09-11) and used
+ * verbatim. Each carries THREE levels, which is why `label` exists alongside
+ * `title`: the client wrote them as "01 — DESIGN & QUALITY" (the category),
+ * then a headline, then the supporting line. The card's number is generated
+ * from the array order, so the numbering cannot drift out of step with it.
  */
 export const WHY = [
   {
-    id: "quality",
-    title: "Quality & Design",
-    body: "A trendsetter in product quality and design, evolving with our customers' needs.",
+    id: "design",
+    label: "Design & Quality",
+    title: "Made to look good. Made to last.",
+    body:
+      "Thoughtfully crafted fabrics that bring together trendsetting design, evolving styles and lasting quality.",
     image: { src: "/media/about/2.webp", alt: "" },
   },
   {
-    id: "range",
-    title: "Range",
-    body: "An extensive collection of sophisticated fabrics — the preferred choice for sourcing and retail alike.",
+    id: "choice",
+    label: "Endless Choice",
+    title: "Something for every space.",
+    body: "A wide world of textures, colours, patterns and styles to choose from.",
     image: { src: "/media/about/1.webp", alt: "" },
   },
   {
-    id: "palette",
-    title: "Colour & Pattern",
-    body: "A vibrant range of colours and designs, answering the demands of today's consumer.",
+    id: "reach",
+    label: "PAN-India Reach",
+    title: "Always within reach.",
+    body: "Sarom is available across 200+ cities and 10,000+ touchpoints.",
     image: { src: "/media/about/5.webp", alt: "" },
   },
   {
     id: "service",
-    title: "Service",
-    body: "Same-day dispatch from a centralised warehouse, with real-time inventory management.",
+    label: "Quick Service",
+    title: "Because waiting shouldn’t be part of the process.",
+    body: "Strong stock availability and efficient dispatch keep things moving.",
     image: { src: "/media/about/6.webp", alt: "" },
   },
   {
-    id: "oem",
-    title: "OEM Partnership",
-    body: "Customisation backed by an in-house design and merchandising team aligned with global trends.",
+    id: "custom",
+    label: "Made For You",
+    title: "Your idea. Our fabric expertise.",
+    body:
+      "Customised solutions backed by our in-house design and merchandising team.",
     image: { src: "/media/about/3.webp", alt: "" },
   },
 ];
@@ -196,25 +223,29 @@ export const JOURNEY = [
   {
     year: "2005—2010",
     title: "Making our mark",
-    body: "30 product catalogues a year, 1,000+ SKUs and around 500 dealers. We were the first to introduce ‘cut-length service’ to the Indian market.",
+    body:
+      "Sarom entered the furnishing world with 1,000+ SKUs and 500 dealers, pioneering cut-length service in India and setting a new standard for accessibility.",
     image: "/media/about/3.webp",
   },
   {
     year: "2011—2015",
-    title: "A go-to name",
-    body: "100 product catalogues each year, 4,000 SKUs and 2,000 dealers on our list.",
+    title: "Becoming a go-to name",
+    body:
+      "With 4,000 SKUs and 2,000 dealers, Sarom grew into a trusted name — bringing greater choice, design and service across India.",
     image: "/media/about/1.webp",
   },
   {
     year: "2016—2021",
-    title: "Innovators and trendsetters",
-    body: "200 catalogues a year, 10,000 SKUs and more than 4,000 dealers across India.",
+    title: "Innovators & trendsetters",
+    body:
+      "6,000+ SKUs. 3,000+ dealers. A growing design legacy. Sarom emerged as a trendsetter in India’s furnishing landscape.",
     image: "/media/about/6.webp",
   },
   {
     year: "Today",
-    title: "PAN India, and beyond",
-    body: "Over 1,000 stores across 200 cities, with a growing presence in overseas markets.",
+    title: "PAN India & beyond",
+    body:
+      "With products available across 200+ cities and 10,000+ touchpoints, and 10,000+ SKUs, Sarom continues to grow, evolve and shape the future of Indian furnishings.",
     image: "/media/about/4.webp",
   },
 ];

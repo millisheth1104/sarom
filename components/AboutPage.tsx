@@ -277,6 +277,12 @@ function Reach() {
         const end = Number(el.dataset.count);
         if (!Number.isFinite(end)) return;
         const obj = { v: 0 };
+        /* The markup carries the REAL figure, so a visitor with reduced
+           motion or no JS reads "10,000+" rather than "0+" — this effect
+           returns before here in the first case and never runs in the
+           second. Zeroing it is therefore the animation's own job, done
+           only once we know the count-up is going to happen. */
+        el.textContent = "0";
         gsap.to(obj, {
           v: end,
           duration: 1.6,
@@ -331,7 +337,9 @@ function Reach() {
             <Reveal className="work__block" dir="left" key={c.id}>
               <span className="work__blockLabel">{c.label}</span>
               <b className="work__figure">
-                <span data-count={REACH[i].value}>0</span>
+                <span data-count={REACH[i].value}>
+                  {REACH[i].value.toLocaleString("en-IN")}
+                </span>
                 {REACH[i].suffix}
                 <em>{REACH[i].label}</em>
               </b>
@@ -477,7 +485,13 @@ function WhySarom() {
               key={w.id}
               style={{ "--i": i } as React.CSSProperties}
             >
-              <span className="ask__cardNum">{String(i + 1).padStart(2, "0")}</span>
+              {/* "01 — Design & Quality", the same eyebrow idiom the rest of
+                  the site uses for a numbered chapter. The number comes from
+                  the array order so it cannot drift out of step with it. */}
+              <span className="ask__cardNum">
+                {String(i + 1).padStart(2, "0")}
+                <em>{w.label}</em>
+              </span>
               <h3 className="ask__cardTitle">{w.title}</h3>
               <p className="ask__cardBody">{w.body}</p>
             </article>

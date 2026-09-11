@@ -1131,6 +1131,51 @@ real coordinates for the office, since the string's centre sits ~14km west of th
 Headless Chrome does not composite the map tiles - the embed's own UI chrome paints and the
 requests return 200, so verify the map headed.
 
+## /about — client rewrote Mission, Vision, Strength, the timeline and the Why cards
+
+Copy supplied 2026-09-11 and used as given. Replaced in `lib/about.ts`: all three `PILLARS`
+bodies (Mission / Vision / Strength), all four `JOURNEY` entries (titles and bodies both
+rewritten, not just renumbered), and all five `WHY` cards.
+
+**The Why cards gained a third level.** The client wrote them as "01 - DESIGN & QUALITY", then
+a headline, then a supporting line - three levels against the old shape's two. Added `label`
+alongside `title` rather than folding the category into the headline, and rendered it beside
+the card number as "01 - DESIGN & QUALITY", the same numbered-eyebrow idiom the rest of the
+site uses. The number is still generated from array order, so it cannot drift out of step with
+the copy.
+
+**Reconciled a contradiction the new copy created.** The new timeline and Why cards state
+"200+ cities and 10,000+ Touchpoints with 10,000+ SKU's"; `REACH` and `REACH_CHAPTERS` still
+said **1,000+ Stores** and **6,000+ SKUs**, from about.php and the Brand Book. Those sit in
+section 4 of the same page as the new section 6 and 7 copy, so the page would have published
+two different store counts and two different SKU counts about itself. Raised to the client's
+figures and the label changed from "Stores" to "Touchpoints", which is the client's own term
+now. The 3 lakh+ sq. ft. warehouse is not contradicted and is unchanged. `lib/about.ts`'s
+header comment now names this as the third and newest source, superseding the other two where
+they overlap.
+
+Note the 1,000+ and 6,000+ figures DO still appear in the timeline - as the 2005-2010 and
+2016-2021 period counts, which is what the client's copy says. Verified by a sweep asserting
+they appear nowhere except `.journey__stopBody`.
+
+**One pre-existing bug fixed, because it broke the new figures.** The reach counters rendered
+`<span data-count=...>0</span>` and the count-up effect returns early under
+`prefersReducedMotion()`, so those visitors - and anyone with JS off - read "0+ Cities",
+"0+ Touchpoints". The markup now carries the real formatted figure and the animation zeroes it
+itself, only once it knows it is going to run. Verified: a reduced-motion context reads
+"200 + CITIES / 10,000 + TOUCHPOINTS / 10,000 + SKUS".
+
+`SAROM` was set as `Sarom` throughout, matching the site's existing typography; the journey
+titles are stored sentence-case because `.journey__stopTitle` already applies
+`text-transform: uppercase`, so they render in the caps the client wrote.
+
+Verified in real Chrome at 1440 and 390: every block renders the supplied wording; card
+numbers pair correctly 01-05 with their labels; the label sits on one line on every card at
+both widths (measured with `offsetHeight`, not `getBoundingClientRect` - the Why cards are
+inside a 3D sweep, so their transformed heights are meaningless); zero clipped or overflowing
+text in the pillars, Why cards or timeline; no horizontal page overflow; no console errors
+beyond the three known font 404s. tsc and next build clean.
+
 ---
 
 ## Outstanding for the client
