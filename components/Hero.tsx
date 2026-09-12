@@ -6,6 +6,17 @@ import { Arrow } from "./Motion";
 import { gsap, registerGsap, prefersReducedMotion } from "@/lib/motion";
 
 /**
+ * The two cuts of the hero film. Phones get the 1080x1920 portrait one, which
+ * fills a tall screen without `object-fit: cover` throwing away most of the
+ * frame; everything else gets the 1920x1080 landscape one.
+ */
+const PORTRAIT = "/media/sarom-interiors-portrait.mp4";
+const LANDSCAPE = "/media/sarom-interiors.mp4";
+
+/** The site's existing phone breakpoint — see responsive.css. */
+const PHONE = "(max-width: 680px)";
+
+/**
  * Cinematic opening.
  *
  * The video is treated as moving photography: it enters from 1.06 and settles
@@ -42,6 +53,35 @@ export default function Hero() {
       v.removeEventListener("loadeddata", onReady);
       window.removeEventListener("sarom:ready", tryPlay);
     };
+  }, []);
+
+  /**
+   * Re-pick the cut when the viewport crosses the phone breakpoint.
+   *
+   * `<source media>` is resolved ONCE, while the markup is parsed — it is not
+   * a live query. So a phone rotated to landscape, or a desktop window dragged
+   * narrow, would keep playing whichever file was chosen at load. `load()` is
+   * what makes the browser walk the <source> list again.
+   *
+   * Guarded on the match actually changing, because `load()` restarts playback
+   * from zero: firing it on every resize tick would make the hero stutter for
+   * anyone dragging a window edge.
+   */
+  useEffect(() => {
+    const v = videoRef.current;
+    if (!v || typeof window.matchMedia !== "function") return;
+
+    const mq = window.matchMedia(PHONE);
+    const onChange = () => {
+      const want = mq.matches ? PORTRAIT : LANDSCAPE;
+      /* currentSrc is the absolute URL the browser actually settled on. */
+      if (v.currentSrc.endsWith(want)) return;
+      v.load();
+      v.play().catch(() => {});
+    };
+
+    mq.addEventListener("change", onChange);
+    return () => mq.removeEventListener("change", onChange);
   }, []);
 
   // Scroll-linked scale + drift on the video, and a gentle lift on the copy.
@@ -89,11 +129,20 @@ export default function Hero() {
   return (
     <section className="hero" ref={rootRef} data-nav-tone="dark" aria-label="Introduction">
       <div className="hero__media">
+        {/* Two cuts of the same film: a 1080x1920 portrait one for phones and
+            the 1920x1080 landscape one everywhere else. As <source media>
+            rather than a JS swap so the browser picks DURING HTML PARSE and
+            only ever fetches the one it needs — an 11MB hero is not something
+            to start downloading twice, or to start late. 680px is the site's
+            own phone breakpoint (responsive.css), not a new number.
+
+            The order matters: a <source> list is evaluated top-down and the
+            FIRST match wins, so the media-qualified one has to precede the
+            unqualified fallback. */}
         <video
           ref={videoRef}
           className="hero__video"
           data-ready={ready}
-          src="/media/sarom-interiors.mp4"
           autoPlay
           muted
           loop
@@ -101,7 +150,10 @@ export default function Hero() {
           preload="metadata"
           aria-hidden="true"
           tabIndex={-1}
-        />
+        >
+          <source media="(max-width: 680px)" src={PORTRAIT} type="video/mp4" />
+          <source src={LANDSCAPE} type="video/mp4" />
+        </video>
         <svg className="hero__grain" aria-hidden="true">
           <filter id="grain">
             <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="3" />

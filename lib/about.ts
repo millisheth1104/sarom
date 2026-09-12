@@ -58,8 +58,8 @@ export const ABOUT_STORY = {
   body:
     "We are not just a brand but a movement that changes how you experience your living space — fine upholstery, beautiful curtains and luxurious bedding, made to turn a space into a cozy retreat.",
   images: [
-    { src: "/media/about/3.webp", alt: "Sarom drapery falling beside a wooden side table" },
-    { src: "/media/about/6.webp", alt: "Textured Sarom curtain over a boucle stool" },
+    { src: "/media/about/3.webp", alt: "Sarom curtain panels framing a tall window" },
+    { src: "/media/about/6.webp", alt: "A bedroom dressed in Sarom striped bedding and sheer curtains" },
   ],
 };
 
@@ -127,7 +127,7 @@ export const REACH_ANCHOR = {
      note — both the brand's own words. */
   body:
     "A PAN India presence, and the preferred choice of architects and interior designers. Also available in overseas markets.",
-  image: { src: "/media/about/4.webp", alt: "Sarom throw draped over a bed frame" },
+  image: { src: "/media/about/4.webp", alt: "A Sarom curtain gathered by a carved tieback" },
 };
 
 /* ── 5 · VISION, MISSION, STRENGTH ───────────────────────────────────── */

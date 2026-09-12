@@ -1204,6 +1204,58 @@ genuinely PLAYING, not merely loaded (`paused: false`, and `currentTime` advance
 a 1.2s wait); 1920x1080 at `data-ready="true"` and opacity 1; no console errors beyond the
 known font 404s. tsc clean.
 
+## Client photography swap, and a portrait hero cut for phones
+
+Two client deliveries, 2026-09-12.
+
+**Six new /about images.** Supplied as `timeline1..6.png`, all 267x388 — byte-for-byte the
+same dimensions as the existing `public/media/about/1..6.webp` pool, which is what identified
+them as a 1:1 replacement of that pool rather than six new slots. Converted to WebP at q90 so
+every path in `lib/about.ts` keeps working untouched; the whole pool is 86KB, down from
+111KB. q90 rather than something smaller because the source is ALREADY upscaled at render
+(267px wide against a 534x776 `<Image>` and a ~350px journey box), and there is no reason to
+compound that with compression artefacts for the sake of 40KB.
+
+Note the pool is shared: the timeline uses four of the six, and the About story, Reach anchor
+and Why cards draw from the same files. Replacing the pool changes all of them, which is the
+intent — the new set is consistently warm where the old one had a teal sofa and a grey drape
+sitting outside the palette.
+
+**Corrected three alt texts that described the OLD photographs.** `3.webp` was "drapery
+falling beside a wooden side table" and is now curtain panels at a window; `6.webp` was
+"textured curtain over a boucle stool" and is now a bedroom in striped bedding; `4.webp` was
+"throw draped over a bed frame" and is now a curtain gathered by a carved tieback. Left
+uncorrected these would have described the wrong picture to a screen reader. (`4.webp`'s alt
+is not currently rendered — `REACH_ANCHOR`'s image is a full-bleed background hardcoded to
+`alt=""` in AboutPage.tsx, correctly — but the data is now accurate if it is ever wired up.)
+
+**A portrait hero cut for phones.** `public/media/sarom-interiors-portrait.mp4` (1080x1920) is
+served to phones; the 1920x1080 cut stays at `sarom-interiors.mp4`. Both are the client's,
+both 10.048s.
+
+Implemented as `<source media="(max-width: 680px)">` rather than a JS src swap, so the browser
+resolves it during HTML PARSE and only ever fetches the one it needs — an 11MB hero is not
+something to start downloading twice, or to start late. 680px is the site's own phone
+breakpoint from `responsive.css`. Source order matters: the list is evaluated top-down and
+first match wins, so the media-qualified entry precedes the unqualified fallback.
+
+`<source media>` resolves ONCE, at parse — it is not live — so a phone rotated to landscape or
+a window dragged narrow would otherwise keep the file it loaded with. A `matchMedia` listener
+calls `video.load()` on a breakpoint crossing, guarded on the match actually changing, because
+`load()` restarts playback from zero and firing it per resize tick would stutter the hero.
+
+**These videos DO have audio tracks**, unlike the pair they replace. That invalidates the
+note recorded yesterday that the hero has no audio — the sound toggle stays removed because
+the client asked for it gone, NOT because there is nothing to play. Both play muted, so the
+audio is downloaded and never heard; stripping it needs ffmpeg, which is not installed here.
+
+Verified in real Chrome. Desktop 1440: `currentSrc` is the landscape cut, 1920x1080, playing
+(`currentTime` advanced 1.21s over 1.2s), and **exactly one** mp4 was fetched. Phone 390:
+portrait cut, 1080x1920, playing, again exactly one mp4. Crossing the breakpoint live
+1440 -> 390 -> 1440 re-picked correctly in both directions and resumed playing. All six about
+images load with zero broken images and zero 4xx, and the two rendered alt texts match the new
+pictures. tsc and next build clean.
+
 ---
 
 ## Outstanding for the client

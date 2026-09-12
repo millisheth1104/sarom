@@ -445,16 +445,28 @@ URL.
 - **Headless Chrome does not composite Google Maps tiles.** The frame loads (200s) and the
   embed's own UI chrome paints, but the map reads as a blank grey box. Verify the map headed.
 
-## The hero video has NO audio track
+## The hero video: two cuts, and the sound toggle is gone for good
 
-Both the original and the 2026-09-11 re-encode of `public/media/sarom-interiors.mp4` carry a
-single `vide` handler and zero `soun` / `mp4a` / `esds` atoms; Chrome confirms it at runtime
-with `webkitAudioDecodedByteCount === 0`. The hero's old "Sound Off / Sound On" button
-therefore toggled nothing — it was removed at the client's request on 2026-09-11, and it
-should only come back if audio is actually added to the footage.
+`/` serves **two** files, picked by viewport (`components/Hero.tsx`):
 
-The `<video muted>` attribute stays regardless: that is what permits autoplay, and is not
-the toggle.
+- `public/media/sarom-interiors.mp4` — 1920x1080, desktop and tablet.
+- `public/media/sarom-interiors-portrait.mp4` — 1080x1920, phones.
+
+Chosen with `<source media="(max-width: 680px)">` so the browser resolves it **during HTML
+parse** and fetches only one 11MB file. 680px is the site's own phone breakpoint
+(`responsive.css`), not a new number. `<source media>` is NOT a live query — it resolves once
+— so a `matchMedia` listener calls `video.load()` when the viewport crosses the breakpoint,
+guarded on the match actually changing because `load()` restarts playback from zero.
+
+**The sound toggle was removed 2026-09-11 and should stay removed unless the client asks.**
+At the time it was provably dead: both files then had zero `soun`/`mp4a` atoms, so it toggled
+silence. That is no longer the reason — **the 2026-09-12 videos DO carry audio tracks** — but
+the client asked for no sound control, so both play muted. The audio is never heard and is
+dead weight in the download (~1-2% of the file); stripping it needs `ffmpeg`, which is not
+installed here.
+
+The `<video muted>` attribute stays regardless: that is what permits autoplay, and is not the
+toggle.
 
 ## Verification harness (use it — build success proves almost nothing here)
 
@@ -604,8 +616,11 @@ About work — don't attribute it there.
    19.9MB). Still no poster frame. **Verify a supplied video by parsing its MP4 atoms, not by
    its filename** — the round before this one shipped a file called compressed that was
    byte-identical to the original, and it was caught only by MD5.
-5. **More photography.** Only ~8 distinct product scenes exist, so images repeat across
-   sections of `/about`.
+5. **More photography.** The `/about` pool is SIX images (`public/media/about/1..6.webp`,
+   all 267x388) shared across the story, reach, Why cards and timeline — so they repeat, and
+   at 267px they are upscaled by every consumer (the journey renders them ~350px wide, and
+   the `<Image>` declares 534x776). Replaced wholesale on 2026-09-12 with the client's set;
+   larger originals would still help.
 
 ### 03 — Studio → LUMORA parity (not started)
 
