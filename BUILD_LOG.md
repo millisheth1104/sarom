@@ -1256,6 +1256,60 @@ portrait cut, 1080x1920, playing, again exactly one mp4. Crossing the breakpoint
 images load with zero broken images and zero 4xx, and the two rendered alt texts match the new
 pictures. tsc and next build clean.
 
+## Overlapping labels on the homepage panel, and a sound icon for the hero
+
+**Two labels stacked on top of each other at phone width.** The client reported it as an
+unreadable "EXPLORE" under "MAIN CURTAIN". Both readings were partial: the dark pill is
+`.belong__shop` reading "EXPLORE COLLECTION" and the light one is `.belong__float--a` reading
+"PLAIN CURTAIN" — its P was occluded, which is what made it look like "MAIN".
+
+Cause was plain geometry, found by measuring rather than by eye: `.belong__shopwrap` is pinned
+`top: 0; right: 0` on the panel, and the `max-width: 680px` override put `.belong__float--a`
+at `top: 0.8rem; right: 0.8rem` — the same corner. Measured 2,714px of overlap at 390px, with
+the float landing WHOLLY inside the shop pill. Zero at 1440px, because on desktop the float
+sits at `top: 26% / right: 11%`, well clear.
+
+Moved the float to bottom-right at that breakpoint: `--b` is already hidden there and
+`.belong__rail` is bottom-LEFT, ending ~90px short, so it is the one free corner. Re-measured:
+0 overlap at 390 and 1440, no horizontal page overflow at either.
+
+**A sound control, back as an icon.** The client asked why there is no audio. Established
+first that the question was real: both 2026-09-12 videos carry genuine audio (Chrome decoded
+82,248 and 87,283 bytes in ~3s of playback), so the files are not silent — they were inaudible
+only because the element is muted, which is what removing the toggle on 2026-09-11 did.
+
+Put to the client as a choice, since it collides with their own earlier instruction, and they
+chose a small speaker icon with no text. Note the film still ALWAYS starts muted: an unmuted
+autoplay is blocked for a first-time visitor in every current browser, and a blocked autoplay
+leaves the hero frozen on a still. (A headless test here allowed unmuted autoplay, but
+headless does not enforce the Media Engagement policy real browsers use, so it proves nothing
+either way and was not relied on.)
+
+Implementation notes worth keeping:
+
+- `.hero__sound` is a FLEX ITEM in `.hero__foot`, not an absolute overlay. Placed absolutely
+  first, and measured collisions with the headline — 732px against "Spaces, dressed" at 390px,
+  1,240px against "elegance." at 1024px. Both bottom corners are already spoken for (fixed
+  WhatsApp FAB bottom-right of the viewport, tags bottom-left), so in the row layout keeps it
+  clear by construction rather than by hand-tuned offsets. Exactly the failure just fixed on
+  the belong panel, caught this time before shipping.
+- `.hero__tags` gained `margin-right: auto`: the foot is `space-between`, and a third child
+  centred the tag list, which had always been left-aligned.
+- The breakpoint `load()` now re-applies `v.muted`, because `load()` restores the muted
+  ATTRIBUTE from markup — an unmuted visitor would otherwise be silently re-muted by rotating
+  their phone.
+- Below 680px `.hero__foot` is now `row` + `wrap` rather than `column`, so the icon sits beside
+  the tags instead of taking a line of its own.
+
+Verified in real Chrome at 390 / 680 / 1024 / 1440: zero collisions against every hero text
+line, the nav, the CTA, the tags, the Scroll cue and the WhatsApp FAB; starts muted and
+playing with `aria-pressed="false"` and no text in the button; one tap unmutes and keeps
+playing, a second re-mutes; unmuting then crossing the breakpoint keeps BOTH the portrait
+source and the unmuted state; no page errors. tsc and next build clean.
+
+(The dark disc bottom-left in dev screenshots is `NEXTJS-PORTAL`, Next's dev-only indicator —
+not part of the page, and absent in production.)
+
 ---
 
 ## Outstanding for the client

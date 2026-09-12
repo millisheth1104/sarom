@@ -458,12 +458,23 @@ parse** and fetches only one 11MB file. 680px is the site's own phone breakpoint
 — so a `matchMedia` listener calls `video.load()` when the viewport crosses the breakpoint,
 guarded on the match actually changing because `load()` restarts playback from zero.
 
-**The sound toggle was removed 2026-09-11 and should stay removed unless the client asks.**
-At the time it was provably dead: both files then had zero `soun`/`mp4a` atoms, so it toggled
-silence. That is no longer the reason — **the 2026-09-12 videos DO carry audio tracks** — but
-the client asked for no sound control, so both play muted. The audio is never heard and is
-dead weight in the download (~1-2% of the file); stripping it needs `ffmpeg`, which is not
-installed here.
+**Sound: the control came BACK on 2026-09-12, as an icon.** History, so it does not get
+re-litigated: the original "Sound Off / Sound On" TEXT pill was removed on 2026-09-11 at the
+client's request (and was dead anyway — those files had zero `soun`/`mp4a` atoms). The
+2026-09-12 videos DO carry real audio (~82-87KB decoded in 3s), the client then asked why they
+could not hear it, and chose a **small speaker icon, no text**. So:
+
+- The film ALWAYS starts muted. This is not negotiable — an unmuted autoplay is blocked for a
+  first-time visitor (Safari/iOS outright), and a blocked autoplay leaves the hero frozen on a
+  still. The icon is what opts into sound.
+- `.hero__sound` is a FLEX ITEM inside `.hero__foot`, not an absolute overlay. Both bottom
+  corners are spoken for — the fixed WhatsApp FAB owns bottom-right of the viewport, the tag
+  list bottom-left — and a floating version measured collisions with the headline at 390px and
+  1024px. In the row, layout keeps it clear with no offsets to maintain.
+- `.hero__tags` carries `margin-right: auto` because the foot is `space-between`: with three
+  children the tag list would centre, and it had always been left-aligned.
+- The breakpoint `load()` must re-apply `v.muted` — `load()` restores the muted ATTRIBUTE from
+  markup, so an unmuted visitor would be silently re-muted by rotating their phone.
 
 The `<video muted>` attribute stays regardless: that is what permits autoplay, and is not the
 toggle.

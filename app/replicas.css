@@ -1195,7 +1195,18 @@
     grid-auto-flow: column;
   }
   .belong__float--a {
-    top: 0.8rem;
+    /* NOT the top-right corner. .belong__shopwrap is pinned there
+       (top: 0; right: 0) and the "Explore Collection" pill inside it is
+       ~199x46 at this width — measured, the float landed WHOLLY inside it,
+       2,714px of overlap, so the two labels read as one mangled word
+       ("EXPLORE" under "PLAIN CURTAIN"). Desktop never showed it because
+       there the float sits at top 26% / right 11%, well clear of the corner.
+
+       Bottom-right instead: .belong__float--b is hidden at this width and
+       .belong__rail is bottom-LEFT (it ends ~90px short of this pill's left
+       edge), so this corner is the only free one. */
+    top: auto;
+    bottom: 0.8rem;
     right: 0.8rem;
   }
   .belong__float--b {

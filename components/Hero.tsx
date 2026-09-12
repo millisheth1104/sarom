@@ -27,6 +27,11 @@ export default function Hero() {
   const rootRef = useRef<HTMLElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const [ready, setReady] = useState(false);
+  /* Starts muted and must: every browser blocks an UNMUTED autoplay for a
+     first-time visitor (Safari and iOS outright), and a blocked autoplay
+     leaves the hero frozen on a still. So the film always starts silent and
+     the control below is what opts into sound. */
+  const [muted, setMuted] = useState(true);
 
   // Reveal the video only once it actually has a frame to show.
   useEffect(() => {
@@ -76,7 +81,13 @@ export default function Hero() {
       const want = mq.matches ? PORTRAIT : LANDSCAPE;
       /* currentSrc is the absolute URL the browser actually settled on. */
       if (v.currentSrc.endsWith(want)) return;
+      /* load() re-runs the resource selection from scratch, which restores
+         the `muted` ATTRIBUTE from the markup — so an unmuted visitor would
+         be silently re-muted by rotating their phone. Carry the live state
+         across the reload. */
+      const wasMuted = v.muted;
       v.load();
+      v.muted = wasMuted;
       v.play().catch(() => {});
     };
 
@@ -125,6 +136,16 @@ export default function Hero() {
 
     return () => ctx.revert();
   }, []);
+
+  const toggleSound = () => {
+    const v = videoRef.current;
+    if (!v) return;
+    v.muted = !v.muted;
+    setMuted(v.muted);
+    /* Unmuting can leave the element paused in some browsers; the tap is a
+       real user gesture, so this play() is permitted. */
+    if (!v.muted) v.play().catch(() => {});
+  };
 
   return (
     <section className="hero" ref={rootRef} data-nav-tone="dark" aria-label="Introduction">
@@ -205,6 +226,45 @@ export default function Hero() {
         </div>
 
         <div className="hero__foot" data-reveal="fade" data-reveal-start="top 100%" style={{ "--reveal-delay": "0.8s" } as React.CSSProperties}>
+          {/* Icon only — no "Sound Off / Sound On" wording; the glyph and
+              aria-pressed carry the state. It lives INSIDE the foot row rather
+              than floating over the hero, because the bottom corners are both
+              spoken for — the fixed WhatsApp button owns bottom-right of the
+              viewport and the tag list owns bottom-left — so an absolutely
+              placed icon collided at 390px. As a flex item the layout keeps it
+              clear by construction instead of by hand-tuned offsets.
+
+              aria-label names what the TAP WILL DO, not the current state. */}
+          <button
+            className="hero__sound"
+            type="button"
+            onClick={toggleSound}
+            aria-pressed={!muted}
+            aria-label={muted ? "Turn video sound on" : "Turn video sound off"}
+          >
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+            >
+              {/* The speaker body is common to both states, so only the waves
+                  or the slash swap — the glyph does not jump on toggle. */}
+              <path d="M11 5 6.5 9H3.5v6h3L11 19V5Z" />
+              {muted ? (
+                <path d="m16 9.5 5 5m0-5-5 5" />
+              ) : (
+                <>
+                  <path d="M15.5 9.2a4 4 0 0 1 0 5.6" />
+                  <path d="M18.2 6.8a7.5 7.5 0 0 1 0 10.4" />
+                </>
+              )}
+            </svg>
+          </button>
+
           <div className="hero__tags">
             {HERO.tags.map((t) => (
               <span key={t}>{t}</span>

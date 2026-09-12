@@ -161,6 +161,12 @@
   display: flex;
   gap: clamp(0.8rem, 2vw, 2.2rem);
   flex-wrap: wrap;
+  /* Keeps the tags hard against the sound button on the LEFT. The foot is
+     justify-content: space-between, which with three children (button, tags,
+     Scroll) centred the tag list — it had always been left-aligned, and the
+     sound button is not a reason to move it. This absorbs the slack instead,
+     so only Scroll is pushed to the right edge. */
+  margin-right: auto;
 }
 .hero__scroll {
   display: inline-flex;
@@ -194,6 +200,55 @@
   100% {
     transform: translateY(100%);
   }
+}
+
+/* Sound control for the hero film.
+
+   Icon only, deliberately: the previous control was a text pill reading
+   "Sound Off / Sound On" and the client asked for that to go. The glyph and
+   aria-pressed carry the state instead.
+
+   It has to exist at all because an unmuted autoplay is blocked for a
+   first-time visitor in every current browser (Safari and iOS outright), so
+   the film always starts silent and this is what opts into sound.
+
+   It is a FLEX ITEM in .hero__foot, not an absolutely placed overlay. Both
+   bottom corners are taken — the fixed WhatsApp button owns bottom-right of
+   the viewport, the tag list owns bottom-left — and a floating version
+   measured a collision with the headline at 390px and 1024px. In the row,
+   layout keeps it clear at every width with no offsets to maintain. */
+.hero__sound {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  /* 44px: comfortable as a touch target, and the WCAG 2.5.5 floor. */
+  width: 44px;
+  height: 44px;
+  border: 1px solid rgba(245, 240, 232, 0.3);
+  border-radius: var(--radius-pill);
+  background: rgba(20, 17, 15, 0.3);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  color: rgba(245, 240, 232, 0.88);
+  transition: border-color 0.4s var(--ease-soft), color 0.4s var(--ease-soft),
+    background-color 0.4s var(--ease-soft);
+}
+.hero__sound svg { width: 21px; height: 21px; }
+.hero__sound:hover,
+.hero__sound:focus-visible {
+  border-color: var(--dusty-peach);
+  color: var(--ivory);
+  background: rgba(20, 17, 15, 0.5);
+}
+/* Sound ON is the state worth marking: it is the one the visitor chose, and
+   the one they may want to undo. */
+.hero__sound[aria-pressed="true"] {
+  border-color: rgba(229, 200, 185, 0.7);
+  color: var(--dusty-peach);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero__sound { transition: none; }
 }
 
 /* ============================================================
