@@ -225,29 +225,40 @@ export const JOURNEY = [
     title: "Making our mark",
     body:
       "Sarom entered the furnishing world with 1,000+ SKUs and 500 dealers, pioneering cut-length service in India and setting a new standard for accessibility.",
-    image: "/media/about/3.webp",
+    image: "/media/about/journey-2005.webp",
   },
   {
     year: "2011—2015",
     title: "Becoming a go-to name",
     body:
       "With 4,000 SKUs and 2,000 dealers, Sarom grew into a trusted name — bringing greater choice, design and service across India.",
-    image: "/media/about/1.webp",
+    image: "/media/about/journey-2011.webp",
   },
   {
     year: "2016—2021",
     title: "Innovators & trendsetters",
     body:
       "6,000+ SKUs. 3,000+ dealers. A growing design legacy. Sarom emerged as a trendsetter in India’s furnishing landscape.",
-    image: "/media/about/6.webp",
+    image: "/media/about/journey-2016.webp",
+  },
+  {
+    /* Added 2026-10-06 at the client's instruction. Their wording was
+       "2023 - Introduction/Establishment of Bedding" and nothing more, so the
+       body stays close to it rather than inventing figures the way the other
+       stops carry them. Worth asking them for a fuller line. */
+    year: "2023",
+    title: "Introduction of bedding",
+    body: "Sarom introduced and established its bedding range.",
+    image: "/media/about/journey-2023.webp",
   },
   {
     year: "Today",
     title: "PAN India & beyond",
     body:
       "With products available across 200+ cities and 10,000+ touchpoints, and 10,000+ SKUs, Sarom continues to grow, evolve and shape the future of Indian furnishings.",
-    image: "/media/about/4.webp",
+    image: "/media/about/journey-today.webp",
   },
 ];
+
 
 export const JOURNEY_CLOSE = { lead: "And this is only", em: "the beginning." };

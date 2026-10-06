@@ -15,7 +15,10 @@ export const SITE = {
   legalName: "Sarom Fab Pvt. Ltd.",
   address:
     "2nd Floor, Kerom, Plot No A/112, Wagle Industrial Estate, Thane West – 400604",
-  email: "customercare@sarom.info",
+  /* Changed 2026-10-06 at the client's request, superseding the address on
+     the live site. Defined ONCE here: the contact page, the footer and the
+     /contact proxy's fallback all read it, so this is the only edit needed. */
+  email: "hello@sarom.co.in",
   phone: "+91-8657944323",
   whatsapp: "8657944323",
 };
