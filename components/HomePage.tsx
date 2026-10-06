@@ -5,6 +5,7 @@ import Footer from "@/components/Footer";
 import { Statement } from "@/components/Sections";
 import { Films, Story, Brands, ClosingCta } from "@/components/Editorial";
 import { Showroom } from "@/components/Compositions";
+import { Journal } from "@/components/Journal";
 import { MARQUEE_WORDS, PROPERTIES, SITE, sectionLabel } from "@/lib/content";
 
 /**
@@ -19,7 +20,7 @@ import { MARQUEE_WORDS, PROPERTIES, SITE, sectionLabel } from "@/lib/content";
 export function HomePage() {
   /* Section eyebrows are NUMBERED BY POSITION, not by a fixed map, so
      dropping a section renumbers the rest on its own. */
-  const order = ["House Brands", "Collections", "Showroom", "Our Story"];
+  const order = ["House Brands", "Showroom", "Collections", "Our Story", "Inspiration"];
 
   const label = (name: string) => {
     const i = order.indexOf(name);
@@ -44,8 +45,11 @@ export function HomePage() {
             client wants a visitor to meet after the hero. */}
         <Brands index={label("House Brands")} />
 
-        <Statement index={label("Collections")} />
+        {/* Showroom before Collections, at the client's request. The eyebrow
+            numbers follow POSITION, so `order` above is swapped to match —
+            change one without the other and the page counts 01, 03, 02. */}
         <Showroom index={label("Showroom")} />
+        <Statement index={label("Collections")} />
         <Films />
 
         <div data-nav-tone="light">
@@ -58,6 +62,10 @@ export function HomePage() {
         </div>
 
         <Story index={label("Our Story")} />
+
+        {/* Directly above the closing CTA, at the client's request. */}
+        <Journal index={label("Inspiration")} />
+
         <ClosingCta />
       </main>
 

@@ -1,0 +1,263 @@
+/* ============================================================
+   INSPIRATION
+
+   Sits between .objects (linen) and .letter (dark), so this takes the
+   lighter ivory: linen -> ivory -> dark keeps the page's tonal rhythm
+   rather than running two warm greys together.
+
+   The reference was a flat three-up card grid. Here the first result is a
+   wide FEATURE and the rest sit smaller beneath it, which gives the section
+   a reading order instead of three equal shouts.
+   ============================================================ */
+
+.sect.journal {
+  --journal-r: var(--radius-lg);
+  background: var(--ivory);
+  overflow: hidden;
+  /* Tighter than the site default so the whole section clears one screen —
+     measured at 1835px against a 900px viewport before this pass.
+
+     The middle term is vh, NOT vw: the constraint here is screen HEIGHT, and
+     a width-derived pad went the wrong way on a 1366x768 laptop — wide enough
+     to earn generous padding, too short to afford it. That overshot by 44px. */
+  padding-block: clamp(1.5rem, 3.4vh, 3.4rem);
+}
+
+/* ---------------- head ---------------- */
+.journal__head {
+  display: grid;
+  gap: clamp(1rem, 2.4vw, 2rem);
+  align-items: end;
+}
+@media (min-width: 900px) {
+  .journal__head {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 0.78fr);
+    gap: clamp(2rem, 5vw, 4rem);
+  }
+}
+.journal__title {
+  margin-top: clamp(0.4rem, 0.9vw, 0.7rem);
+  font-size: clamp(1.7rem, 3.2vw, 2.6rem);
+  line-height: var(--lh-snug);
+  letter-spacing: var(--tr-display);
+  color: var(--ink-1);
+}
+.journal__lead {
+  max-width: 44ch;
+  font-size: var(--fs-body-lg);
+  line-height: var(--lh-body);
+  color: var(--stone);
+}
+
+/* ---------------- topic filter ---------------- */
+.journal__topics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin-top: clamp(1rem, 2.2vw, 1.6rem);
+  padding-bottom: clamp(0.9rem, 2vw, 1.4rem);
+  border-bottom: 1px solid var(--rule);
+}
+.journal__topic {
+  padding: 0.62rem 1.1rem;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-pill);
+  font-size: var(--fs-meta);
+  letter-spacing: var(--tr-meta);
+  text-transform: uppercase;
+  color: var(--stone);
+  background: transparent;
+  transition: color 0.35s var(--ease-soft), border-color 0.35s var(--ease-soft),
+    background-color 0.35s var(--ease-soft);
+}
+.journal__topic:hover {
+  color: var(--ink-1);
+  border-color: rgba(20, 17, 15, 0.28);
+}
+/* The active pill takes the accent ink on a tinted ground rather than solid
+   charcoal: the cards below already carry the page's weight, and a black
+   pill here pulled the eye off them. */
+.journal__topic[data-on] {
+  color: var(--ink-2);
+  border-color: rgba(126, 95, 77, 0.45);
+  background: rgba(229, 200, 185, 0.22);
+}
+
+/* ---------------- rail ---------------- */
+/* A single scroll-snapping ROW, not a two-row grid.
+
+   The brief was to fit the section in one view. Measured, the 3x2 grid ran
+   1835px against a 900px viewport — more than double. Cutting to three cards
+   would have fitted but hidden half the topics, so the row scrolls instead:
+   three visible, all six reachable, section height fixed by one card.
+
+   overflow-x on a flex row rather than a grid because the cards need a fixed
+   basis to snap against. */
+.journal__rail {
+  display: flex;
+  gap: clamp(1rem, 2vw, 1.6rem);
+  margin-top: clamp(1.1rem, 2.2vw, 1.7rem);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  /* Vertical only. A horizontal pad here pushed the rail 4px past the shell's
+     gutter and put a horizontal scrollbar on the PAGE at 390px — measured.
+     The focus ring is drawn inside instead (outline-offset is negative). */
+  padding: 4px 0 1rem;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(20, 17, 15, 0.22) transparent;
+  /* The rail is a focusable scroll region (see tabIndex in Journal.tsx), so
+     it must show where focus is. */
+  scroll-behavior: smooth;
+}
+.journal__rail:focus-visible {
+  outline: 2px solid var(--ink-2);
+  /* Inside the box, so focusing the rail cannot widen the page. */
+  outline-offset: -2px;
+  border-radius: var(--radius);
+}
+.journal__rail::-webkit-scrollbar { height: 4px; }
+.journal__rail::-webkit-scrollbar-thumb {
+  background: rgba(20, 17, 15, 0.22);
+  border-radius: 999px;
+}
+.journal__card {
+  /* Three across at desktop; the basis is what the snap points land on. */
+  flex: 0 0 clamp(248px, 31.5%, 440px);
+  scroll-snap-align: start;
+  display: grid;
+  gap: clamp(0.8rem, 1.6vw, 1.05rem);
+  align-content: start;
+}
+
+/* Entrance. NOT the site's [data-reveal] engine: that observes its nodes once
+   at mount, and the topic filter creates cards afterwards — measured, one
+   filter click left every card at opacity 0 for ever. An animation runs off
+   mount instead, so filtered-in cards animate exactly like the first six.
+   `both` matters: without the fill the card would flash at its start state. */
+html[data-js] .journal__card {
+  animation: journal-card-in 0.62s var(--ease-soft) both;
+  animation-delay: calc(var(--i, 0) * 70ms);
+}
+@keyframes journal-card-in {
+  from { opacity: 0; transform: translate3d(0, 14px, 0); }
+  to   { opacity: 1; transform: none; }
+}
+@media (max-width: 1100px) { .journal__card { flex-basis: clamp(248px, 46%, 400px); } }
+@media (max-width: 640px)  { .journal__card { flex-basis: 78%; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .journal__rail { scroll-behavior: auto; }
+}
+
+/* ---------------- card ---------------- */
+.journal__shot {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  border-radius: var(--journal-r);
+  background: var(--linen);
+  /* Landscape now, not the portrait 4:5 this had: a tall crop is what pushed
+     the section past one screen. 3:2 keeps the drapery shots readable while
+     costing ~230px less height per card. */
+  aspect-ratio: 3 / 2;
+}
+.journal__shot img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* The zoom lives on the IMG, never on .journal__card: the card is a
+     [data-reveal] element and the reveal engine pins its transform, so a
+     hover scale there is silently dead. */
+  transition: scale 0.9s var(--ease-out-expo);
+}
+a.journal__card:hover .journal__shot img,
+a.journal__card:focus-visible .journal__shot img { scale: 1.045; }
+
+.journal__body { display: grid; gap: 0.5rem; }
+
+.journal__meta {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  font-size: var(--fs-meta);
+  letter-spacing: var(--tr-meta);
+  text-transform: uppercase;
+}
+.journal__meta b { font-weight: 400; color: var(--ink-2); }
+.journal__meta i { font-style: normal; color: var(--stone); }
+
+.journal__cardTitle {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(1.15rem, 1.7vw, 1.4rem);
+  line-height: 1.24;
+  letter-spacing: var(--tr-display);
+  color: var(--ink-1);
+}
+.journal__excerpt {
+  margin: 0;
+  max-width: 54ch;
+  /* Capped so one long standfirst cannot set the height of the whole rail. */
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  font-size: var(--fs-body);
+  line-height: 1.66;
+  color: var(--stone);
+}
+
+/* Only rendered once a post has a real URL — see lib/content.ts. */
+.journal__more {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin-top: 0.2rem;
+  padding-bottom: 0.4rem;
+  width: fit-content;
+  position: relative;
+  font-size: var(--fs-meta);
+  letter-spacing: var(--tr-meta);
+  text-transform: uppercase;
+  color: var(--ink-1);
+}
+.journal__more::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(1);
+  transform-origin: left;
+  transition: transform 0.5s var(--ease-out-expo);
+}
+a.journal__card:hover .journal__more::after,
+a.journal__card:focus-visible .journal__more::after {
+  /* Retract from the right, then the arrow carries the eye on — the same
+     grammar as .tlink elsewhere on the site. */
+  transform: scaleX(0.4);
+}
+a.journal__card:hover .journal__more .btn__arrow,
+a.journal__card:focus-visible .journal__more .btn__arrow {
+  transform: translateX(5px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html[data-js] .journal__card { animation: none; }
+  .journal__shot img,
+  .journal__more::after,
+  .journal__topic { transition: none; }
+  a.journal__card:hover .journal__shot img { scale: 1; }
+}
+
+/* Short screens (1366x768 and the like) buy the last of the headroom back
+   from the standfirst rather than from the image, which is what people
+   actually look at. */
+@media (max-height: 820px) {
+  .journal__excerpt { -webkit-line-clamp: 2; }
+  .journal__rail { padding-bottom: 0.6rem; }
+}

@@ -566,6 +566,131 @@ export const STORY = {
   ],
 };
 
+/* ============================================================
+   INSPIRATION  (homepage, directly above the closing CTA)
+
+   Positioned as styling ideas, fabric inspiration, trends and guides —
+   NOT a standard blog, at the client's instruction.
+
+   EVERY STRING BELOW IS `// editorial` PLACEHOLDER COPY. Sarom has published
+   no articles, so there was nothing real to draw on: the titles, standfirsts
+   and read times were written here to carry the layout and are for the brand
+   team to replace. Nothing in them asserts a company fact — no dates, figures,
+   locations or claims — precisely so none of it can go out as accidental fact.
+
+   `href` is deliberately null on every entry. A "Read article" link to a page
+   that does not exist would ship a 404 off the homepage, so the card renders
+   without that affordance until a real URL lands here — at which point it
+   becomes a link with no component change.
+   ============================================================ */
+export const JOURNAL_TOPICS = [
+  "All Topics",
+  "Styling Tips",
+  "Design Tips",
+  "Buying Guide",
+  "Trends",
+  "Fabric Care",
+  "Designer Diaries",
+];
+
+export const JOURNAL = {
+  eyebrow: "Inspiration",
+  titleLines: ["Ideas for the"],
+  titleEm: "rooms you live in.",
+  // editorial
+  lead:
+    "Styling notes, fabric thinking and the practical questions that come up before a room comes together.",
+  /* Order here is the order on the page. All six images are portrait
+     interiors from the same shoot, so the grid reads as one set rather than
+     six unrelated crops. */
+  posts: [
+    {
+      id: "curtain-length",
+      topic: "Styling Tips",
+      // editorial
+      title: "Where a curtain should end",
+      excerpt:
+        "Floor-length, sill-length, or breaking slightly on the floor — the drop changes how tall a room reads before the fabric ever does.",
+      read: "5 min read",
+      href: null as string | null,
+      image: {
+        src: "/media/interiors/about-3@3x.webp",
+        alt: "Sarom drapery falling to the floor beside a wooden side table",
+      },
+    },
+    {
+      id: "mixing-texture",
+      topic: "Design Tips",
+      // editorial
+      title: "Mixing texture without clashing",
+      excerpt:
+        "Bouclé against velvet, linen against chenille. What keeps a layered room calm rather than busy.",
+      read: "7 min read",
+      href: null as string | null,
+      image: {
+        src: "/media/interiors/about-2@3x.webp",
+        alt: "A sculptural cream chair against a warm plaster wall",
+      },
+    },
+    {
+      id: "how-much-fabric",
+      topic: "Buying Guide",
+      // editorial
+      title: "How much fabric you actually need",
+      excerpt:
+        "Measuring for drapery, upholstery and bedding — including the allowances most people forget until it is too late.",
+      read: "4 min read",
+      href: null as string | null,
+      image: {
+        src: "/media/interiors/about-6@3x.webp",
+        alt: "A textured grey curtain falling beside an upholstered stool",
+      },
+    },
+    {
+      id: "quiet-palette",
+      topic: "Trends",
+      // editorial
+      title: "The quiet palette, and what follows it",
+      excerpt:
+        "Where warm neutrals are heading, and the accent tones beginning to sit beside them.",
+      read: "6 min read",
+      href: null as string | null,
+      image: {
+        src: "/media/interiors/about-1@3x.webp",
+        alt: "A teal upholstered sofa in a pale room",
+      },
+    },
+    {
+      id: "pale-upholstery",
+      topic: "Fabric Care",
+      // editorial
+      title: "Living with pale upholstery",
+      excerpt:
+        "What a stain-resistant finish does, what it does not, and the routine that keeps a light weave light.",
+      read: "5 min read",
+      href: null as string | null,
+      image: {
+        src: "/media/interiors/about-4@3x.webp",
+        alt: "A folded throw across a dark studio backdrop",
+      },
+    },
+    {
+      id: "swatch-table",
+      topic: "Designer Diaries",
+      // editorial
+      title: "Notes from the swatch table",
+      excerpt:
+        "How a fabric is chosen in person — and why the hand of a weave decides more often than its colour.",
+      read: "8 min read",
+      href: null as string | null,
+      image: {
+        src: "/media/interiors/about-5@3x.webp",
+        alt: "Upholstered stools grouped against a pale wall",
+      },
+    },
+  ],
+};
+
 export const CTA = {
   titleLines: ["Bring Sarom"],
   titleEm: "into your home.",
