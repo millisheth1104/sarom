@@ -80,6 +80,32 @@ export const FOUNDERS_NOTE = {
     "Mr. Amarshi Shah and Mr. Shantilal Shah laid the foundation of Sarom Fab Pvt Ltd. Mr. Shantilal Shah has more than 30 years of experience in the Home Fabrics & Furnishing industry, and spearheaded the introduction of ‘cut-length services’ for the first time in the Indian market.",
 };
 
+/**
+ * The group photograph, supplied by the client 2026-10-06, replacing the six
+ * separate portrait cards.
+ *
+ * `order` is LEFT TO RIGHT in the photograph, and it is an identification of
+ * real people, made by comparing the group faces against the six individual
+ * portraits rather than guessed.
+ *
+ * Numbered markers over each face were built and then removed at the client's
+ * request — the per-person pin coordinates are in git history (see the commit
+ * that added FOUNDERS_GROUP) if they are ever wanted back. Four were unmistakable
+ * (Deepak's glasses and goatee, Manish's sunglasses and beard, Amarshi's
+ * blue bandhgala, Shantilal beside him); Rohit and Milin were separated on
+ * face shape and hairline and are the pair most worth a second look before
+ * this goes anywhere public.
+ */
+export const FOUNDERS_GROUP = {
+  src: "/media/founders/group.webp",
+  width: 866,
+  height: 1024,
+  alt:
+    "The six directors of Sarom Fab Pvt. Ltd. photographed together in formal dress",
+  /* left to right, matching FOUNDERS ids */
+  order: ["deepak", "manish", "amarshi", "shantilal", "rohit", "milin"],
+};
+
 /** Names, titles and portraits all from sarom.info/about.php. */
 export const FOUNDERS = [
   { id: "amarshi", name: "Amarshi Hardhor Shah", role: "Director", portrait: "/media/founders/amarshi-shah.webp" },

@@ -11,6 +11,7 @@ import {
   ABOUT_HERO,
   ABOUT_STORY,
   FOUNDERS,
+  FOUNDERS_GROUP,
   FOUNDERS_NOTE,
   REACH,
   REACH_CHAPTERS,
@@ -193,36 +194,43 @@ function Founders() {
             step={0.1}
             lines={[FOUNDERS_NOTE.titleLines[0], <em key="em">{FOUNDERS_NOTE.titleEm}</em>]}
           />
+
+          {/* The names live under the heading, not beside the photo. With six
+              portrait cards the right column was tall enough to justify a
+              sticky heading; one photograph is not, and the left column was
+              left half empty. Order matches the photo, left to right. */}
+          <ol className="team__legend">
+            {FOUNDERS_GROUP.order.map((id) => {
+              const f = FOUNDERS.find((x) => x.id === id);
+              if (!f) return null;
+              return (
+                <li key={id} data-id={id}>
+                  <b>{f.name}</b>
+                  <span className="team__role">{f.role}</span>
+                </li>
+              );
+            })}
+          </ol>
         </div>
 
-        <div className="team__row" data-reveal-stagger="0.08">
-          {FOUNDERS.map((f, i) => (
-            <Reveal className="team__card" dir="up" key={f.id}>
-              {/* Parallax on the FRAME, not the card. The card is a reveal
-                  target and the reveal engine owns transform there at
-                  (0,3,1), which beats [data-parallax] outright — the drift
-                  would be silently dead. Depth alternates by column so the
-                  three columns separate as they pass the sticky heading. */}
-              <span
-                className="team__frame"
-                data-parallax={[0.06, 0.16, 0.1][i % 3]}
-                data-parallax-trigger=".team__row"
-              >
-                <Image
-                  src={f.portrait}
-                  alt={`${f.name}, ${f.role}`}
-                  width={301}
-                  height={356}
-                  sizes="(max-width: 700px) 46vw, 24vw"
-                  loading="lazy"
-                  unoptimized
-                />
-              </span>
-              <b>{f.name}</b>
-              <span className="team__role">{f.role}</span>
-            </Reveal>
-          ))}
-        </div>
+        {/* One group photograph instead of six portrait cards, at the
+            client's request. The names sit in a numbered legend beside it and
+            the client asked for no numbers on the photograph, so the names
+            read as a straight list and the picture stays clean. */}
+        <Reveal className="team__group" dir="up">
+          <figure className="team__photo">
+            <Image
+              src={FOUNDERS_GROUP.src}
+              alt={FOUNDERS_GROUP.alt}
+              width={FOUNDERS_GROUP.width}
+              height={FOUNDERS_GROUP.height}
+              sizes="(max-width: 900px) 100vw, 52vw"
+              loading="lazy"
+              unoptimized
+            />
+          </figure>
+
+        </Reveal>
       </div>
     </section>
   );

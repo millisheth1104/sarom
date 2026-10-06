@@ -643,7 +643,6 @@
   opacity: clamp(0, calc(var(--d3, 0) * -13), 1);
 }
 
-
 .ask__cardNum {
   display: flex;
   /* The label can be two words on a 270px card, so it wraps under the number
@@ -941,3 +940,52 @@
   .journey__stop { flex: 1 1 auto; padding-top: 0; padding-left: 2.6rem; }
   .journey__stop + .journey__stop { margin-top: clamp(2.2rem, 7vw, 3.5rem); }
 }
+
+/* ------------------------------------------------------------
+   FOUNDERS — group photograph with a numbered legend
+   Replaces the six portrait cards (2026-10-06). The markers and the
+   legend share one number so the photo still says who is who; a bare
+   group shot would have dropped that entirely.
+   ------------------------------------------------------------ */
+.team__group { display: block; }
+
+.team__photo {
+  position: relative;
+  margin: 0;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: rgba(245, 240, 232, 0.05);
+}
+.team__photo img { display: block; width: 100%; height: auto; }
+
+/* Plain name list — the numbered markers over the photograph were removed at
+   the client's request, so there are no numerals to pair with. */
+.team__legend {
+  display: grid;
+  gap: clamp(0.5rem, 1.2vw, 0.85rem);
+  /* AFTER the shorthand, not before: `margin: 0` later in the block was
+     silently cancelling the top margin and the list sat against the heading. */
+  margin: clamp(1.4rem, 3vw, 2.2rem) 0 0;
+  padding: 0;
+  list-style: none;
+}
+.team__legend li {
+  display: grid;
+  gap: 0.15rem;
+  padding-bottom: clamp(0.45rem, 1vw, 0.7rem);
+  border-bottom: 1px solid rgba(245, 240, 232, 0.12);
+}
+.team__legend li:last-child { border-bottom: 0; padding-bottom: 0; }
+.team__legend b {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(0.98rem, 1.5vw, 1.15rem);
+  color: var(--ivory);
+}
+.team__legend .team__role {
+  font-size: var(--fs-meta);
+  letter-spacing: var(--tr-meta);
+  text-transform: uppercase;
+  color: rgba(245, 240, 232, 0.5);
+}
+
