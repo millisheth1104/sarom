@@ -2331,71 +2331,12 @@ export const CATALOGUES: Catalogue[] = [
   }
 ];
 
+/* SHOWROOM_SLIDES and BRAND_STARTS moved to lib/showroom.ts (hand-maintained):
+   the tiles are client photographs now, not catalogue covers, so they cannot be
+   regenerated from this data. */
+
 /** Everything for one brand, in listing order. */
 export const byBrand = (brand: string) => CATALOGUES.filter((c) => c.brand === brand);
-
-/**
- * One slide per brand — five in total, each showing five catalogues sampled
- * across that brand's collections. Walking the whole catalogue is the job of
- * the category-tabbed Collections section, not this showcase.
- */
-export const SHOWROOM_SLIDES = [
-  {
-    "brand": "SJ",
-    "tiles": [
-      39,
-      48,
-      52,
-      81,
-      101
-    ]
-  },
-  {
-    "brand": "Oofy",
-    "tiles": [
-      151,
-      167,
-      154,
-      155,
-      166
-    ]
-  },
-  {
-    "brand": "Matlin",
-    "tiles": [
-      135,
-      127,
-      133,
-      147,
-      141
-    ]
-  },
-  {
-    "brand": "Smart Plus",
-    "tiles": [
-      168,
-      170,
-      173,
-      176,
-      179
-    ]
-  },
-  {
-    "brand": "Beds & More",
-    "tiles": [
-      184,
-      187,
-      190,
-      194,
-      197
-    ]
-  }
-].map((s) => ({
-  brand: s.brand,
-  tiles: s.tiles
-    .map((id) => CATALOGUES.find((c) => c.id === id))
-    .filter((c): c is Catalogue => Boolean(c)),
-}));
 
 /**
  * One representative photograph per brand, for the House Brands section.
@@ -2424,12 +2365,6 @@ export const BRAND_HERO: Record<string, { cover: string; count: number }> = {
     "count": 17
   }
 };
-
-/** First slide index for each brand, so the bar can jump straight there. */
-export const BRAND_STARTS = BRAND_ORDER.map((brand) => ({
-  brand,
-  index: SHOWROOM_SLIDES.findIndex((s) => s.brand === brand),
-}));
 
 /**
  * Category tabs for the homepage sections.

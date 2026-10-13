@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useRef, useState } from "react";
 import { SECTION_INDEX } from "@/lib/content";
 import { PRODUCT } from "@/lib/replicas";
-import { SHOWROOM_SLIDES, BRAND_STARTS } from "@/lib/catalogues";
+import { SHOWROOM_SLIDES, BRAND_STARTS, type ShowroomTile } from "@/lib/showroom";
 import { Reveal, ImageReveal, Arrow } from "./Motion";
 import { useCatalogueTabs } from "./useCatalogueTabs";
 import { useTileWipe } from "./useTileWipe";
@@ -25,6 +25,17 @@ function Diag() {
    whole grid into the next brand's five catalogue tiles instead of
    showing a single fixed set.
    ============================================================ */
+/* A tile with no catalogue behind it opens the brand's wall instead of a PDF,
+   and says so — a link that claims "(PDF)" and then lands on a grid is a lie
+   to a screen-reader user, and to anyone who hovers before they click. */
+const tileLabel = (t: ShowroomTile) =>
+  t.pdf
+    ? `${t.title}${t.type ? ` — ${t.type}` : ""} catalogue (PDF)`
+    : `${t.title} — browse the catalogues`;
+
+const tileAlt = (t: ShowroomTile, brand: string) =>
+  `${t.title}${t.type ? `, ${t.type.toLowerCase()}` : ""} by ${brand}`;
+
 export function Showroom({ index }: { index?: string } = {}) {
   const [active, setActive] = useState(0);
   const cardsRef = useRef<HTMLDivElement>(null);
@@ -142,15 +153,14 @@ export function Showroom({ index }: { index?: string } = {}) {
                  elements present at mount. The cards then never became
                  visible again after the first slide. */
               key={i}
-              href={c.pdf ?? undefined}
-              target="_blank"
-              rel="noopener"
+              href={c.href}
+              {...(c.pdf ? { target: "_blank", rel: "noopener" } : {})}
               data-cursor="View"
-              aria-label={`${c.title} — ${c.type} catalogue (PDF)`}
+              aria-label={tileLabel(c)}
             >
               <Image
-                src={c.cover ?? ""}
-                alt={`${c.title}, ${c.type.toLowerCase()} by ${slide.brand}`}
+                src={c.image}
+                alt={tileAlt(c, slide.brand)}
                 width={760}
                 height={600}
                 sizes="(max-width: 680px) 50vw, 30vw"
@@ -158,7 +168,7 @@ export function Showroom({ index }: { index?: string } = {}) {
               />
               <span className="studio__notch">
                 <span className="studio__capsule">
-                  <span className="studio__pill">{c.type}</span>
+                  {c.type && <span className="studio__pill">{c.type}</span>}
                   <span className="studio__pill">{c.title}</span>
                 </span>
               </span>
@@ -171,8 +181,8 @@ export function Showroom({ index }: { index?: string } = {}) {
         <div className="studio__lower" ref={lowerRef}>
           <ImageReveal className="studio__feature" delay={0.08}>
             <Image
-              src={feature.cover ?? ""}
-              alt={`${feature.title}, ${feature.type.toLowerCase()} by ${slide.brand}`}
+              src={feature.image}
+              alt={tileAlt(feature, slide.brand)}
               width={1240}
               height={776}
               sizes="(max-width: 1024px) 100vw, 58vw"
@@ -183,24 +193,25 @@ export function Showroom({ index }: { index?: string } = {}) {
                 invented marketing copy standing in for real product data. */}
             <span className="studio__featurecopy">
               <h3>{feature.title}</h3>
-              <p>
-                {feature.type} · {feature.collection}
-              </p>
+              {feature.type && (
+                <p>
+                  {feature.type} · {feature.collection}
+                </p>
+              )}
             </span>
             <span className="studio__vtag">
               <b>{slide.brand}</b>
-              {feature.collection}
+              {feature.collection ?? ""}
             </span>
             {/* Stretched hit area: the whole feature tile opens its catalogue.
                 Sits above the image but below the copy plate and vertical tag,
                 which are decorative text and need no separate target. */}
             <a
               className="studio__hit"
-              href={feature.pdf ?? undefined}
-              target="_blank"
-              rel="noopener"
+              href={feature.href}
+              {...(feature.pdf ? { target: "_blank", rel: "noopener" } : {})}
               data-cursor="Explore"
-              aria-label={`${feature.title} — ${feature.type} catalogue (PDF)`}
+              aria-label={tileLabel(feature)}
             />
           </ImageReveal>
 
@@ -208,30 +219,28 @@ export function Showroom({ index }: { index?: string } = {}) {
             <span className="studio__panelhead">
               <h3>
                 <span>{panel.title}</span>
-                <span>{panel.type}</span>
+                {panel.type && <span>{panel.type}</span>}
               </h3>
               <a
                 className="studio__round"
-                href={panel.pdf ?? undefined}
-                target="_blank"
-                rel="noopener"
+                href={panel.href}
+                {...(panel.pdf ? { target: "_blank", rel: "noopener" } : {})}
                 data-cursor="Open"
-                aria-label={`${panel.title} catalogue (PDF)`}
+                aria-label={tileLabel(panel)}
               >
                 <Diag />
               </a>
             </span>
             <a
               className="studio__panelimg"
-              href={panel.pdf ?? undefined}
-              target="_blank"
-              rel="noopener"
+              href={panel.href}
+              {...(panel.pdf ? { target: "_blank", rel: "noopener" } : {})}
               data-cursor="Open"
-              aria-label={`${panel.title} catalogue (PDF)`}
+              aria-label={tileLabel(panel)}
             >
               <Image
-                src={panel.cover ?? ""}
-                alt={`${panel.title}, ${panel.type.toLowerCase()} by ${slide.brand}`}
+                src={panel.image}
+                alt={tileAlt(panel, slide.brand)}
                 width={1000}
                 height={1250}
                 sizes="(max-width: 1024px) 100vw, 30vw"

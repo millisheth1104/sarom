@@ -195,21 +195,9 @@ export const CATALOGUES: Catalogue[] = ${JSON.stringify(all, null, 2)};
 /** Everything for one brand, in listing order. */
 export const byBrand = (brand: string) => CATALOGUES.filter((c) => c.brand === brand);
 
-/**
- * One slide per brand — five in total, each showing five catalogues sampled
- * across that brand's collections. Walking the whole catalogue is the job of
- * the category-tabbed Collections section, not this showcase.
- */
-export const SHOWROOM_SLIDES = ${JSON.stringify(
-  slides.map((s) => ({ brand: s.brand, tiles: s.tiles.map((t) => t.id) })),
-  null,
-  2
-)}.map((s) => ({
-  brand: s.brand,
-  tiles: s.tiles
-    .map((id) => CATALOGUES.find((c) => c.id === id))
-    .filter((c): c is Catalogue => Boolean(c)),
-}));
+/* SHOWROOM_SLIDES and BRAND_STARTS moved to lib/showroom.ts (hand-maintained):
+   the tiles are client photographs now, not catalogue covers, so they cannot be
+   regenerated from this data. */
 
 /**
  * One representative photograph per brand, for the House Brands section.
@@ -236,12 +224,6 @@ export const BRAND_HERO: Record<string, { cover: string; count: number }> = ${JS
   null,
   2
 )};
-
-/** First slide index for each brand, so the bar can jump straight there. */
-export const BRAND_STARTS = BRAND_ORDER.map((brand) => ({
-  brand,
-  index: SHOWROOM_SLIDES.findIndex((s) => s.brand === brand),
-}));
 
 /**
  * Category tabs for the homepage sections.
