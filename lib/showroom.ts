@@ -93,8 +93,8 @@ export const SHOWROOM_SLIDES: { brand: string; tiles: ShowroomTile[] }[] = [
     brand: "SJ",
     tiles: [
       linked("SJ", "abaca", 1),
-      // The Excel and the original file both spell it Clovi; the supplied PNG says Colvi.
-      unlisted("SJ", "colvi", "Clovi"),
+      // Named as the client's zip spells it. (The Excel and the print original say Clovi.)
+      unlisted("SJ", "colvi", "Colvi"),
       // Catalogue exists locally (id 247, "Sheer Library I & II") but see NOT YET HOSTED.
       unlisted("SJ", "sheer-library-2", "Sheer Library 2"),
       linked("SJ", "alma", 40),
@@ -138,16 +138,16 @@ export const SHOWROOM_SLIDES: { brand: string; tiles: ShowroomTile[] }[] = [
   {
     // Full print originals this time, no slot sizes - so placed by shape: the
     // widest (3:2) is the feature, the tallest the panel. Each photograph is
-    // ALREADY the cover of the catalogue it links to (matched at 1.000), so the
-    // tile carries that catalogue's name, exactly as the e-catalogue wall does;
-    // the client's own name for the shot is in the comment.
+    // ALREADY the cover of the catalogue it links to (matched at 1.000). The tile
+    // shows the client's name for the photograph (their instruction, 2026-10-13)
+    // while still opening that catalogue's PDF, named in the comment.
     brand: "Beds & More",
     tiles: [
-      linked("Beds & More", "ethereal", 191),          // "Ethereal"  -> Iconique
-      linked("Beds & More", "plush", 192),             // "Plush"     -> Jardin
-      linked("Beds & More", "thread-harmony", 193),    // "Thread Harmony" -> Jasper
-      linked("Beds & More", "knitscape-throws", 195),  // "Knitscape Throws" -> Mouvement
-      linked("Beds & More", "terra-weave", 200),       // "Terra Weave" -> Refuge
+      linked("Beds & More", "ethereal", 191, { title: "Ethereal" }), // opens Iconique
+      linked("Beds & More", "plush", 192, { title: "Plush" }), // opens Jardin
+      linked("Beds & More", "thread-harmony", 193, { title: "Thread Harmony" }), // opens Jasper
+      linked("Beds & More", "knitscape-throws", 195, { title: "Knitscape Throws" }), // opens Mouvement
+      linked("Beds & More", "terra-weave", 200, { title: "Terra Weave" }), // opens Refuge
     ],
   },
 ];
