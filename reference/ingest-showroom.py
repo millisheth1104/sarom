@@ -28,6 +28,12 @@ THEY ARE NOT THE PRINT ORIGINALS UNDER THE SAME NAMES
   zips or the same-named catalogue PDFs (searched), so they are low-resolution
   and the report says so. Replacing them needs the client's larger files.
 
+BEDS & MORE (2026-10-13, "Top 5 Bedding" zip) is different again: five FULL
+print originals, no slot sizes, and each one is - at correlation 1.000 - the
+existing cover of a Beds & More catalogue with a hosted PDF (Ethereal ->
+Iconique, Plush -> Jardin, Thread Harmony -> Jasper, Knitscape Throws ->
+Mouvement, Terra Weave -> Refuge). They are downscaled whole, not cropped.
+
 Run:  python -I reference/ingest-showroom.py <scratch-dir>
 Writes public/media/showroom/<brand>/<slug>.webp and prints a report; the data
 side (which catalogue each tile links to) lives in lib/catalogues.ts.
@@ -274,6 +280,30 @@ def locate_tm(small, big, lo=0.05):
     return {"score": best[0], "box": best[1][:4], "frac": best[1][4]}
 
 
+BEDDING_ZIP = "Top 5 Bedding-20261013T104148Z-1-001.zip"
+
+
+def bedding(scratch):
+    """Whole originals, downscaled to the house long edge."""
+    zf = zipfile.ZipFile(os.path.join(DL, BEDDING_ZIP))
+    dest_dir = os.path.join(OUT, "beds-and-more")
+    os.makedirs(dest_dir, exist_ok=True)
+    for info in zf.infolist():
+        if info.is_dir():
+            continue
+        stem = re.sub(r"\s*\(\d+\)$", "", os.path.splitext(os.path.basename(info.filename))[0])
+        tmp = os.path.join(scratch, "b_" + os.path.basename(info.filename))
+        open(tmp, "wb").write(zf.read(info))
+        im = to_srgb(open_any(tmp))
+        native = im.size
+        im.thumbnail((LONG_EDGE, LONG_EDGE), Image.LANCZOS)
+        out = os.path.join(dest_dir, slug(stem) + ".webp")
+        im.save(out, "WEBP", quality=QUALITY, method=6)
+        os.remove(tmp)
+        print("beds-and-more %-18s %dx%d -> %dx%d  %dKB" % (
+            slug(stem), native[0], native[1], im.size[0], im.size[1], os.path.getsize(out) // 1024))
+
+
 def main(scratch):
     os.makedirs(scratch, exist_ok=True)
     rows = []
@@ -330,4 +360,7 @@ def main(scratch):
 
 
 if __name__ == "__main__":
-    main(sys.argv[1])
+    if len(sys.argv) > 2 and sys.argv[2] == "bedding":
+        bedding(sys.argv[1])
+    else:
+        main(sys.argv[1])

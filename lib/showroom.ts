@@ -14,7 +14,7 @@
  *     274x235  -> the side panel image     (tile 4)
  * Order inside the three cards is the zips' own alphabetical order.
  *
- * IMAGES live in /public/media/showroom/<brand>/ and are re-cut from the print
+ * IMAGES live in /public/media/showroom/<brand-dir>/ and are re-cut from the print
  * originals by `reference/ingest-showroom.py` wherever one exists.
  *
  * LINKS. A tile opens the catalogue of the same NAME. Where the name has no
@@ -47,6 +47,10 @@ const rec = (id: number): Catalogue => {
   return c;
 };
 
+/** Folder name for a brand: "Beds & More" -> "beds-and-more", as in public/catalogues. */
+const brandDir = (brand: string) =>
+  brand.toLowerCase().replace(/&/g, "and").replace(/[^a-z0-9]+/g, "-");
+
 /** The e-catalogue wall, preselected to one brand. */
 const wall = (brand: string) => `/ecatalogue?brand=${encodeURIComponent(brand)}`;
 
@@ -61,7 +65,7 @@ function linked(
   over: { title?: string; wall?: boolean } = {}
 ): ShowroomTile {
   const c = rec(id);
-  const dir = brand.toLowerCase().replace(/\s+/g, "-");
+  const dir = brandDir(brand);
   const hasPdf = Boolean(c.pdf) && !over.wall;
   return {
     title: over.title ?? c.title,
@@ -75,7 +79,7 @@ function linked(
 
 /** A client photograph whose name has no catalogue on the site yet. */
 function unlisted(brand: string, file: string, title: string): ShowroomTile {
-  const dir = brand.toLowerCase().replace(/\s+/g, "-");
+  const dir = brandDir(brand);
   return {
     title,
     image: `/media/showroom/${dir}/${file}.webp`,
@@ -83,19 +87,6 @@ function unlisted(brand: string, file: string, title: string): ShowroomTile {
     pdf: false,
   };
 }
-
-/** Beds & More has not been briefed yet, so it keeps its catalogue covers. */
-const fromCatalogue = (id: number): ShowroomTile => {
-  const c = rec(id);
-  return {
-    title: c.title,
-    type: c.type,
-    collection: c.collection,
-    image: c.cover ?? "",
-    href: c.pdf ?? wall(c.brand),
-    pdf: Boolean(c.pdf),
-  };
-};
 
 export const SHOWROOM_SLIDES: { brand: string; tiles: ShowroomTile[] }[] = [
   {
@@ -145,8 +136,19 @@ export const SHOWROOM_SLIDES: { brand: string; tiles: ShowroomTile[] }[] = [
     ],
   },
   {
+    // Full print originals this time, no slot sizes - so placed by shape: the
+    // widest (3:2) is the feature, the tallest the panel. Each photograph is
+    // ALREADY the cover of the catalogue it links to (matched at 1.000), so the
+    // tile carries that catalogue's name, exactly as the e-catalogue wall does;
+    // the client's own name for the shot is in the comment.
     brand: "Beds & More",
-    tiles: [184, 187, 190, 194, 197].map(fromCatalogue),
+    tiles: [
+      linked("Beds & More", "ethereal", 191),          // "Ethereal"  -> Iconique
+      linked("Beds & More", "plush", 192),             // "Plush"     -> Jardin
+      linked("Beds & More", "thread-harmony", 193),    // "Thread Harmony" -> Jasper
+      linked("Beds & More", "knitscape-throws", 195),  // "Knitscape Throws" -> Mouvement
+      linked("Beds & More", "terra-weave", 200),       // "Terra Weave" -> Refuge
+    ],
   },
 ];
 
