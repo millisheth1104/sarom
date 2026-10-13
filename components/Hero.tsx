@@ -9,6 +9,10 @@ import { gsap, registerGsap, prefersReducedMotion } from "@/lib/motion";
  * The two cuts of the hero film. Phones get the 1080x1920 portrait one, which
  * fills a tall screen without `object-fit: cover` throwing away most of the
  * frame; everything else gets the 1920x1080 landscape one.
+ *
+ * They are DIFFERENT LENGTHS — 31.4s landscape, 20.0s portrait — and both
+ * loop, so nothing may assume a shared duration or a common cue point.
+ * Both carry an audio track; see the sound control at the foot of this file.
  */
 const PORTRAIT = "/media/sarom-interiors-portrait.mp4";
 const LANDSCAPE = "/media/sarom-interiors.mp4";
@@ -43,9 +47,14 @@ export default function Hero() {
     v.addEventListener("loadeddata", onReady, { once: true });
 
     /* Some browsers refuse the initial autoplay promise (data saver, a
-       background tab at load); retry once. The video is permanently muted
-       and the file carries no audio track at all, so there is nothing to
-       re-mute on the retry the way there was when this was unmutable. */
+       background tab at load); retry once.
+
+       The retry must NOT reassert `muted`. Both cuts have carried a real AAC
+       track since the 2026-10-12 drop — the pair before them had no audio
+       stream at all, which is why this used to be a non-issue — so a visitor
+       who has already opted into sound would be silently re-muted by a retry
+       that forced it back on. `muted` is left to the element's own live
+       state, which `toggleSound` owns. */
     const tryPlay = () => {
       v.play().catch(() => {
         v.play().catch(() => {});
