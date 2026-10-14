@@ -4,8 +4,11 @@
  * Source: https://sarom.info/ecatalogue.php (209 records).
  * Regenerate with:  node reference/gen-catalogues.mjs
  *
- * `pdf` and `cover` are paths under /public. The PDFs themselves are NOT in
- * git (~660MB) — rebuild them with `node reference/fetch-pdfs.mjs`.
+ * `cover` is a path under /public. `pdf` is the PDF on our own server,
+ * https://sarom.co.in/catalogues/... (the VPS mirrors public/catalogues), NOT
+ * sarom.info, which is being retired. The PDFs are NOT in git (~951MB); the
+ * 203 scraped ones rebuild with `node reference/fetch-pdfs.mjs` while sarom.info
+ * is still up, the 26 client ones only from the client's zip — see .gitignore.
  * 5 records have no PDF on the source site and carry `pdf: null`.
  */
 
@@ -19,7 +22,7 @@ export type Catalogue = {
   /** Exactly as it appears on sarom.info, kept so corrections stay auditable. */
   typeRaw: string;
   cover: string | null;
-  /** Canonical URL on sarom.info — what the site links to. */
+  /** Hosted URL on sarom.co.in — what the site links to. */
   pdf: string | null;
   /** Path to the local mirror, which is not committed. See fetch-pdfs.mjs. */
   pdfLocal: string | null;
@@ -27,7 +30,7 @@ export type Catalogue = {
 
 export const BRAND_ORDER = ["SJ","Oofy","Matlin","Smart Plus","Beds & More"] as const;
 
-export const COLLECTIONS = ["Curtains", "Upholstery", "Upholstery/Curtain"] as const;
+export const COLLECTIONS = ["Curtains", "Upholstery", "Upholstery/Curtain", "Bedding"] as const;
 
 export const CATALOGUES: Catalogue[] = [
   {
@@ -38,7 +41,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Texture Curtain",
     "typeRaw": "Texture Curtain",
     "cover": "/catalogues/_covers/sj/curtains/abaca.webp",
-    "pdf": "https://sarom.info/catalogpdf/sjcurtains/sj/Abaca.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/curtains/abaca.pdf",
     "pdfLocal": "/catalogues/sj/curtains/abaca.pdf"
   },
   {
@@ -49,7 +52,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Plain Sheer",
     "typeRaw": "Plain Sheers",
     "cover": "/catalogues/_covers/sj/curtains/adonis.webp",
-    "pdf": "https://sarom.info/catalogpdf/sjcurtains/sj/ADONIS.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/curtains/adonis.pdf",
     "pdfLocal": "/catalogues/sj/curtains/adonis.pdf"
   },
   {
@@ -60,7 +63,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Texture Curtain",
     "typeRaw": "Texture Curtain",
     "cover": "/catalogues/_covers/sj/curtains/akira.webp",
-    "pdf": "https://sarom.info/catalogpdf/sjcurtains/sj/Akira.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/curtains/akira.pdf",
     "pdfLocal": "/catalogues/sj/curtains/akira.pdf"
   },
   {
@@ -71,7 +74,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Texture Curtain",
     "typeRaw": "Texture Curtain",
     "cover": "/catalogues/_covers/sj/curtains/alton.webp",
-    "pdf": "https://sarom.info/catalogpdf/sjcurtains/sj/ALTON.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/curtains/alton.pdf",
     "pdfLocal": "/catalogues/sj/curtains/alton.pdf"
   },
   {
@@ -82,7 +85,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Jacquard Curtain",
     "typeRaw": "Jacquard Curtain",
     "cover": "/catalogues/_covers/sj/curtains/amalfi.webp",
-    "pdf": "https://sarom.info/catalogpdf/sjcurtains/sj/AMALFI.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/curtains/amalfi.pdf",
     "pdfLocal": "/catalogues/sj/curtains/amalfi.pdf"
   },
   {
@@ -93,7 +96,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Texture Curtain",
     "typeRaw": "Texture Curtain",
     "cover": "/catalogues/_covers/sj/curtains/ambience.webp",
-    "pdf": "https://sarom.info/catalogpdf/sjcurtains/sj/AMBIENCE.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/curtains/ambience.pdf",
     "pdfLocal": "/catalogues/sj/curtains/ambience.pdf"
   },
   {
@@ -104,7 +107,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Embroidered Sheer",
     "typeRaw": "Embroidered Sheer",
     "cover": "/catalogues/_covers/sj/curtains/antheia.webp",
-    "pdf": "https://sarom.info/catalogpdf/sjcurtains/sj/ANTHEIA.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/curtains/antheia.pdf",
     "pdfLocal": "/catalogues/sj/curtains/antheia.pdf"
   },
   {
@@ -115,7 +118,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Plain Curtain",
     "typeRaw": "Plain Curtain",
     "cover": "/catalogues/_covers/sj/curtains/calico.webp",
-    "pdf": "https://sarom.info/catalogpdf/sjcurtains/sj/Calico.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/curtains/calico.pdf",
     "pdfLocal": "/catalogues/sj/curtains/calico.pdf"
   },
   {
@@ -126,7 +129,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Texture Curtain",
     "typeRaw": "Texture Curtain",
     "cover": "/catalogues/_covers/sj/curtains/calix.webp",
-    "pdf": "https://sarom.info/catalogpdf/sjcurtains/sj/Calix.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/curtains/calix.pdf",
     "pdfLocal": "/catalogues/sj/curtains/calix.pdf"
   },
   {
@@ -137,7 +140,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Jacquard Curtain",
     "typeRaw": "Jacquard Curtain",
     "cover": "/catalogues/_covers/sj/curtains/canary.webp",
-    "pdf": "https://sarom.info/catalogpdf/sjcurtains/sj/canary.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/curtains/canary.pdf",
     "pdfLocal": "/catalogues/sj/curtains/canary.pdf"
   },
   {
@@ -148,7 +151,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Texture Curtain",
     "typeRaw": "Texture Curtain",
     "cover": "/catalogues/_covers/sj/curtains/casabella.webp",
-    "pdf": "https://sarom.info/catalogpdf/sjcurtains/sj/CASABELLA.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/curtains/casabella.pdf",
     "pdfLocal": "/catalogues/sj/curtains/casabella.pdf"
   },
   {
@@ -159,7 +162,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Texture Curtain",
     "typeRaw": "Texture Curtain",
     "cover": "/catalogues/_covers/sj/curtains/caspiana.webp",
-    "pdf": "https://sarom.info/catalogpdf/sjcurtains/sj/CASPIANA.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/curtains/caspiana.pdf",
     "pdfLocal": "/catalogues/sj/curtains/caspiana.pdf"
   },
   {
@@ -170,7 +173,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Texture Curtain",
     "typeRaw": "Texture Curtain",
     "cover": "/catalogues/_covers/sj/curtains/chezani.webp",
-    "pdf": "https://sarom.info/catalogpdf/sjcurtains/sj/Chezani.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/curtains/chezani.pdf",
     "pdfLocal": "/catalogues/sj/curtains/chezani.pdf"
   },
   {
@@ -181,7 +184,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Printed Curtain",
     "typeRaw": "Printed Curtain",
     "cover": "/catalogues/_covers/sj/curtains/cosimia.webp",
-    "pdf": "https://sarom.info/catalogpdf/sjcurtains/sj/COSIMIA.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/curtains/cosimia.pdf",
     "pdfLocal": "/catalogues/sj/curtains/cosimia.pdf"
   },
   {
@@ -192,7 +195,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Jacquard Curtain",
     "typeRaw": "Jacquard Curtain",
     "cover": "/catalogues/_covers/sj/curtains/crystal.webp",
-    "pdf": "https://sarom.info/catalogpdf/sjcurtains/sj/CRYSTAL.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/curtains/crystal.pdf",
     "pdfLocal": "/catalogues/sj/curtains/crystal.pdf"
   },
   {
@@ -203,7 +206,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Texture Curtain",
     "typeRaw": "Texture Curtain",
     "cover": "/catalogues/_covers/sj/curtains/cyprus.webp",
-    "pdf": "https://sarom.info/catalogpdf/sjcurtains/sj/cyprus.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/curtains/cyprus.pdf",
     "pdfLocal": "/catalogues/sj/curtains/cyprus.pdf"
   },
   {
@@ -214,7 +217,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Texture Curtain",
     "typeRaw": "Texture Curtain",
     "cover": "/catalogues/_covers/sj/curtains/dior.webp",
-    "pdf": "https://sarom.info/catalogpdf/sjcurtains/sj/Dior.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/curtains/dior.pdf",
     "pdfLocal": "/catalogues/sj/curtains/dior.pdf"
   },
   {
@@ -225,7 +228,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Jacquard Curtain",
     "typeRaw": "Jacquard Curtain",
     "cover": "/catalogues/_covers/sj/curtains/elite.webp",
-    "pdf": "https://sarom.info/catalogpdf/sjcurtains/sj/Elite.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/curtains/elite.pdf",
     "pdfLocal": "/catalogues/sj/curtains/elite.pdf"
   },
   {
@@ -236,7 +239,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Texture Curtain",
     "typeRaw": "Texture Curtain",
     "cover": "/catalogues/_covers/sj/curtains/eliz.webp",
-    "pdf": "https://sarom.info/catalogpdf/sjcurtains/sj/Elize.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/curtains/eliz.pdf",
     "pdfLocal": "/catalogues/sj/curtains/eliz.pdf"
   },
   {
@@ -247,7 +250,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Embroidered Sheer",
     "typeRaw": "Embroidered Sheer",
     "cover": "/catalogues/_covers/sj/curtains/hawaii.webp",
-    "pdf": "https://sarom.info/catalogpdf/sjcurtains/sj/Hawall.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/curtains/hawaii.pdf",
     "pdfLocal": "/catalogues/sj/curtains/hawaii.pdf"
   },
   {
@@ -258,7 +261,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Jacquard Curtain",
     "typeRaw": "Jacquard Curtain",
     "cover": "/catalogues/_covers/sj/curtains/hector.webp",
-    "pdf": "https://sarom.info/catalogpdf/sjcurtains/sj/Hector.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/curtains/hector.pdf",
     "pdfLocal": "/catalogues/sj/curtains/hector.pdf"
   },
   {
@@ -269,7 +272,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Jacquard Curtain",
     "typeRaw": "Jacquard Curtain",
     "cover": "/catalogues/_covers/sj/curtains/imperia.webp",
-    "pdf": "https://sarom.info/catalogpdf/sjcurtains/sj/Imperia.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/curtains/imperia.pdf",
     "pdfLocal": "/catalogues/sj/curtains/imperia.pdf"
   },
   {
@@ -280,7 +283,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Jacquard Curtain",
     "typeRaw": "Jacquard Curtain",
     "cover": "/catalogues/_covers/sj/curtains/jiya-revival.webp",
-    "pdf": "https://sarom.info/catalogpdf/sjcurtains/sj/JIYA REVIVAL.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/curtains/jiya-revival.pdf",
     "pdfLocal": "/catalogues/sj/curtains/jiya-revival.pdf"
   },
   {
@@ -291,7 +294,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Jacquard Curtain",
     "typeRaw": "Jacquard Curtain",
     "cover": "/catalogues/_covers/sj/curtains/linea.webp",
-    "pdf": "https://sarom.info/catalogpdf/sjcurtains/sj/LINEN LOOK.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/curtains/linea.pdf",
     "pdfLocal": "/catalogues/sj/curtains/linea.pdf"
   },
   {
@@ -302,7 +305,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Embroidered Sheer",
     "typeRaw": "Embroidered Sheer",
     "cover": "/catalogues/_covers/sj/curtains/liona.webp",
-    "pdf": "https://sarom.info/catalogpdf/sjcurtains/sj/LIONA.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/curtains/liona.pdf",
     "pdfLocal": "/catalogues/sj/curtains/liona.pdf"
   },
   {
@@ -313,7 +316,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Embroidered Sheer",
     "typeRaw": "Embroidered Sheer",
     "cover": "/catalogues/_covers/sj/curtains/monaco.webp",
-    "pdf": "https://sarom.info/catalogpdf/sjcurtains/sj/MONACO.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/curtains/monaco.pdf",
     "pdfLocal": "/catalogues/sj/curtains/monaco.pdf"
   },
   {
@@ -324,7 +327,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Jacquard Curtain",
     "typeRaw": "Jacquard Curtain",
     "cover": "/catalogues/_covers/sj/curtains/novy.webp",
-    "pdf": "https://sarom.info/catalogpdf/sjcurtains/sj/Novy.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/curtains/novy.pdf",
     "pdfLocal": "/catalogues/sj/curtains/novy.pdf"
   },
   {
@@ -335,7 +338,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Texture Curtain",
     "typeRaw": "Texture Curtain",
     "cover": "/catalogues/_covers/sj/curtains/otto.webp",
-    "pdf": "https://sarom.info/catalogpdf/sjcurtains/sj/Otto.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/curtains/otto.pdf",
     "pdfLocal": "/catalogues/sj/curtains/otto.pdf"
   },
   {
@@ -346,7 +349,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Jacquard Curtain",
     "typeRaw": "Jacquard Curtain",
     "cover": "/catalogues/_covers/sj/curtains/pristine.webp",
-    "pdf": "https://sarom.info/catalogpdf/sjcurtains/sj/Pristine.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/curtains/pristine.pdf",
     "pdfLocal": "/catalogues/sj/curtains/pristine.pdf"
   },
   {
@@ -368,7 +371,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Texture Curtain",
     "typeRaw": "Texture Curtain",
     "cover": "/catalogues/_covers/sj/curtains/regency.webp",
-    "pdf": "https://sarom.info/catalogpdf/sjcurtains/sj/REGENCY.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/curtains/regency.pdf",
     "pdfLocal": "/catalogues/sj/curtains/regency.pdf"
   },
   {
@@ -379,7 +382,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Jacquard Curtain",
     "typeRaw": "Jacquard Curtain",
     "cover": "/catalogues/_covers/sj/curtains/rolex.webp",
-    "pdf": "https://sarom.info/catalogpdf/sjcurtains/sj/ROLEX.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/curtains/rolex.pdf",
     "pdfLocal": "/catalogues/sj/curtains/rolex.pdf"
   },
   {
@@ -390,7 +393,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Texture Curtain",
     "typeRaw": "Texture Curtain",
     "cover": "/catalogues/_covers/sj/curtains/romania.webp",
-    "pdf": "https://sarom.info/catalogpdf/sjcurtains/sj/ROMANIA.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/curtains/romania.pdf",
     "pdfLocal": "/catalogues/sj/curtains/romania.pdf"
   },
   {
@@ -401,7 +404,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Plain Curtain",
     "typeRaw": "Plain Curtain",
     "cover": "/catalogues/_covers/sj/curtains/sheen.webp",
-    "pdf": "https://sarom.info/catalogpdf/sjcurtains/sj/SHEEN.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/curtains/sheen.pdf",
     "pdfLocal": "/catalogues/sj/curtains/sheen.pdf"
   },
   {
@@ -412,7 +415,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Plain Curtain",
     "typeRaw": "Plain Curtain",
     "cover": "/catalogues/_covers/sj/curtains/silica.webp",
-    "pdf": "https://sarom.info/catalogpdf/sjcurtains/sj/SILICA.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/curtains/silica.pdf",
     "pdfLocal": "/catalogues/sj/curtains/silica.pdf"
   },
   {
@@ -423,7 +426,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Texture Curtain",
     "typeRaw": "Texture Curtain",
     "cover": "/catalogues/_covers/sj/curtains/silket.webp",
-    "pdf": "https://sarom.info/catalogpdf/sjcurtains/sj/Silket.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/curtains/silket.pdf",
     "pdfLocal": "/catalogues/sj/curtains/silket.pdf"
   },
   {
@@ -434,7 +437,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Plain Sheer",
     "typeRaw": "Plain Sheers",
     "cover": "/catalogues/_covers/sj/curtains/solace.webp",
-    "pdf": "https://sarom.info/catalogpdf/sjcurtains/sj/SOLACE.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/curtains/solace.pdf",
     "pdfLocal": "/catalogues/sj/curtains/solace.pdf"
   },
   {
@@ -445,7 +448,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Texture Curtain",
     "typeRaw": "Texture Curtain",
     "cover": "/catalogues/_covers/sj/curtains/solitaire.webp",
-    "pdf": "https://sarom.info/catalogpdf/sjcurtains/sj/SOLITAIRE.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/curtains/solitaire.pdf",
     "pdfLocal": "/catalogues/sj/curtains/solitaire.pdf"
   },
   {
@@ -456,7 +459,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Plain Curtain",
     "typeRaw": "Plain Curtain",
     "cover": "/catalogues/_covers/sj/curtains/aaron.webp",
-    "pdf": "https://sarom.info/catalogpdf/sjcurtains/sj/Aaron.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/curtains/aaron.pdf",
     "pdfLocal": "/catalogues/sj/curtains/aaron.pdf"
   },
   {
@@ -467,7 +470,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Plain Sheer",
     "typeRaw": "Plain Sheers",
     "cover": "/catalogues/_covers/sj/curtains/alma.webp",
-    "pdf": "https://sarom.info/catalogpdf/sjcurtains/sj/ALMA.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/curtains/alma.pdf",
     "pdfLocal": "/catalogues/sj/curtains/alma.pdf"
   },
   {
@@ -478,7 +481,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Texture Curtain",
     "typeRaw": "Texture Curtain",
     "cover": "/catalogues/_covers/sj/curtains/amesbury.webp",
-    "pdf": "https://sarom.info/catalogpdf/sjcurtains/sj/AMESBURRY.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/curtains/amesbury.pdf",
     "pdfLocal": "/catalogues/sj/curtains/amesbury.pdf"
   },
   {
@@ -489,7 +492,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Texture Curtain",
     "typeRaw": "Texture Curtain",
     "cover": "/catalogues/_covers/sj/curtains/andora.webp",
-    "pdf": "https://sarom.info/catalogpdf/sjcurtains/sj/Andora_CTC.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/curtains/andora.pdf",
     "pdfLocal": "/catalogues/sj/curtains/andora.pdf"
   },
   {
@@ -500,7 +503,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Texture Curtain",
     "typeRaw": "Texture Curtain",
     "cover": "/catalogues/_covers/sj/curtains/aubrey.webp",
-    "pdf": "https://sarom.info/catalogpdf/sjcurtains/sj/AUBREY.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/curtains/aubrey.pdf",
     "pdfLocal": "/catalogues/sj/curtains/aubrey.pdf"
   },
   {
@@ -511,7 +514,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Texture Curtain",
     "typeRaw": "Texture Curtain",
     "cover": "/catalogues/_covers/sj/curtains/canberra.webp",
-    "pdf": "https://sarom.info/catalogpdf/sjcurtains/sj/Canberra.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/curtains/canberra.pdf",
     "pdfLocal": "/catalogues/sj/curtains/canberra.pdf"
   },
   {
@@ -522,7 +525,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Curtains",
     "typeRaw": "Capri",
     "cover": "/catalogues/_covers/sj/curtains/capri.webp",
-    "pdf": "https://sarom.info/catalogpdf/sjcurtains/sj/CAPRI.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/curtains/capri.pdf",
     "pdfLocal": "/catalogues/sj/curtains/capri.pdf"
   },
   {
@@ -544,7 +547,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Curtains",
     "typeRaw": "Infinty",
     "cover": "/catalogues/_covers/sj/curtains/infinty.webp",
-    "pdf": "https://sarom.info/catalogpdf/sjcurtains/sj/Infinity.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/curtains/infinty.pdf",
     "pdfLocal": "/catalogues/sj/curtains/infinty.pdf"
   },
   {
@@ -555,7 +558,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Embroidered Sheer",
     "typeRaw": "Embroidered Sheer",
     "cover": "/catalogues/_covers/sj/curtains/eva.webp",
-    "pdf": "https://sarom.info/catalogpdf/sjcurtains/sj/Eva.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/curtains/eva.pdf",
     "pdfLocal": "/catalogues/sj/curtains/eva.pdf"
   },
   {
@@ -566,7 +569,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Texture Curtain",
     "typeRaw": "Texture Curtain",
     "cover": "/catalogues/_covers/sj/curtains/neoma.webp",
-    "pdf": "https://sarom.info/catalogpdf/sjcurtains/sj/NEOMA.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/curtains/neoma.pdf",
     "pdfLocal": "/catalogues/sj/curtains/neoma.pdf"
   },
   {
@@ -577,7 +580,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Plain Curtain",
     "typeRaw": "Plain Curtain",
     "cover": "/catalogues/_covers/sj/curtains/royal.webp",
-    "pdf": "https://sarom.info/catalogpdf/sjcurtains/sj/Royal.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/curtains/royal.pdf",
     "pdfLocal": "/catalogues/sj/curtains/royal.pdf"
   },
   {
@@ -588,7 +591,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Jacquard Curtain",
     "typeRaw": "Jacquard Curtain",
     "cover": "/catalogues/_covers/sj/curtains/willshire.webp",
-    "pdf": "https://sarom.info/catalogpdf/sjcurtains/sj/WILLSHIRE.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/curtains/willshire.pdf",
     "pdfLocal": "/catalogues/sj/curtains/willshire.pdf"
   },
   {
@@ -599,7 +602,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Woven",
     "typeRaw": "Woven",
     "cover": "/catalogues/_covers/sj/upholstery/albert.webp",
-    "pdf": "https://sarom.info/catalogpdf/ALBERT.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/upholstery/albert.pdf",
     "pdfLocal": "/catalogues/sj/upholstery/albert.pdf"
   },
   {
@@ -610,7 +613,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Velvet",
     "typeRaw": "Velvet",
     "cover": "/catalogues/_covers/sj/upholstery/amy.webp",
-    "pdf": "https://sarom.info/catalogpdf/AMY.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/upholstery/amy.pdf",
     "pdfLocal": "/catalogues/sj/upholstery/amy.pdf"
   },
   {
@@ -621,7 +624,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Woven",
     "typeRaw": "Woven",
     "cover": "/catalogues/_covers/sj/upholstery/aria.webp",
-    "pdf": "https://sarom.info/catalogpdf/ARIA.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/upholstery/aria.pdf",
     "pdfLocal": "/catalogues/sj/upholstery/aria.pdf"
   },
   {
@@ -632,7 +635,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Suede",
     "typeRaw": "Suede",
     "cover": "/catalogues/_covers/sj/upholstery/august.webp",
-    "pdf": "https://sarom.info/catalogpdf/AUGUST.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/upholstery/august.pdf",
     "pdfLocal": "/catalogues/sj/upholstery/august.pdf"
   },
   {
@@ -643,7 +646,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Upholstery",
     "typeRaw": "Azzurra",
     "cover": "/catalogues/_covers/sj/upholstery/azzurra.webp",
-    "pdf": "https://sarom.info/catalogpdf/AZZURRA.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/upholstery/azzurra.pdf",
     "pdfLocal": "/catalogues/sj/upholstery/azzurra.pdf"
   },
   {
@@ -654,7 +657,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Velvet",
     "typeRaw": "Velvet",
     "cover": "/catalogues/_covers/sj/upholstery/ibiza.webp",
-    "pdf": "https://sarom.info/catalogpdf/IBIZA.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/upholstery/ibiza.pdf",
     "pdfLocal": "/catalogues/sj/upholstery/ibiza.pdf"
   },
   {
@@ -665,7 +668,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Suede",
     "typeRaw": "Suede",
     "cover": "/catalogues/_covers/sj/upholstery/novel.webp",
-    "pdf": "https://sarom.info/catalogpdf/NOVEL.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/upholstery/novel.pdf",
     "pdfLocal": "/catalogues/sj/upholstery/novel.pdf"
   },
   {
@@ -676,7 +679,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Digital Print",
     "typeRaw": "Digital Print",
     "cover": "/catalogues/_covers/sj/upholstery/palomino.webp",
-    "pdf": "https://sarom.info/catalogpdf/PALOMINO.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/upholstery/palomino.pdf",
     "pdfLocal": "/catalogues/sj/upholstery/palomino.pdf"
   },
   {
@@ -687,7 +690,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Artificial Leather",
     "typeRaw": "Artificial Leather",
     "cover": "/catalogues/_covers/sj/upholstery/aboone.webp",
-    "pdf": "https://sarom.info/catalogpdf/ABOONE.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/upholstery/aboone.pdf",
     "pdfLocal": "/catalogues/sj/upholstery/aboone.pdf"
   },
   {
@@ -698,7 +701,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Velvet",
     "typeRaw": "Velvet",
     "cover": "/catalogues/_covers/sj/upholstery/adriana.webp",
-    "pdf": "https://sarom.info/catalogpdf/ADRIANA.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/upholstery/adriana.pdf",
     "pdfLocal": "/catalogues/sj/upholstery/adriana.pdf"
   },
   {
@@ -709,7 +712,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Suede",
     "typeRaw": "Suede",
     "cover": "/catalogues/_covers/sj/upholstery/albany.webp",
-    "pdf": "https://sarom.info/catalogpdf/ALBANY.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/upholstery/albany.pdf",
     "pdfLocal": "/catalogues/sj/upholstery/albany.pdf"
   },
   {
@@ -720,7 +723,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Suede",
     "typeRaw": "Suede",
     "cover": "/catalogues/_covers/sj/upholstery/alpha.webp",
-    "pdf": "https://sarom.info/catalogpdf/ALPHA.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/upholstery/alpha.pdf",
     "pdfLocal": "/catalogues/sj/upholstery/alpha.pdf"
   },
   {
@@ -731,7 +734,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Velvet",
     "typeRaw": "Velvet",
     "cover": "/catalogues/_covers/sj/upholstery/amazon.webp",
-    "pdf": "https://sarom.info/catalogpdf/AMAZON.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/upholstery/amazon.pdf",
     "pdfLocal": "/catalogues/sj/upholstery/amazon.pdf"
   },
   {
@@ -742,7 +745,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Velvet",
     "typeRaw": "Velvet",
     "cover": "/catalogues/_covers/sj/upholstery/amber.webp",
-    "pdf": "https://sarom.info/catalogpdf/AMBER.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/upholstery/amber.pdf",
     "pdfLocal": "/catalogues/sj/upholstery/amber.pdf"
   },
   {
@@ -753,7 +756,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Artificial Leather",
     "typeRaw": "Artificial Leather",
     "cover": "/catalogues/_covers/sj/upholstery/apache.webp",
-    "pdf": "https://sarom.info/catalogpdf/APACHE.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/upholstery/apache.pdf",
     "pdfLocal": "/catalogues/sj/upholstery/apache.pdf"
   },
   {
@@ -764,7 +767,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Plain Texture",
     "typeRaw": "Plain Texture",
     "cover": "/catalogues/_covers/sj/upholstery/asaba.webp",
-    "pdf": "https://sarom.info/catalogpdf/ASABA.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/upholstery/asaba.pdf",
     "pdfLocal": "/catalogues/sj/upholstery/asaba.pdf"
   },
   {
@@ -775,7 +778,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Suede",
     "typeRaw": "Suede",
     "cover": "/catalogues/_covers/sj/upholstery/asmara.webp",
-    "pdf": "https://sarom.info/catalogpdf/ASMARA.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/upholstery/asmara.pdf",
     "pdfLocal": "/catalogues/sj/upholstery/asmara.pdf"
   },
   {
@@ -786,7 +789,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Velvet",
     "typeRaw": "Velvet",
     "cover": "/catalogues/_covers/sj/upholstery/aspen.webp",
-    "pdf": "https://sarom.info/catalogpdf/ASPEN.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/upholstery/aspen.pdf",
     "pdfLocal": "/catalogues/sj/upholstery/aspen.pdf"
   },
   {
@@ -797,7 +800,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Artificial Leather",
     "typeRaw": "Artificial Leather",
     "cover": "/catalogues/_covers/sj/upholstery/astor.webp",
-    "pdf": "https://sarom.info/catalogpdf/ASTOR.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/upholstery/astor.pdf",
     "pdfLocal": "/catalogues/sj/upholstery/astor.pdf"
   },
   {
@@ -808,7 +811,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Digital Print",
     "typeRaw": "Digital Print",
     "cover": "/catalogues/_covers/sj/upholstery/avita-persian.webp",
-    "pdf": "https://sarom.info/catalogpdf/AVITA.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/upholstery/avita-persian.pdf",
     "pdfLocal": "/catalogues/sj/upholstery/avita-persian.pdf"
   },
   {
@@ -819,7 +822,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Artificial Leather",
     "typeRaw": "Artificial Leather",
     "cover": "/catalogues/_covers/sj/upholstery/bentley.webp",
-    "pdf": "https://sarom.info/catalogpdf/BENTLEY.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/upholstery/bentley.pdf",
     "pdfLocal": "/catalogues/sj/upholstery/bentley.pdf"
   },
   {
@@ -830,7 +833,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Digital Print",
     "typeRaw": "Digital Print",
     "cover": "/catalogues/_covers/sj/upholstery/berry-cambry.webp",
-    "pdf": "https://sarom.info/catalogpdf/BERRY.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/upholstery/berry-cambry.pdf",
     "pdfLocal": "/catalogues/sj/upholstery/berry-cambry.pdf"
   },
   {
@@ -841,7 +844,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Velvet",
     "typeRaw": "Velvet",
     "cover": "/catalogues/_covers/sj/upholstery/breeze.webp",
-    "pdf": "https://sarom.info/catalogpdf/BREEZE.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/upholstery/breeze.pdf",
     "pdfLocal": "/catalogues/sj/upholstery/breeze.pdf"
   },
   {
@@ -852,7 +855,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Woven",
     "typeRaw": "Woven",
     "cover": "/catalogues/_covers/sj/upholstery/brisbane-new.webp",
-    "pdf": "https://sarom.info/catalogpdf/BRISBANE.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/upholstery/brisbane-new.pdf",
     "pdfLocal": "/catalogues/sj/upholstery/brisbane-new.pdf"
   },
   {
@@ -863,7 +866,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Velvet",
     "typeRaw": "Velvet",
     "cover": "/catalogues/_covers/sj/upholstery/cairo.webp",
-    "pdf": "https://sarom.info/catalogpdf/CAIRO.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/upholstery/cairo.pdf",
     "pdfLocal": "/catalogues/sj/upholstery/cairo.pdf"
   },
   {
@@ -874,7 +877,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Digital Print",
     "typeRaw": "Digital Print",
     "cover": "/catalogues/_covers/sj/upholstery/calibri.webp",
-    "pdf": "https://sarom.info/catalogpdf/CALIBRI.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/upholstery/calibri.pdf",
     "pdfLocal": "/catalogues/sj/upholstery/calibri.pdf"
   },
   {
@@ -885,7 +888,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Velvet",
     "typeRaw": "Velvet",
     "cover": "/catalogues/_covers/sj/upholstery/carolina.webp",
-    "pdf": "https://sarom.info/catalogpdf/CAROLINA.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/upholstery/carolina.pdf",
     "pdfLocal": "/catalogues/sj/upholstery/carolina.pdf"
   },
   {
@@ -896,7 +899,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Artificial Leather",
     "typeRaw": "Artificial Leather",
     "cover": "/catalogues/_covers/sj/upholstery/casper-cherry.webp",
-    "pdf": "https://sarom.info/catalogpdf/CHERRY.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/upholstery/casper-cherry.pdf",
     "pdfLocal": "/catalogues/sj/upholstery/casper-cherry.pdf"
   },
   {
@@ -907,7 +910,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Velvet",
     "typeRaw": "Velvet",
     "cover": "/catalogues/_covers/sj/upholstery/choper.webp",
-    "pdf": "https://sarom.info/catalogpdf/CHOPER.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/upholstery/choper.pdf",
     "pdfLocal": "/catalogues/sj/upholstery/choper.pdf"
   },
   {
@@ -918,7 +921,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Artificial Leather",
     "typeRaw": "Artificial Leather",
     "cover": "/catalogues/_covers/sj/upholstery/elantra.webp",
-    "pdf": "https://sarom.info/catalogpdf/ELANTRA.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/upholstery/elantra.pdf",
     "pdfLocal": "/catalogues/sj/upholstery/elantra.pdf"
   },
   {
@@ -929,7 +932,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Digital Print",
     "typeRaw": "Digital Print",
     "cover": "/catalogues/_covers/sj/upholstery/florous.webp",
-    "pdf": "https://sarom.info/catalogpdf/FLOROUS.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/upholstery/florous.pdf",
     "pdfLocal": "/catalogues/sj/upholstery/florous.pdf"
   },
   {
@@ -940,7 +943,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Velvet",
     "typeRaw": "Velvet",
     "cover": "/catalogues/_covers/sj/upholstery/glaze.webp",
-    "pdf": "https://sarom.info/catalogpdf/GLAZE.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/upholstery/glaze.pdf",
     "pdfLocal": "/catalogues/sj/upholstery/glaze.pdf"
   },
   {
@@ -951,7 +954,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Velvet",
     "typeRaw": "Velvet",
     "cover": "/catalogues/_covers/sj/upholstery/hera.webp",
-    "pdf": "https://sarom.info/catalogpdf/HERA.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/upholstery/hera.pdf",
     "pdfLocal": "/catalogues/sj/upholstery/hera.pdf"
   },
   {
@@ -962,7 +965,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Velvet",
     "typeRaw": "Velvet",
     "cover": "/catalogues/_covers/sj/upholstery/heritage.webp",
-    "pdf": "https://sarom.info/catalogpdf/HERITAGE.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/upholstery/heritage.pdf",
     "pdfLocal": "/catalogues/sj/upholstery/heritage.pdf"
   },
   {
@@ -973,7 +976,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Velvet",
     "typeRaw": "Velvet",
     "cover": "/catalogues/_covers/sj/upholstery/jaguar.webp",
-    "pdf": "https://sarom.info/catalogpdf/JAGUAR.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/upholstery/jaguar.pdf",
     "pdfLocal": "/catalogues/sj/upholstery/jaguar.pdf"
   },
   {
@@ -984,7 +987,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Digital Print Velvet",
     "typeRaw": "Digital Print Velvet",
     "cover": "/catalogues/_covers/sj/upholstery/jaipur-volume-1.webp",
-    "pdf": "https://sarom.info/catalogpdf/JAIPUR VOLUME 1.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/upholstery/jaipur-volume-1.pdf",
     "pdfLocal": "/catalogues/sj/upholstery/jaipur-volume-1.pdf"
   },
   {
@@ -995,7 +998,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Digital Print Velvet",
     "typeRaw": "Digital Print Velvet",
     "cover": "/catalogues/_covers/sj/upholstery/jaipur-volume-2.webp",
-    "pdf": "https://sarom.info/catalogpdf/JAIPUR VOLUME 2.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/upholstery/jaipur-volume-2.pdf",
     "pdfLocal": "/catalogues/sj/upholstery/jaipur-volume-2.pdf"
   },
   {
@@ -1006,7 +1009,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Digital Print Velvet",
     "typeRaw": "Digital Print Velvet",
     "cover": "/catalogues/_covers/sj/upholstery/kilim.webp",
-    "pdf": "https://sarom.info/catalogpdf/KILIM.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/upholstery/kilim.pdf",
     "pdfLocal": "/catalogues/sj/upholstery/kilim.pdf"
   },
   {
@@ -1017,7 +1020,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Plain Texture",
     "typeRaw": "Plain Texture",
     "cover": "/catalogues/_covers/sj/upholstery/lenka.webp",
-    "pdf": "https://sarom.info/catalogpdf/LENKA.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/upholstery/lenka.pdf",
     "pdfLocal": "/catalogues/sj/upholstery/lenka.pdf"
   },
   {
@@ -1028,7 +1031,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Knitted",
     "typeRaw": "Knitted",
     "cover": "/catalogues/_covers/sj/upholstery/libra.webp",
-    "pdf": "https://sarom.info/catalogpdf/LIBRA.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/upholstery/libra.pdf",
     "pdfLocal": "/catalogues/sj/upholstery/libra.pdf"
   },
   {
@@ -1039,7 +1042,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Velvet",
     "typeRaw": "Velvet",
     "cover": "/catalogues/_covers/sj/upholstery/linus.webp",
-    "pdf": "https://sarom.info/catalogpdf/LINUS.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/upholstery/linus.pdf",
     "pdfLocal": "/catalogues/sj/upholstery/linus.pdf"
   },
   {
@@ -1050,7 +1053,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Velvet",
     "typeRaw": "Velvet",
     "cover": "/catalogues/_covers/sj/upholstery/lisa.webp",
-    "pdf": "https://sarom.info/catalogpdf/LISA.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/upholstery/lisa.pdf",
     "pdfLocal": "/catalogues/sj/upholstery/lisa.pdf"
   },
   {
@@ -1061,7 +1064,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Velvet",
     "typeRaw": "Velvet",
     "cover": "/catalogues/_covers/sj/upholstery/lisabel.webp",
-    "pdf": "https://sarom.info/catalogpdf/LISABEL.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/upholstery/lisabel.pdf",
     "pdfLocal": "/catalogues/sj/upholstery/lisabel.pdf"
   },
   {
@@ -1072,7 +1075,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Velvet",
     "typeRaw": "Velvet",
     "cover": "/catalogues/_covers/sj/upholstery/marble.webp",
-    "pdf": "https://sarom.info/catalogpdf/MARBLE.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/upholstery/marble.pdf",
     "pdfLocal": "/catalogues/sj/upholstery/marble.pdf"
   },
   {
@@ -1083,7 +1086,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Velvet",
     "typeRaw": "Velvet",
     "cover": "/catalogues/_covers/sj/upholstery/melisa.webp",
-    "pdf": "https://sarom.info/catalogpdf/MELISA.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/upholstery/melisa.pdf",
     "pdfLocal": "/catalogues/sj/upholstery/melisa.pdf"
   },
   {
@@ -1094,7 +1097,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Velvet",
     "typeRaw": "Velvet",
     "cover": "/catalogues/_covers/sj/upholstery/merasa.webp",
-    "pdf": "https://sarom.info/catalogpdf/MERASA.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/upholstery/merasa.pdf",
     "pdfLocal": "/catalogues/sj/upholstery/merasa.pdf"
   },
   {
@@ -1105,7 +1108,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Digital Print",
     "typeRaw": "Digital Print",
     "cover": "/catalogues/_covers/sj/upholstery/milano.webp",
-    "pdf": "https://sarom.info/catalogpdf/MILANO.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/upholstery/milano.pdf",
     "pdfLocal": "/catalogues/sj/upholstery/milano.pdf"
   },
   {
@@ -1116,7 +1119,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Velvet",
     "typeRaw": "Velvet",
     "cover": "/catalogues/_covers/sj/upholstery/mustan.webp",
-    "pdf": "https://sarom.info/catalogpdf/MUSTAN.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/upholstery/mustan.pdf",
     "pdfLocal": "/catalogues/sj/upholstery/mustan.pdf"
   },
   {
@@ -1127,7 +1130,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Velvet",
     "typeRaw": "Velvet",
     "cover": "/catalogues/_covers/sj/upholstery/new-molfino.webp",
-    "pdf": "https://sarom.info/catalogpdf/NEW MOLFINO.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/upholstery/new-molfino.pdf",
     "pdfLocal": "/catalogues/sj/upholstery/new-molfino.pdf"
   },
   {
@@ -1138,7 +1141,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Suede",
     "typeRaw": "Suede",
     "cover": "/catalogues/_covers/sj/upholstery/paramount.webp",
-    "pdf": "https://sarom.info/catalogpdf/PARAMOUNT.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/upholstery/paramount.pdf",
     "pdfLocal": "/catalogues/sj/upholstery/paramount.pdf"
   },
   {
@@ -1149,7 +1152,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Suede",
     "typeRaw": "Suede",
     "cover": "/catalogues/_covers/sj/upholstery/penza.webp",
-    "pdf": "https://sarom.info/catalogpdf/PENZA.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/upholstery/penza.pdf",
     "pdfLocal": "/catalogues/sj/upholstery/penza.pdf"
   },
   {
@@ -1160,7 +1163,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Digital Print Velvet",
     "typeRaw": "Digital Print Velvet",
     "cover": "/catalogues/_covers/sj/upholstery/persian.webp",
-    "pdf": "https://sarom.info/catalogpdf/PENZA.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/upholstery/persian.pdf",
     "pdfLocal": "/catalogues/sj/upholstery/persian.pdf"
   },
   {
@@ -1171,7 +1174,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Digital Print",
     "typeRaw": "Digital Print",
     "cover": "/catalogues/_covers/sj/upholstery/piano.webp",
-    "pdf": "https://sarom.info/catalogpdf/PIANO.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/upholstery/piano.pdf",
     "pdfLocal": "/catalogues/sj/upholstery/piano.pdf"
   },
   {
@@ -1182,7 +1185,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Velvet",
     "typeRaw": "Velvet",
     "cover": "/catalogues/_covers/sj/upholstery/pixel-ibiza.webp",
-    "pdf": "https://sarom.info/catalogpdf/IBIZA.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/upholstery/pixel-ibiza.pdf",
     "pdfLocal": "/catalogues/sj/upholstery/pixel-ibiza.pdf"
   },
   {
@@ -1193,7 +1196,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Velvet",
     "typeRaw": "Velvet",
     "cover": "/catalogues/_covers/sj/upholstery/riviera.webp",
-    "pdf": "https://sarom.info/catalogpdf/RIVIERA.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/upholstery/riviera.pdf",
     "pdfLocal": "/catalogues/sj/upholstery/riviera.pdf"
   },
   {
@@ -1204,7 +1207,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Velvet",
     "typeRaw": "Velvet",
     "cover": "/catalogues/_covers/sj/upholstery/savannah.webp",
-    "pdf": "https://sarom.info/catalogpdf/SAVANNAH (American Velvet).pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/upholstery/savannah.pdf",
     "pdfLocal": "/catalogues/sj/upholstery/savannah.pdf"
   },
   {
@@ -1215,7 +1218,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Embossed Texture",
     "typeRaw": "Embossed Texture",
     "cover": "/catalogues/_covers/sj/upholstery/soho.webp",
-    "pdf": "https://sarom.info/catalogpdf/SOHO.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/upholstery/soho.pdf",
     "pdfLocal": "/catalogues/sj/upholstery/soho.pdf"
   },
   {
@@ -1226,7 +1229,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Velvet",
     "typeRaw": "Velvet",
     "cover": "/catalogues/_covers/sj/upholstery/sugar.webp",
-    "pdf": "https://sarom.info/catalogpdf/SUGAR.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/upholstery/sugar.pdf",
     "pdfLocal": "/catalogues/sj/upholstery/sugar.pdf"
   },
   {
@@ -1237,7 +1240,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Digital Print Velvet",
     "typeRaw": "Digital Print Velvet",
     "cover": "/catalogues/_covers/sj/upholstery/sumba.webp",
-    "pdf": "https://sarom.info/catalogpdf/SUMBA.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/upholstery/sumba.pdf",
     "pdfLocal": "/catalogues/sj/upholstery/sumba.pdf"
   },
   {
@@ -1248,7 +1251,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Digital Print Velvet",
     "typeRaw": "Digital Print Velvet",
     "cover": "/catalogues/_covers/sj/upholstery/taras.webp",
-    "pdf": "https://sarom.info/catalogpdf/TARAS.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/upholstery/taras.pdf",
     "pdfLocal": "/catalogues/sj/upholstery/taras.pdf"
   },
   {
@@ -1259,7 +1262,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Digital Print",
     "typeRaw": "Digital Print",
     "cover": "/catalogues/_covers/sj/upholstery/victoria-vermount.webp",
-    "pdf": "https://sarom.info/catalogpdf/VERMOUNT.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/upholstery/victoria-vermount.pdf",
     "pdfLocal": "/catalogues/sj/upholstery/victoria-vermount.pdf"
   },
   {
@@ -1270,7 +1273,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Digital Print",
     "typeRaw": "Digital Print",
     "cover": "/catalogues/_covers/sj/upholstery/vigo.webp",
-    "pdf": "https://sarom.info/catalogpdf/VIGO.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/upholstery/vigo.pdf",
     "pdfLocal": "/catalogues/sj/upholstery/vigo.pdf"
   },
   {
@@ -1281,7 +1284,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Digital Print",
     "typeRaw": "Digital Print",
     "cover": "/catalogues/_covers/sj/upholstery/vivian-checks.webp",
-    "pdf": "https://sarom.info/catalogpdf/VIVIAN CHECKS.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/upholstery/vivian-checks.pdf",
     "pdfLocal": "/catalogues/sj/upholstery/vivian-checks.pdf"
   },
   {
@@ -1292,7 +1295,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Velvet",
     "typeRaw": "Velvet",
     "cover": "/catalogues/_covers/sj/upholstery/winchester.webp",
-    "pdf": "https://sarom.info/catalogpdf/WINCHESTER.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/upholstery/winchester.pdf",
     "pdfLocal": "/catalogues/sj/upholstery/winchester.pdf"
   },
   {
@@ -1303,7 +1306,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Digital Print",
     "typeRaw": "Digital Print",
     "cover": "/catalogues/_covers/sj/upholstery/zenith.webp",
-    "pdf": "https://sarom.info/catalogpdf/ZENITH.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/upholstery/zenith.pdf",
     "pdfLocal": "/catalogues/sj/upholstery/zenith.pdf"
   },
   {
@@ -1314,7 +1317,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Digital Print",
     "typeRaw": "Digital Print",
     "cover": "/catalogues/_covers/sj/upholstery/alfredo.webp",
-    "pdf": "https://sarom.info/catalogpdf/ALFREDO.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/upholstery/alfredo.pdf",
     "pdfLocal": "/catalogues/sj/upholstery/alfredo.pdf"
   },
   {
@@ -1325,7 +1328,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Digital Print",
     "typeRaw": "Digital Print",
     "cover": "/catalogues/_covers/sj/upholstery/universe.webp",
-    "pdf": "https://sarom.info/catalogpdf/UNIVERSE.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/upholstery/universe.pdf",
     "pdfLocal": "/catalogues/sj/upholstery/universe.pdf"
   },
   {
@@ -1336,7 +1339,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Velvet",
     "typeRaw": "Velvet",
     "cover": "/catalogues/_covers/sj/upholstery-curtain/luxor-n.webp",
-    "pdf": "https://sarom.info/catalogpdf/LUXOR.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/upholstery-curtain/luxor-n.pdf",
     "pdfLocal": "/catalogues/sj/upholstery-curtain/luxor-n.pdf"
   },
   {
@@ -1347,7 +1350,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Velvet",
     "typeRaw": "Velvet",
     "cover": "/catalogues/_covers/sj/upholstery-curtain/velveto-plush.webp",
-    "pdf": "https://sarom.info/catalogpdf/VELVETO.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/upholstery-curtain/velveto-plush.pdf",
     "pdfLocal": "/catalogues/sj/upholstery-curtain/velveto-plush.pdf"
   },
   {
@@ -1358,7 +1361,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Plain",
     "typeRaw": "Plain",
     "cover": "/catalogues/_covers/matlin/curtains/alesia.webp",
-    "pdf": "https://sarom.info/catalogpdf/sjcurtains/matlin/Alesia.pdf",
+    "pdf": "https://sarom.co.in/catalogues/matlin/curtains/alesia.pdf",
     "pdfLocal": "/catalogues/matlin/curtains/alesia.pdf"
   },
   {
@@ -1369,7 +1372,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Plain Sheer",
     "typeRaw": "Plain Sheer",
     "cover": "/catalogues/_covers/matlin/curtains/alex.webp",
-    "pdf": "https://sarom.info/catalogpdf/sjcurtains/matlin/Alex.pdf",
+    "pdf": "https://sarom.co.in/catalogues/matlin/curtains/alex.pdf",
     "pdfLocal": "/catalogues/matlin/curtains/alex.pdf"
   },
   {
@@ -1380,7 +1383,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Wider Width Sheer",
     "typeRaw": "Wider Width Sheer",
     "cover": "/catalogues/_covers/matlin/curtains/amanda.webp",
-    "pdf": "https://sarom.info/catalogpdf/sjcurtains/matlin/AMANDA.pdf",
+    "pdf": "https://sarom.co.in/catalogues/matlin/curtains/amanda.pdf",
     "pdfLocal": "/catalogues/matlin/curtains/amanda.pdf"
   },
   {
@@ -1391,7 +1394,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Plain",
     "typeRaw": "Plain",
     "cover": "/catalogues/_covers/matlin/curtains/amour.webp",
-    "pdf": "https://sarom.info/catalogpdf/sjcurtains/matlin/AMOUR.pdf",
+    "pdf": "https://sarom.co.in/catalogues/matlin/curtains/amour.pdf",
     "pdfLocal": "/catalogues/matlin/curtains/amour.pdf"
   },
   {
@@ -1402,7 +1405,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Plain",
     "typeRaw": "Plain",
     "cover": "/catalogues/_covers/matlin/upholstery-curtain/celina.webp",
-    "pdf": "https://sarom.info/catalogpdf/sjcurtains/matlin/Celina.pdf",
+    "pdf": "https://sarom.co.in/catalogues/matlin/upholstery-curtain/celina.pdf",
     "pdfLocal": "/catalogues/matlin/upholstery-curtain/celina.pdf"
   },
   {
@@ -1413,7 +1416,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Wider Width Texture Curtain",
     "typeRaw": "Wider Width Texture Curtain",
     "cover": "/catalogues/_covers/matlin/curtains/chantily.webp",
-    "pdf": "https://sarom.info/catalogpdf/sjcurtains/matlin/chantily.pdf",
+    "pdf": "https://sarom.co.in/catalogues/matlin/curtains/chantily.pdf",
     "pdfLocal": "/catalogues/matlin/curtains/chantily.pdf"
   },
   {
@@ -1424,7 +1427,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Embroidered Sheer",
     "typeRaw": "Embroidery Sheer",
     "cover": "/catalogues/_covers/matlin/curtains/fiona.webp",
-    "pdf": "https://sarom.info/catalogpdf/sjcurtains/matlin/fiona.pdf",
+    "pdf": "https://sarom.co.in/catalogues/matlin/curtains/fiona.pdf",
     "pdfLocal": "/catalogues/matlin/curtains/fiona.pdf"
   },
   {
@@ -1435,7 +1438,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Texture",
     "typeRaw": "Texture",
     "cover": "/catalogues/_covers/matlin/curtains/linea.webp",
-    "pdf": "https://sarom.info/catalogpdf/sjcurtains/matlin/LINEA.pdf",
+    "pdf": "https://sarom.co.in/catalogues/matlin/curtains/linea.pdf",
     "pdfLocal": "/catalogues/matlin/curtains/linea.pdf"
   },
   {
@@ -1446,7 +1449,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Embroidery",
     "typeRaw": "Embroidery",
     "cover": "/catalogues/_covers/matlin/curtains/samara.webp",
-    "pdf": "https://sarom.info/catalogpdf/sjcurtains/matlin/Samara.pdf",
+    "pdf": "https://sarom.co.in/catalogues/matlin/curtains/samara.pdf",
     "pdfLocal": "/catalogues/matlin/curtains/samara.pdf"
   },
   {
@@ -1457,7 +1460,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Woven",
     "typeRaw": "Woven",
     "cover": "/catalogues/_covers/matlin/curtains/savour.webp",
-    "pdf": "https://sarom.info/catalogpdf/sjcurtains/matlin/Savor.pdf",
+    "pdf": "https://sarom.co.in/catalogues/matlin/curtains/savour.pdf",
     "pdfLocal": "/catalogues/matlin/curtains/savour.pdf"
   },
   {
@@ -1479,7 +1482,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Digital Print",
     "typeRaw": "Digital Print",
     "cover": "/catalogues/_covers/matlin/curtains/abellone.webp",
-    "pdf": "https://sarom.info/catalogpdf/sjcurtains/matlin/ABELLONE.pdf",
+    "pdf": "https://sarom.co.in/catalogues/matlin/curtains/abellone.pdf",
     "pdfLocal": "/catalogues/matlin/curtains/abellone.pdf"
   },
   {
@@ -1490,7 +1493,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Digital Print",
     "typeRaw": "Digital Print",
     "cover": "/catalogues/_covers/matlin/upholstery-curtain/cinthia.webp",
-    "pdf": "https://sarom.info/catalogpdf/sjcurtains/matlin/CINTHIA.pdf",
+    "pdf": "https://sarom.co.in/catalogues/matlin/upholstery-curtain/cinthia.pdf",
     "pdfLocal": "/catalogues/matlin/upholstery-curtain/cinthia.pdf"
   },
   {
@@ -1501,7 +1504,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Digital Print",
     "typeRaw": "Digital Print",
     "cover": "/catalogues/_covers/matlin/upholstery-curtain/mayfair.webp",
-    "pdf": "https://sarom.info/catalogpdf/sjcurtains/matlin/MAYFAIR.pdf",
+    "pdf": "https://sarom.co.in/catalogues/matlin/upholstery-curtain/mayfair.pdf",
     "pdfLocal": "/catalogues/matlin/upholstery-curtain/mayfair.pdf"
   },
   {
@@ -1512,7 +1515,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Digital Print",
     "typeRaw": "Digital Print",
     "cover": "/catalogues/_covers/matlin/upholstery-curtain/myra.webp",
-    "pdf": "https://sarom.info/catalogpdf/sjcurtains/matlin/Myra.pdf",
+    "pdf": "https://sarom.co.in/catalogues/matlin/upholstery-curtain/myra.pdf",
     "pdfLocal": "/catalogues/matlin/upholstery-curtain/myra.pdf"
   },
   {
@@ -1523,7 +1526,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Digital Print",
     "typeRaw": "Digital Print",
     "cover": "/catalogues/_covers/matlin/upholstery-curtain/onella.webp",
-    "pdf": "https://sarom.info/catalogpdf/sjcurtains/matlin/ONELLA.pdf",
+    "pdf": "https://sarom.co.in/catalogues/matlin/upholstery-curtain/onella.pdf",
     "pdfLocal": "/catalogues/matlin/upholstery-curtain/onella.pdf"
   },
   {
@@ -1534,7 +1537,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Woven",
     "typeRaw": "Woven",
     "cover": "/catalogues/_covers/matlin/upholstery-curtain/orea.webp",
-    "pdf": "https://sarom.info/catalogpdf/sjcurtains/matlin/OREA.pdf",
+    "pdf": "https://sarom.co.in/catalogues/matlin/upholstery-curtain/orea.pdf",
     "pdfLocal": "/catalogues/matlin/upholstery-curtain/orea.pdf"
   },
   {
@@ -1545,7 +1548,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Digital Print",
     "typeRaw": "Digital Print",
     "cover": "/catalogues/_covers/matlin/upholstery-curtain/mamboo.webp",
-    "pdf": "https://sarom.info/catalogpdf/sjcurtains/matlin/MAMBOO.pdf",
+    "pdf": "https://sarom.co.in/catalogues/matlin/upholstery-curtain/mamboo.pdf",
     "pdfLocal": "/catalogues/matlin/upholstery-curtain/mamboo.pdf"
   },
   {
@@ -1556,7 +1559,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Boucle Texture",
     "typeRaw": "Boucle Texture",
     "cover": "/catalogues/_covers/matlin/upholstery-curtain/atmosphere.webp",
-    "pdf": "https://sarom.info/catalogpdf/ATMOSPHERE1.pdf",
+    "pdf": "https://sarom.co.in/catalogues/matlin/upholstery-curtain/atmosphere.pdf",
     "pdfLocal": "/catalogues/matlin/upholstery-curtain/atmosphere.pdf"
   },
   {
@@ -1567,7 +1570,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Plain",
     "typeRaw": "Plain",
     "cover": "/catalogues/_covers/matlin/upholstery-curtain/cassia.webp",
-    "pdf": "https://sarom.info/catalogpdf/sjcurtains/matlin/CASSIA.pdf",
+    "pdf": "https://sarom.co.in/catalogues/matlin/upholstery-curtain/cassia.pdf",
     "pdfLocal": "/catalogues/matlin/upholstery-curtain/cassia.pdf"
   },
   {
@@ -1578,7 +1581,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Woven",
     "typeRaw": "Woven",
     "cover": "/catalogues/_covers/matlin/upholstery/delilah.webp",
-    "pdf": "https://sarom.info/catalogpdf/DELILAH.pdf",
+    "pdf": "https://sarom.co.in/catalogues/matlin/upholstery/delilah.pdf",
     "pdfLocal": "/catalogues/matlin/upholstery/delilah.pdf"
   },
   {
@@ -1589,7 +1592,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Woven Texture",
     "typeRaw": "Woven Texture",
     "cover": "/catalogues/_covers/matlin/upholstery/felix.webp",
-    "pdf": "https://sarom.info/catalogpdf/DELILAH.pdf",
+    "pdf": "https://sarom.co.in/catalogues/matlin/upholstery/felix.pdf",
     "pdfLocal": "/catalogues/matlin/upholstery/felix.pdf"
   },
   {
@@ -1600,7 +1603,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Digital Print",
     "typeRaw": "Digital Print",
     "cover": "/catalogues/_covers/matlin/upholstery/isabella.webp",
-    "pdf": "https://sarom.info/catalogpdf/ISABELLA.pdf",
+    "pdf": "https://sarom.co.in/catalogues/matlin/upholstery/isabella.pdf",
     "pdfLocal": "/catalogues/matlin/upholstery/isabella.pdf"
   },
   {
@@ -1611,7 +1614,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Digital Print Velvet",
     "typeRaw": "Digital Print Velvet",
     "cover": "/catalogues/_covers/matlin/upholstery/udaipur.webp",
-    "pdf": "https://sarom.info/catalogpdf/UDAIPUR.pdf",
+    "pdf": "https://sarom.co.in/catalogues/matlin/upholstery/udaipur.pdf",
     "pdfLocal": "/catalogues/matlin/upholstery/udaipur.pdf"
   },
   {
@@ -1644,7 +1647,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Foil Velvet",
     "typeRaw": "Foil Velvet",
     "cover": "/catalogues/_covers/oofy/upholstery-curtain/avezzano-bolzano.webp",
-    "pdf": "https://sarom.info/catalogpdf/AVEZZANO.pdf",
+    "pdf": "https://sarom.co.in/catalogues/oofy/upholstery-curtain/avezzano-bolzano.pdf",
     "pdfLocal": "/catalogues/oofy/upholstery-curtain/avezzano-bolzano.pdf"
   },
   {
@@ -1655,7 +1658,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Wider Width Curtain",
     "typeRaw": "Wider Width Curtain",
     "cover": "/catalogues/_covers/oofy/curtains/costa.webp",
-    "pdf": "https://sarom.info/catalogpdf/sjcurtains/oofy/Costa.pdf",
+    "pdf": "https://sarom.co.in/catalogues/oofy/curtains/costa.pdf",
     "pdfLocal": "/catalogues/oofy/curtains/costa.pdf"
   },
   {
@@ -1666,7 +1669,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Foil Velvet",
     "typeRaw": "Foil Velvet",
     "cover": "/catalogues/_covers/oofy/upholstery/tivoli.webp",
-    "pdf": "https://sarom.info/catalogpdf/sjcurtains/oofy/Tivoli.pdf",
+    "pdf": "https://sarom.co.in/catalogues/oofy/upholstery/tivoli.pdf",
     "pdfLocal": "/catalogues/oofy/upholstery/tivoli.pdf"
   },
   {
@@ -1677,7 +1680,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Suede",
     "typeRaw": "Suede",
     "cover": "/catalogues/_covers/oofy/upholstery/bryan.webp",
-    "pdf": "https://sarom.info/catalogpdf/BRYAN.pdf",
+    "pdf": "https://sarom.co.in/catalogues/oofy/upholstery/bryan.pdf",
     "pdfLocal": "/catalogues/oofy/upholstery/bryan.pdf"
   },
   {
@@ -1688,7 +1691,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Quilted Velvet",
     "typeRaw": "Quilted Velvet",
     "cover": "/catalogues/_covers/oofy/upholstery/doralia.webp",
-    "pdf": "https://sarom.info/catalogpdf/DORALIA.pdf",
+    "pdf": "https://sarom.co.in/catalogues/oofy/upholstery/doralia.pdf",
     "pdfLocal": "/catalogues/oofy/upholstery/doralia.pdf"
   },
   {
@@ -1699,7 +1702,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Quilted Velvet",
     "typeRaw": "Quilted Velvet",
     "cover": "/catalogues/_covers/oofy/upholstery/tiffany-brittany.webp",
-    "pdf": "https://sarom.info/catalogpdf/TIFFANY.pdf",
+    "pdf": "https://sarom.co.in/catalogues/oofy/upholstery/tiffany-brittany.pdf",
     "pdfLocal": "/catalogues/oofy/upholstery/tiffany-brittany.pdf"
   },
   {
@@ -1710,7 +1713,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Woven",
     "typeRaw": "Woven",
     "cover": "/catalogues/_covers/oofy/upholstery/velur.webp",
-    "pdf": "https://sarom.info/catalogpdf/VELUR.pdf",
+    "pdf": "https://sarom.co.in/catalogues/oofy/upholstery/velur.pdf",
     "pdfLocal": "/catalogues/oofy/upholstery/velur.pdf"
   },
   {
@@ -1721,7 +1724,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Woven",
     "typeRaw": "Woven",
     "cover": "/catalogues/_covers/oofy/upholstery/aluva.webp",
-    "pdf": "https://sarom.info/catalogpdf/ALUVA.pdf",
+    "pdf": "https://sarom.co.in/catalogues/oofy/upholstery/aluva.pdf",
     "pdfLocal": "/catalogues/oofy/upholstery/aluva.pdf"
   },
   {
@@ -1732,7 +1735,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Artificial Leather",
     "typeRaw": "Artificial Leather",
     "cover": "/catalogues/_covers/smart-plus/upholstery/altima.webp",
-    "pdf": "https://sarom.info/catalogpdf/ALTIMA.pdf",
+    "pdf": "https://sarom.co.in/catalogues/smart-plus/upholstery/altima.pdf",
     "pdfLocal": "/catalogues/smart-plus/upholstery/altima.pdf"
   },
   {
@@ -1743,7 +1746,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Woven",
     "typeRaw": "Woven",
     "cover": "/catalogues/_covers/smart-plus/upholstery/ambiant.webp",
-    "pdf": "https://sarom.info/catalogpdf/AMBIANT.pdf",
+    "pdf": "https://sarom.co.in/catalogues/smart-plus/upholstery/ambiant.pdf",
     "pdfLocal": "/catalogues/smart-plus/upholstery/ambiant.pdf"
   },
   {
@@ -1754,7 +1757,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Chenille",
     "typeRaw": "Chenille",
     "cover": "/catalogues/_covers/smart-plus/upholstery/bailey.webp",
-    "pdf": "https://sarom.info/catalogpdf/BAILEY.pdf",
+    "pdf": "https://sarom.co.in/catalogues/smart-plus/upholstery/bailey.pdf",
     "pdfLocal": "/catalogues/smart-plus/upholstery/bailey.pdf"
   },
   {
@@ -1765,7 +1768,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Suede Leather",
     "typeRaw": "Suede Leather",
     "cover": "/catalogues/_covers/smart-plus/upholstery/ferrari.webp",
-    "pdf": "https://sarom.info/catalogpdf/FERRARI.pdf",
+    "pdf": "https://sarom.co.in/catalogues/smart-plus/upholstery/ferrari.pdf",
     "pdfLocal": "/catalogues/smart-plus/upholstery/ferrari.pdf"
   },
   {
@@ -1776,7 +1779,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Knitted",
     "typeRaw": "Knitted",
     "cover": "/catalogues/_covers/smart-plus/upholstery/keiba.webp",
-    "pdf": "https://sarom.info/catalogpdf/KEIBA.pdf",
+    "pdf": "https://sarom.co.in/catalogues/smart-plus/upholstery/keiba.pdf",
     "pdfLocal": "/catalogues/smart-plus/upholstery/keiba.pdf"
   },
   {
@@ -1787,7 +1790,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Chenille",
     "typeRaw": "Chenille",
     "cover": "/catalogues/_covers/smart-plus/upholstery/kenzi.webp",
-    "pdf": "https://sarom.info/catalogpdf/KENZI.pdf",
+    "pdf": "https://sarom.co.in/catalogues/smart-plus/upholstery/kenzi.pdf",
     "pdfLocal": "/catalogues/smart-plus/upholstery/kenzi.pdf"
   },
   {
@@ -1798,7 +1801,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Velvet",
     "typeRaw": "Velvet",
     "cover": "/catalogues/_covers/smart-plus/upholstery/levi.webp",
-    "pdf": "https://sarom.info/catalogpdf/LEVI.pdf",
+    "pdf": "https://sarom.co.in/catalogues/smart-plus/upholstery/levi.pdf",
     "pdfLocal": "/catalogues/smart-plus/upholstery/levi.pdf"
   },
   {
@@ -1809,7 +1812,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Woven",
     "typeRaw": "Woven",
     "cover": "/catalogues/_covers/smart-plus/upholstery/luke.webp",
-    "pdf": "https://sarom.info/catalogpdf/LUKE.pdf",
+    "pdf": "https://sarom.co.in/catalogues/smart-plus/upholstery/luke.pdf",
     "pdfLocal": "/catalogues/smart-plus/upholstery/luke.pdf"
   },
   {
@@ -1820,7 +1823,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Woven",
     "typeRaw": "Woven",
     "cover": "/catalogues/_covers/smart-plus/upholstery/marwin.webp",
-    "pdf": "https://sarom.info/catalogpdf/MARWIN.pdf",
+    "pdf": "https://sarom.co.in/catalogues/smart-plus/upholstery/marwin.pdf",
     "pdfLocal": "/catalogues/smart-plus/upholstery/marwin.pdf"
   },
   {
@@ -1831,7 +1834,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Chenille",
     "typeRaw": "Chenille",
     "cover": "/catalogues/_covers/smart-plus/upholstery/meraki.webp",
-    "pdf": "https://sarom.info/catalogpdf/MERAKI.pdf",
+    "pdf": "https://sarom.co.in/catalogues/smart-plus/upholstery/meraki.pdf",
     "pdfLocal": "/catalogues/smart-plus/upholstery/meraki.pdf"
   },
   {
@@ -1842,7 +1845,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Artificial Leather",
     "typeRaw": "Artificial Leather",
     "cover": "/catalogues/_covers/smart-plus/upholstery/merry.webp",
-    "pdf": "https://sarom.info/catalogpdf/MERRY.pdf",
+    "pdf": "https://sarom.co.in/catalogues/smart-plus/upholstery/merry.pdf",
     "pdfLocal": "/catalogues/smart-plus/upholstery/merry.pdf"
   },
   {
@@ -1853,7 +1856,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Woven",
     "typeRaw": "Woven",
     "cover": "/catalogues/_covers/smart-plus/upholstery/perth.webp",
-    "pdf": "https://sarom.info/catalogpdf/PERTH.pdf",
+    "pdf": "https://sarom.co.in/catalogues/smart-plus/upholstery/perth.pdf",
     "pdfLocal": "/catalogues/smart-plus/upholstery/perth.pdf"
   },
   {
@@ -1864,7 +1867,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Artificial Leather",
     "typeRaw": "Artificial Leather",
     "cover": "/catalogues/_covers/smart-plus/upholstery/phantom.webp",
-    "pdf": "https://sarom.info/catalogpdf/PHANTOM.pdf",
+    "pdf": "https://sarom.co.in/catalogues/smart-plus/upholstery/phantom.pdf",
     "pdfLocal": "/catalogues/smart-plus/upholstery/phantom.pdf"
   },
   {
@@ -1875,7 +1878,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Velvet",
     "typeRaw": "Velvet",
     "cover": "/catalogues/_covers/smart-plus/upholstery/soffice.webp",
-    "pdf": "https://sarom.info/catalogpdf/SOFFICE.pdf",
+    "pdf": "https://sarom.co.in/catalogues/smart-plus/upholstery/soffice.pdf",
     "pdfLocal": "/catalogues/smart-plus/upholstery/soffice.pdf"
   },
   {
@@ -1886,7 +1889,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Suede",
     "typeRaw": "Suede",
     "cover": "/catalogues/_covers/smart-plus/upholstery/sierra.webp",
-    "pdf": "https://sarom.info/catalogpdf/SIERRA.pdf",
+    "pdf": "https://sarom.co.in/catalogues/smart-plus/upholstery/sierra.pdf",
     "pdfLocal": "/catalogues/smart-plus/upholstery/sierra.pdf"
   },
   {
@@ -1897,7 +1900,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Main Curtain",
     "typeRaw": "Main Curtain",
     "cover": "/catalogues/_covers/beds-and-more/curtains/amos.webp",
-    "pdf": "https://sarom.info/catalogpdf/bedsandmore/Amos Collection.pdf",
+    "pdf": "https://sarom.co.in/catalogues/beds-and-more/curtains/amos.pdf",
     "pdfLocal": "/catalogues/beds-and-more/curtains/amos.pdf"
   },
   {
@@ -1908,7 +1911,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Black Out",
     "typeRaw": "Black Out",
     "cover": "/catalogues/_covers/beds-and-more/curtains/bali-stripes.webp",
-    "pdf": "https://sarom.info/catalogpdf/bedsandmore/Bali Stripes Collection.pdf",
+    "pdf": "https://sarom.co.in/catalogues/beds-and-more/curtains/bali-stripes.pdf",
     "pdfLocal": "/catalogues/beds-and-more/curtains/bali-stripes.pdf"
   },
   {
@@ -1919,7 +1922,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Sheer",
     "typeRaw": "Sheer",
     "cover": "/catalogues/_covers/beds-and-more/curtains/cable.webp",
-    "pdf": "https://sarom.info/catalogpdf/bedsandmore/Cable-Collection.pdf",
+    "pdf": "https://sarom.co.in/catalogues/beds-and-more/curtains/cable.pdf",
     "pdfLocal": "/catalogues/beds-and-more/curtains/cable.pdf"
   },
   {
@@ -1930,7 +1933,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Linen/Sheer",
     "typeRaw": "Linen/Sheer",
     "cover": "/catalogues/_covers/beds-and-more/curtains/diffusion.webp",
-    "pdf": "https://sarom.info/catalogpdf/bedsandmore/Diffusion Collection.pdf",
+    "pdf": "https://sarom.co.in/catalogues/beds-and-more/curtains/diffusion.pdf",
     "pdfLocal": "/catalogues/beds-and-more/curtains/diffusion.pdf"
   },
   {
@@ -1941,7 +1944,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Fabric",
     "typeRaw": "Fabric",
     "cover": "/catalogues/_covers/beds-and-more/curtains/eva.webp",
-    "pdf": "https://sarom.info/catalogpdf/bedsandmore/Eva Collection.pdf",
+    "pdf": "https://sarom.co.in/catalogues/beds-and-more/curtains/eva.pdf",
     "pdfLocal": "/catalogues/beds-and-more/curtains/eva.pdf"
   },
   {
@@ -1952,7 +1955,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Artificial Leather",
     "typeRaw": "Artifiacial Leather",
     "cover": "/catalogues/_covers/beds-and-more/upholstery/florent.webp",
-    "pdf": "https://sarom.info/catalogpdf/bedsandmore/Florent Collection.pdf",
+    "pdf": "https://sarom.co.in/catalogues/beds-and-more/upholstery/florent.pdf",
     "pdfLocal": "/catalogues/beds-and-more/upholstery/florent.pdf"
   },
   {
@@ -1963,7 +1966,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Digital Print",
     "typeRaw": "Digital Print",
     "cover": "/catalogues/_covers/beds-and-more/upholstery/harmonie.webp",
-    "pdf": "https://sarom.info/catalogpdf/bedsandmore/Harmone Collection.pdf",
+    "pdf": "https://sarom.co.in/catalogues/beds-and-more/upholstery/harmonie.pdf",
     "pdfLocal": "/catalogues/beds-and-more/upholstery/harmonie.pdf"
   },
   {
@@ -1974,7 +1977,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Digital Print",
     "typeRaw": "Digital Print",
     "cover": "/catalogues/_covers/beds-and-more/upholstery/iconique.webp",
-    "pdf": "https://sarom.info/catalogpdf/bedsandmore/Iconique-Collection.pdf",
+    "pdf": "https://sarom.co.in/catalogues/beds-and-more/upholstery/iconique.pdf",
     "pdfLocal": "/catalogues/beds-and-more/upholstery/iconique.pdf"
   },
   {
@@ -1985,7 +1988,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Digital Print",
     "typeRaw": "Digital Print",
     "cover": "/catalogues/_covers/beds-and-more/upholstery/jardin.webp",
-    "pdf": "https://sarom.info/catalogpdf/bedsandmore/Jardin Collection.pdf",
+    "pdf": "https://sarom.co.in/catalogues/beds-and-more/upholstery/jardin.pdf",
     "pdfLocal": "/catalogues/beds-and-more/upholstery/jardin.pdf"
   },
   {
@@ -1996,7 +1999,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Digital Print",
     "typeRaw": "Digital Print",
     "cover": "/catalogues/_covers/beds-and-more/upholstery/jasper.webp",
-    "pdf": "https://sarom.info/catalogpdf/bedsandmore/Jasper Collection.pdf",
+    "pdf": "https://sarom.co.in/catalogues/beds-and-more/upholstery/jasper.pdf",
     "pdfLocal": "/catalogues/beds-and-more/upholstery/jasper.pdf"
   },
   {
@@ -2007,7 +2010,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Digital Print",
     "typeRaw": "Digital Print",
     "cover": "/catalogues/_covers/beds-and-more/upholstery/linnean.webp",
-    "pdf": "https://sarom.info/catalogpdf/bedsandmore/Linnean Collection.pdf",
+    "pdf": "https://sarom.co.in/catalogues/beds-and-more/upholstery/linnean.pdf",
     "pdfLocal": "/catalogues/beds-and-more/upholstery/linnean.pdf"
   },
   {
@@ -2018,7 +2021,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Digital Print",
     "typeRaw": "Digital Print",
     "cover": "/catalogues/_covers/beds-and-more/upholstery/mouvement.webp",
-    "pdf": "https://sarom.info/catalogpdf/bedsandmore/Mouvement Collection.pdf",
+    "pdf": "https://sarom.co.in/catalogues/beds-and-more/upholstery/mouvement.pdf",
     "pdfLocal": "/catalogues/beds-and-more/upholstery/mouvement.pdf"
   },
   {
@@ -2029,7 +2032,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Digital Print",
     "typeRaw": "Digital Print",
     "cover": "/catalogues/_covers/beds-and-more/upholstery/nelson.webp",
-    "pdf": "https://sarom.info/catalogpdf/bedsandmore/180TC_Beds & More catalouge_CTC_compressed.pdf",
+    "pdf": "https://sarom.co.in/catalogues/beds-and-more/upholstery/nelson.pdf",
     "pdfLocal": "/catalogues/beds-and-more/upholstery/nelson.pdf"
   },
   {
@@ -2040,7 +2043,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Digital Print",
     "typeRaw": "Digital Print",
     "cover": "/catalogues/_covers/beds-and-more/upholstery/opulence.webp",
-    "pdf": "https://sarom.info/catalogpdf/bedsandmore/Openlence Collection.pdf",
+    "pdf": "https://sarom.co.in/catalogues/beds-and-more/upholstery/opulence.pdf",
     "pdfLocal": "/catalogues/beds-and-more/upholstery/opulence.pdf"
   },
   {
@@ -2051,7 +2054,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Digital Print",
     "typeRaw": "Digital Print",
     "cover": "/catalogues/_covers/beds-and-more/upholstery/oscar.webp",
-    "pdf": "https://sarom.info/catalogpdf/bedsandmore/oscar.pdf",
+    "pdf": "https://sarom.co.in/catalogues/beds-and-more/upholstery/oscar.pdf",
     "pdfLocal": "/catalogues/beds-and-more/upholstery/oscar.pdf"
   },
   {
@@ -2062,7 +2065,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Digital Print",
     "typeRaw": "Digital Print",
     "cover": "/catalogues/_covers/beds-and-more/upholstery/reflect.webp",
-    "pdf": "https://sarom.info/catalogpdf/bedsandmore/Reflect Collection.pdf",
+    "pdf": "https://sarom.co.in/catalogues/beds-and-more/upholstery/reflect.pdf",
     "pdfLocal": "/catalogues/beds-and-more/upholstery/reflect.pdf"
   },
   {
@@ -2073,7 +2076,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Digital Print",
     "typeRaw": "Digital Print",
     "cover": "/catalogues/_covers/beds-and-more/upholstery/refuge.webp",
-    "pdf": "https://sarom.info/catalogpdf/bedsandmore/Refuge-Collection.pdf",
+    "pdf": "https://sarom.co.in/catalogues/beds-and-more/upholstery/refuge.pdf",
     "pdfLocal": "/catalogues/beds-and-more/upholstery/refuge.pdf"
   },
   {
@@ -2084,7 +2087,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Digital Print",
     "typeRaw": "Digital Print",
     "cover": "/catalogues/_covers/sj/upholstery/aruba.webp",
-    "pdf": "https://sarom.info/catalogpdf/ARUBA.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/upholstery/aruba.pdf",
     "pdfLocal": "/catalogues/sj/upholstery/aruba.pdf"
   },
   {
@@ -2095,7 +2098,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Digital Print Velvet",
     "typeRaw": "Digital Print Velvet",
     "cover": "/catalogues/_covers/sj/upholstery/halden.webp",
-    "pdf": "https://sarom.info/catalogpdf/HALDEN VOLUME 1.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/upholstery/halden.pdf",
     "pdfLocal": "/catalogues/sj/upholstery/halden.pdf"
   },
   {
@@ -2106,7 +2109,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Sweden Velvet",
     "typeRaw": "Sweden Velvet",
     "cover": "/catalogues/_covers/sj/upholstery/angel.webp",
-    "pdf": "https://sarom.info/catalogpdf/ANGEL.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/upholstery/angel.pdf",
     "pdfLocal": "/catalogues/sj/upholstery/angel.pdf"
   },
   {
@@ -2117,7 +2120,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Velvet",
     "typeRaw": "Velvet",
     "cover": "/catalogues/_covers/sj/upholstery/halden-volume-2.webp",
-    "pdf": "https://sarom.info/catalogpdf/HALDEN VOLUME 2.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/upholstery/halden-volume-2.pdf",
     "pdfLocal": "/catalogues/sj/upholstery/halden-volume-2.pdf"
   },
   {
@@ -2128,7 +2131,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Digital Print",
     "typeRaw": "Digital Print",
     "cover": "/catalogues/_covers/sj/upholstery/nakshi.webp",
-    "pdf": "https://sarom.info/catalogpdf/NAKSHI.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/upholstery/nakshi.pdf",
     "pdfLocal": "/catalogues/sj/upholstery/nakshi.pdf"
   },
   {
@@ -2139,7 +2142,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Plain Velvet",
     "typeRaw": "Plain Velvet",
     "cover": "/catalogues/_covers/sj/upholstery/alfy.webp",
-    "pdf": "https://sarom.info/catalogpdf/ALFY.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/upholstery/alfy.pdf",
     "pdfLocal": "/catalogues/sj/upholstery/alfy.pdf"
   },
   {
@@ -2150,7 +2153,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Sweden Velvet",
     "typeRaw": "Sweden Velvet",
     "cover": "/catalogues/_covers/sj/upholstery/alytus.webp",
-    "pdf": "https://sarom.info/catalogpdf/ALYTUS.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/upholstery/alytus.pdf",
     "pdfLocal": "/catalogues/sj/upholstery/alytus.pdf"
   },
   {
@@ -2161,7 +2164,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Fancy Trendy Furry",
     "typeRaw": "Fancy Trendy Furry",
     "cover": "/catalogues/_covers/sj/upholstery/zurich.webp",
-    "pdf": "https://sarom.info/catalogpdf/ZURICH.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/upholstery/zurich.pdf",
     "pdfLocal": "/catalogues/sj/upholstery/zurich.pdf"
   },
   {
@@ -2172,7 +2175,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Woven",
     "typeRaw": "Woven",
     "cover": "/catalogues/_covers/oofy/upholstery/pebbles.webp",
-    "pdf": "https://sarom.info/catalogpdf/PEBBLES.pdf",
+    "pdf": "https://sarom.co.in/catalogues/oofy/upholstery/pebbles.pdf",
     "pdfLocal": "/catalogues/oofy/upholstery/pebbles.pdf"
   },
   {
@@ -2183,7 +2186,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Woven",
     "typeRaw": "Woven",
     "cover": "/catalogues/_covers/smart-plus/upholstery/leisure.webp",
-    "pdf": "https://sarom.info/catalogpdf/LEISURE.pdf",
+    "pdf": "https://sarom.co.in/catalogues/smart-plus/upholstery/leisure.pdf",
     "pdfLocal": "/catalogues/smart-plus/upholstery/leisure.pdf"
   },
   {
@@ -2194,7 +2197,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Woven",
     "typeRaw": "Woven",
     "cover": "/catalogues/_covers/smart-plus/upholstery/aston.webp",
-    "pdf": "https://sarom.info/catalogpdf/ASTON.pdf",
+    "pdf": "https://sarom.co.in/catalogues/smart-plus/upholstery/aston.pdf",
     "pdfLocal": "/catalogues/smart-plus/upholstery/aston.pdf"
   },
   {
@@ -2205,7 +2208,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Woven",
     "typeRaw": "Woven",
     "cover": "/catalogues/_covers/smart-plus/upholstery/antalya.png",
-    "pdf": "https://sarom.info/catalogpdf/ANTALYA.pdf",
+    "pdf": "https://sarom.co.in/catalogues/smart-plus/upholstery/antalya.pdf",
     "pdfLocal": "/catalogues/smart-plus/upholstery/antalya.pdf"
   },
   {
@@ -2216,7 +2219,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Woven",
     "typeRaw": "Woven",
     "cover": "/catalogues/_covers/smart-plus/upholstery/wooly.webp",
-    "pdf": "https://sarom.info/catalogpdf/WOOLY.pdf",
+    "pdf": "https://sarom.co.in/catalogues/smart-plus/upholstery/wooly.pdf",
     "pdfLocal": "/catalogues/smart-plus/upholstery/wooly.pdf"
   },
   {
@@ -2227,7 +2230,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Woven",
     "typeRaw": "Woven",
     "cover": "/catalogues/_covers/smart-plus/upholstery/giza.webp",
-    "pdf": "https://sarom.info/catalogpdf/GIZA.pdf",
+    "pdf": "https://sarom.co.in/catalogues/smart-plus/upholstery/giza.pdf",
     "pdfLocal": "/catalogues/smart-plus/upholstery/giza.pdf"
   },
   {
@@ -2238,7 +2241,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Woven",
     "typeRaw": "Woven",
     "cover": "/catalogues/_covers/smart-plus/upholstery/melody.webp",
-    "pdf": "https://sarom.info/catalogpdf/MELODY.pdf",
+    "pdf": "https://sarom.co.in/catalogues/smart-plus/upholstery/melody.pdf",
     "pdfLocal": "/catalogues/smart-plus/upholstery/melody.pdf"
   },
   {
@@ -2249,7 +2252,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Woven",
     "typeRaw": "Woven",
     "cover": "/catalogues/_covers/sj/upholstery/jodhpur-vol-1.webp",
-    "pdf": "https://sarom.info/catalogpdf/JODHPUR VOLUME 1.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/upholstery/jodhpur-vol-1.pdf",
     "pdfLocal": "/catalogues/sj/upholstery/jodhpur-vol-1.pdf"
   },
   {
@@ -2260,7 +2263,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Woven",
     "typeRaw": "Woven",
     "cover": "/catalogues/_covers/sj/upholstery/jodhpur-vol-2.webp",
-    "pdf": "https://sarom.info/catalogpdf/JODHPUR VOLUME 2.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/upholstery/jodhpur-vol-2.pdf",
     "pdfLocal": "/catalogues/sj/upholstery/jodhpur-vol-2.pdf"
   },
   {
@@ -2271,7 +2274,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Woven",
     "typeRaw": "Woven",
     "cover": "/catalogues/_covers/sj/upholstery/bikaner-vol-1.webp",
-    "pdf": "https://sarom.info/catalogpdf/BIKANER VOLUME 1.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/upholstery/bikaner-vol-1.pdf",
     "pdfLocal": "/catalogues/sj/upholstery/bikaner-vol-1.pdf"
   },
   {
@@ -2282,7 +2285,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Woven",
     "typeRaw": "Woven",
     "cover": "/catalogues/_covers/sj/upholstery/bikaner-vol-2.webp",
-    "pdf": "https://sarom.info/catalogpdf/BIKANER VOLUME 2.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/upholstery/bikaner-vol-2.pdf",
     "pdfLocal": "/catalogues/sj/upholstery/bikaner-vol-2.pdf"
   },
   {
@@ -2293,7 +2296,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Woven",
     "typeRaw": "Woven",
     "cover": "/catalogues/_covers/sj/upholstery/addis.webp",
-    "pdf": "https://sarom.info/catalogpdf/sjcurtains/sj/ADDIS.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/upholstery/addis.pdf",
     "pdfLocal": "/catalogues/sj/upholstery/addis.pdf"
   },
   {
@@ -2304,7 +2307,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Woven",
     "typeRaw": "Woven",
     "cover": "/catalogues/_covers/sj/upholstery/charcoal.webp",
-    "pdf": "https://sarom.info/catalogpdf/sjcurtains/sj/CHARCOAL.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/upholstery/charcoal.pdf",
     "pdfLocal": "/catalogues/sj/upholstery/charcoal.pdf"
   },
   {
@@ -2315,7 +2318,7 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Woven",
     "typeRaw": "Woven",
     "cover": "/catalogues/_covers/sj/upholstery/ducati.webp",
-    "pdf": "https://sarom.info/catalogpdf/sjcurtains/sj/DUCATI.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/upholstery/ducati.pdf",
     "pdfLocal": "/catalogues/sj/upholstery/ducati.pdf"
   },
   {
@@ -2326,8 +2329,283 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Woven",
     "typeRaw": "Woven",
     "cover": "/catalogues/_covers/sj/upholstery/wilford.webp",
-    "pdf": "https://sarom.info/catalogpdf/sjcurtains/sj/WILFORD.pdf",
+    "pdf": "https://sarom.co.in/catalogues/sj/upholstery/wilford.pdf",
     "pdfLocal": "/catalogues/sj/upholstery/wilford.pdf"
+  },
+  {
+    "id": 226,
+    "title": "Artemis",
+    "brand": "Oofy",
+    "collection": "Curtains",
+    "type": "Wider Width Sheer",
+    "typeRaw": "Wider width sheer curtains",
+    "cover": "/catalogues/_covers/oofy/curtains/artemis.webp",
+    "pdf": "https://sarom.co.in/catalogues/oofy/curtains/artemis.pdf",
+    "pdfLocal": "/catalogues/oofy/curtains/artemis.pdf"
+  },
+  {
+    "id": 227,
+    "title": "Bare Earth",
+    "brand": "Beds & More",
+    "collection": "Bedding",
+    "type": "Bedcover Set",
+    "typeRaw": "100% cotton 4 layer gauze bedcover set | King size",
+    "cover": "/catalogues/_covers/beds-and-more/bedding/bare-earth.webp",
+    "pdf": "https://sarom.co.in/catalogues/beds-and-more/bedding/bare-earth.pdf",
+    "pdfLocal": "/catalogues/beds-and-more/bedding/bare-earth.pdf"
+  },
+  {
+    "id": 228,
+    "title": "Bravia",
+    "brand": "SJ",
+    "collection": "Curtains",
+    "type": "Jacquard Curtain",
+    "typeRaw": "Everyday Jacquard Curtains",
+    "cover": "/catalogues/_covers/sj/curtains/bravia.webp",
+    "pdf": "https://sarom.co.in/catalogues/sj/curtains/bravia.pdf",
+    "pdfLocal": "/catalogues/sj/curtains/bravia.pdf"
+  },
+  {
+    "id": 229,
+    "title": "Cabo",
+    "brand": "SJ",
+    "collection": "Curtains",
+    "type": "Boucle Curtain",
+    "typeRaw": "Boucle Curtains",
+    "cover": "/catalogues/_covers/sj/curtains/cabo.webp",
+    "pdf": "https://sarom.co.in/catalogues/sj/curtains/cabo.pdf",
+    "pdfLocal": "/catalogues/sj/curtains/cabo.pdf"
+  },
+  {
+    "id": 230,
+    "title": "Chelsea",
+    "brand": "SJ",
+    "collection": "Curtains",
+    "type": "Chenille Jacquard",
+    "typeRaw": "Luxury Chenille Jacquard Curtains",
+    "cover": "/catalogues/_covers/sj/curtains/chelsea.webp",
+    "pdf": "https://sarom.co.in/catalogues/sj/curtains/chelsea.pdf",
+    "pdfLocal": "/catalogues/sj/curtains/chelsea.pdf"
+  },
+  {
+    "id": 231,
+    "title": "Cimora",
+    "brand": "SJ",
+    "collection": "Curtains",
+    "type": "Texture Curtain",
+    "typeRaw": "Luxury Texture Curtains",
+    "cover": "/catalogues/_covers/sj/curtains/cimora.webp",
+    "pdf": "https://sarom.co.in/catalogues/sj/curtains/cimora.pdf",
+    "pdfLocal": "/catalogues/sj/curtains/cimora.pdf"
+  },
+  {
+    "id": 232,
+    "title": "Cleopatra",
+    "brand": "Oofy",
+    "collection": "Curtains",
+    "type": "Wider Width Curtain",
+    "typeRaw": "Wide Width Luxury Curtain",
+    "cover": "/catalogues/_covers/oofy/curtains/cleopatra.webp",
+    "pdf": "https://sarom.co.in/catalogues/oofy/curtains/cleopatra.pdf",
+    "pdfLocal": "/catalogues/oofy/curtains/cleopatra.pdf"
+  },
+  {
+    "id": 233,
+    "title": "Columbus",
+    "brand": "SJ",
+    "collection": "Curtains",
+    "type": "Boucle Texture",
+    "typeRaw": "Boucle & Matte Texture Curtains",
+    "cover": "/catalogues/_covers/sj/curtains/columbus.webp",
+    "pdf": "https://sarom.co.in/catalogues/sj/curtains/columbus.pdf",
+    "pdfLocal": "/catalogues/sj/curtains/columbus.pdf"
+  },
+  {
+    "id": 234,
+    "title": "Cortina",
+    "brand": "SJ",
+    "collection": "Curtains",
+    "type": "Jacquard Curtain",
+    "typeRaw": "Threads of art, woven in jacquard",
+    "cover": "/catalogues/_covers/sj/curtains/cortina.webp",
+    "pdf": "https://sarom.co.in/catalogues/sj/curtains/cortina.pdf",
+    "pdfLocal": "/catalogues/sj/curtains/cortina.pdf"
+  },
+  {
+    "id": 235,
+    "title": "Crimson",
+    "brand": "SJ",
+    "collection": "Curtains",
+    "type": "Printed Texture Curtain",
+    "typeRaw": "Printed Texture Curtains",
+    "cover": "/catalogues/_covers/sj/curtains/crimson.webp",
+    "pdf": "https://sarom.co.in/catalogues/sj/curtains/crimson.pdf",
+    "pdfLocal": "/catalogues/sj/curtains/crimson.pdf"
+  },
+  {
+    "id": 236,
+    "title": "Croshia",
+    "brand": "SJ",
+    "collection": "Curtains",
+    "type": "Embroidered Linen",
+    "typeRaw": "Linen Look Embroidery",
+    "cover": "/catalogues/_covers/sj/curtains/croshia.webp",
+    "pdf": "https://sarom.co.in/catalogues/sj/curtains/croshia.pdf",
+    "pdfLocal": "/catalogues/sj/curtains/croshia.pdf"
+  },
+  {
+    "id": 237,
+    "title": "Elka",
+    "brand": "SJ",
+    "collection": "Curtains",
+    "type": "Chenille",
+    "typeRaw": "Chenille Texture Curtain",
+    "cover": "/catalogues/_covers/sj/curtains/elka.webp",
+    "pdf": "https://sarom.co.in/catalogues/sj/curtains/elka.pdf",
+    "pdfLocal": "/catalogues/sj/curtains/elka.pdf"
+  },
+  {
+    "id": 238,
+    "title": "Geneva",
+    "brand": "SJ",
+    "collection": "Curtains",
+    "type": "Jacquard Curtain",
+    "typeRaw": "Where threads meet attitude",
+    "cover": "/catalogues/_covers/sj/curtains/geneva.webp",
+    "pdf": "https://sarom.co.in/catalogues/sj/curtains/geneva.pdf",
+    "pdfLocal": "/catalogues/sj/curtains/geneva.pdf"
+  },
+  {
+    "id": 239,
+    "title": "Gravia",
+    "brand": "SJ",
+    "collection": "Curtains",
+    "type": "Jacquard Curtain",
+    "typeRaw": "Everyday Jacquard Curtains",
+    "cover": "/catalogues/_covers/sj/curtains/gravia.webp",
+    "pdf": "https://sarom.co.in/catalogues/sj/curtains/gravia.pdf",
+    "pdfLocal": "/catalogues/sj/curtains/gravia.pdf"
+  },
+  {
+    "id": 240,
+    "title": "Kalakriti",
+    "brand": "SJ",
+    "collection": "Curtains",
+    "type": "Embroidered Sheer",
+    "typeRaw": "The art of sheer embroidery",
+    "cover": "/catalogues/_covers/sj/curtains/kalakriti.webp",
+    "pdf": "https://sarom.co.in/catalogues/sj/curtains/kalakriti.pdf",
+    "pdfLocal": "/catalogues/sj/curtains/kalakriti.pdf"
+  },
+  {
+    "id": 241,
+    "title": "Kausheya",
+    "brand": "Matlin",
+    "collection": "Curtains",
+    "type": "Embroidered Linen",
+    "typeRaw": "Embroidery & Linen Curtains",
+    "cover": "/catalogues/_covers/matlin/curtains/kausheya.webp",
+    "pdf": "https://sarom.co.in/catalogues/matlin/curtains/kausheya.pdf",
+    "pdfLocal": "/catalogues/matlin/curtains/kausheya.pdf"
+  },
+  {
+    "id": 242,
+    "title": "Knitscape",
+    "brand": "Beds & More",
+    "collection": "Bedding",
+    "type": "Comforter Set",
+    "typeRaw": "Cotton reversible comforter set 300 TC | King size",
+    "cover": "/catalogues/_covers/beds-and-more/bedding/knitscape.webp",
+    "pdf": "https://sarom.co.in/catalogues/beds-and-more/bedding/knitscape.pdf",
+    "pdfLocal": "/catalogues/beds-and-more/bedding/knitscape.pdf"
+  },
+  {
+    "id": 243,
+    "title": "Linen & Thread",
+    "brand": "Beds & More",
+    "collection": "Bedding",
+    "type": "Bedsheet Set",
+    "typeRaw": "100% cotton double bedsheet set 400 TC | King size",
+    "cover": "/catalogues/_covers/beds-and-more/bedding/linen-and-thread.webp",
+    "pdf": "https://sarom.co.in/catalogues/beds-and-more/bedding/linen-and-thread.pdf",
+    "pdfLocal": "/catalogues/beds-and-more/bedding/linen-and-thread.pdf"
+  },
+  {
+    "id": 244,
+    "title": "Natura",
+    "brand": "Beds & More",
+    "collection": "Bedding",
+    "type": "Bedsheet Set",
+    "typeRaw": "100% Bamboo double bedsheet set | King size",
+    "cover": "/catalogues/_covers/beds-and-more/bedding/natura.webp",
+    "pdf": "https://sarom.co.in/catalogues/beds-and-more/bedding/natura.pdf",
+    "pdfLocal": "/catalogues/beds-and-more/bedding/natura.pdf"
+  },
+  {
+    "id": 245,
+    "title": "Salem",
+    "brand": "SJ",
+    "collection": "Curtains",
+    "type": "Plain Sheer",
+    "typeRaw": "Sheer Curtains",
+    "cover": "/catalogues/_covers/sj/curtains/salem.webp",
+    "pdf": "https://sarom.co.in/catalogues/sj/curtains/salem.pdf",
+    "pdfLocal": "/catalogues/sj/curtains/salem.pdf"
+  },
+  {
+    "id": 246,
+    "title": "Savia",
+    "brand": "SJ",
+    "collection": "Curtains",
+    "type": "Jacquard Curtain",
+    "typeRaw": "Everyday Jacquard Curtains",
+    "cover": "/catalogues/_covers/sj/curtains/savia.webp",
+    "pdf": "https://sarom.co.in/catalogues/sj/curtains/savia.pdf",
+    "pdfLocal": "/catalogues/sj/curtains/savia.pdf"
+  },
+  {
+    "id": 247,
+    "title": "Sheer Library I & II",
+    "brand": "SJ",
+    "collection": "Curtains",
+    "type": "Wider Width Sheer",
+    "typeRaw": "Wide-width sheer curtain fabrics",
+    "cover": "/catalogues/_covers/sj/curtains/sheer-library-i-and-ii.webp",
+    "pdf": "https://sarom.co.in/catalogues/sj/curtains/sheer-library-i-and-ii.pdf",
+    "pdfLocal": "/catalogues/sj/curtains/sheer-library-i-and-ii.pdf"
+  },
+  {
+    "id": 248,
+    "title": "Soft Haven",
+    "brand": "Beds & More",
+    "collection": "Bedding",
+    "type": "Comforter Set",
+    "typeRaw": "Cotton reversible comforter set 300 TC | King size",
+    "cover": "/catalogues/_covers/beds-and-more/bedding/soft-haven.webp",
+    "pdf": "https://sarom.co.in/catalogues/beds-and-more/bedding/soft-haven.pdf",
+    "pdfLocal": "/catalogues/beds-and-more/bedding/soft-haven.pdf"
+  },
+  {
+    "id": 249,
+    "title": "Wilbert",
+    "brand": "SJ",
+    "collection": "Upholstery/Curtain",
+    "type": "Velvet",
+    "typeRaw": "Soft Fall Luxury Curtain - dual purpose",
+    "cover": "/catalogues/_covers/sj/upholstery-curtain/wilbert.webp",
+    "pdf": "https://sarom.co.in/catalogues/sj/upholstery-curtain/wilbert.pdf",
+    "pdfLocal": "/catalogues/sj/upholstery-curtain/wilbert.pdf"
+  },
+  {
+    "id": 250,
+    "title": "Woven Harmony",
+    "brand": "Beds & More",
+    "collection": "Bedding",
+    "type": "Bedcover Set",
+    "typeRaw": "Cotton soft layered woven bedcover set | King size",
+    "cover": "/catalogues/_covers/beds-and-more/bedding/woven-harmony.webp",
+    "pdf": "https://sarom.co.in/catalogues/beds-and-more/bedding/woven-harmony.pdf",
+    "pdfLocal": "/catalogues/beds-and-more/bedding/woven-harmony.pdf"
   }
 ];
 
@@ -2369,12 +2647,18 @@ export const BRAND_HERO: Record<string, { cover: string; count: number }> = {
 /**
  * Category tabs for the homepage sections.
  *
- * NOTE ON "BEDSHEETS": the catalogue has no bedsheets collection — the three
- * collections are Curtains, Upholstery and Upholstery/Curtain. "Beds & More"
- * is a BRAND whose catalogues are themselves filed as curtains and
- * upholstery. Per the client's instruction the Bedsheets tab shows that
- * brand's range, so the label is a brand stand-in rather than a true
- * collection. Swap the predicate here if real bedsheet catalogues arrive.
+ * NOTE ON "BEDSHEETS": real bedding catalogues HAVE now arrived — the six in
+ * the client's 2026-10-12 "PDF - Website" drop, every one of them carrying the
+ * "beds&more by sarom" lockup on its cover. They are filed under a fourth
+ * collection, "Bedding", which the Curtains and Upholstery predicates below
+ * deliberately do not match, so a comforter set never surfaces under
+ * Upholstery the way the older stand-ins did.
+ *
+ * The predicate itself still keys on the BRAND rather than that collection,
+ * and on purpose: the seventeen older Beds & More records are still filed as
+ * curtains and upholstery, so narrowing it to collection === "Bedding" would
+ * empty the tab of everything but the new six. Those seventeen are the
+ * remaining half of this clean-up — see BUILD_LOG.
  *
  * Upholstery/Curtain counts under BOTH Curtains and Upholstery, because that
  * is exactly what the collection name says it is.
@@ -2404,7 +2688,7 @@ const MATCH: Record<Exclude<CategoryId, "all">, (c: Catalogue) => boolean> = {
  * differs from the tab filters above, where Upholstery/Curtain deliberately
  * matches both Curtains and Upholstery.
  */
-export const ALL_ROTATION: number[] = [39,60,184,1,222,185,135,61,186,2,62,187,3,52,188,124,120,189,125,208,190,40,63,191,4,168,192,5,167,193,126,209,194,6,65,195,41,66,196,127,169,197,42,53,198,7,205,199,142,214,200,43,67,150,54,8,201,9,68,10,69,44,70,45,213,11,72,12,55,143,73,128,56,129,170,13,74,136,75,14,220,151,221,15,76,16,77,17,153,18,78,19,79,48,81,130,82,20,223,21,83,22,144,47,154,23,224,24,84,131,145,25,171,122,85,141,216,137,86,26,202,138,206,49,87,27,88,139,57,140,146,28,89,29,90,31,91,32,218,33,219,50,172,132,173,133,92,34,212,35,93,36,174,37,94,38,95,123,96,51,97,175,98,176,99,217,177,100,178,101,102,207,103,58,59,104,211,105,106,179,180,107,108,109,110,182,181,111,112,113,114,155,152,147,121,166,115,116,117,225,118,215,119,210];
+export const ALL_ROTATION: number[] = [39, 60, 184, 1, 222, 185, 135, 61, 227, 2, 62, 186, 3, 52, 187, 124, 120, 188, 125, 208, 189, 40, 63, 190, 4, 168, 191, 5, 167, 192, 126, 209, 193, 6, 65, 242, 41, 66, 243, 127, 169, 194, 42, 53, 195, 7, 205, 244, 226, 214, 196, 142, 67, 197, 43, 54, 198, 150, 201, 199, 228, 68, 200, 229, 69, 248, 8, 70, 250, 9, 213, 10, 72, 44, 55, 45, 73, 11, 56, 12, 170, 143, 74, 128, 75, 129, 220, 230, 221, 13, 76, 231, 77, 136, 153, 232, 78, 233, 79, 234, 81, 14, 82, 151, 223, 235, 83, 236, 144, 15, 154, 16, 224, 17, 84, 18, 145, 19, 171, 237, 85, 48, 216, 130, 86, 238, 202, 239, 206, 20, 87, 21, 88, 22, 57, 47, 146, 23, 89, 240, 90, 241, 91, 24, 218, 131, 219, 25, 172, 122, 173, 141, 92, 137, 212, 26, 93, 138, 174, 49, 94, 27, 95, 139, 96, 140, 97, 28, 175, 29, 98, 31, 176, 32, 99, 33, 217, 50, 177, 245, 100, 132, 178, 246, 101, 133, 102, 34, 207, 247, 103, 35, 58, 36, 59, 37, 104, 38, 211, 123, 105, 249, 106, 51, 179, 180, 107, 108, 109, 110, 182, 181, 111, 112, 113, 114, 155, 152, 147, 121, 166, 115, 116, 117, 225, 118, 215, 119, 210];
 
 /** Catalogues in a category that can actually be opened and pictured. */
 export const byCategory = (id: CategoryId): Catalogue[] => {

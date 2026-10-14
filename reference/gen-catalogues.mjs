@@ -11,6 +11,9 @@ const { covers } = JSON.parse(readFileSync("reference/_covers.json", "utf8"));
    current on their own. `pdfLocal` keeps the mirrored path for reference. */
 const pdfById = new Map(manifest.catalogues.map((c) => [c.id, c.source]));
 const pdfLocalById = new Map(manifest.catalogues.map((c) => [c.id, c.file]));
+
+/** Where the catalogue PDFs are served from. Mirrors public/catalogues on the VPS. */
+const PDF_HOST = "https://sarom.co.in";
 const coverById = new Map(covers.map((c) => [c.id, c.cover]));
 
 const BRAND_ORDER = ["SJ", "Oofy", "Matlin", "Smart Plus", "Beds & More"];
@@ -60,7 +63,11 @@ const all = products.map((p) => {
     type,
     typeRaw: p.type,
     cover: coverById.get(p.id) ?? null,
-    pdf: pdfById.get(p.id) ?? null,
+    /* Hosted on our own server since 2026-10-14, not sarom.info: the old site is
+       being retired, and every link pointing at it would die with it. The mirror
+       path is identical on the server, so the URL is just host + pdfLocal. A
+       record with no PDF on the source still gets null. */
+    pdf: pdfById.get(p.id) && pdfLocalById.get(p.id) ? PDF_HOST + pdfLocalById.get(p.id) : null,
     pdfLocal: pdfLocalById.get(p.id) ?? null,
   };
 });
@@ -180,7 +187,7 @@ export type Catalogue = {
   /** Exactly as it appears on sarom.info, kept so corrections stay auditable. */
   typeRaw: string;
   cover: string | null;
-  /** Canonical URL on sarom.info — what the site links to. */
+  /** Hosted URL on sarom.co.in — what the site links to. */
   pdf: string | null;
   /** Path to the local mirror, which is not committed. See fetch-pdfs.mjs. */
   pdfLocal: string | null;
@@ -228,12 +235,18 @@ export const BRAND_HERO: Record<string, { cover: string; count: number }> = ${JS
 /**
  * Category tabs for the homepage sections.
  *
- * NOTE ON "BEDSHEETS": the catalogue has no bedsheets collection — the three
- * collections are Curtains, Upholstery and Upholstery/Curtain. "Beds & More"
- * is a BRAND whose catalogues are themselves filed as curtains and
- * upholstery. Per the client's instruction the Bedsheets tab shows that
- * brand's range, so the label is a brand stand-in rather than a true
- * collection. Swap the predicate here if real bedsheet catalogues arrive.
+ * NOTE ON "BEDSHEETS": real bedding catalogues HAVE now arrived — the six in
+ * the client's 2026-10-12 "PDF - Website" drop, every one of them carrying the
+ * "beds&more by sarom" lockup on its cover. They are filed under a fourth
+ * collection, "Bedding", which the Curtains and Upholstery predicates below
+ * deliberately do not match, so a comforter set never surfaces under
+ * Upholstery the way the older stand-ins did.
+ *
+ * The predicate itself still keys on the BRAND rather than that collection,
+ * and on purpose: the seventeen older Beds & More records are still filed as
+ * curtains and upholstery, so narrowing it to collection === "Bedding" would
+ * empty the tab of everything but the new six. Those seventeen are the
+ * remaining half of this clean-up — see BUILD_LOG.
  *
  * Upholstery/Curtain counts under BOTH Curtains and Upholstery, because that
  * is exactly what the collection name says it is.

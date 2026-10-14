@@ -12,6 +12,14 @@ Albra Serif Font/
 # rebuilds with `node reference/fetch-pdfs.mjs`.
 # Scoped to *.pdf, NOT the whole folder: the cover images live alongside them
 # and are only ~6MB, and the showroom renders blank without them.
+#
+# Since 2026-10-14 ALL 229 are SERVED from the VPS, not from this repo or
+# sarom.info: https://sarom.co.in/catalogues/... -> /var/www/sarom.co.in/catalogues
+# (same folder layout as here). `pdf` in lib/catalogues.ts points there. To add or
+# replace a catalogue: put the file here, then stream the folder up with
+#   tar -cf - <pdfs> | ssh root@187.126.125.131 'tar -xf - -C /var/www/sarom.co.in/catalogues'
+# 26 of them (the client's "PDF - Website" drop) exist nowhere else but the
+# server, this machine and the client's zip — sarom.info never had them.
 public/catalogues/**/*.pdf
 
 .vercel
@@ -20,3 +28,21 @@ public/catalogues/**/*.pdf
 # during setup and this repo is public — a committed key is a leaked key.
 .env
 .env*.local
+
+# ---- Client source deliveries, dropped straight into the repo root ----
+# ~18.6GB: WeTransfer archives plus the loose CMYK print originals they were
+# unpacked from (one TIFF is 849MB, one zip 5.3GB). The web covers BUILT from
+# them are tracked under public/catalogues/_covers; these masters are not, for
+# the same reason the catalogue PDFs above are not.
+#
+# Every pattern is ROOT-ANCHORED with a leading slash. That is the whole point:
+# a bare `*.tif` or `*.png` would also swallow public/ and reference/, and the
+# covers are the deliverable. Verified before adding — zero tracked files sit
+# at the repo root with these extensions.
+/*.tif
+/*.tiff
+/*.jpg
+/*.jpeg
+/*.png
+/*.zip
+/PDF - Website/

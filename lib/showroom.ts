@@ -20,13 +20,6 @@
  * LINKS. A tile opens the catalogue of the same NAME. Where the name has no
  * catalogue on the site yet (see `wall()`), it opens the e-catalogue wall
  * already filtered to that brand rather than a dead end or someone else's PDF.
- *
- * NOT YET HOSTED: Sheer Library 2, Cleopatra and Kausheya DO have catalogues
- * (ids 247, 232, 241, from the client's 2026-10-12 "PDF - Website" drop), but
- * their PDFs exist only on the dev machine: catalogue PDFs under
- * public/catalogues are gitignored, and unlike the 204 sarom.info records these have no hosted URL to
- * point `pdf` at. Linking them would 404 in production. Switch these three to
- * `linked(...)` once those PDFs are hosted somewhere a deploy can reach.
  */
 import { CATALOGUES, BRAND_ORDER, type Catalogue } from "./catalogues";
 
@@ -95,8 +88,8 @@ export const SHOWROOM_SLIDES: { brand: string; tiles: ShowroomTile[] }[] = [
       linked("SJ", "abaca", 1),
       // Named as the client's zip spells it. (The Excel and the print original say Clovi.)
       unlisted("SJ", "colvi", "Colvi"),
-      // Catalogue exists locally (id 247, "Sheer Library I & II") but see NOT YET HOSTED.
-      unlisted("SJ", "sheer-library-2", "Sheer Library 2"),
+      // Catalogued as one PDF covering I & II; the tile keeps the zip's name.
+      linked("SJ", "sheer-library-2", 247, { title: "Sheer Library 2" }),
       linked("SJ", "alma", 40),
       unlisted("SJ", "carlos", "Carlos"),
     ],
@@ -109,8 +102,7 @@ export const SHOWROOM_SLIDES: { brand: string; tiles: ShowroomTile[] }[] = [
       unlisted("Oofy", "cosco", "Cosco"),
       // Cloud exists as a record (filed under SJ) but has no PDF on the source site.
       linked("Oofy", "cloud", 46, { wall: true }),
-      // Catalogue exists locally (id 232) but see NOT YET HOSTED.
-      unlisted("Oofy", "cleopatra", "Cleopatra"),
+      linked("Oofy", "cleopatra", 232),
     ],
   },
   {
@@ -121,8 +113,7 @@ export const SHOWROOM_SLIDES: { brand: string; tiles: ShowroomTile[] }[] = [
       unlisted("Matlin", "kiara", "Kiara"),
       linked("Matlin", "linea", 131),
       linked("Matlin", "atmosphere", 142),
-      // Catalogue exists locally (id 241) but see NOT YET HOSTED.
-      unlisted("Matlin", "kausheya", "Kausheya"),
+      linked("Matlin", "kausheya", 241),
     ],
   },
   {
