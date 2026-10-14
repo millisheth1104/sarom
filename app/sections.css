@@ -911,108 +911,109 @@
 }
 
 /* ============================================================
-   FOOTER — one-screen editorial poster
+   FOOTER — Gander-style (client reference, 2026-10-14)
 
-   Sized against viewport height, not content, so it never costs a
-   second scroll. The image is layered OVER the wordmark and pulled
-   up, so the letters disappear behind it — the depth cue the
-   reference gets from products standing in front of the type.
+   A row of small-type columns, then the wordmark across the full
+   width, sitting on the bottom edge. Charcoal ground, ivory type;
+   the only colour is the wordmark's own gradient "o".
    ============================================================ */
 .foot {
   position: relative;
   background: var(--charcoal);
   color: var(--ivory);
-  --fg-muted: var(--stone-light);
-  --rule: rgba(245, 240, 232, 0.14);
+  --fg-muted: rgba(245, 240, 232, 0.62);
+  --rule: rgba(245, 240, 232, 0.28);
   overflow: hidden;
 }
-.foot__stage {
+
+.foot__top {
+  display: grid;
+  grid-template-columns: 1.35fr 1.2fr 0.75fr 0.75fr;
+  gap: clamp(1.75rem, 3vw, 3.5rem);
+  padding-block: clamp(2.6rem, 5vw, 4.5rem) clamp(2.4rem, 5vw, 4.5rem);
+}
+.foot__col {
   display: flex;
   flex-direction: column;
-  /* fits one screen; min-height keeps it honest on very short viewports */
-  /* Height comes from the content, not a min-height: any slack was being
-     distributed into the gaps and read as a void under the nav. The stack
-     lands ~810px, comfortably inside one screen. */
-  padding-block: clamp(1rem, 2vw, 2rem) clamp(0.9rem, 1.6vw, 1.5rem);
-  gap: clamp(0.4rem, 0.9vw, 0.9rem);
+  align-items: flex-start;
+  gap: 0.7rem;
+  min-width: 0;
 }
+.foot__col--lead { max-width: 34ch; }
 
-/* hairline nav, evenly spread */
-.foot__nav {
-  display: flex;
-  justify-content: space-between;
-  gap: clamp(0.75rem, 2vw, 2rem);
-  flex: 0 0 auto;
-  padding-bottom: clamp(0.7rem, 1.4vw, 1.3rem);
-  border-bottom: 1px solid var(--rule);
-  font-size: var(--fs-meta);
-  letter-spacing: var(--tr-meta);
+/* Gander's labels: tiny, tracked, bold — the only "heading" weight here. */
+.foot__label {
+  margin: 0 0 0.25rem;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: rgba(245, 240, 232, 0.6);
-}
-.foot__nav a {
-  transition: color 0.35s var(--ease-soft);
-}
-.foot__nav a:hover {
   color: var(--ivory);
 }
+.foot__text {
+  margin: 0;
+  font-size: 0.86rem;
+  line-height: 1.55;
+  color: var(--fg-muted);
+}
+.foot__addr { font-style: normal; }
 
-/* single composite (wordmark baked in, background removed) floated as a
-   sticker on the black ground — LOMORA's product-in-front-of-type read,
-   from one client-supplied image rather than type + cutout layered. */
-.foot__poster {
-  position: relative;
-  flex: 0 0 auto;
+.foot__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.35rem;
+}
+/* Underlined links, as in the reference. The underline is a background
+   layer rather than text-decoration so it can thicken smoothly on hover. */
+.foot__link {
+  font-size: 0.86rem;
+  color: var(--ivory);
+  text-decoration: none;
+  background: linear-gradient(currentColor, currentColor) 0 100% / 100% 1px no-repeat;
+  padding-bottom: 1px;
+  transition: background-size 0.35s var(--ease-soft), color 0.35s var(--ease-soft);
+}
+.foot__link:hover { background-size: 100% 2px; color: var(--ink-2-dark); }
+.foot__phone { margin-top: 0.15rem; }
+
+/* The newsletter "field" of the reference, as an honest mailto link. */
+.foot__field {
   display: flex;
   align-items: center;
-  justify-content: center;
-  /* No min-height. The artwork now carries no dead margin of its own, so the
-     poster should be exactly as tall as it is — a floor here only reappears
-     as a black band whenever the image is narrower than the floor is tall,
-     which is what it was doing at every width below desktop. */
-  isolation: isolate;
+  justify-content: space-between;
+  gap: 1rem;
+  width: min(100%, 300px);
+  margin-top: 0.4rem;
+  padding: 0.55rem 0 0.5rem;
+  border-bottom: 1px solid var(--rule);
+  font-size: 0.86rem;
+  color: var(--ivory);
+  text-decoration: none;
+  transition: border-color 0.35s var(--ease-soft);
 }
-/* Centred via left:0/right:0 + margin-inline:auto, NOT transform: the
-   ImageReveal wrapper is `.reveal-img`, and `.reveal-img[data-inview="true"]`
-   sets its own `transform: scale(1)` once revealed. transform is a single
-   shorthand, so that silently replaced a translateX(-50%) centering trick
-   here — computed style read back as "none" (scale(1) is the identity
-   matrix). Left/right/margin sidesteps transform entirely. */
-.foot__sticker {
-  position: relative;
-  width: min(94%, 1360px);
-  margin-inline: auto;
-  filter: drop-shadow(0 34px 54px rgba(0, 0, 0, 0.6)) drop-shadow(0 6px 14px rgba(0, 0, 0, 0.45));
+.foot__arrow { transition: transform 0.35s var(--ease-soft); }
+.foot__field:hover { border-color: var(--ivory); }
+.foot__field:hover .foot__arrow { transform: translateX(4px); }
+.foot__field:focus-visible,
+.foot__link:focus-visible {
+  outline: 2px solid var(--ivory);
+  outline-offset: 4px;
 }
-.foot__sticker img {
+
+/* Full-bleed wordmark on the bottom edge. overflow:hidden on .foot clips the
+   reveal's rise, so the letters come up out of the edge rather than fading in
+   from mid-air. */
+.foot__mark {
+  padding-inline: clamp(12px, 1.6vw, 28px);
+  padding-bottom: clamp(10px, 1.4vw, 22px);
+  line-height: 0;
+}
+.foot__mark img {
   display: block;
   width: 100%;
   height: auto;
-}
-
-/* one line, replacing the three columns that made this two screens tall */
-.foot__meta {
-  flex: 0 0 auto;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 0.5rem clamp(1rem, 3vw, 3rem);
-  padding-top: clamp(0.8rem, 1.5vw, 1.4rem);
-  border-top: 1px solid var(--rule);
-  font-size: var(--fs-meta);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--fg-muted);
-}
-.foot__metagroup {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem clamp(0.8rem, 1.8vw, 1.8rem);
-}
-.foot__meta a {
-  transition: color 0.35s var(--ease-soft);
-}
-.foot__meta a:hover {
-  color: var(--ink-2-dark);
+  user-select: none;
+  -webkit-user-drag: none;
 }

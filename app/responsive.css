@@ -154,16 +154,7 @@
   .cta__actions { flex-direction: column; align-items: stretch; }
   .cta__actions .btn { justify-content: center; }
 
-  .foot__nav {
-    flex-wrap: wrap;
-    gap: 0.5rem 1.2rem;
-    justify-content: flex-start;
-  }
-  .foot__meta {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.7rem;
-  }
+  .foot__top { grid-template-columns: 1fr 1fr; }
 }
 
 /* ---------------- Very wide screens ---------------- */
@@ -232,20 +223,8 @@
   .clabel { font-size: 0.5rem; padding: 0.28rem 0.55rem; }
 }
 
-/* ---------------- footer: keep it one screen on small viewports ---------- */
+/* ---------------- footer: one column on phones ---------- */
 @media (max-width: 680px) {
-  .foot__stage {
-    gap: 0.9rem;
-  }
-  .foot__nav {
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    gap: 0.5rem 1.1rem;
-  }
-  .foot__sticker { width: min(100%, 480px); }
-  .foot__meta {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.6rem;
-  }
+  .foot__top { grid-template-columns: 1fr; gap: 2rem; }
+  .foot__field { width: 100%; }
 }

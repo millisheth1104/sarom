@@ -303,24 +303,14 @@ export const SHOWCASE = {
   ],
 };
 
-/** Poster footer — small nav above a full-width wordmark. */
+/** Footer "Explore" column. Every target is a page on this site — the old
+    .php pages (Careers, Privacy Policy) do not exist here and are left out. */
 export const FOOTER_NAV = [
-  { label: "Collection", href: "/ecatalogue" },
   { label: "About", href: "/about" },
-  { label: "Our Story", href: "/about" },
+  { label: "e-Catalogue", href: "/ecatalogue" },
+  { label: "Store Locator", href: "/store-locator" },
   { label: "Contact", href: "/contact" },
 ];
-
-export const FOOTER_IMAGE = {
-  // Client-supplied composite, background already removed: the five
-  // furniture pieces overlap in front of the SAROM wordmark baked into the
-  // same transparent PNG (LOMORA reference — one image, not type + sticker
-  // layered separately).
-  src: "/media/interiors/footer-composite.webp",
-  alt: "Sarom furniture — sofa, accent chair, dining chair, swivel chair and bouclé ottoman — over the Sarom wordmark",
-  width: 1659,
-  height: 597,
-};
 
 /* ============================================================
    THE THREE ART-DIRECTED COMPOSITIONS
