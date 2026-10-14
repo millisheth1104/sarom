@@ -27,13 +27,19 @@ export function useCatalogueTabs(
    * Optional: without it the section just swaps, as it did before.
    */
   tiles?: () => HTMLElement[],
-  edges?: WipeEdges
+  edges?: WipeEdges,
+  /**
+   * What each tab lists. Defaults to the whole catalogue; the homepage
+   * Collections section passes the client's curated selection instead, while
+   * the e-catalogue page keeps showing everything.
+   */
+  source: (id: CategoryId) => Catalogue[] = byCategory
 ) {
   const [tab, setTabState] = useState<CategoryId>("all");
   const [page, setPage] = useState(0);
   const [sel, setSel] = useState(0);
 
-  const items = byCategory(tab);
+  const items = source(tab);
   const pages = Math.max(1, Math.ceil(items.length / perPage));
   const pageItems = items.slice(page * perPage, page * perPage + perPage);
   // Guard the index: switching to a shorter final page would otherwise leave

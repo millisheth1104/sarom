@@ -2606,6 +2606,61 @@ export const CATALOGUES: Catalogue[] = [
     "cover": "/catalogues/_covers/beds-and-more/bedding/woven-harmony.webp",
     "pdf": "https://sarom.co.in/catalogues/beds-and-more/bedding/woven-harmony.pdf",
     "pdfLocal": "/catalogues/beds-and-more/bedding/woven-harmony.pdf"
+  },
+  {
+    "id": 251,
+    "title": "Bamboo Comforter",
+    "brand": "Beds & More",
+    "collection": "Bedding",
+    "type": "Comforter",
+    "typeRaw": "100% Bamboo | 200GSM Polywadding",
+    "cover": "/catalogues/_covers/beds-and-more/bedding/bamboo-comforter.webp",
+    "pdf": "https://sarom.co.in/catalogues/beds-and-more/bedding/bamboo-comforter.pdf",
+    "pdfLocal": "/catalogues/beds-and-more/bedding/bamboo-comforter.pdf"
+  },
+  {
+    "id": 252,
+    "title": "Signature",
+    "brand": "Beds & More",
+    "collection": "Bedding",
+    "type": "Duvet Cover Set",
+    "typeRaw": "9 pc Duvet Cover Set",
+    "cover": "/catalogues/_covers/beds-and-more/bedding/signature.webp",
+    "pdf": "https://sarom.co.in/catalogues/beds-and-more/bedding/signature.pdf",
+    "pdfLocal": "/catalogues/beds-and-more/bedding/signature.pdf"
+  },
+  {
+    "id": 253,
+    "title": "Statement Tape",
+    "brand": "Beds & More",
+    "collection": "Bedding",
+    "type": "Duvet Set",
+    "typeRaw": "400 TC Sateen Duvet Set",
+    "cover": "/catalogues/_covers/beds-and-more/bedding/statement-tape.webp",
+    "pdf": "https://sarom.co.in/catalogues/beds-and-more/bedding/statement-tape.pdf",
+    "pdfLocal": "/catalogues/beds-and-more/bedding/statement-tape.pdf"
+  },
+  {
+    "id": 254,
+    "title": "Stone Crest",
+    "brand": "Beds & More",
+    "collection": "Bedding",
+    "type": "Bedcover Set",
+    "typeRaw": "Woven Stonewash Bedcover set",
+    "cover": "/catalogues/_covers/beds-and-more/bedding/stone-crest.webp",
+    "pdf": "https://sarom.co.in/catalogues/beds-and-more/bedding/stone-crest.pdf",
+    "pdfLocal": "/catalogues/beds-and-more/bedding/stone-crest.pdf"
+  },
+  {
+    "id": 255,
+    "title": "Terra Weave",
+    "brand": "Beds & More",
+    "collection": "Bedding",
+    "type": "Bedcover Set",
+    "typeRaw": "Woven Reversible Bedcover Set",
+    "cover": "/catalogues/_covers/beds-and-more/bedding/terra-weave.webp",
+    "pdf": "https://sarom.co.in/catalogues/beds-and-more/bedding/terra-weave.pdf",
+    "pdfLocal": "/catalogues/beds-and-more/bedding/terra-weave.pdf"
   }
 ];
 
@@ -2688,7 +2743,7 @@ const MATCH: Record<Exclude<CategoryId, "all">, (c: Catalogue) => boolean> = {
  * differs from the tab filters above, where Upholstery/Curtain deliberately
  * matches both Curtains and Upholstery.
  */
-export const ALL_ROTATION: number[] = [39, 60, 184, 1, 222, 185, 135, 61, 227, 2, 62, 186, 3, 52, 187, 124, 120, 188, 125, 208, 189, 40, 63, 190, 4, 168, 191, 5, 167, 192, 126, 209, 193, 6, 65, 242, 41, 66, 243, 127, 169, 194, 42, 53, 195, 7, 205, 244, 226, 214, 196, 142, 67, 197, 43, 54, 198, 150, 201, 199, 228, 68, 200, 229, 69, 248, 8, 70, 250, 9, 213, 10, 72, 44, 55, 45, 73, 11, 56, 12, 170, 143, 74, 128, 75, 129, 220, 230, 221, 13, 76, 231, 77, 136, 153, 232, 78, 233, 79, 234, 81, 14, 82, 151, 223, 235, 83, 236, 144, 15, 154, 16, 224, 17, 84, 18, 145, 19, 171, 237, 85, 48, 216, 130, 86, 238, 202, 239, 206, 20, 87, 21, 88, 22, 57, 47, 146, 23, 89, 240, 90, 241, 91, 24, 218, 131, 219, 25, 172, 122, 173, 141, 92, 137, 212, 26, 93, 138, 174, 49, 94, 27, 95, 139, 96, 140, 97, 28, 175, 29, 98, 31, 176, 32, 99, 33, 217, 50, 177, 245, 100, 132, 178, 246, 101, 133, 102, 34, 207, 247, 103, 35, 58, 36, 59, 37, 104, 38, 211, 123, 105, 249, 106, 51, 179, 180, 107, 108, 109, 110, 182, 181, 111, 112, 113, 114, 155, 152, 147, 121, 166, 115, 116, 117, 225, 118, 215, 119, 210];
+export const ALL_ROTATION: number[] = [39, 60, 184, 1, 222, 185, 135, 61, 251, 2, 62, 227, 3, 52, 186, 124, 120, 187, 125, 208, 188, 40, 63, 189, 4, 168, 190, 5, 167, 191, 126, 209, 192, 6, 65, 193, 41, 66, 242, 127, 169, 243, 42, 53, 194, 7, 205, 195, 226, 214, 244, 142, 67, 196, 43, 54, 197, 150, 201, 198, 228, 68, 199, 229, 69, 200, 8, 70, 252, 9, 213, 248, 10, 72, 253, 44, 55, 254, 45, 73, 255, 11, 56, 250, 12, 170, 143, 74, 128, 75, 129, 220, 230, 221, 13, 76, 231, 77, 136, 153, 232, 78, 233, 79, 234, 81, 14, 82, 151, 223, 235, 83, 236, 144, 15, 154, 16, 224, 17, 84, 18, 145, 19, 171, 237, 85, 48, 216, 130, 86, 238, 202, 239, 206, 20, 87, 21, 88, 22, 57, 47, 146, 23, 89, 240, 90, 241, 91, 24, 218, 131, 219, 25, 172, 122, 173, 141, 92, 137, 212, 26, 93, 138, 174, 49, 94, 27, 95, 139, 96, 140, 97, 28, 175, 29, 98, 31, 176, 32, 99, 33, 217, 50, 177, 245, 100, 132, 178, 246, 101, 133, 102, 34, 207, 247, 103, 35, 58, 36, 59, 37, 104, 38, 211, 123, 105, 249, 106, 51, 179, 180, 107, 108, 109, 110, 182, 181, 111, 112, 113, 114, 155, 152, 147, 121, 166, 115, 116, 117, 225, 118, 215, 119, 210];
 
 /** Catalogues in a category that can actually be opened and pictured. */
 export const byCategory = (id: CategoryId): Catalogue[] => {

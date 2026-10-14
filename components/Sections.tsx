@@ -10,6 +10,7 @@ import {
 } from "@/lib/content";
 import { Reveal, LineReveal, ImageReveal, Arrow } from "./Motion";
 import { useCatalogueTabs } from "./useCatalogueTabs";
+import { homeByCategory, isPdf } from "@/lib/homeCollections";
 
 /* ============================================================
    01 — THE COLLECTIONS EDITORIAL
@@ -29,7 +30,8 @@ export function Statement({ index }: { index?: string } = {}) {
       ...Array.from(gridRef.current?.querySelectorAll<HTMLElement>(".belong__thumb") ?? []),
       gridRef.current?.querySelector<HTMLElement>(".belong__panel"),
     ].filter(Boolean) as HTMLElement[];
-  const cat = useCatalogueTabs(3, tiles);
+  /* Curated: the client's 55, not the whole catalogue (see lib/homeCollections). */
+  const cat = useCatalogueTabs(3, tiles, undefined, homeByCategory);
 
   return (
     <section className="sect sect--comp sect--ivory statement" data-nav-tone="light">
@@ -77,11 +79,14 @@ export function Statement({ index }: { index?: string } = {}) {
                   className="belong__thumb"
                   key={c.id}
                   href={c.pdf ?? undefined}
-                  target="_blank"
-                  rel="noopener"
+                  {...(isPdf(c) ? { target: "_blank", rel: "noopener" } : {})}
                   data-cursor="Open"
                   aria-current={i === cat.sel}
-                  aria-label={`Open the ${c.title} catalogue (PDF)`}
+                  aria-label={
+                    isPdf(c)
+                      ? `Open the ${c.title} catalogue (PDF)`
+                      : `${c.title} — browse bedding catalogues`
+                  }
                   onMouseEnter={() => cat.setSel(i)}
                   onFocus={() => cat.setSel(i)}
                 >
@@ -154,8 +159,7 @@ export function Statement({ index }: { index?: string } = {}) {
               <a
                 className="belong__shop"
                 href={cat.active?.pdf ?? undefined}
-                target="_blank"
-                rel="noopener"
+                {...(cat.active && isPdf(cat.active) ? { target: "_blank", rel: "noopener" } : {})}
                 data-cursor="Open"
               >
                 {STATEMENT.action.label}
