@@ -5,7 +5,6 @@ import Footer from "@/components/Footer";
 import { Statement } from "@/components/Sections";
 import { Films, Story, Brands, ClosingCta } from "@/components/Editorial";
 import { Showroom } from "@/components/Compositions";
-import { Journal } from "@/components/Journal";
 import { MARQUEE_WORDS, PROPERTIES, SITE, sectionLabel } from "@/lib/content";
 
 /**
@@ -16,11 +15,16 @@ import { MARQUEE_WORDS, PROPERTIES, SITE, sectionLabel } from "@/lib/content";
  * was making the same argument twice. Collections keeps the slot. The
  * `EditorialShowcase` component is left in `Compositions.tsx` rather than
  * deleted, so restoring it is a one-line change if the client wants it back.
+ *
+ * The Inspiration section (05) is hidden too, at the client's request
+ * (2026-10-15). Same approach: `components/Journal.tsx` is untouched. To bring
+ * it back, re-import Journal, add "Inspiration" to `order`, and render
+ * `<Journal index={label("Inspiration")} />` above <ClosingCta />.
  */
 export function HomePage() {
   /* Section eyebrows are NUMBERED BY POSITION, not by a fixed map, so
      dropping a section renumbers the rest on its own. */
-  const order = ["House Brands", "Showroom", "Collections", "Our Story", "Inspiration"];
+  const order = ["House Brands", "Showroom", "Collections", "Our Story"];
 
   const label = (name: string) => {
     const i = order.indexOf(name);
@@ -62,9 +66,6 @@ export function HomePage() {
         </div>
 
         <Story index={label("Our Story")} />
-
-        {/* Directly above the closing CTA, at the client's request. */}
-        <Journal index={label("Inspiration")} />
 
         <ClosingCta />
       </main>
