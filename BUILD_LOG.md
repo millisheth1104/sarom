@@ -1325,3 +1325,10 @@ not part of the page, and absent in production.)
    H.264 — at 8,885 kbps instead of 15,669. Swapped in as
    `public/media/sarom-interiors.mp4`. A poster frame is still not set; the `ffmpeg` recipe
    for one is in the README if the 11MB first paint needs improving further.
+
+---
+
+## 2026-10-16 — Hide Buy Now button
+
+Nav "Buy Now" link (`components/Chrome.tsx`) commented out; `SHOP` import removed. `SHOP` config in
+`lib/content.ts` kept. To restore: uncomment the block and re-add `SHOP` to the import.

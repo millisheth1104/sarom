@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { NAV, SITE, FOOTER_LINKS, SHOP, WHATSAPP } from "@/lib/content";
+import { NAV, SITE, FOOTER_LINKS, WHATSAPP } from "@/lib/content";
 
 /* ============================================================
    PRELOADER
@@ -167,9 +167,9 @@ export function Nav() {
         </nav>
 
         <div className="nav__actions">
-          {/* Leaves the site for the Beds & More store, so it opens in a new
-              tab and the cursor names the destination — a "Buy Now" that
-              silently swaps domains is a surprise, not a shortcut. */}
+          {/* Buy Now is hidden for now. To restore, uncomment: it leaves the
+              site for the Beds & More store, so it opens in a new tab.
+              Also re-add SHOP to the @/lib/content import.
           <a
             className="btn"
             href={SHOP.href}
@@ -179,6 +179,7 @@ export function Nav() {
           >
             {SHOP.label}
           </a>
+          */}
           <button
             className="nav__toggle"
             aria-expanded={open}
