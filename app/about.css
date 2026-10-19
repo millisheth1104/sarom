@@ -185,6 +185,9 @@
      is what a sticky-scroll section is for. */
   .team__card:nth-child(3n + 2) { margin-top: clamp(1.5rem, 5vw, 4.5rem); }
 }
+/* The parallax wrapper: photo + name drift together so the photo can never
+   slide over its own caption. data-parallax needs a block box to transform. */
+.team__drift { display: block; }
 .team__frame {
   display: block;
   border-radius: var(--radius-lg);

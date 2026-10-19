@@ -202,28 +202,39 @@ function Founders() {
         <div className="team__row" data-reveal-stagger="0.08">
           {FOUNDERS.map((f, i) => (
             <Reveal className="team__card" dir="up" key={f.id}>
-              {/* Parallax on the FRAME, not the card. The card is a reveal
+              {/* Parallax on a WRAPPER round the photo AND the name, not on
+                  the card and not on the frame alone. The card is a reveal
                   target and the reveal engine owns transform there at
                   (0,3,1), which beats [data-parallax] outright — the drift
-                  would be silently dead. Depth alternates by column so the
-                  three columns separate as they pass the sticky heading. */}
+                  would be silently dead on it.
+
+                  It used to sit on the frame only, which drifts DOWN over a
+                  name that stays put: measured at 1440, Milin's and Deepak's
+                  names were 100% swallowed in 300px of scroll (2026-10-19).
+                  Halving the depth only got Milin to 74%, because any drift
+                  larger than the gap covers the text. Moving the name WITH
+                  its photo makes overlap impossible at any depth, so the
+                  original depths are back. Depth alternates by column so the
+                  three columns still separate past the sticky heading. */}
               <span
-                className="team__frame"
+                className="team__drift"
                 data-parallax={[0.06, 0.16, 0.1][i % 3]}
                 data-parallax-trigger=".team__row"
               >
-                <Image
-                  src={f.portrait}
-                  alt={`${f.name}, ${f.role}`}
-                  width={301}
-                  height={356}
-                  sizes="(max-width: 700px) 46vw, 24vw"
-                  loading="lazy"
-                  unoptimized
-                />
+                <span className="team__frame">
+                  <Image
+                    src={f.portrait}
+                    alt={`${f.name}, ${f.role}`}
+                    width={301}
+                    height={356}
+                    sizes="(max-width: 700px) 46vw, 24vw"
+                    loading="lazy"
+                    unoptimized
+                  />
+                </span>
+                <b>{f.name}</b>
+                <span className="team__role">{f.role}</span>
               </span>
-              <b>{f.name}</b>
-              <span className="team__role">{f.role}</span>
             </Reveal>
           ))}
         </div>
