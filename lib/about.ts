@@ -81,32 +81,17 @@ export const FOUNDERS_NOTE = {
 };
 
 /**
- * The group photograph, supplied by the client 2026-10-06, replacing the six
- * separate portrait cards.
+ * Names, titles and portraits all from sarom.info/about.php.
  *
- * `order` is LEFT TO RIGHT in the photograph, and it is an identification of
- * real people, made by comparing the group faces against the six individual
- * portraits rather than guessed.
+ * THE ARRAY ORDER IS THE CLIENT'S, given 2026-10-19: Amarshi, Shantilal,
+ * Manish, Rohit, Milin, Deepak. The section renders this array straight, so
+ * reordering here reorders the page — do not sort it.
  *
- * Numbered markers over each face were built and then removed at the client's
- * request — the per-person pin coordinates are in git history (see the commit
- * that added FOUNDERS_GROUP) if they are ever wanted back. Four were unmistakable
- * (Deepak's glasses and goatee, Manish's sunglasses and beard, Amarshi's
- * blue bandhgala, Shantilal beside him); Rohit and Milin were separated on
- * face shape and hairline and are the pair most worth a second look before
- * this goes anywhere public.
+ * A group photograph replaced these six cards between 2026-10-06 (f940ef5) and
+ * 2026-10-19, when the client asked for the individual images back. The photo
+ * is still at `public/media/founders/group.webp`, now unreferenced, and the
+ * markup that used it is in f940ef5 if it is ever wanted again.
  */
-export const FOUNDERS_GROUP = {
-  src: "/media/founders/group.webp",
-  width: 866,
-  height: 1024,
-  alt:
-    "The six directors of Sarom Fab Pvt. Ltd. photographed together in formal dress",
-  /* left to right, matching FOUNDERS ids */
-  order: ["deepak", "manish", "amarshi", "shantilal", "rohit", "milin"],
-};
-
-/** Names, titles and portraits all from sarom.info/about.php. */
 export const FOUNDERS = [
   { id: "amarshi", name: "Amarshi Hardhor Shah", role: "Director", portrait: "/media/founders/amarshi-shah.webp" },
   { id: "shantilal", name: "Shantilal Hardhor Shah", role: "Managing Director", portrait: "/media/founders/shantilal-shah.webp" },
