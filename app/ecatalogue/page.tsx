@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { redirect } from "next/navigation";
 import { CatalogueWall } from "@/components/CatalogueWall";
 import { SITE } from "@/lib/content";
 
@@ -9,10 +10,14 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
 };
 
+const CATEGORIES = ["curtains", "upholstery", "bedsheets"];
+
 /**
- * `?category=upholstery&brand=SJ` preselects the filters. Category tiles and
- * CTAs elsewhere on the site link here with intent already in mind — landing
- * on an unfiltered wall would lose that.
+ * The full wall ("All"). Each category has its own address —
+ * /ecatalogue/curtains etc., see ./[category]. `?brand=SJ` preselects a brand.
+ *
+ * The old `?category=x` form still works: it redirects to /ecatalogue/x, so
+ * links shared before the change keep landing on the right tab.
  */
 export default async function EcataloguePage({
   searchParams,
@@ -20,10 +25,9 @@ export default async function EcataloguePage({
   searchParams: Promise<{ category?: string; brand?: string }>;
 }) {
   const params = await searchParams;
-  return (
-    <CatalogueWall
-      initialCategory={params.category}
-      initialBrand={params.brand}
-    />
-  );
+  const cat = params.category?.toLowerCase();
+  if (cat && CATEGORIES.includes(cat)) {
+    redirect(`/ecatalogue/${cat}${params.brand ? `?brand=${encodeURIComponent(params.brand)}` : ""}`);
+  }
+  return <CatalogueWall initialCategory="all" initialBrand={params.brand} />;
 }

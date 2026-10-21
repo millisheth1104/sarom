@@ -164,7 +164,7 @@ export const CATEGORIES = [
     id: "upholstery",
     index: "01",
     name: "Upholstery",
-    href: "/ecatalogue?category=upholstery",
+    href: "/ecatalogue/upholstery",
     image: "/media/categories/upholstery@3x.webp",
     // editorial
     body:
@@ -175,7 +175,7 @@ export const CATEGORIES = [
     id: "curtains",
     index: "02",
     name: "Curtains",
-    href: "/ecatalogue?category=curtains",
+    href: "/ecatalogue/curtains",
     image: "/media/categories/curtains@3x.webp",
     // editorial
     body:
@@ -186,7 +186,7 @@ export const CATEGORIES = [
     id: "bed-sheet",
     index: "03",
     name: "Bed Sheets",
-    href: "/ecatalogue?category=bedsheets",
+    href: "/ecatalogue/bedsheets",
     image: "/media/categories/bed-sheet@3x.webp",
     // editorial
     body:

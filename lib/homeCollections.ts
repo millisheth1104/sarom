@@ -21,7 +21,7 @@
 import { CATALOGUES, type Catalogue, type CategoryId } from "./catalogues";
 
 /** Where a tile with no PDF sends the visitor. */
-export const BEDSHEETS_WALL = "/ecatalogue?category=bedsheets";
+export const BEDSHEETS_WALL = "/ecatalogue/bedsheets";
 
 const CURTAINS = [
   226, 228, 239, 241, 246, 232, 233, 234, 235, 247, 249, 238, 205, 229, 230,

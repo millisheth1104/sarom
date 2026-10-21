@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { MotionProvider } from "@/components/Motion";
 import { Preloader, Nav, Cursor, WhatsAppFab } from "@/components/Chrome";
 import Footer from "@/components/Footer";
@@ -68,6 +68,46 @@ export function CatalogueWall({
   const [brand, setBrand] = useState<BrandFilter>(() =>
     initial(initialBrand, BRAND_FILTERS, "All")
   );
+
+  /* Each category has its own address — /ecatalogue/curtains, /upholstery,
+     /bedsheets; "All" is plain /ecatalogue. Picking a tab moves the address bar
+     without a reload (pushState, which Next's router picks up), and the brand
+     filter rides along as ?brand=. Back/forward walk the tabs. The routes are
+     real (app/ecatalogue/[category]), so a refresh or shared link opens the
+     same tab. */
+  const pathFor = (c: CategoryId) => (c === "all" ? "/ecatalogue" : `/ecatalogue/${c}`);
+  const queryFor = (b: BrandFilter) => (b === "All" ? "" : `?brand=${encodeURIComponent(b)}`);
+  /* The tab title follows the tab, matching what each route serves on load. */
+  const titleFor = (c: CategoryId) => {
+    const label = CATEGORY_TABS.find((t) => t.id === c)?.label;
+    return c === "all" || !label ? "e-Catalogue | Sarom" : `${label} e-Catalogue | Sarom`;
+  };
+  const chooseCategory = (c: CategoryId) => {
+    if (c === category) return;
+    setCategory(c);
+    window.history.pushState(null, "", pathFor(c) + queryFor(brand));
+    document.title = titleFor(c);
+  };
+  /* A brand pick refines the current view rather than being a new place, so it
+     REPLACES the history entry — back still steps through categories, and
+     each entry remembers the brand it was left on. */
+  const chooseBrand = (b: BrandFilter) => {
+    if (b === brand) return;
+    setBrand(b);
+    window.history.replaceState(null, "", pathFor(category) + queryFor(b));
+  };
+  useEffect(() => {
+    const onPop = () => {
+      const seg = window.location.pathname.replace(/\/+$/, "").split("/")[2];
+      const c = initial(seg, CATEGORY_TABS.map((t) => t.id), "all");
+      setCategory(c);
+      document.title = titleFor(c);
+      setBrand(initial(new URLSearchParams(window.location.search).get("brand") ?? undefined, BRAND_FILTERS, "All"));
+    };
+    window.addEventListener("popstate", onPop);
+    return () => window.removeEventListener("popstate", onPop);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- titleFor is pure
+  }, []);
 
   const items = useMemo(() => {
     const byCategory =
@@ -171,7 +211,7 @@ export function CatalogueWall({
                     type="button"
                     className="wall__pill"
                     data-active={category === t.id || undefined}
-                    onClick={() => setCategory(t.id)}
+                    onClick={() => chooseCategory(t.id)}
                   >
                     {t.label}
                     <span>{countFor(t.id)}</span>
@@ -186,7 +226,7 @@ export function CatalogueWall({
                     type="button"
                     className="wall__pill wall__pill--brand"
                     data-active={brand === b || undefined}
-                    onClick={() => setBrand(b)}
+                    onClick={() => chooseBrand(b)}
                   >
                     {b}
                   </button>
