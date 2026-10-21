@@ -51,7 +51,7 @@ function validate(v: Record<Field, string>): Errors {
   return e;
 }
 
-function EnquiryForm() {
+function EnquiryForm({ sent = false }: { sent?: boolean }) {
   const [values, setValues] = useState<Record<Field, string>>({
     name: "",
     phone: "",
@@ -62,7 +62,7 @@ function EnquiryForm() {
     who: "",
   });
   const [errors, setErrors] = useState<Errors>({});
-  const [state, setState] = useState<"idle" | "sending" | "sent" | "failed">("idle");
+  const [state, setState] = useState<"idle" | "sending" | "sent" | "failed">(sent ? "sent" : "idle");
   /* Bot bait — see the honeypot check in the route handler. */
   const honeypot = useRef("");
   const doneRef = useRef<HTMLDivElement>(null);
@@ -95,6 +95,13 @@ function EnquiryForm() {
       const data = (await res.json().catch(() => null)) as { ok?: boolean } | null;
       if (!res.ok || !data?.ok) throw new Error("rejected");
       setState("sent");
+      /* The address becomes /contact/thankyou the moment the enquiry is in, so
+         analytics and ad platforms can count it as a conversion page. Done
+         with pushState rather than a navigation: the thank-you appears in
+         place with no reload, and Next's router picks the new URL up. The
+         route exists for real (app/contact/thankyou), so a refresh or a shared
+         link still shows the thank-you. */
+      window.history.pushState(null, "", "/contact/thankyou");
       requestAnimationFrame(() => doneRef.current?.focus());
     } catch {
       setState("failed");
@@ -263,7 +270,7 @@ function Text({
   );
 }
 
-export default function ContactPage() {
+export default function ContactPage({ sent = false }: { sent?: boolean } = {}) {
   return (
     <MotionProvider>
       <Preloader />
@@ -333,7 +340,7 @@ export default function ContactPage() {
             <Reveal className="ct__formWrap" dir="up">
               <p className="shead__index">{CONTACT_FORM.eyebrow}</p>
               <h2 className="ct__h2">{CONTACT_FORM.title}</h2>
-              <EnquiryForm />
+              <EnquiryForm sent={sent} />
             </Reveal>
 
             <Reveal className="ct__aside" dir="up" delay={0.1}>
