@@ -17,9 +17,10 @@
  * IMAGES live in /public/media/showroom/<brand-dir>/ and are re-cut from the print
  * originals by `reference/ingest-showroom.py` wherever one exists.
  *
- * LINKS. A tile opens the catalogue of the same NAME. Where the name has no
- * catalogue on the site yet (see `wall()`), it opens the e-catalogue wall
- * already filtered to that brand rather than a dead end or someone else's PDF.
+ * LINKS. A tile opens the catalogue of the same NAME. If a tile ever has no
+ * catalogue record to read (see `wall()`), it opens the e-catalogue wall
+ * already filtered to that brand rather than a dead end or someone else's PDF —
+ * as the seven curtain tiles did until the client's 2026-10-23 PDF drop.
  */
 import { CATALOGUES, BRAND_ORDER, type Catalogue } from "./catalogues";
 
@@ -70,38 +71,28 @@ function linked(
   };
 }
 
-/** A client photograph whose name has no catalogue on the site yet. */
-function unlisted(brand: string, file: string, title: string): ShowroomTile {
-  const dir = brandDir(brand);
-  return {
-    title,
-    image: `/media/showroom/${dir}/${file}.webp`,
-    href: wall(brand),
-    pdf: false,
-  };
-}
-
 export const SHOWROOM_SLIDES: { brand: string; tiles: ShowroomTile[] }[] = [
   {
     brand: "SJ",
     tiles: [
       linked("SJ", "abaca", 1),
-      // Named as the client's zip spells it. (The Excel and the print original say Clovi.)
-      unlisted("SJ", "colvi", "Colvi"),
+      // The tile keeps the name the client's zip spells it; the catalogue and its PDF
+      // say Clovi, as does the Excel and the print original.
+      linked("SJ", "colvi", 262, { title: "Colvi" }),
       // Catalogued as one PDF covering I & II; the tile keeps the zip's name.
       linked("SJ", "sheer-library-2", 247, { title: "Sheer Library 2" }),
       linked("SJ", "alma", 40),
-      unlisted("SJ", "carlos", "Carlos"),
+      linked("SJ", "carlos", 263),
     ],
   },
   {
     brand: "Oofy",
     tiles: [
-      unlisted("Oofy", "cappadocia", "Cappadocia"),
-      unlisted("Oofy", "cascade", "Cascade"),
-      unlisted("Oofy", "cosco", "Cosco"),
-      // Cloud exists as a record (filed under SJ) but has no PDF on the source site.
-      linked("Oofy", "cloud", 46, { wall: true }),
+      linked("Oofy", "cappadocia", 264),
+      linked("Oofy", "cascade", 265),
+      linked("Oofy", "cosco", 266),
+      // Cloud is a record filed under SJ; the client's PDF arrived in their OOFY folder.
+      linked("Oofy", "cloud", 46),
       linked("Oofy", "cleopatra", 232),
     ],
   },
@@ -110,7 +101,7 @@ export const SHOWROOM_SLIDES: { brand: string; tiles: ShowroomTile[] }[] = [
     tiles: [
       // Bailey is the Smart Plus Bailey record: same chair, only catalogue by that name.
       linked("Matlin", "bailey", 170),
-      unlisted("Matlin", "kiara", "Kiara"),
+      linked("Matlin", "kiara", 267),
       linked("Matlin", "linea", 131),
       linked("Matlin", "atmosphere", 142),
       linked("Matlin", "kausheya", 241),
@@ -128,17 +119,18 @@ export const SHOWROOM_SLIDES: { brand: string; tiles: ShowroomTile[] }[] = [
   },
   {
     // Full print originals this time, no slot sizes - so placed by shape: the
-    // widest (3:2) is the feature, the tallest the panel. Each photograph is
-    // ALREADY the cover of the catalogue it links to (matched at 1.000). The tile
-    // shows the client's name for the photograph (their instruction, 2026-10-13)
-    // while still opening that catalogue's PDF, named in the comment.
+    // widest (3:2) is the feature, the tallest the panel. Until 2026-10-23 four of
+    // these tiles carried the client's names but opened other catalogues (Iconique,
+    // Jardin, Jasper, Mouvement) because their own PDFs had not arrived; they now
+    // open their own.
     brand: "Beds & More",
     tiles: [
-      linked("Beds & More", "ethereal", 191, { title: "Ethereal" }), // opens Iconique
-      linked("Beds & More", "plush", 192, { title: "Plush" }), // opens Jardin
-      linked("Beds & More", "thread-harmony", 193, { title: "Thread Harmony" }), // opens Jasper
-      linked("Beds & More", "knitscape-throws", 195, { title: "Knitscape Throws" }), // opens Mouvement
-      linked("Beds & More", "terra-weave", 200, { title: "Terra Weave" }), // opens Refuge
+      linked("Beds & More", "ethereal", 258),
+      linked("Beds & More", "plush", 259),
+      linked("Beds & More", "thread-harmony", 260),
+      linked("Beds & More", "knitscape-throws", 261),
+      // Same file as the client's Top-5 "TERRA WEAVE.pdf" (identical md5).
+      linked("Beds & More", "terra-weave", 255),
     ],
   },
 ];

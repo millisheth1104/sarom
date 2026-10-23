@@ -12,9 +12,8 @@
  *    record is dual-purpose (Wilbert, Cinthia, Luxor-N, Velveto/Plush are
  *    Upholstery/Curtain) or filed differently (Angel is an Upholstery record,
  *    but the sheet lists it under Curtains — shown under Curtains).
- *  - Bedding names with no catalogue PDF show the client's photograph and open
- *    the e-catalogue's Bedsheets section instead of a PDF. Since 2026-10-14
- *    that is only Embroidery and Linera; swap each for its id when it arrives.
+ *  - Every one of the 55 now opens a catalogue PDF. Embroidery and Linera were
+ *    photo-only placeholders until their PDFs arrived (2026-10-23).
  *  - Order inside a tab does not matter to the client; the sheet's order is kept.
  *  - "All" shows these 55, interleaved one per category.
  */
@@ -33,33 +32,16 @@ const UPHOLSTERY = [
   105, 114, 112, 123,
 ];
 
-/**
- * A bedding name with no catalogue yet. Shaped as a `Catalogue` so the section
- * renders it like any other tile; `pdf` carries the link target, which here is
- * the Bedsheets wall, not a PDF. Negative ids keep React keys unique.
- */
-const photo = (id: number, title: string, slug: string): Catalogue => ({
-  id,
-  title,
-  brand: "Beds & More",
-  collection: "Bedding",
-  type: "Bedding",
-  typeRaw: "Bedding",
-  cover: `/media/collections/bedding/${slug}.webp`,
-  pdf: BEDSHEETS_WALL,
-  pdfLocal: null,
-});
-
 const BEDDING: (number | Catalogue)[] = [
   255, // Terra Weave
   227, // Bare Earth
   250, // Woven Harmony
   254, // Stone Crest
-  photo(-3, "Embroidery", "embroidery"),
+  256, // Embroidery
   248, // Soft Haven
   251, // Bamboo Comforter
   198, // Oscar
-  photo(-5, "Linera", "linera"),
+  257, // Linera
   253, // Statement Tape
   242, // Knitscape
   252, // Signature

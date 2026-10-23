@@ -536,8 +536,8 @@ export const CATALOGUES: Catalogue[] = [
     "type": "Texture Curtain",
     "typeRaw": "Texture Curtain",
     "cover": "/catalogues/_covers/sj/curtains/cloud.webp",
-    "pdf": null,
-    "pdfLocal": null
+    "pdf": "https://sarom.co.in/catalogues/sj/curtains/cloud.pdf",
+    "pdfLocal": "/catalogues/sj/curtains/cloud.pdf"
   },
   {
     "id": 47,
@@ -2661,6 +2661,138 @@ export const CATALOGUES: Catalogue[] = [
     "cover": "/catalogues/_covers/beds-and-more/bedding/terra-weave.webp",
     "pdf": "https://sarom.co.in/catalogues/beds-and-more/bedding/terra-weave.pdf",
     "pdfLocal": "/catalogues/beds-and-more/bedding/terra-weave.pdf"
+  },
+  {
+    "id": 256,
+    "title": "Embroidery",
+    "brand": "Beds & More",
+    "collection": "Bedding",
+    "type": "Bedsheet Set",
+    "typeRaw": "Only embroidered pillow + solid sheet",
+    "cover": "/catalogues/_covers/beds-and-more/bedding/embroidery.webp",
+    "pdf": "https://sarom.co.in/catalogues/beds-and-more/bedding/embroidery.pdf",
+    "pdfLocal": "/catalogues/beds-and-more/bedding/embroidery.pdf"
+  },
+  {
+    "id": 257,
+    "title": "Linera",
+    "brand": "Beds & More",
+    "collection": "Bedding",
+    "type": "Bedsheet Set",
+    "typeRaw": "100% cotton stripe double bedsheet set",
+    "cover": "/catalogues/_covers/beds-and-more/bedding/linera.webp",
+    "pdf": "https://sarom.co.in/catalogues/beds-and-more/bedding/linera.pdf",
+    "pdfLocal": "/catalogues/beds-and-more/bedding/linera.pdf"
+  },
+  {
+    "id": 258,
+    "title": "Ethereal",
+    "brand": "Beds & More",
+    "collection": "Bedding",
+    "type": "Bedsheet Set",
+    "typeRaw": "Yarn dyed Jacquard bedsheet set",
+    "cover": "/catalogues/_covers/beds-and-more/bedding/ethereal.webp",
+    "pdf": "https://sarom.co.in/catalogues/beds-and-more/bedding/ethereal.pdf",
+    "pdfLocal": "/catalogues/beds-and-more/bedding/ethereal.pdf"
+  },
+  {
+    "id": 259,
+    "title": "Plush",
+    "brand": "Beds & More",
+    "collection": "Bedding",
+    "type": "Bedsheet Set",
+    "typeRaw": "6 piece bedsheet set",
+    "cover": "/catalogues/_covers/beds-and-more/bedding/plush.webp",
+    "pdf": "https://sarom.co.in/catalogues/beds-and-more/bedding/plush.pdf",
+    "pdfLocal": "/catalogues/beds-and-more/bedding/plush.pdf"
+  },
+  {
+    "id": 260,
+    "title": "Thread Harmony",
+    "brand": "Beds & More",
+    "collection": "Bedding",
+    "type": "Bedsheet Set",
+    "typeRaw": "Flat Sheet Set",
+    "cover": "/catalogues/_covers/beds-and-more/bedding/thread-harmony.webp",
+    "pdf": "https://sarom.co.in/catalogues/beds-and-more/bedding/thread-harmony.pdf",
+    "pdfLocal": "/catalogues/beds-and-more/bedding/thread-harmony.pdf"
+  },
+  {
+    "id": 261,
+    "title": "Knitscape Throws",
+    "brand": "Beds & More",
+    "collection": "Bedding",
+    "type": "Throws & Cushion Covers",
+    "typeRaw": "Throws | Cushion Cover",
+    "cover": "/catalogues/_covers/beds-and-more/bedding/knitscape-throws.webp",
+    "pdf": "https://sarom.co.in/catalogues/beds-and-more/bedding/knitscape-throws.pdf",
+    "pdfLocal": "/catalogues/beds-and-more/bedding/knitscape-throws.pdf"
+  },
+  {
+    "id": 262,
+    "title": "Clovi",
+    "brand": "SJ",
+    "collection": "Curtains",
+    "type": "Curtain",
+    "typeRaw": "Curtains",
+    "cover": "/catalogues/_covers/sj/curtains/clovi.webp",
+    "pdf": "https://sarom.co.in/catalogues/sj/curtains/clovi.pdf",
+    "pdfLocal": "/catalogues/sj/curtains/clovi.pdf"
+  },
+  {
+    "id": 263,
+    "title": "Carlos",
+    "brand": "SJ",
+    "collection": "Curtains",
+    "type": "Texture Curtain",
+    "typeRaw": "Elegant Matte Texture Curtains",
+    "cover": "/catalogues/_covers/sj/curtains/carlos.webp",
+    "pdf": "https://sarom.co.in/catalogues/sj/curtains/carlos.pdf",
+    "pdfLocal": "/catalogues/sj/curtains/carlos.pdf"
+  },
+  {
+    "id": 264,
+    "title": "Cappadocia",
+    "brand": "Oofy",
+    "collection": "Curtains",
+    "type": "Wider Width Curtain",
+    "typeRaw": "Wide Width Luxury Curtains",
+    "cover": "/catalogues/_covers/oofy/curtains/cappadocia.webp",
+    "pdf": "https://sarom.co.in/catalogues/oofy/curtains/cappadocia.pdf",
+    "pdfLocal": "/catalogues/oofy/curtains/cappadocia.pdf"
+  },
+  {
+    "id": 265,
+    "title": "Cascade",
+    "brand": "Oofy",
+    "collection": "Curtains",
+    "type": "Wider Width Curtain",
+    "typeRaw": "Wide Width Luxury Curtains",
+    "cover": "/catalogues/_covers/oofy/curtains/cascade.webp",
+    "pdf": "https://sarom.co.in/catalogues/oofy/curtains/cascade.pdf",
+    "pdfLocal": "/catalogues/oofy/curtains/cascade.pdf"
+  },
+  {
+    "id": 266,
+    "title": "Cosco",
+    "brand": "Oofy",
+    "collection": "Curtains",
+    "type": "Wider Width Curtain",
+    "typeRaw": "WIDE WIDTH LUXURY CURTAINS",
+    "cover": "/catalogues/_covers/oofy/curtains/cosco.webp",
+    "pdf": "https://sarom.co.in/catalogues/oofy/curtains/cosco.pdf",
+    "pdfLocal": "/catalogues/oofy/curtains/cosco.pdf"
+  },
+  {
+    "id": 267,
+    "title": "Kiara",
+    "brand": "Matlin",
+    "collection": "Curtains",
+    "type": "Texture Curtain",
+    "typeRaw": "Dry Look Texture Curtains",
+    "cover": "/catalogues/_covers/matlin/curtains/kiara.webp",
+    "pdf": "https://sarom.co.in/catalogues/matlin/curtains/kiara.pdf",
+    "pdfLocal": "/catalogues/matlin/curtains/kiara.pdf"
   }
 ];
 
@@ -2743,7 +2875,7 @@ const MATCH: Record<Exclude<CategoryId, "all">, (c: Catalogue) => boolean> = {
  * differs from the tab filters above, where Upholstery/Curtain deliberately
  * matches both Curtains and Upholstery.
  */
-export const ALL_ROTATION: number[] = [39, 60, 184, 1, 222, 185, 135, 61, 251, 2, 62, 227, 3, 52, 186, 124, 120, 187, 125, 208, 188, 40, 63, 189, 4, 168, 190, 5, 167, 191, 126, 209, 192, 6, 65, 193, 41, 66, 242, 127, 169, 243, 42, 53, 194, 7, 205, 195, 226, 214, 244, 142, 67, 196, 43, 54, 197, 150, 201, 198, 228, 68, 199, 229, 69, 200, 8, 70, 252, 9, 213, 248, 10, 72, 253, 44, 55, 254, 45, 73, 255, 11, 56, 250, 12, 170, 143, 74, 128, 75, 129, 220, 230, 221, 13, 76, 231, 77, 136, 153, 232, 78, 233, 79, 234, 81, 14, 82, 151, 223, 235, 83, 236, 144, 15, 154, 16, 224, 17, 84, 18, 145, 19, 171, 237, 85, 48, 216, 130, 86, 238, 202, 239, 206, 20, 87, 21, 88, 22, 57, 47, 146, 23, 89, 240, 90, 241, 91, 24, 218, 131, 219, 25, 172, 122, 173, 141, 92, 137, 212, 26, 93, 138, 174, 49, 94, 27, 95, 139, 96, 140, 97, 28, 175, 29, 98, 31, 176, 32, 99, 33, 217, 50, 177, 245, 100, 132, 178, 246, 101, 133, 102, 34, 207, 247, 103, 35, 58, 36, 59, 37, 104, 38, 211, 123, 105, 249, 106, 51, 179, 180, 107, 108, 109, 110, 182, 181, 111, 112, 113, 114, 155, 152, 147, 121, 166, 115, 116, 117, 225, 118, 215, 119, 210];
+export const ALL_ROTATION: number[] = [39, 60, 184, 1, 222, 185, 135, 61, 251, 2, 62, 227, 3, 52, 186, 124, 120, 187, 125, 208, 256, 40, 63, 258, 4, 168, 188, 5, 167, 189, 126, 209, 190, 6, 65, 191, 41, 66, 192, 127, 169, 193, 42, 53, 242, 7, 205, 261, 226, 214, 243, 142, 67, 257, 43, 54, 194, 150, 201, 195, 228, 68, 244, 229, 69, 196, 8, 70, 197, 9, 213, 198, 10, 72, 259, 44, 55, 199, 264, 73, 200, 45, 56, 252, 263, 170, 248, 11, 74, 253, 265, 75, 254, 12, 220, 255, 143, 221, 260, 128, 76, 250, 129, 77, 230, 153, 13, 78, 231, 79, 136, 81, 232, 82, 46, 223, 262, 83, 233, 144, 234, 154, 266, 224, 14, 84, 151, 145, 235, 171, 236, 85, 15, 216, 16, 86, 17, 202, 18, 206, 19, 87, 237, 88, 48, 57, 130, 146, 238, 89, 239, 90, 20, 91, 21, 218, 22, 219, 47, 172, 23, 173, 240, 92, 241, 212, 267, 93, 24, 174, 131, 94, 25, 95, 122, 96, 141, 97, 137, 175, 26, 98, 138, 176, 49, 99, 27, 217, 139, 177, 140, 100, 28, 178, 29, 101, 31, 102, 32, 207, 33, 103, 50, 58, 245, 59, 132, 104, 246, 211, 133, 105, 34, 106, 247, 179, 35, 180, 36, 107, 37, 108, 38, 109, 123, 110, 249, 182, 51, 181, 111, 112, 113, 114, 155, 152, 147, 121, 166, 115, 116, 117, 225, 118, 215, 119, 210];
 
 /** Catalogues in a category that can actually be opened and pictured. */
 export const byCategory = (id: CategoryId): Catalogue[] => {
