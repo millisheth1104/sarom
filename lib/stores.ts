@@ -1,7 +1,11 @@
 /**
- * Every Sarom stockist supplied directly by the client (CUSTOMER DETAILS.xlsx,
- * Sept 2026) — 150 of them across 14 states, kept verbatim apart from
- * whitespace and punctuation tidying. Nothing invented, nothing added.
+ * Every Sarom stockist supplied directly by the client, kept verbatim apart
+ * from whitespace and punctuation tidying. Nothing invented, nothing added.
+ *
+ * Two client sheets, both from the same source and checked against each other
+ * for overlap (none): CUSTOMER DETAILS.xlsx, Sept 2026 — 150 stockists across 14
+ * states — and "website client list.xlsx", 2026-10-23 — 48 more across 11 states,
+ * nine of them new to the site. 198 across 23 states in all.
  *
  * This REPLACES the 195-store list scraped from sarom.info/store-locator.php:
  * that source had no store names and no coordinates, only a state and a
@@ -164,7 +168,60 @@ export const STORES: Store[] = [
   { name: "SILK SAJAWAT", address: "RAMKRISHNA NAGAR, , MAIN ROAD.", city: "RAJKOT", state: "GUJARAT", pincode: 360002 },
   { name: "N.K. CURTAIN", address: "GR. FLOOR, 17/1457, ZAK TOWER NEAR KALYAN KENDRA, CHINTHAVALAPPU RAM MOHAN ROAD CALICUT-4", city: "CALICUT", state: "KERALA", pincode: 673004 },
   { name: "DREAM DECOR - MUMBAI", address: "SHOP NO 103, CRESENT MANSION, OPP. GAMDEVI POLICE STATION, NANA CHOWK, GRANT ROAD", city: "MUMBAI", state: "MAHARASHTRA", pincode: 400007 },
-  { name: "GAGAN HANDLOOM", address: "SCO - 5, , SECTOR - 11", city: "PANCHKULA", state: "HARYANA", pincode: 133302 },
+  { name: "GAGAN HANDLOOM", address: "SCO - 5, , SECTOR - 11", city: "PANCHKULA", state: "HARYANA", pincode: 133302 },  /* ── Eastern & central India batch: "website client list.xlsx", 2026-10-23 ──
+     48 stockists, the sheet's 50 rows less two exact repeats (its rows 41 and 42
+     duplicate 39 and 40). No row overlaps the 150 above by name or pincode.
+     Addresses lose their trailing pincode (it is its own field and the panel
+     prints it) and have runs of commas collapsed; names and city spellings are
+     the client's, as given — BHUBNESHWAR included. */
+  { name: "FURNISHING POINT", address: "NEW MARKET, KALIBARI ROAD, OPP. KALI MANDIR", city: "DIBRUGARH", state: "ASSAM", pincode: 786001 },
+  { name: "ASHOKA FURNISHING PVT. LTD. - GUWAHATI", address: "BABU BAZAR BUILDING, FANCY BAZAR", city: "GUWAHATI", state: "ASSAM", pincode: 781001 },
+  { name: "BOMBAY CANVAS STORES", address: "USHA PLAZA, A.T.ROAD, BELOW ATHGAON FLY OVER, NEAR BISHNU MARKET", city: "GUWAHATI", state: "ASSAM", pincode: 781001 },
+  { name: "NEW ANKUR FURNISHERS", address: "SAKET TOWER, S.P.VARMA ROAD", city: "PATNA", state: "BIHAR", pincode: 800001 },
+  { name: "M B FURNISHING", address: "GROUND FLOOR, GDR SIDDHA, N ROAD, BISTUPUR, JAMSHEDPUR, EAST SINGHBHUM", city: "JAMSHEDPUR", state: "JHARKHAND", pincode: 831001 },
+  { name: "SUPER SALES", address: "FURNITURE WORLD, HORMAH TOWER, SIRAMTOLI CHOWK, CLUB ROAD", city: "RANCHI", state: "JHARKHAND", pincode: 834001 },
+  { name: "KRAFT", address: "SEVA SADAN, HOSPITAL ROAD, UPPER BAZAR", city: "RANCHI", state: "JHARKHAND", pincode: 834001 },
+  { name: "M/S HANUMANBUX MOTILAL", address: "POLICE BAZAR, SHILLONG", city: "SHILLONG", state: "MEGHALAYA", pincode: 793001 },
+  { name: "RUNMAWI ENTERPRISE", address: "B/19, RAMHLUN, VENGLAI MAIN ROAD", city: "AIZAWL", state: "MIZORAM", pincode: 796012 },
+  { name: "MD ENTERPRISE", address: "D-57, AIZWAL", city: "AIZAWL", state: "MIZORAM", pincode: 796001 },
+  { name: "CAPITAL TRADERS", address: "7B, MASJID COMPLEX, UNIT-4", city: "BHUBNESHWAR", state: "ODISHA", pincode: 751001 },
+  { name: "HARYANA HANDLOOM EMPORIUM", address: "141, ASHOK NAGAR, RAJMAHAL SQUARE", city: "BHUBNESHWAR", state: "ODISHA", pincode: 751009 },
+  { name: "BICHHONA CENTRE", address: "JAIL ROAD, CUTTACK", city: "CUTTACK", state: "ODISHA", pincode: 753001 },
+  { name: "ANJ ENTERPRISES PVT LTD", address: "GHAR SANSAR MART, KACHERY ROAD.", city: "ROURKELA", state: "ODISHA", pincode: 769012 },
+  { name: "CLOUD NINE- AGARTALA", address: "CLOUD NINE, WOODEN STREET, NH-08, NEAR DROP GATE, ARUNDHUTI NAGAR, WEST TRIPURA", city: "AGARTALA", state: "TRIPURA", pincode: 799003 },
+  { name: "M/S FOAMREX FURNISHINGS PVT LTD", address: "37, SHAKESPEARE SARANI, S.B TOWER.", city: "KOLKATA", state: "WEST BENGAL", pincode: 700017 },
+  { name: "PACKMAN", address: "SHOP NO.14, BECK BAGAN ROW", city: "KOLKATA", state: "WEST BENGAL", pincode: 700017 },
+  { name: "SEVEN DESIGNS", address: "WEMAA HOUSE, 214, AJC BOSE ROAD", city: "KOLKATA", state: "WEST BENGAL", pincode: 700017 },
+  { name: "TIMES EXIM PVT. LTD.", address: "18 L, PARK STREET.", city: "KOLKATA", state: "WEST BENGAL", pincode: 700071 },
+  { name: "TIMES FURNISHING - KOLKATTA", address: "20 - J, PARK STREET", city: "KOLKATA", state: "WEST BENGAL", pincode: 700016 },
+  { name: "SKIPPER TEXTILES PVT.LTD.", address: "16F, EAST TOPSIA ROAD, KOLKATA", city: "KOLKATA", state: "WEST BENGAL", pincode: 700046 },
+  { name: "PEERLESS LIVING SPACE", address: "PANI TANKI MORE, NEAR CLOCK TOWER, SEVOKE ROAD", city: "SILIGURI", state: "WEST BENGAL", pincode: 734001 },
+  { name: "SHIV ENTERPRISE", address: "OPP.HOTEL SACHITRA LANE, NEAR GOYAL PLAZA, SEVOKE ROAD", city: "SILIGURI", state: "WEST BENGAL", pincode: 734001 },
+  { name: "KAMALA HOME TEX - KAMALA STORES", address: "WARD NO. 6, 429, 1, 31, 173, SARKAR MANSION, HILL CART ROAD, BELOW TIRUPATI SAREES, SILIGURI, DARJEELING", city: "SILIGURI", state: "WEST BENGAL", pincode: 734001 },
+  { name: "JAGDAMBA FURNISHING (BHILAI)", address: "JAWAHAR MARKET, CAMP-2, POWER HOUSE", city: "BHILAI NAGAR", state: "CHHATTISGARH", pincode: 490011 },
+  { name: "ICONIC FURNISHING - BILASPUR", address: "C-5, NETAJI SUBHASH COMPLEX, MANDIR CHOWK JARHABHATA", city: "BILASPUR", state: "CHHATTISGARH", pincode: 495001 },
+  { name: "SMART FURNISHING", address: "001, TELIPARA ROAD, NEAR DUBEY CLINIC, TELIPARA, BILASPUR, BILASPUR, CHHATTISGARH", city: "BILASPUR", state: "CHHATTISGARH", pincode: 495001 },
+  { name: "HARI OM FURNISHING HOUSE", address: "SINDHI COLONY GURUDWARA ROAD, SINDHI COLONY GURUDWARA ROAD, DURG", city: "DURG", state: "CHHATTISGARH", pincode: 491001 },
+  { name: "LIFESTYLE FURNISHINGS- (C.G)", address: "OPP.MANDI GATE, MAIN ROAD, PANDRI", city: "RAIPUR", state: "CHHATTISGARH", pincode: 492001 },
+  { name: "SOHAN SALES - RAIPUR", address: "J-79-80, TEXTILE MARKET, PANDRI", city: "RAIPUR", state: "CHHATTISGARH", pincode: 492004 },
+  { name: "HEMRAJ UMESH KUMAR - RAIPUR", address: "J-73, TEXTILE MARKET, GATE NO.6, PANDRI", city: "RAIPUR", state: "CHHATTISGARH", pincode: 492001 },
+  { name: "HARYANA HANDLOOM HOME DECOR - BALAGHAT", address: "WORD NO 18, HANUMAN CHOWK, BALAGHAT", city: "BALAGHAT", state: "MADHYA PRADESH", pincode: 481001 },
+  { name: "D.D.ENTERPRISES", address: "SHOP NO.7, HAMIDIA ROAD", city: "BHOPAL", state: "MADHYA PRADESH", pincode: 462001 },
+  { name: "BHARTIYAM FURNISHING", address: "VIJAYA COMPLEX, 1ST FLOOR, E - 4-28, ARERA COLONY, 10 NO. STOP.", city: "BHOPAL", state: "MADHYA PRADESH", pincode: 462016 },
+  { name: "KRISHNA FURNISHING-NEW", address: "243-B, MANAS PARISAR, ZONE 1, EATERY STALL, MAHARANA PRATAP NAGAR, BHOPAL, BHOPAL", city: "BHOPAL", state: "MADHYA PRADESH", pincode: 462011 },
+  { name: "H.A. & SONS", address: "1- 4, TRIBREWALA COMPLEX, KARAMCHAND CHOWK, BESIDE HOTEL VIJAN PALACE", city: "JABALPUR", state: "MADHYA PRADESH", pincode: 482002 },
+  { name: "LAXMI DECOR - JABALPUR", address: "656, 656 -1, OPP. BHASIN ARCADE, GORAKHPUR, JABALPUR (MP)", city: "JABALPUR", state: "MADHYA PRADESH", pincode: 482001 },
+  { name: "S G FOAM HOUSE", address: "PLOT NO. 31, INDUSTRIAL AREA, MS SG FOAM HOUSE, BARGAWA, KANTI", city: "KATNI", state: "MADHYA PRADESH", pincode: 483501 },
+  { name: "CHHAYA HANDLOOM HOUSE (NEW)", address: "RATANLAL PLOT SQUARE, NECLACE ROAD", city: "AKOLA", state: "MAHARASHTRA", pincode: 444001 },
+  { name: "SAIKRUPA VELVET AND FOAM HOUSE", address: "RAM LAXMAN SANKUL, NEW COTTON MARKET ROAD, COLLEGE ROAD, AMRAVATI", city: "AMRAVATI", state: "MAHARASHTRA", pincode: 444603 },
+  { name: "ASHIRWAD FOAM HOUSE", address: "OPP. DR. KUTHE HOSPITAL, MUDHOLKAR PETH, BADNERA ROAD", city: "AMRAVATI", state: "MAHARASHTRA", pincode: 444601 },
+  { name: "SHEETAL HOME DECORS - NEW", address: "BEHIND LOKMANYA TILAK VIDYALAYA, EKORI WARD, MAIN ROAD", city: "CHANDRAPUR", state: "MAHARASHTRA", pincode: 442402 },
+  { name: "DECOR VILLA", address: "SAI COMPLEX, BALAGHAT ROAD, GONDIA, GONDIA", city: "GONDIA", state: "MAHARASHTRA", pincode: 441601 },
+  { name: "SUSHIL FURNISHINGS", address: "68, HFT FIDDVI COMPLEX, MOUNT ROAD, SADAR BAZAR, NAGPUR, MAHARASHTRA", city: "NAGPUR", state: "MAHARASHTRA", pincode: 440001 },
+  { name: "MALIK DECO HOUSE", address: "MALIK DECO HOUSE, BUTY AREA, ABHYANKAR ROAD, SITABULDI, NAGPUR", city: "NAGPUR", state: "MAHARASHTRA", pincode: 440012 },
+  { name: "KAMAL MATCHING-NGP", address: "PLOT NO. 17 MAIN BAZAR, JARIPATKA", city: "NAGPUR", state: "MAHARASHTRA", pincode: 440014 },
+  { name: "NIRMITI FURNISHING AND FOAM", address: "SHOP NO 10, PARAS PALAZA, RISOD ROAD", city: "WASHIM", state: "MAHARASHTRA", pincode: 444505 },
+  { name: "FOAM HOUSE - YAVATMAL", address: "21, INDIRA GANDHI MARKET, HANUMAN AKHADA CHOWK", city: "YAVATMAL", state: "MAHARASHTRA", pincode: 445001 },
 ];
 
 /** Store count per state, derived once rather than recomputed per render. */
