@@ -173,7 +173,9 @@ export const STORES: Store[] = [
      duplicate 39 and 40). No row overlaps the 150 above by name or pincode.
      Addresses lose their trailing pincode (it is its own field and the panel
      prints it) and have runs of commas collapsed; names and city spellings are
-     the client's, as given — BHUBNESHWAR included. */
+     the client's, as given — except two corrections they asked for on
+     2026-10-23: BHUBNESHWAR -> BHUVNESHWAR (2 rows) and the store name
+     TIMES FURNISHING - KOLKATTA -> KOLKATA. */
   { name: "FURNISHING POINT", address: "NEW MARKET, KALIBARI ROAD, OPP. KALI MANDIR", city: "DIBRUGARH", state: "ASSAM", pincode: 786001 },
   { name: "ASHOKA FURNISHING PVT. LTD. - GUWAHATI", address: "BABU BAZAR BUILDING, FANCY BAZAR", city: "GUWAHATI", state: "ASSAM", pincode: 781001 },
   { name: "BOMBAY CANVAS STORES", address: "USHA PLAZA, A.T.ROAD, BELOW ATHGAON FLY OVER, NEAR BISHNU MARKET", city: "GUWAHATI", state: "ASSAM", pincode: 781001 },
@@ -184,8 +186,8 @@ export const STORES: Store[] = [
   { name: "M/S HANUMANBUX MOTILAL", address: "POLICE BAZAR, SHILLONG", city: "SHILLONG", state: "MEGHALAYA", pincode: 793001 },
   { name: "RUNMAWI ENTERPRISE", address: "B/19, RAMHLUN, VENGLAI MAIN ROAD", city: "AIZAWL", state: "MIZORAM", pincode: 796012 },
   { name: "MD ENTERPRISE", address: "D-57, AIZWAL", city: "AIZAWL", state: "MIZORAM", pincode: 796001 },
-  { name: "CAPITAL TRADERS", address: "7B, MASJID COMPLEX, UNIT-4", city: "BHUBNESHWAR", state: "ODISHA", pincode: 751001 },
-  { name: "HARYANA HANDLOOM EMPORIUM", address: "141, ASHOK NAGAR, RAJMAHAL SQUARE", city: "BHUBNESHWAR", state: "ODISHA", pincode: 751009 },
+  { name: "CAPITAL TRADERS", address: "7B, MASJID COMPLEX, UNIT-4", city: "BHUVNESHWAR", state: "ODISHA", pincode: 751001 },
+  { name: "HARYANA HANDLOOM EMPORIUM", address: "141, ASHOK NAGAR, RAJMAHAL SQUARE", city: "BHUVNESHWAR", state: "ODISHA", pincode: 751009 },
   { name: "BICHHONA CENTRE", address: "JAIL ROAD, CUTTACK", city: "CUTTACK", state: "ODISHA", pincode: 753001 },
   { name: "ANJ ENTERPRISES PVT LTD", address: "GHAR SANSAR MART, KACHERY ROAD.", city: "ROURKELA", state: "ODISHA", pincode: 769012 },
   { name: "CLOUD NINE- AGARTALA", address: "CLOUD NINE, WOODEN STREET, NH-08, NEAR DROP GATE, ARUNDHUTI NAGAR, WEST TRIPURA", city: "AGARTALA", state: "TRIPURA", pincode: 799003 },
@@ -193,7 +195,7 @@ export const STORES: Store[] = [
   { name: "PACKMAN", address: "SHOP NO.14, BECK BAGAN ROW", city: "KOLKATA", state: "WEST BENGAL", pincode: 700017 },
   { name: "SEVEN DESIGNS", address: "WEMAA HOUSE, 214, AJC BOSE ROAD", city: "KOLKATA", state: "WEST BENGAL", pincode: 700017 },
   { name: "TIMES EXIM PVT. LTD.", address: "18 L, PARK STREET.", city: "KOLKATA", state: "WEST BENGAL", pincode: 700071 },
-  { name: "TIMES FURNISHING - KOLKATTA", address: "20 - J, PARK STREET", city: "KOLKATA", state: "WEST BENGAL", pincode: 700016 },
+  { name: "TIMES FURNISHING - KOLKATA", address: "20 - J, PARK STREET", city: "KOLKATA", state: "WEST BENGAL", pincode: 700016 },
   { name: "SKIPPER TEXTILES PVT.LTD.", address: "16F, EAST TOPSIA ROAD, KOLKATA", city: "KOLKATA", state: "WEST BENGAL", pincode: 700046 },
   { name: "PEERLESS LIVING SPACE", address: "PANI TANKI MORE, NEAR CLOCK TOWER, SEVOKE ROAD", city: "SILIGURI", state: "WEST BENGAL", pincode: 734001 },
   { name: "SHIV ENTERPRISE", address: "OPP.HOTEL SACHITRA LANE, NEAR GOYAL PLAZA, SEVOKE ROAD", city: "SILIGURI", state: "WEST BENGAL", pincode: 734001 },
