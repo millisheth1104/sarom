@@ -3,7 +3,11 @@ import ContactPage from "@/components/ContactPage";
 import { SITE } from "@/lib/content";
 
 /**
- * /contact/thankyou — where the address bar lands after an enquiry is sent.
+ * /thank-you — where the address bar lands after an enquiry is sent.
+ *
+ * Moved here from /contact/thankyou on 2026-10-23 at the client's request;
+ * next.config.ts redirects the old address permanently, because it was live
+ * and a conversion goal may already point at it.
  *
  * The form switches the URL here itself (pushState) after a successful send;
  * this route exists so that a refresh or a shared link shows the same
@@ -15,6 +19,6 @@ export const metadata: Metadata = {
   robots: { index: false, follow: true },
 };
 
-export default function ContactThankYou() {
+export default function ThankYou() {
   return <ContactPage sent />;
 }
