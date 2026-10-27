@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { MotionProvider, Marquee, Reveal, LineReveal, Arrow } from "@/components/Motion";
 import { Preloader, Nav, Cursor, WhatsAppFab } from "@/components/Chrome";
 import Footer from "@/components/Footer";
@@ -67,6 +67,12 @@ function EnquiryForm({ sent = false }: { sent?: boolean }) {
   const honeypot = useRef("");
   const doneRef = useRef<HTMLDivElement>(null);
 
+  /* /thank-you is a fresh page load now, so move focus to the confirmation for
+     screen-reader and keyboard users — the redirect used to do this itself. */
+  useEffect(() => {
+    if (sent) doneRef.current?.focus();
+  }, [sent]);
+
   const set = (k: Field) => (value: string) => {
     setValues((v) => ({ ...v, [k]: value }));
     /* Clear a field's error as soon as it is touched: leaving it up while the
@@ -94,15 +100,15 @@ function EnquiryForm({ sent = false }: { sent?: boolean }) {
       });
       const data = (await res.json().catch(() => null)) as { ok?: boolean } | null;
       if (!res.ok || !data?.ok) throw new Error("rejected");
-      setState("sent");
-      /* The address becomes /thank-you the moment the enquiry is in, so
-         analytics and ad platforms can count it as a conversion page. Done
-         with pushState rather than a navigation: the thank-you appears in
-         place with no reload, and Next's router picks the new URL up. The
-         route exists for real (app/thank-you), so a refresh or a shared
-         link still shows the thank-you. */
-      window.history.pushState(null, "", "/thank-you");
-      requestAnimationFrame(() => doneRef.current?.focus());
+      /* A REAL redirect to /thank-you, not a pushState. The client tracks the
+         thank-you page as the conversion, and Tag Manager / Analytics count a
+         page view on a genuine page load; a pushState swaps the URL without
+         one, so the conversion was easy to miss. (It was pushState from
+         2026-10-21 to 2026-10-27.) `assign` rather than `replace` so Back
+         returns to the form. The state stays "sending" until the browser
+         leaves, so the in-place thank-you never flashes first and the button
+         cannot be pressed twice. */
+      window.location.assign("/thank-you");
     } catch {
       setState("failed");
     }
