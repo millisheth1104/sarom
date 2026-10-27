@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { MotionProvider } from "@/components/Motion";
 import { Preloader, Nav, Cursor, WhatsAppFab } from "@/components/Chrome";
 import Footer from "@/components/Footer";
@@ -62,52 +62,32 @@ export function CatalogueWall({
   initialCategory?: string;
   initialBrand?: string;
 }) {
-  const [category, setCategory] = useState<CategoryId>(() =>
-    initial(initialCategory, CATEGORY_TABS.map((t) => t.id), "all")
-  );
+  /* Fixed for the life of the page: each category is its own address and the
+     tabs are real links, so choosing one is a navigation that remounts this
+     component with the new `initialCategory` — nothing here ever changes it. */
+  const category: CategoryId = initial(initialCategory, CATEGORY_TABS.map((t) => t.id), "all");
   const [brand, setBrand] = useState<BrandFilter>(() =>
     initial(initialBrand, BRAND_FILTERS, "All")
   );
 
   /* Each category has its own address — /ecatalogue/curtains, /upholstery,
-     /bedsheets; "All" is plain /ecatalogue. Picking a tab moves the address bar
-     without a reload (pushState, which Next's router picks up), and the brand
-     filter rides along as ?brand=. Back/forward walk the tabs. The routes are
-     real (app/ecatalogue/[category]), so a refresh or shared link opens the
-     same tab. */
+     /bedsheets; "All" is plain /ecatalogue. The category tabs are real links, so
+     picking one is a full page load: the client tracks each of these addresses
+     as a page view, and a pushState (what this did from 2026-10-21 to
+     2026-10-27) changes the address without one. Back/forward then work as the
+     browser's own history, a refresh or shared link opens the same tab, and the
+     tabs work without JavaScript. The routes are real (app/ecatalogue/[category]);
+     the page title comes from each route's metadata.
+     The brand filter rides along as ?brand= and is a refinement, not a place:
+     it stays in-page and REPLACES the history entry, so back never steps
+     through filters. */
   const pathFor = (c: CategoryId) => (c === "all" ? "/ecatalogue" : `/ecatalogue/${c}`);
   const queryFor = (b: BrandFilter) => (b === "All" ? "" : `?brand=${encodeURIComponent(b)}`);
-  /* The tab title follows the tab, matching what each route serves on load. */
-  const titleFor = (c: CategoryId) => {
-    const label = CATEGORY_TABS.find((t) => t.id === c)?.label;
-    return c === "all" || !label ? "e-Catalogue | Sarom" : `${label} e-Catalogue | Sarom`;
-  };
-  const chooseCategory = (c: CategoryId) => {
-    if (c === category) return;
-    setCategory(c);
-    window.history.pushState(null, "", pathFor(c) + queryFor(brand));
-    document.title = titleFor(c);
-  };
-  /* A brand pick refines the current view rather than being a new place, so it
-     REPLACES the history entry — back still steps through categories, and
-     each entry remembers the brand it was left on. */
   const chooseBrand = (b: BrandFilter) => {
     if (b === brand) return;
     setBrand(b);
     window.history.replaceState(null, "", pathFor(category) + queryFor(b));
   };
-  useEffect(() => {
-    const onPop = () => {
-      const seg = window.location.pathname.replace(/\/+$/, "").split("/")[2];
-      const c = initial(seg, CATEGORY_TABS.map((t) => t.id), "all");
-      setCategory(c);
-      document.title = titleFor(c);
-      setBrand(initial(new URLSearchParams(window.location.search).get("brand") ?? undefined, BRAND_FILTERS, "All"));
-    };
-    window.addEventListener("popstate", onPop);
-    return () => window.removeEventListener("popstate", onPop);
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- titleFor is pure
-  }, []);
 
   const items = useMemo(() => {
     const byCategory =
@@ -206,16 +186,16 @@ export function CatalogueWall({
             <Reveal dir="up" delay={0.4} className="wall__filters">
               <div className="wall__filtergroup" role="group" aria-label="Category">
                 {CATEGORY_TABS.map((t) => (
-                  <button
+                  <a
                     key={t.id}
-                    type="button"
+                    href={pathFor(t.id) + queryFor(brand)}
                     className="wall__pill"
                     data-active={category === t.id || undefined}
-                    onClick={() => chooseCategory(t.id)}
+                    aria-current={category === t.id ? "page" : undefined}
                   >
                     {t.label}
                     <span>{countFor(t.id)}</span>
-                  </button>
+                  </a>
                 ))}
               </div>
 

@@ -122,6 +122,8 @@
 }
 
 .wall__pill {
+  /* Category pills are links, brand pills are buttons — one look for both. */
+  text-decoration: none;
   display: inline-flex;
   align-items: center;
   gap: 0.4em;
