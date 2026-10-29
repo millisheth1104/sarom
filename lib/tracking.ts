@@ -12,6 +12,14 @@ export const GTM_ID = "GTM-53DCHG5P";
 export const GA_ID = "G-WGEWY3X9NF";
 
 /**
+ * Meta (Facebook) Pixel, from the same sheet. Transcribed from a low-resolution
+ * phone photo of a slide, so the digits were read, not copied — if Events
+ * Manager shows no PageView arriving, check this against the source FIRST.
+ * A wrong ID would send visitors to the wrong pixel.
+ */
+export const META_PIXEL_ID = "2205829246942767";
+
+/**
  * Only the real domain reports. Without this, `next dev`, the local
  * `next start` used for verification and any preview host would all push
  * hits into the client's live GA property and pollute its numbers.

@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { SITE } from "@/lib/content";
-import { GA_ID, GTM_ID, TRACK_HOST_TEST } from "@/lib/tracking";
+import { GA_ID, GTM_ID, META_PIXEL_ID, TRACK_HOST_TEST } from "@/lib/tracking";
 
 export const metadata: Metadata = {
   title: `${SITE.name} — ${SITE.tagline} | Premium Curtains, Upholstery & Bed Sheets`,
@@ -63,6 +63,15 @@ export default function RootLayout({
             __html: `if(${TRACK_HOST_TEST}){var s=document.createElement('script');s.async=true;s.src='https://www.googletagmanager.com/gtag/js?id=${GA_ID}';document.head.appendChild(s);window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${GA_ID}');}`,
           }}
         />
+        {/* Meta Pixel — the client's snippet, wrapped so it only runs on
+            sarom.co.in like the Google tags. Each page is a real load now
+            (contact -> /thank-you, the e-catalogue tabs), so the standard
+            PageView on load is also what counts the thank-you page. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `if(${TRACK_HOST_TEST}){!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','${META_PIXEL_ID}');fbq('track','PageView');}`,
+          }}
+        />
       </head>
       <body>
         {/* GTM (noscript) — must be the first thing in <body>. */}
@@ -72,6 +81,17 @@ export default function RootLayout({
             height="0"
             width="0"
             style={{ display: "none", visibility: "hidden" }}
+          />
+        </noscript>
+        {/* Meta Pixel (noscript) — the no-JavaScript fallback from the sheet. */}
+        <noscript>
+          {/* eslint-disable-next-line @next/next/no-img-element -- a 1x1 tracking beacon */}
+          <img
+            height="1"
+            width="1"
+            style={{ display: "none" }}
+            alt=""
+            src={`https://www.facebook.com/tr?id=${META_PIXEL_ID}&ev=PageView&noscript=1`}
           />
         </noscript>
         <a className="skip-link" href="#main">
