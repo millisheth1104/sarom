@@ -447,6 +447,44 @@
 .wafab:active { scale: 0.96; }
 
 @media (prefers-reduced-motion: reduce) {
-  .wafab { transition: none; }
-  .wafab:hover, .wafab:active { scale: 1; }
+  .wafab, .contactfab { transition: none; }
+  .wafab:hover, .wafab:active, .contactfab:hover, .contactfab:active { scale: 1; }
 }
+
+/* ============================================================
+   "GET MORE DETAILS" FLOATING BUTTON  (e-catalogue)
+   Same fixed, shadowed, pill-shaped family as the WhatsApp button and level
+   with it: it takes the WhatsApp button's own bottom and height and sits just
+   to its left, so the two read as one pair. Dark where WhatsApp is green, so
+   the two are never mistaken for each other.
+   ============================================================ */
+.contactfab {
+  --fab-edge: clamp(0.9rem, 2vw, 1.6rem);
+  --fab-size: clamp(46px, 4vw, 56px);
+  position: fixed;
+  /* WhatsApp's right edge + its width + a gap. */
+  right: calc(var(--fab-edge) + var(--fab-size) + 0.6rem);
+  bottom: calc(var(--fab-edge) + env(safe-area-inset-bottom, 0px));
+  z-index: 400;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  height: var(--fab-size);
+  padding: 0 clamp(1rem, 1.6vw, 1.4rem);
+  border-radius: var(--radius-pill);
+  background: var(--charcoal);
+  color: var(--ivory);
+  font-size: var(--fs-meta);
+  letter-spacing: var(--tr-meta);
+  text-transform: uppercase;
+  white-space: nowrap;
+  text-decoration: none;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.28), 0 18px 40px rgba(0, 0, 0, 0.22);
+  transition: scale 0.35s var(--ease-pop), box-shadow 0.35s var(--ease-soft),
+    background-color 0.35s var(--ease-soft);
+}
+.contactfab svg { width: 1.15em; height: 1.15em; flex: none; }
+.contactfab:hover { scale: 1.05; box-shadow: 0 8px 20px rgba(0, 0, 0, 0.32), 0 22px 48px rgba(0, 0, 0, 0.26); }
+.contactfab:active { scale: 0.97; }
+.contactfab:focus-visible { outline: 2px solid var(--dusty-peach); outline-offset: 3px; }
+

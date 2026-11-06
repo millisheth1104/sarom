@@ -309,3 +309,28 @@ export function WhatsAppFab() {
     </a>
   );
 }
+
+/**
+ * "Get more details" — a floating pill that sits beside the WhatsApp button and
+ * opens the contact page. Mounted on the e-catalogue only: that is where a
+ * visitor has just looked at a catalogue and wants to ask about it, and the
+ * contact page is also where the enquiry (and its tracked /thank-you) lives.
+ * A plain anchor, so it is a real page load and works without JavaScript.
+ */
+export function ContactFab() {
+  return (
+    <a className="contactfab" href="/contact" data-cursor="Contact">
+      <span>Get more details</span>
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <path
+          d="M5 12h14M13 6l6 6-6 6"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.8"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
+    </a>
+  );
+}
