@@ -1014,9 +1014,16 @@
   background-size: var(--fillet) var(--fillet);
   background-position: left top, right bottom;
   background-repeat: no-repeat;
+  /* PURELY decorative, and it is stretched over the WHOLE wrapper — which is
+     where the pill is. Without this it sat on top of the "Explore Collection"
+     link and took every click (measured: elementFromPoint at the pill's centre
+     returned the wrapper, on every tab at 1440, 1024 and 390). */
+  pointer-events: none;
 }
 .belong__shop {
   position: relative;
+  /* and above that fillet layer, so the link wins even if one is ever dropped */
+  z-index: 1;
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
