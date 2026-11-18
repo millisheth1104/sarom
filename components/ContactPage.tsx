@@ -319,7 +319,7 @@ export default function ContactPage({ sent = false }: { sent?: boolean } = {}) {
           <div className="shell ct__mainGrid">
             <Reveal className="ct__direct" dir="up">
               <p className="shead__index">Talk to us</p>
-              <ul>
+              <ul className="ct__directList">
                 {CONTACT_DIRECT.map((d) => (
                   <li key={d.label}>
                     <a
@@ -351,6 +351,19 @@ export default function ContactPage({ sent = false }: { sent?: boolean } = {}) {
                   </li>
                 ))}
               </ul>
+
+              <div className="ct__social">
+                <p className="shead__index">Follow us</p>
+                <ul>
+                  {CONTACT_SOCIAL.map((s) => (
+                    <li key={s.label}>
+                      <a href={s.href} target="_blank" rel="noopener noreferrer">
+                        {s.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </Reveal>
 
             <Reveal className="ct__aside" dir="up" delay={0.1}>
@@ -386,19 +399,6 @@ export default function ContactPage({ sent = false }: { sent?: boolean } = {}) {
                   </li>
                 ))}
               </ul>
-
-              <div className="ct__social">
-                <p className="shead__index">Follow us</p>
-                <ul>
-                  {CONTACT_SOCIAL.map((s) => (
-                    <li key={s.label}>
-                      <a href={s.href} target="_blank" rel="noopener noreferrer">
-                        {s.label}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </div>
             </Reveal>
           </div>
         </section>

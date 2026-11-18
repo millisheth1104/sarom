@@ -45,11 +45,11 @@
 }
 
 /* ---------------- the three direct lines ---------------- */
-.ct__direct ul {
+.ct__directList {
   display: grid;
   gap: 0.5rem;
 }
-.ct__direct a {
+.ct__directList a {
   display: grid;
   /* icon | text | arrow — the text column is the only flexible one, so a
      long email truncates rather than pushing the arrow off the row. */
@@ -62,8 +62,8 @@
   background: rgba(245, 240, 232, 0.035);
   transition: border-color 0.4s var(--ease-soft), background-color 0.4s var(--ease-soft);
 }
-.ct__direct a:hover,
-.ct__direct a:focus-visible {
+.ct__directList a:hover,
+.ct__directList a:focus-visible {
   border-color: rgba(229, 200, 185, 0.42);
   background: rgba(245, 240, 232, 0.07);
 }
@@ -99,8 +99,8 @@
   color: var(--dusty-peach);
   transition: transform 0.45s var(--ease-out-expo);
 }
-.ct__direct a:hover .ct__directArrow,
-.ct__direct a:focus-visible .ct__directArrow {
+.ct__directList a:hover .ct__directArrow,
+.ct__directList a:focus-visible .ct__directArrow {
   transform: translateX(5px);
 }
 
@@ -464,7 +464,7 @@
   .ct__field label,
   .ct__field input,
   .ct__whoOpt,
-  .ct__direct a,
+  .ct__directList a,
   .ct__directArrow,
   .ct__social a {
     transition: none;
@@ -544,15 +544,32 @@
 .ct__formWrap--dark .ct__done p { color: var(--ivory); }
 
 /* ---- the direct lines, on ivory ---- */
-.ct__main .ct__direct ul { margin-top: clamp(1rem, 2vw, 1.4rem); }
+.ct__main .ct__directList { margin-top: clamp(1rem, 2vw, 1.4rem); }
 /* They were translucent ivory on dark, which is nothing at all on ivory.
    Solid charcoal cards keep the same text and icon colours working as-is. */
-.ct__main .ct__direct a {
+.ct__main .ct__directList a {
   border-color: transparent;
   background: var(--charcoal);
 }
-.ct__main .ct__direct a:hover,
-.ct__main .ct__direct a:focus-visible {
+.ct__main .ct__directList a:hover,
+.ct__main .ct__directList a:focus-visible {
   border-color: rgba(229, 200, 185, 0.5);
   background: var(--charcoal-soft);
+}
+
+/* ---- balancing the two columns of the ivory section ----
+   With the form gone from this section the left column (three cards) is far
+   shorter than the offices column beside it, which left a hole under the cards.
+   "Follow us" now lives under the cards, and on desktop the columns stretch to
+   one height with the cards sharing out the slack, so both end level. */
+@media (min-width: 1000px) {
+  .ct__mainGrid { align-items: stretch; }
+  .ct__main .ct__direct {
+    display: flex;
+    flex-direction: column;
+  }
+  .ct__main .ct__directList {
+    flex: 1 1 auto;
+    grid-auto-rows: 1fr;
+  }
 }
