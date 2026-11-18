@@ -75,5 +75,13 @@ const ALL: Catalogue[] = (() => {
 export const homeByCategory = (id: CategoryId): Catalogue[] =>
   id === "all" ? ALL : TABS[id];
 
+/**
+ * The e-catalogue page for a homepage tab: Curtains -> /ecatalogue/curtains,
+ * Upholstery -> /ecatalogue/upholstery, Bedsheets -> /ecatalogue/bedsheets, and
+ * "All" -> /ecatalogue. What the "Explore Collection" pill opens.
+ */
+export const ecataloguePath = (id: CategoryId) =>
+  id === "all" ? "/ecatalogue" : `/ecatalogue/${id}`;
+
 /** True when a tile links to a real catalogue PDF rather than the wall. */
 export const isPdf = (c: Catalogue) => Boolean(c.pdf && c.pdf.toLowerCase().endsWith(".pdf"));

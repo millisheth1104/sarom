@@ -10,7 +10,7 @@ import {
 } from "@/lib/content";
 import { Reveal, LineReveal, ImageReveal, Arrow } from "./Motion";
 import { useCatalogueTabs } from "./useCatalogueTabs";
-import { homeByCategory, isPdf } from "@/lib/homeCollections";
+import { homeByCategory, isPdf, ecataloguePath } from "@/lib/homeCollections";
 
 /* ============================================================
    01 — THE COLLECTIONS EDITORIAL
@@ -156,11 +156,15 @@ export function Statement({ index }: { index?: string } = {}) {
                 would follow the pill's own radius and curve away from the
                 panel edges. */}
             <span className="belong__shopwrap">
+              {/* Opens the e-catalogue page for the tab that is showing —
+                  Curtains, Upholstery or Bedsheets, or the whole wall for All —
+                  not one catalogue's PDF (that was the old target, and the client
+                  wanted the collection, 2026-11-18). A plain link in the same
+                  tab: a real page load into a page the client tracks. */}
               <a
                 className="belong__shop"
-                href={cat.active?.pdf ?? undefined}
-                {...(cat.active && isPdf(cat.active) ? { target: "_blank", rel: "noopener" } : {})}
-                data-cursor="Open"
+                href={ecataloguePath(cat.tab)}
+                data-cursor="Explore"
               >
                 {STATEMENT.action.label}
                 <Arrow className="" />
