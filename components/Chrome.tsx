@@ -311,8 +311,8 @@ export function WhatsAppFab() {
 }
 
 /**
- * "Get more details" — a floating pill that sits beside the WhatsApp button and
- * opens the contact page. Mounted on the e-catalogue only: that is where a
+ * "Get more details" — a floating pill, bottom-LEFT (WhatsApp is bottom-right),
+ * that opens the contact page. Mounted on the e-catalogue only: that is where a
  * visitor has just looked at a catalogue and wants to ask about it, and the
  * contact page is also where the enquiry (and its tracked /thank-you) lives.
  * A plain anchor, so it is a real page load and works without JavaScript.

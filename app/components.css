@@ -454,16 +454,17 @@
 /* ============================================================
    "GET MORE DETAILS" FLOATING BUTTON  (e-catalogue)
    Same fixed, shadowed, pill-shaped family as the WhatsApp button and level
-   with it: it takes the WhatsApp button's own bottom and height and sits just
-   to its left, so the two read as one pair. Dark where WhatsApp is green, so
-   the two are never mistaken for each other.
+   with it: it takes the WhatsApp button's own bottom, height and edge gap, but
+   on the LEFT — moved there on 2026-11-18 at the client's request (it began
+   beside WhatsApp on the right and covered catalogue tiles there). Dark where
+   WhatsApp is green, so the two are never mistaken for each other.
    ============================================================ */
 .contactfab {
   --fab-edge: clamp(0.9rem, 2vw, 1.6rem);
   --fab-size: clamp(46px, 4vw, 56px);
   position: fixed;
-  /* WhatsApp's right edge + its width + a gap. */
-  right: calc(var(--fab-edge) + var(--fab-size) + 0.6rem);
+  /* Mirrors the WhatsApp button's right-hand gap on the opposite side. */
+  left: var(--fab-edge);
   bottom: calc(var(--fab-edge) + env(safe-area-inset-bottom, 0px));
   z-index: 400;
   display: inline-flex;
