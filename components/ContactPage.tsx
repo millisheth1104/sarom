@@ -285,7 +285,7 @@ export default function ContactPage({ sent = false }: { sent?: boolean } = {}) {
       <Nav />
 
       <main id="main">
-        {/* ---------------- 01 — head + the three direct lines ---------------- */}
+        {/* ---------------- 01 — head + the enquiry form ---------------- */}
         <section className="sect sect--dark ct__hero" data-nav-tone="dark">
           <div className="shell ct__heroGrid">
             <div className="ct__heroCopy">
@@ -303,7 +303,22 @@ export default function ContactPage({ sent = false }: { sent?: boolean } = {}) {
               </Reveal>
             </div>
 
-            <Reveal className="ct__direct" dir="right" delay={0.1}>
+            {/* The form sits where the three direct lines used to (swapped at the
+                client's request, 2026-11-18): the first thing beside the heading,
+                on the dark ground, so a visitor can start writing straight away. */}
+            <Reveal className="ct__formWrap ct__formWrap--dark" dir="up" delay={0.1}>
+              <p className="shead__index">{CONTACT_FORM.eyebrow}</p>
+              <h2 className="ct__h2">{CONTACT_FORM.title}</h2>
+              <EnquiryForm sent={sent} />
+            </Reveal>
+          </div>
+        </section>
+
+        {/* ---------------- 02 — the three direct lines and the offices ---------------- */}
+        <section className="sect sect--ivory ct__main" data-nav-tone="light">
+          <div className="shell ct__mainGrid">
+            <Reveal className="ct__direct" dir="up">
+              <p className="shead__index">Talk to us</p>
               <ul>
                 {CONTACT_DIRECT.map((d) => (
                   <li key={d.label}>
@@ -336,17 +351,6 @@ export default function ContactPage({ sent = false }: { sent?: boolean } = {}) {
                   </li>
                 ))}
               </ul>
-            </Reveal>
-          </div>
-        </section>
-
-        {/* ---------------- 02 — the enquiry and the offices ---------------- */}
-        <section className="sect sect--ivory ct__main" data-nav-tone="light">
-          <div className="shell ct__mainGrid">
-            <Reveal className="ct__formWrap" dir="up">
-              <p className="shead__index">{CONTACT_FORM.eyebrow}</p>
-              <h2 className="ct__h2">{CONTACT_FORM.title}</h2>
-              <EnquiryForm sent={sent} />
             </Reveal>
 
             <Reveal className="ct__aside" dir="up" delay={0.1}>

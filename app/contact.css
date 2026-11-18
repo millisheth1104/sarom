@@ -2,12 +2,11 @@
    CONTACT
 
    Three movements, dark → ivory → linen:
-     .ct__hero    — the heading, with the three direct lines (email,
-                    phone, WhatsApp) beside it rather than under it, so
-                    anyone who does not want a form never has to scroll
-                    to find a way through.
-     .ct__main    — the enquiry form, with both offices and the social
-                    links in a narrower column beside it.
+     .ct__hero    — the heading with the enquiry form beside it, on the dark
+                    ground (the two were swapped with the direct lines on
+                    2026-11-18 at the client's request).
+     .ct__main    — the three direct lines (email, phone, WhatsApp), with both
+                    offices and the social links in a narrower column beside.
      .ct__mapSect — the corporate office on the map.
 
    The form's field names are the client's, not ours — see lib/contact.ts.
@@ -24,10 +23,10 @@
 }
 @media (min-width: 900px) {
   .ct__heroGrid {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 0.82fr);
-    /* end, not center: the direct lines should sit against the baseline of
-       the heading block, not float in the middle of its height. */
-    align-items: end;
+    grid-template-columns: minmax(0, 0.92fr) minmax(0, 1fr);
+    /* center: the form is now the tall column, so the heading sits level with
+       its middle rather than hanging off its baseline. */
+    align-items: center;
   }
 }
 
@@ -470,4 +469,90 @@
   .ct__social a {
     transition: none;
   }
+}
+
+
+/* ============================================================
+   THE FORM ON THE DARK HERO  /  THE DIRECT LINES ON IVORY
+   The two blocks swapped places (2026-11-18). Each was styled for the ground
+   it used to sit on, so each gets a variant for the ground it sits on now.
+   ============================================================ */
+
+/* ---- the form, on dark ---- */
+.ct__formWrap--dark .ct__h2 { color: var(--ivory); }
+
+.ct__formWrap--dark .ct__field input {
+  border-color: rgba(245, 240, 232, 0.2);
+  background: rgba(245, 240, 232, 0.05);
+  color: var(--ivory);
+}
+.ct__formWrap--dark .ct__field input:hover { border-color: rgba(245, 240, 232, 0.4); }
+.ct__formWrap--dark .ct__field input:focus-visible {
+  border-color: var(--dusty-peach);
+  background: rgba(245, 240, 232, 0.09);
+}
+.ct__formWrap--dark .ct__field input[aria-invalid] { border-color: #E58A7E; }
+.ct__formWrap--dark .ct__field label { color: rgba(245, 240, 232, 0.58); }
+.ct__formWrap--dark .ct__field input:focus-visible + label,
+.ct__formWrap--dark .ct__field input:not(:placeholder-shown) + label {
+  color: var(--dusty-peach);
+}
+/* The light-ground red (4.83:1 on ivory) is far too dark here. */
+.ct__formWrap--dark .ct__err { color: #F2A69C; }
+
+.ct__formWrap--dark .ct__who legend { color: rgba(245, 240, 232, 0.6); }
+.ct__formWrap--dark .ct__whoOpt {
+  border-color: rgba(245, 240, 232, 0.2);
+  background: rgba(245, 240, 232, 0.04);
+}
+.ct__formWrap--dark .ct__whoOpt:hover { border-color: rgba(245, 240, 232, 0.4); }
+.ct__formWrap--dark .ct__whoOpt b { color: var(--ivory); }
+.ct__formWrap--dark .ct__whoOpt span { color: rgba(245, 240, 232, 0.62); }
+.ct__formWrap--dark .ct__whoOpt input:focus-visible {
+  outline-color: var(--dusty-peach);
+}
+/* Selected: on light it is a dark card; on dark it inverts to a light one. */
+.ct__formWrap--dark .ct__whoOpt[data-on] {
+  border-color: var(--dusty-peach);
+  background: var(--dusty-peach);
+}
+.ct__formWrap--dark .ct__whoOpt[data-on] b { color: var(--charcoal); }
+.ct__formWrap--dark .ct__whoOpt[data-on] span { color: rgba(20, 17, 15, 0.72); }
+.ct__formWrap--dark .ct__whoOpt[data-on] input:focus-visible { outline-color: var(--ivory); }
+
+/* The solid button is charcoal, which vanishes on charcoal. */
+.ct__formWrap--dark .btn--solid {
+  background: var(--ivory);
+  border-color: var(--ivory);
+  color: var(--charcoal);
+}
+.ct__formWrap--dark .btn--solid::before { background: var(--dusty-peach); }
+.ct__formWrap--dark .btn--solid:hover,
+.ct__formWrap--dark .btn--solid:focus-visible { color: var(--charcoal); }
+.ct__formWrap--dark .ct__note { color: rgba(245, 240, 232, 0.55); }
+
+.ct__formWrap--dark .ct__fail {
+  border-color: rgba(242, 166, 156, 0.5);
+  background: rgba(242, 166, 156, 0.08);
+  color: #F2B3AA;
+}
+.ct__formWrap--dark .ct__done {
+  border-color: rgba(245, 240, 232, 0.16);
+  background: rgba(245, 240, 232, 0.05);
+}
+.ct__formWrap--dark .ct__done:focus-visible { outline-color: var(--dusty-peach); }
+.ct__formWrap--dark .ct__done p { color: var(--ivory); }
+
+/* ---- the direct lines, on ivory ---- */
+.ct__main .ct__direct ul { margin-top: clamp(1rem, 2vw, 1.4rem); }
+/* They were translucent ivory on dark, which is nothing at all on ivory.
+   Solid charcoal cards keep the same text and icon colours working as-is. */
+.ct__main .ct__direct a {
+  border-color: transparent;
+  background: var(--charcoal);
+}
+.ct__main .ct__direct a:hover,
+.ct__main .ct__direct a:focus-visible {
+  border-color: rgba(229, 200, 185, 0.5);
+  background: var(--charcoal-soft);
 }
