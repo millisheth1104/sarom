@@ -4,8 +4,9 @@
  * `CATALOGUES` directly); only this section is narrowed.
  *
  * Source: the client's sheet (2026-10-14) — 21 curtains, 21 upholstery,
- * 13 bedding. Hand-maintained; `catalogues.ts` is generated and must not
- * carry editorial choices like this.
+ * 13 bedding — plus five new upholstery collections added 2026-11-23, which
+ * lead that tab (26 in all). Hand-maintained; `catalogues.ts` is generated and
+ * must not carry editorial choices like this.
  *
  * Client decisions recorded here so they are not "fixed" later:
  *  - Each name appears ONLY in the tab the sheet puts it in, even where the
@@ -28,6 +29,10 @@ const CURTAINS = [
 ];
 
 const UPHOLSTERY = [
+  // The five new collections of 2026-11-23, first on the tab and in the client's
+  // order: Alfredo, Ashwood, Benny, Pinecrest, Sonet.
+  120, 268, 269, 270, 271,
+  // Then the sheet's 21 of 2026-10-14.
   66, 53, 68, 87, 122, 99, 63, 70, 78, 97, 94, 121, 111, 223, 100, 110, 93,
   105, 114, 112, 123,
 ];

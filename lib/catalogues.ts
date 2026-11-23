@@ -1312,10 +1312,10 @@ export const CATALOGUES: Catalogue[] = [
   {
     "id": 120,
     "title": "Alfredo",
-    "brand": "SJ",
+    "brand": "Smart Plus",
     "collection": "Upholstery",
-    "type": "Digital Print",
-    "typeRaw": "Digital Print",
+    "type": "Chenille",
+    "typeRaw": "Luxe Chenille Upholstery",
     "cover": "/catalogues/_covers/sj/upholstery/alfredo.webp",
     "pdf": "https://sarom.co.in/catalogues/sj/upholstery/alfredo.pdf",
     "pdfLocal": "/catalogues/sj/upholstery/alfredo.pdf"
@@ -2793,6 +2793,50 @@ export const CATALOGUES: Catalogue[] = [
     "cover": "/catalogues/_covers/matlin/curtains/kiara.webp",
     "pdf": "https://sarom.co.in/catalogues/matlin/curtains/kiara.pdf",
     "pdfLocal": "/catalogues/matlin/curtains/kiara.pdf"
+  },
+  {
+    "id": 268,
+    "title": "Ashwood",
+    "brand": "Smart Plus",
+    "collection": "Upholstery",
+    "type": "Woven",
+    "typeRaw": "Woven Look Upholstery",
+    "cover": "/catalogues/_covers/smart-plus/upholstery/ashwood.webp",
+    "pdf": "https://sarom.co.in/catalogues/smart-plus/upholstery/ashwood.pdf",
+    "pdfLocal": "/catalogues/smart-plus/upholstery/ashwood.pdf"
+  },
+  {
+    "id": 269,
+    "title": "Benny",
+    "brand": "Smart Plus",
+    "collection": "Upholstery",
+    "type": "Chenille",
+    "typeRaw": "Two Tone Chenille Texture",
+    "cover": "/catalogues/_covers/smart-plus/upholstery/benny.webp",
+    "pdf": "https://sarom.co.in/catalogues/smart-plus/upholstery/benny.pdf",
+    "pdfLocal": "/catalogues/smart-plus/upholstery/benny.pdf"
+  },
+  {
+    "id": 270,
+    "title": "Pinecrest",
+    "brand": "Smart Plus",
+    "collection": "Upholstery",
+    "type": "Soft Texture",
+    "typeRaw": "Soft Texture Upholstery",
+    "cover": "/catalogues/_covers/smart-plus/upholstery/pinecrest.webp",
+    "pdf": "https://sarom.co.in/catalogues/smart-plus/upholstery/pinecrest.pdf",
+    "pdfLocal": "/catalogues/smart-plus/upholstery/pinecrest.pdf"
+  },
+  {
+    "id": 271,
+    "title": "Sonet",
+    "brand": "Smart Plus",
+    "collection": "Upholstery",
+    "type": "Leather",
+    "typeRaw": "Simply Leather",
+    "cover": "/catalogues/_covers/smart-plus/upholstery/sonet.webp",
+    "pdf": "https://sarom.co.in/catalogues/smart-plus/upholstery/sonet.pdf",
+    "pdfLocal": "/catalogues/smart-plus/upholstery/sonet.pdf"
   }
 ];
 
@@ -2875,7 +2919,7 @@ const MATCH: Record<Exclude<CategoryId, "all">, (c: Catalogue) => boolean> = {
  * differs from the tab filters above, where Upholstery/Curtain deliberately
  * matches both Curtains and Upholstery.
  */
-export const ALL_ROTATION: number[] = [39, 60, 184, 1, 222, 185, 135, 61, 251, 2, 62, 227, 3, 52, 186, 124, 120, 187, 125, 208, 256, 40, 63, 258, 4, 168, 188, 5, 167, 189, 126, 209, 190, 6, 65, 191, 41, 66, 192, 127, 169, 193, 42, 53, 242, 7, 205, 261, 226, 214, 243, 142, 67, 257, 43, 54, 194, 150, 201, 195, 228, 68, 244, 229, 69, 196, 8, 70, 197, 9, 213, 198, 10, 72, 259, 44, 55, 199, 264, 73, 200, 45, 56, 252, 263, 170, 248, 11, 74, 253, 265, 75, 254, 12, 220, 255, 143, 221, 260, 128, 76, 250, 129, 77, 230, 153, 13, 78, 231, 79, 136, 81, 232, 82, 46, 223, 262, 83, 233, 144, 234, 154, 266, 224, 14, 84, 151, 145, 235, 171, 236, 85, 15, 216, 16, 86, 17, 202, 18, 206, 19, 87, 237, 88, 48, 57, 130, 146, 238, 89, 239, 90, 20, 91, 21, 218, 22, 219, 47, 172, 23, 173, 240, 92, 241, 212, 267, 93, 24, 174, 131, 94, 25, 95, 122, 96, 141, 97, 137, 175, 26, 98, 138, 176, 49, 99, 27, 217, 139, 177, 140, 100, 28, 178, 29, 101, 31, 102, 32, 207, 33, 103, 50, 58, 245, 59, 132, 104, 246, 211, 133, 105, 34, 106, 247, 179, 35, 180, 36, 107, 37, 108, 38, 109, 123, 110, 249, 182, 51, 181, 111, 112, 113, 114, 155, 152, 147, 121, 166, 115, 116, 117, 225, 118, 215, 119, 210];
+export const ALL_ROTATION: number[] = [39, 60, 184, 1, 222, 185, 135, 61, 251, 2, 62, 227, 3, 52, 186, 124, 120, 187, 125, 208, 256, 40, 63, 258, 4, 168, 188, 5, 167, 189, 126, 209, 190, 6, 65, 191, 41, 66, 192, 127, 169, 193, 42, 53, 242, 7, 205, 261, 226, 214, 243, 142, 67, 257, 43, 54, 194, 150, 201, 195, 228, 68, 244, 229, 268, 196, 8, 69, 197, 9, 70, 198, 10, 213, 259, 44, 72, 199, 264, 55, 200, 45, 73, 252, 263, 56, 248, 11, 170, 253, 265, 269, 254, 12, 74, 255, 143, 75, 260, 128, 220, 250, 129, 221, 230, 76, 13, 77, 231, 153, 136, 78, 232, 79, 46, 81, 262, 82, 233, 223, 234, 83, 266, 144, 14, 154, 151, 224, 235, 84, 236, 145, 15, 171, 16, 85, 17, 216, 18, 86, 19, 202, 237, 206, 48, 87, 130, 88, 238, 57, 239, 146, 20, 89, 21, 90, 22, 91, 47, 218, 23, 219, 240, 172, 241, 173, 267, 92, 24, 212, 131, 93, 25, 174, 122, 94, 141, 95, 137, 96, 26, 97, 138, 175, 49, 98, 27, 176, 139, 99, 140, 217, 28, 177, 29, 100, 31, 178, 32, 101, 33, 102, 50, 207, 245, 103, 132, 58, 246, 59, 133, 104, 34, 211, 247, 105, 35, 106, 36, 179, 37, 180, 38, 107, 123, 270, 249, 108, 51, 109, 110, 182, 181, 111, 271, 112, 113, 114, 155, 152, 147, 121, 166, 115, 116, 117, 225, 118, 215, 119, 210];
 
 /** Catalogues in a category that can actually be opened and pictured. */
 export const byCategory = (id: CategoryId): Catalogue[] => {
